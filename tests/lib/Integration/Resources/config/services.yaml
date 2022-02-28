@@ -56,12 +56,6 @@ services:
         tags:
             - { name: ibexa.search.solr.field.mapper.location }
 
-    Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter:
-        class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter
-        tags:
-            - { name: ibexa.field_type.storage.legacy.converter, alias: ezstring }
-
-
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter:
         class: Netgen\IbexaSearchExtra\Tests\Fixes\SelectionConverter
         tags:

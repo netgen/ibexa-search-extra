@@ -28,52 +28,6 @@ services:
         tags:
             - { name: ibexa.search.legacy.gateway.criterion_handler.content }
 
-    netgen.ibexa_search_extra.legacy.query.common.criterion_visitor.has_user:
-        class: Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\HasUser
-        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
-        arguments:
-            - '@ibexa.api.storage_engine.legacy.connection'
-        tags:
-            - { name: ibexa.search.legacy.gateway.criterion_handler.content }
-            - { name: ibexa.search.legacy.gateway.criterion_handler.location }
-
-    netgen.ibexa_search_extra.legacy.query.common.criterion_visitor.user_email:
-        class: Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\UserEmail
-        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
-        arguments:
-            - '@ibexa.api.storage_engine.legacy.connection'
-        tags:
-            - { name: ibexa.search.legacy.gateway.criterion_handler.content }
-            - { name: ibexa.search.legacy.gateway.criterion_handler.location }
-
-    netgen.ibexa_search_extra.legacy.query.common.criterion_visitor.user_enabled:
-        class: Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\UserEnabled
-        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
-        arguments:
-            - '@ibexa.api.storage_engine.legacy.connection'
-        tags:
-            - { name: ibexa.search.legacy.gateway.criterion_handler.content }
-            - { name: ibexa.search.legacy.gateway.criterion_handler.location }
-
-    netgen.ibexa_search_extra.legacy.query.common.criterion_visitor.user_id:
-        class: Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\UserId
-        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
-        arguments:
-            - '@ibexa.api.storage_engine.legacy.connection'
-        tags:
-            - { name: ibexa.search.legacy.gateway.criterion_handler.content }
-            - { name: ibexa.search.legacy.gateway.criterion_handler.location }
-
-    netgen.ibexa_search_extra.legacy.query.common.criterion_visitor.user_login:
-        class: Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler\UserLogin
-        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
-        arguments:
-            - '@ibexa.api.storage_engine.legacy.connection'
-            - '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
-        tags:
-            - { name: ibexa.search.legacy.gateway.criterion_handler.content }
-            - { name: ibexa.search.legacy.gateway.criterion_handler.location }
-
     netgen.ibexa_search_extra.legacy.query.content.criterion_visitor.visible:
         class: Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Content\CriterionHandler\Visible
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler

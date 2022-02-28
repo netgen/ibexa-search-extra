@@ -1,13 +1,4 @@
 services:
-    netgen.ibexa_search_extra.solr.field_mapper.content_translation.is_field_empty:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\IsFieldEmptyFieldMapper
-        arguments:
-            - '@ibexa.spi.persistence.legacy.content_type.handler'
-            - '@Ibexa\Core\Search\Common\FieldNameGenerator'
-            - '@Ibexa\Core\Persistence\FieldTypeRegistry'
-        tags:
-            - { name: ibexa.search.solr.field.mapper.block.translation }
-
     netgen.ibexa_search_extra.solr.field_mapper.content.visibility:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Content\ContentVisibilityFieldMapper
         tags:
