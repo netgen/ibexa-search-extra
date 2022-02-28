@@ -15,15 +15,6 @@ services:
             - { name: ibexa.search.solr.query.content.criterion.visitor }
             - { name: ibexa.search.solr.query.location.criterion.visitor }
 
-    netgen.ibexa_search_extra.solr.query.common.criterion_visitor.is_field_empty:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor\IsFieldEmpty
-        arguments:
-            - '@ibexa.spi.persistence.legacy.content_type.handler'
-            - '@Ibexa\Core\Search\Common\FieldNameGenerator'
-        tags:
-            - { name: ibexa.search.solr.query.content.criterion.visitor }
-            - { name: ibexa.search.solr.query.location.criterion.visitor }
-
     netgen.ibexa_search_extra.solr.query.content.criterion_visitor.subdocument_query:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor\SubdocumentQuery
         arguments:

@@ -6,18 +6,6 @@ services:
         tags:
             - { name: ibexa.search.solr.query.content.sort_clause.visitor }
 
-    netgen.ibexa_search_extra.solr.query.common.sort_clause_visitor.score:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor\Score
-        tags:
-            - { name: ibexa.search.solr.query.content.sort_clause.visitor }
-            - { name: ibexa.search.solr.query.location.sort_clause.visitor }
-
-    netgen.ibexa_search_extra.solr.query.common.sort_clause_visitor.random:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor\Random
-        tags:
-            - { name: ibexa.search.solr.query.content.sort_clause.visitor }
-            - { name: ibexa.search.solr.query.location.sort_clause.visitor }
-
     netgen.ibexa_search_extra.solr.query.common.sort_clause_visitor.custom_field:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor\CustomField
         tags:
