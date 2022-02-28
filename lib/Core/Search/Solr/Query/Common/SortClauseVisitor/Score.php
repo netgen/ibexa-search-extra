@@ -1,33 +1,21 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor;
+declare(strict_types=1);
 
-use EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause as SortClauseExtra;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor;
+
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause as SortClauseExtra;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Solr\Query\SortClauseVisitor;
 
 class Score extends SortClauseVisitor
 {
-    /**
-     * Check if visitor is applicable to current sortClause.
-     *
-     * @param SortClause $sortClause
-     *
-     * @return bool
-     */
-    public function canVisit(SortClause $sortClause)
+    public function canVisit(SortClause $sortClause): bool
     {
         return $sortClause instanceof SortClauseExtra\Score;
     }
 
-    /**
-     * Map field value to a proper Solr representation.
-     *
-     * @param SortClause $sortClause
-     *
-     * @return string
-     */
-    public function visit(SortClause $sortClause)
+    public function visit(SortClause $sortClause): string
     {
         return 'score' . $this->getDirection($sortClause);
     }

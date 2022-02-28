@@ -1,39 +1,35 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery as SubdocumentQueryCriterion;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Solr\Query\CriterionVisitor;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery as SubdocumentQueryCriterion;
 
 /**
  * Visits the SubdocumentQuery criterion.
  *
- * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery
+ * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery
  */
 final class SubdocumentQuery extends CriterionVisitor
 {
-    /**
-     * @var \EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor
-     */
-    private $subdocumentQueryCriterionVisitor;
+    private CriterionVisitor $subdocumentQueryCriterionVisitor;
 
-    /**
-     * @param \EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor $subdocumentQueryCriterionVisitor
-     */
     public function __construct(CriterionVisitor $subdocumentQueryCriterionVisitor)
     {
         $this->subdocumentQueryCriterionVisitor = $subdocumentQueryCriterionVisitor;
     }
 
-    public function canVisit(Criterion $criterion)
+    public function canVisit(Criterion $criterion): bool
     {
         return $criterion instanceof SubdocumentQueryCriterion;
     }
 
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null)
+    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
     {
-        /** @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion $query */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $query */
         $query = $criterion->value;
         $identifier = $criterion->target;
 
@@ -43,6 +39,6 @@ final class SubdocumentQuery extends CriterionVisitor
 
         $condition = str_replace('/', '\\/', $condition);
 
-        return "{!parent which='document_type_id:content' v='document_type_id:{$identifier} AND {$condition}'}";
+        return "{!parent which='document_type_id:content' v='document_type_id:$identifier AND $condition'}";
     }
 }

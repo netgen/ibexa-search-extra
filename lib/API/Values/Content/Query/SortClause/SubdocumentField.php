@@ -1,35 +1,37 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\Target\SubdocumentTarget;
+namespace Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\Target\SubdocumentTarget;
 
 /**
  * SubdocumentField sort clause is used to sort Content by field in matched subdocument.
  */
 final class SubdocumentField extends SortClause
 {
-    const ScoringModeNone = 'ScoringModeNone';
-    const ScoringModeAverage = 'ScoringModeAvg';
-    const ScoringModeMaximum = 'ScoringModeMax';
-    const ScoringModeTotal = 'ScoringModeTotal';
-    const ScoringModeMinimum = 'ScoringModeMin';
+    public const ScoringModeNone = 'ScoringModeNone';
+    public const ScoringModeAverage = 'ScoringModeAvg';
+    public const ScoringModeMaximum = 'ScoringModeMax';
+    public const ScoringModeTotal = 'ScoringModeTotal';
+    public const ScoringModeMinimum = 'ScoringModeMin';
 
     /**
      * @param string $fieldName
      * @param string $documentTypeIdentifier
      * @param string $scoringMode
      * @param string $sortDirection
-     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery $subdocumentQuery
+     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery|null $subdocumentQuery
      */
     public function __construct(
-        $fieldName,
-        $documentTypeIdentifier,
-        $scoringMode = self::ScoringModeNone,
-        $sortDirection = Query::SORT_ASC,
+        string $fieldName,
+        string $documentTypeIdentifier,
+        string $scoringMode = self::ScoringModeNone,
+        string $sortDirection = Query::SORT_ASC,
         SubdocumentQuery $subdocumentQuery = null
     ) {
         parent::__construct(

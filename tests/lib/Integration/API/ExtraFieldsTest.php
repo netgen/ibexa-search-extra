@@ -1,13 +1,15 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\API;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\Tests\BaseTest;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use Netgen\EzPlatformSearchExtra\Tests\API\FullTextCriterion;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\API;
+
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\LocationQuery;
+use Netgen\IbexaSearchExtra\Tests\API\FullTextCriterion;
 
 /**
  * @group extra-fields
@@ -88,13 +90,13 @@ class ExtraFieldsTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function testPrepareTestFixtures(): void
     {
@@ -159,37 +161,39 @@ class ExtraFieldsTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
-     * @param array $expectedExtraFields
+     * @param string[] $expectedExtraFields
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testFindContent(Query $query, array $expectedExtraFields): void
     {
         $searchService = $this->getSearchService(false);
 
-        /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult $searchResult */
+        /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult $searchResult */
         $searchResult = $searchService->findContentInfo($query);
+        /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit $searchHit */
+        $searchHit = $searchResult->searchHits[0];
 
-        self::assertEquals($expectedExtraFields, $searchResult->searchHits[0]->extraFields);
+        self::assertEquals($expectedExtraFields, $searchHit->extraFields);
     }
 
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\LocationQuery $query
-     * @param array $expectedExtraFields
+     * @param string[] $expectedExtraFields
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testFindLocations(LocationQuery $query, array $expectedExtraFields): void
     {
         $searchService = $this->getSearchService(false);
 
-        /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult $searchResult */
+        /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult $searchResult */
         $searchResult = $searchService->findLocations($query);
+        /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit $searchHit */
+        $searchHit = $searchResult->searchHits[0];
 
-        self::assertEquals($expectedExtraFields, $searchResult->searchHits[0]->extraFields);
+        self::assertEquals($expectedExtraFields, $searchHit->extraFields);
     }
 
     protected function getSearchService($initialInitializeFromScratch = true): SearchService

@@ -1,17 +1,20 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use EzSystems\EzPlatformSolrSearchEngine\DocumentMapper;
-use EzSystems\EzPlatformSolrSearchEngine\Handler as BaseHandler;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Contracts\Solr\DocumentMapper;
+use Ibexa\Solr\Handler as BaseHandler;
 
 class Handler extends BaseHandler
 {
-    public function findContent(Query $query, array $languageFilter = array())
+    public function findContent(Query $query, array $languageFilter = array()): SearchResult
     {
         $query = clone $query;
         $query->filter = $query->filter ?: new Criterion\MatchAll();
@@ -32,7 +35,7 @@ class Handler extends BaseHandler
         );
     }
 
-    public function findLocations(LocationQuery $query, array $languageFilter = array())
+    public function findLocations(LocationQuery $query, array $languageFilter = array()): SearchResult
     {
         $query = clone $query;
         $query->query = $query->query ?: new Criterion\MatchAll();
@@ -52,7 +55,8 @@ class Handler extends BaseHandler
         );
     }
 
-    protected function deleteAllItemsWithoutAdditionalLocation($locationId)
+    // todo update with origin
+    protected function deleteAllItemsWithoutAdditionalLocation($locationId): void
     {
         $query = $this->prepareQuery();
         $query->filter = new Criterion\LogicalAnd([
@@ -66,11 +70,11 @@ class Handler extends BaseHandler
 
         foreach ($contentIds as $contentId) {
             $idPrefix = $this->mapper->generateContentDocumentId($contentId);
-            $this->gateway->deleteByQuery("_root_:{$idPrefix}*");
+            $this->gateway->deleteByQuery("_root_:$idPrefix*");
         }
     }
 
-    protected function updateAllElementsWithAdditionalLocation($locationId)
+    protected function updateAllElementsWithAdditionalLocation($locationId): void
     {
         $query = $this->prepareQuery();
         $query->filter = new Criterion\LogicalAnd([
@@ -104,7 +108,7 @@ class Handler extends BaseHandler
      *
      * @return array
      */
-    private function extractContentIds($data)
+    private function extractContentIds($data): array
     {
         $ids = [];
 

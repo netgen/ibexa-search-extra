@@ -1,29 +1,28 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
+declare(strict_types=1);
+
+namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Doctrine\DBAL\Query\QueryBuilder;
-use eZ\Publish\Core\Persistence\TransformationProcessor;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\UserLogin as UserLoginCriterion;
+use Ibexa\Core\Persistence\TransformationProcessor;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\UserLogin as UserLoginCriterion;
 use RuntimeException;
 
 /**
  * Handles the UserLogin criterion.
  *
- * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\UserLogin
+ * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\UserLogin
  */
 final class UserLogin extends CriterionHandler
 {
-    /**
-     * @var \eZ\Publish\Core\Persistence\TransformationProcessor
-     */
-    protected $transformationProcessor;
+    protected TransformationProcessor $transformationProcessor;
 
     public function __construct(Connection $connection, TransformationProcessor $transformationProcessor)
     {
@@ -32,7 +31,7 @@ final class UserLogin extends CriterionHandler
         $this->transformationProcessor = $transformationProcessor;
     }
 
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof UserLoginCriterion;
     }
@@ -81,12 +80,8 @@ final class UserLogin extends CriterionHandler
      * Returns the given $string prepared for use in SQL LIKE clause.
      *
      * LIKE clause wildcards '%' and '_' contained in the given $string will be escaped.
-     *
-     * @param $string
-     *
-     * @return string
      */
-    protected function prepareLikeString($string)
+    protected function prepareLikeString(string $string): string
     {
         $string = addcslashes($this->lowercase($string), '%_');
 

@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\API;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\API;
 
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalOr;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentId;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\SectionIdentifier;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
-use eZ\Publish\API\Repository\Values\ValueObject;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ContentName;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\ContentName as ContentNameSortClause;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOr;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\SectionIdentifier;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ContentName;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\ContentName as ContentNameSortClause;
 use RuntimeException;
 
 class ContentNameCriterionTest extends BaseTest
@@ -241,13 +241,7 @@ class ContentNameCriterionTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function testPrepareTestFixtures(): void
     {
@@ -308,12 +302,10 @@ class ContentNameCriterionTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
      * @param string[] $languageCodes
-     * @param bool $useAlwaysAvailable
-     * @param array $expectedValues
+     * @param string[] $expectedValues
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testFindContent(
         Query $query,
@@ -332,12 +324,10 @@ class ContentNameCriterionTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\LocationQuery $query
      * @param string[] $languageCodes
-     * @param bool $useAlwaysAvailable
-     * @param array $expectedValues
+     * @param string[] $expectedValues
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testFindLocations(
         LocationQuery $query,

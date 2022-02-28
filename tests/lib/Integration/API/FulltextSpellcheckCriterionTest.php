@@ -1,14 +1,16 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\API;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\Tests\BaseTest;
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion;
-use Netgen\EzPlatformSearchExtra\Tests\API\FullTextCriterion;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\API;
+
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion;
+use Netgen\IbexaSearchExtra\Tests\API\FullTextCriterion;
 
 /**
  * @group fulltext-spellcheck
@@ -101,13 +103,13 @@ class FulltextSpellcheckCriterionTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function testPrepareTestFixtures(): void
     {
@@ -157,16 +159,15 @@ class FulltextSpellcheckCriterionTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
-     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[] $expectedWordSuggestions
+     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion[] $expectedWordSuggestions
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testFindContent(Query $query, array $expectedWordSuggestions): void
     {
         $searchService = $this->getSearchService(false);
 
-        /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult $searchResult */
+        /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult $searchResult */
         $searchResult = $searchService->findContentInfo($query);
 
         $this->correctFrequencyForCloudSetup($expectedWordSuggestions);
@@ -177,16 +178,15 @@ class FulltextSpellcheckCriterionTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\LocationQuery $query
-     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[] $expectedWordSuggestions
+     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion[] $expectedWordSuggestions
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testFindLocations(LocationQuery $query, array $expectedWordSuggestions): void
     {
         $searchService = $this->getSearchService(false);
 
-        /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult $searchResult */
+        /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult $searchResult */
         $searchResult = $searchService->findLocations($query);
 
         $this->correctFrequencyForCloudSetup($expectedWordSuggestions);
@@ -203,7 +203,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
      * For some reason frequency is doubled in the cloud and shared setups.
      * TODO: investigate why
      *
-     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[] $wordSuggestions
+     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion[] $wordSuggestions
      */
     protected function correctFrequencyForCloudSetup(array $wordSuggestions): void
     {

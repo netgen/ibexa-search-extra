@@ -1,9 +1,11 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
+declare(strict_types=1);
 
-use eZ\Publish\SPI\Persistence\Content;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
+
+use Ibexa\Contracts\Core\Persistence\Content;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
 
 /**
  * Aggregate implementation of Content subdocument mapper.
@@ -13,12 +15,12 @@ final class Aggregate extends ContentSubdocumentMapper
     /**
      * An array of aggregated subdocument mappers.
      *
-     * @var \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper[]
+     * @var \Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper[]
      */
-    protected $mappers = [];
+    protected array $mappers = [];
 
     /**
-     * @param \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper[] $mappers
+     * @param \Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper[] $mappers
      */
     public function __construct(array $mappers = [])
     {
@@ -30,19 +32,19 @@ final class Aggregate extends ContentSubdocumentMapper
     /**
      * Adds given $mapper to the internal collection.
      *
-     * @param \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper $mapper
+     * @param \Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper $mapper
      */
-    public function addMapper(ContentSubdocumentMapper $mapper)
+    public function addMapper(ContentSubdocumentMapper $mapper): void
     {
         $this->mappers[] = $mapper;
     }
 
-    public function accept(Content $content)
+    public function accept(Content $content): bool
     {
         return true;
     }
 
-    public function mapDocuments(Content $content)
+    public function mapDocuments(Content $content): array
     {
         $documentsGrouped = [[]];
 

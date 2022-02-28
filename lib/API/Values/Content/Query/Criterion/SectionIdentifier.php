@@ -1,10 +1,12 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
+namespace Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
 
 /**
  * SectionIdentifier Criterion.

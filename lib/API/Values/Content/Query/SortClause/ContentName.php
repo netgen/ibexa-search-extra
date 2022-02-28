@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause;
+namespace Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause;
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 
 /**
  * Sets sort direction on matched translation's Content name.

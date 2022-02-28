@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor;
 
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
-use EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\ContentName as ContentNameClause;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Solr\Query\SortClauseVisitor;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\ContentName as ContentNameClause;
 
 class ContentName extends SortClauseVisitor
 {

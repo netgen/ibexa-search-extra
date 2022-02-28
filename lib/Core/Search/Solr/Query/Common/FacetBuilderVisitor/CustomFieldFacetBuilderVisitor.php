@@ -1,21 +1,23 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor;
+declare(strict_types=1);
 
-use EzSystems\EzPlatformSolrSearchEngine\Query\FacetBuilderVisitor;
-use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
-use eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Facet\CustomFieldFacet;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor;
+
+use Ibexa\Solr\Query\FacetBuilderVisitor;
+use Ibexa\Solr\Query\FacetFieldVisitor;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\Facet\CustomFieldFacet;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder;
 
 /**
  * Visits the CustomField facet builder.
  *
- * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder
+ * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder
  */
 class CustomFieldFacetBuilderVisitor extends FacetBuilderVisitor implements FacetFieldVisitor
 {
-    public function canVisit(FacetBuilder $facetBuilder)
+    public function canVisit(FacetBuilder $facetBuilder): bool
     {
         return $facetBuilder instanceof CustomFieldFacetBuilder;
     }
@@ -23,11 +25,11 @@ class CustomFieldFacetBuilderVisitor extends FacetBuilderVisitor implements Face
     /**
      * Returns facet sort parameter.
      *
-     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder $facetBuilder
+     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder $facetBuilder
      *
      * @return string
      */
-    private function getSort(CustomFieldFacetBuilder $facetBuilder)
+    private function getSort(CustomFieldFacetBuilder $facetBuilder): string
     {
         switch ($facetBuilder->sort) {
             case CustomFieldFacetBuilder::COUNT_DESC:
@@ -39,7 +41,7 @@ class CustomFieldFacetBuilderVisitor extends FacetBuilderVisitor implements Face
         return 'index';
     }
 
-    public function mapField($field, array $data, FacetBuilder $facetBuilder)
+    public function mapField($field, array $data, FacetBuilder $facetBuilder): CustomFieldFacet
     {
         return new CustomFieldFacet([
             'name' => $facetBuilder->name,
@@ -47,9 +49,9 @@ class CustomFieldFacetBuilderVisitor extends FacetBuilderVisitor implements Face
         ]);
     }
 
-    public function visitBuilder(FacetBuilder $facetBuilder, $fieldId)
+    public function visitBuilder(FacetBuilder $facetBuilder, $fieldId): array
     {
-        /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder $facetBuilder */
+        /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder $facetBuilder */
         $fieldName = $facetBuilder->fieldName;
 
         return [

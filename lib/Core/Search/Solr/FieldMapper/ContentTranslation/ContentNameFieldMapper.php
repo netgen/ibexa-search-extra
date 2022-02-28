@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation;
 
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Search\Field;
-use eZ\Publish\SPI\Search\FieldType\StringField;
-use EzSystems\EzPlatformSolrSearchEngine\FieldMapper\ContentTranslationFieldMapper;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType\StringField;
+use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
 
 class ContentNameFieldMapper extends ContentTranslationFieldMapper
 {

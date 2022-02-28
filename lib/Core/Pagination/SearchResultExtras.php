@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Pagination;
+namespace Netgen\IbexaSearchExtra\Core\Pagination;
 
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\Suggestion;
 
 /**
  * Defines access to extra information of the search query result.
@@ -14,7 +14,7 @@ interface SearchResultExtras
     /**
      * Return facets for the search query.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[]
      */
     public function getFacets(): array;
 
@@ -35,7 +35,7 @@ interface SearchResultExtras
      *
      * Note: this will be available only if the query is executed.
      *
-     * @return int|null
+     * @return float|int|null
      */
-    public function getTime(): ?int;
+    public function getTime();
 }

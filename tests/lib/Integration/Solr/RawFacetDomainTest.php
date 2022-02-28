@@ -1,19 +1,28 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\Solr;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Tests\BaseTest;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentId;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\CustomField;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet\RawFacet;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain\BlockChildren;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\Solr;
 
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\CustomField;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\Facet\RawFacet;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain\BlockChildren;
+
+/**
+ * @group raw
+ */
 class RawFacetDomainTest extends BaseTest
 {
-    public function providerForTestFind()
+    /**
+     * @throws \JsonException
+     */
+    public function providerForTestFind(): array
     {
         return [
             [
@@ -72,8 +81,12 @@ class RawFacetDomainTest extends BaseTest
                                             'minimum' => 60.0,
                                         ],
                                     ],
-                                ]
-                            )
+                                ],
+                                JSON_THROW_ON_ERROR
+                            ),
+                            false,
+                            512,
+                            JSON_THROW_ON_ERROR
                         ),
                     ]),
                 ],
@@ -128,8 +141,12 @@ class RawFacetDomainTest extends BaseTest
                                             'minimum' => 60.0,
                                         ],
                                     ],
-                                ]
-                            )
+                                ],
+                                JSON_THROW_ON_ERROR
+                            ),
+                            false,
+                            512,
+                            JSON_THROW_ON_ERROR
                         ),
                     ]),
                 ],
@@ -178,8 +195,12 @@ class RawFacetDomainTest extends BaseTest
                                             'minimum' => 50.0,
                                         ],
                                     ],
-                                ]
-                            )
+                                ],
+                                JSON_THROW_ON_ERROR
+                            ),
+                            false,
+                            512,
+                            JSON_THROW_ON_ERROR
                         ),
                     ]),
                 ],
@@ -190,12 +211,11 @@ class RawFacetDomainTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $expectedFacets
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[] $expectedFacets
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testFindContent(Query $query, array $expectedFacets)
+    public function testFindContent(Query $query, array $expectedFacets): void
     {
         $searchService = $this->getSearchService(false);
 
@@ -204,7 +224,7 @@ class RawFacetDomainTest extends BaseTest
         $this->assertEquals($expectedFacets, $searchResult->facets);
     }
 
-    protected function getSearchService($initialInitializeFromScratch = true)
+    protected function getSearchService($initialInitializeFromScratch = true): SearchService
     {
         return $this->getRepository($initialInitializeFromScratch)->getSearchService();
     }

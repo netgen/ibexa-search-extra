@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr;
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
-use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor as BaseResultExtractor;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Query as ExtraQuery;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\LocationQuery as ExtraLocationQuery;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchHit;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Solr\ResultExtractor as BaseResultExtractor;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\Query as ExtraQuery;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\LocationQuery as ExtraLocationQuery;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
 use function spl_object_hash;
 
 /**
  * This DocumentMapper implementation adds support for handling RawFacetBuilders.
  *
- * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet\RawFacetBuilder
+ * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\API\Facet\RawFacetBuilder
  */
 abstract class ResultExtractor Extends BaseResultExtractor
 {
@@ -38,7 +38,7 @@ abstract class ResultExtractor Extends BaseResultExtractor
             $searchResult->searchHits[$key] = new SearchHit(get_object_vars($searchHit));
             $searchResult->searchHits[$key]->extraFields = [];
 
-            if (($query instanceof ExtraQuery || $query instanceof ExtraLocationQuery) && is_array($query->extraFields)) {
+            if (($query instanceof ExtraQuery || $query instanceof ExtraLocationQuery) && !empty($query->extraFields)) {
                 $searchResult->searchHits[$key]->extraFields = $this->extractExtraFields(
                     $data,
                     $searchResult->searchHits[$key],
@@ -68,11 +68,11 @@ abstract class ResultExtractor Extends BaseResultExtractor
      * Extract the base search result.
      *
      * @param mixed $data
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Aggregation[] $aggregations
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation[] $aggregations
      * @param array $languageFilter
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Search\SearchResult
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
      */
     abstract protected function extractSearchResult(
         $data,
@@ -82,9 +82,9 @@ abstract class ResultExtractor Extends BaseResultExtractor
     ): SearchResult;
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[]
      */
     private function filterNewFacetBuilders(array $facetBuilders): array
     {
@@ -98,17 +98,17 @@ abstract class ResultExtractor Extends BaseResultExtractor
 
     /**
      * @param mixed $data
-     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchHit $searchHit
      * @param string[] $extraFields
-     *
-     * @return array
      */
-    private function extractExtraFields($data, SearchHit $searchHit, $extraFields)
+    private function extractExtraFields($data, SearchHit $searchHit, array $extraFields): array
     {
         $extractedExtraFields = [];
+
         foreach ($data->response->docs as $doc) {
-            if ($doc->document_type_id === 'content' && $doc->content_id_id == $searchHit->valueObject->id
-            || $doc->document_type_id === 'location' && $doc->location_id == $searchHit->valueObject->id) {
+            if (
+                ($doc->document_type_id === 'content' && $doc->content_id_id == $searchHit->valueObject->id)
+                || ($doc->document_type_id === 'location' && $doc->location_id == $searchHit->valueObject->id)
+            ) {
                 foreach ($extraFields as $extraField) {
                     if (property_exists($doc, $extraField)) {
                         $extractedExtraFields[$extraField] = $doc->{$extraField};

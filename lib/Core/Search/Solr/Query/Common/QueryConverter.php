@@ -2,26 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common;
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use EzSystems\EzPlatformSolrSearchEngine\Query\AggregationVisitor;
-use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
-use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
-use EzSystems\EzPlatformSolrSearchEngine\Query\QueryConverter as BaseQueryConverter;
-use EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\FulltextSpellcheck;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Solr\Query\AggregationVisitor;
+use Ibexa\Contracts\Solr\Query\CriterionVisitor;
+use Ibexa\Contracts\Solr\Query\SortClauseVisitor;
+use Ibexa\Solr\Query\FacetFieldVisitor;
+use Ibexa\Solr\Query\QueryConverter as BaseQueryConverter;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\FulltextSpellcheck;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+use function json_encode;
 
 /**
  * Converts the query tree into an array of Solr query parameters.
  */
 class QueryConverter extends BaseQueryConverter
 {
-    protected $criterionVisitor;
-    protected $sortClauseVisitor;
-    protected $facetBuilderVisitor;
-    private $aggregationVisitor;
+    protected CriterionVisitor $criterionVisitor;
+    protected SortClauseVisitor $sortClauseVisitor;
+    protected FacetFieldVisitor $facetBuilderVisitor;
+    private AggregationVisitor $aggregationVisitor;
 
     public function __construct(
         CriterionVisitor $criterionVisitor,
@@ -35,6 +36,9 @@ class QueryConverter extends BaseQueryConverter
         $this->aggregationVisitor = $aggregationVisitor;
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function convert(Query $query, array $languageSettings = []): array
     {
         $params = [
@@ -49,7 +53,7 @@ class QueryConverter extends BaseQueryConverter
 
         $facetParams = $this->getFacetParams($query->facetBuilders);
         if (!empty($facetParams)) {
-            $params['json.facet'] = \json_encode($facetParams);
+            $params['json.facet'] = json_encode($facetParams, JSON_THROW_ON_ERROR);
         }
 
         $oldFacetParams = $this->getOldFacetParams($query->facetBuilders);
@@ -73,7 +77,7 @@ class QueryConverter extends BaseQueryConverter
             }
 
             if (!empty($aggregations)) {
-                $params['json.facet'] = json_encode($aggregations);
+                $params['json.facet'] = json_encode($aggregations, JSON_THROW_ON_ERROR);
             }
         }
 
@@ -94,7 +98,7 @@ class QueryConverter extends BaseQueryConverter
     /**
      * Converts an array of sort clause objects to a proper Solr representation.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\SortClause[] $sortClauses
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses
      *
      * @return string
      */
@@ -110,7 +114,7 @@ class QueryConverter extends BaseQueryConverter
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
      * @return array
      */
@@ -132,9 +136,9 @@ class QueryConverter extends BaseQueryConverter
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[]
      */
     private function filterNewFacetBuilders(array $facetBuilders): array
     {
@@ -150,9 +154,9 @@ class QueryConverter extends BaseQueryConverter
      * Converts an array of facet builder objects to a Solr query parameters representation.
      *
      * This method uses spl_object_hash() to get id of each and every facet builder, as this
-     * is expected by {@link \EzSystems\EzPlatformSolrSearchEngine\ResultExtractor}.
+     * is expected by {@link \Ibexa\Solr\ResultExtractor}.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
      * @return array
      */
@@ -169,9 +173,9 @@ class QueryConverter extends BaseQueryConverter
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[]
      */
     private function filterOldFacetBuilders(array $facetBuilders): array
     {

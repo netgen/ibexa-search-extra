@@ -1,19 +1,22 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Persistence\Content as SPIContent;
-use eZ\Publish\SPI\Persistence\Content\Type as ContentType;
-use eZ\Publish\SPI\Persistence\Content\Handler as ContentHandler;
-use eZ\Publish\SPI\Persistence\Content\Type\Handler as ContentTypeHandler;
-use eZ\Publish\SPI\Search\Field;
-use eZ\Publish\SPI\Search\FieldType\BooleanField;
-use eZ\Publish\SPI\Search\FieldType\IntegerField;
-use eZ\Publish\SPI\Search\FieldType\StringField;
-use eZ\Publish\Core\Search\Legacy\Content\Handler as SearchHandler;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
+use Ibexa\Contracts\Core\Persistence\Content\Field as PersistenceField;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Type as ContentType;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType\BooleanField;
+use Ibexa\Contracts\Core\Search\FieldType\IntegerField;
+use Ibexa\Contracts\Core\Search\FieldType\StringField;
+use Ibexa\Core\Search\Legacy\Content\Handler as SearchHandler;
 use RuntimeException;
 
 trait TestFieldMapperTrait
@@ -33,15 +36,7 @@ trait TestFieldMapperTrait
      */
     private $searchHandler;
 
-    /**
-     * TestFieldMapperTrait constructor.
-     *
-     * @param \eZ\Publish\SPI\Persistence\Content\Handler $contentHandler
-     * @param \eZ\Publish\SPI\Persistence\Content\Type\Handler $contentTypeHandler
-     * @param \eZ\Publish\SPI\Search\Handler $searchHandler
-     */
-    public function __construct
-    (
+    public function __construct(
         ContentHandler $contentHandler,
         ContentTypeHandler $contentTypeHandler,
         SearchHandler $searchHandler
@@ -51,7 +46,10 @@ trait TestFieldMapperTrait
         $this->searchHandler = $searchHandler;
     }
 
-    public function accepts(SPIContent $content)
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function accepts(SPIContent $content): bool
     {
         $contentType = $this->contentTypeHandler->load(
             $content->versionInfo->contentInfo->contentTypeId
@@ -60,7 +58,12 @@ trait TestFieldMapperTrait
         return $contentType->identifier === self::CONTENT_TYPE_IDENTIFIER;
     }
 
-    public function getFields(SPIContent $content)
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     *
+     * @return \Ibexa\Contracts\Core\Search\Field[]
+     */
+    public function getFields(SPIContent $content): array
     {
         $contentType = $this->contentTypeHandler->load(
             $content->versionInfo->contentInfo->contentTypeId
@@ -68,7 +71,7 @@ trait TestFieldMapperTrait
 
         $commentCount = $this->getCommentCount($content);
 
-        $prefixedName = 'prefix '.$this->extractField($content, $contentType, 'name')->value->data;
+        $prefixedName = 'prefix ' . $this->extractField($content, $contentType, 'name')->value->data;
 
         return [
             new Field(
@@ -94,14 +97,7 @@ trait TestFieldMapperTrait
         ];
     }
 
-    /**
-     * @param \eZ\Publish\SPI\Persistence\Content $content
-     * @param \eZ\Publish\SPI\Persistence\Content\Type $contentType
-     * @param $identifier
-     *
-     * @return \eZ\Publish\SPI\Persistence\Content\Field
-     */
-    private function extractField(Content $content, ContentType $contentType, $identifier)
+    private function extractField(Content $content, ContentType $contentType, string $identifier): PersistenceField
     {
         $fieldDefinitionId = $this->getFieldDefinitionId($contentType, $identifier);
 
@@ -112,17 +108,11 @@ trait TestFieldMapperTrait
         }
 
         throw new RuntimeException(
-            "Could not extract field '{$identifier}'"
+            "Could not extract field '$identifier'"
         );
     }
 
-    /**
-     * @param \eZ\Publish\SPI\Persistence\Content\Type $contentType
-     * @param $identifier
-     *
-     * @return mixed
-     */
-    private function getFieldDefinitionId(ContentType $contentType, $identifier)
+    private function getFieldDefinitionId(ContentType $contentType, string $identifier): int
     {
         foreach ($contentType->fieldDefinitions as $fieldDefinition) {
             if ($fieldDefinition->identifier === $identifier) {
@@ -131,15 +121,10 @@ trait TestFieldMapperTrait
         }
 
         throw new RuntimeException(
-            "Could not extract field definition '{$identifier}'"
+            "Could not extract field definition '$identifier'"
         );
     }
 
-    /**
-     * @param \eZ\Publish\SPI\Persistence\Content $content
-     *
-     * @return int
-     */
     private function getCommentCount(Content $content): int
     {
         $criteria = [

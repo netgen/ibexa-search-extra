@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
+namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ContentName as ContentNameCriterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ContentName as ContentNameCriterion;
 use RuntimeException;
 
 /**
- * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ContentName
+ * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ContentName
  */
 final class ContentName extends CriterionHandler
 {
-    protected $languageHandler;
+    protected LanguageHandler $languageHandler;
 
     public function __construct(Connection $connection, LanguageHandler $languageHandler)
     {
@@ -35,12 +35,10 @@ final class ContentName extends CriterionHandler
     }
 
     /**
-     * @param \eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter $converter
+     * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter $converter
      * @param \Doctrine\DBAL\Query\QueryBuilder $queryBuilder
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param array $languageSettings
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      *
      * @return string
      */
@@ -120,7 +118,7 @@ final class ContentName extends CriterionHandler
      * @param \Doctrine\DBAL\Query\QueryBuilder $subQueryBuilder
      * @param array $languageSettings
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
      * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
      */

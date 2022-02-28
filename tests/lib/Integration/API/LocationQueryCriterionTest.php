@@ -1,28 +1,30 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\API;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentId;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Location\Priority;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalNot;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalOr;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Subtree;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Visibility;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\LocationQuery;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\API;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\Priority;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalNot;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOr;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Visibility;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationQuery;
 
 class LocationQueryCriterionTest extends BaseTest
 {
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      *
      * @return array
      */
-    public function providerForTestFind()
+    public function providerForTestFind(): array
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -341,11 +343,11 @@ class LocationQueryCriterionTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testPrepareTestFixtures()
+    public function testPrepareTestFixtures(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -383,13 +385,11 @@ class LocationQueryCriterionTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
-     * @param array $languageFilter
-     * @param array $expectedIds
+     * @param int[] $expectedIds
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testFindContent(Query $query, array $languageFilter, array $expectedIds)
+    public function testFindContent(Query $query, array $languageFilter, array $expectedIds): void
     {
         $searchService = $this->getSearchService(false);
 

@@ -1,33 +1,21 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor;
+declare(strict_types=1);
 
-use EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
-use \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\CustomField as CustomFieldSortClause;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor;
+
+use Ibexa\Contracts\Solr\Query\SortClauseVisitor;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\CustomField as CustomFieldSortClause;
 
 class CustomField extends SortClauseVisitor
 {
-    /**
-     * Check if visitor is applicable to current sortClause.
-     *
-     * @param SortClause $sortClause
-     *
-     * @return bool
-     */
-    public function canVisit(SortClause $sortClause)
+    public function canVisit(SortClause $sortClause): bool
     {
         return $sortClause instanceof CustomFieldSortClause;
     }
 
-    /**
-     * Map field value to a proper Solr representation.
-     *
-     * @param SortClause $sortClause
-     *
-     * @return string
-     */
-    public function visit(SortClause $sortClause)
+    public function visit(SortClause $sortClause): string
     {
         return $sortClause->target . $this->getDirection($sortClause);
     }

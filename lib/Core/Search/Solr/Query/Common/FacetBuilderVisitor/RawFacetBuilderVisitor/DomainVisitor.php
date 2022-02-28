@@ -1,22 +1,13 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor;
+declare(strict_types=1);
 
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor;
+
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain;
 
 abstract class DomainVisitor
 {
-    /**
-     * @param \Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain $domain
-     *
-     * @return bool
-     */
-    abstract public function accept(Domain $domain);
-
-    /**
-     * @param \Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain $domain
-     *
-     * @return array
-     */
-    abstract public function visit(Domain $domain);
+    abstract public function accept(Domain $domain): bool;
+    abstract public function visit(Domain $domain): array;
 }

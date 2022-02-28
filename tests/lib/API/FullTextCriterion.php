@@ -1,19 +1,16 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\API;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\FullText as BaseFullTextCriterion;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\FulltextSpellcheck;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\SpellcheckQuery;
+namespace Netgen\IbexaSearchExtra\Tests\API;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\FullText as BaseFullTextCriterion;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\FulltextSpellcheck;
+use Netgen\IbexaSearchExtra\API\Values\Content\SpellcheckQuery;
 
 class FullTextCriterion extends BaseFullTextCriterion implements FulltextSpellcheck
 {
-    /**
-     * Gets query to be used for spell check.
-     *
-     * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\SpellcheckQuery
-     */
-    public function getSpellcheckQuery()
+    public function getSpellcheckQuery(): SpellcheckQuery
     {
         $spellcheckQuery = new SpellcheckQuery();
         $spellcheckQuery->query = $this->value;

@@ -1,9 +1,0 @@
-services:
-    EzSystems\EzPlatformRichText\eZ\FieldType\RichText\SearchField:
-        tags:
-            - { name: ezplatform.field_type.indexable, alias: ezrichtext }
-
-    ezpublish.fieldType.indexable.ezxmltext:
-        class: eZ\Publish\Core\FieldType\XmlText\SearchField
-        tags:
-            - { name: ezplatform.field_type.indexable, alias: ezxmltext }

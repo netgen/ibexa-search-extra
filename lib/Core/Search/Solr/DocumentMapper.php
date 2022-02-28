@@ -1,41 +1,27 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr;
+declare(strict_types=1);
 
-use eZ\Publish\SPI\Persistence\Content;
-use EzSystems\EzPlatformSolrSearchEngine\DocumentMapper as DocumentMapperInterface;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr;
+
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Solr\DocumentMapper as DocumentMapperInterface;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper;
 
 /**
  * This DocumentMapper implementation adds support for indexing custom Content subdocuments.
  *
- * @see \EzSystems\EzPlatformSolrSearchEngine\DocumentMapper
- * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper
- * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper
+ * @see \Ibexa\Contracts\Solr\DocumentMapper
+ * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper
+ * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper
  */
 final class DocumentMapper implements DocumentMapperInterface
 {
-    /**
-     * @var \EzSystems\EzPlatformSolrSearchEngine\DocumentMapper
-     */
-    private $nativeDocumentMapper;
+    private DocumentMapperInterface $nativeDocumentMapper;
+    private ContentSubdocumentMapper $contentSubdocumentMapper;
+    private ContentTranslationSubdocumentMapper $contentTranslationSubdocumentMapper;
 
-    /**
-     * @var \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper
-     */
-    private $contentSubdocumentMapper;
-
-    /**
-     * @var \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper
-     */
-    private $contentTranslationSubdocumentMapper;
-
-    /**
-     * @param \EzSystems\EzPlatformSolrSearchEngine\DocumentMapper $nativeDocumentMapper
-     * @param \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper $contentSubdocumentMapper
-     * @param \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper $contentTranslationSubdocumentMapper
-     */
     public function __construct(
         DocumentMapperInterface $nativeDocumentMapper,
         ContentSubdocumentMapper $contentSubdocumentMapper,
@@ -46,7 +32,7 @@ final class DocumentMapper implements DocumentMapperInterface
         $this->contentTranslationSubdocumentMapper = $contentTranslationSubdocumentMapper;
     }
 
-    public function mapContentBlock(Content $content)
+    public function mapContentBlock(Content $content): array
     {
         $block = $this->nativeDocumentMapper->mapContentBlock($content);
         $this->escapeDocumentIds($block);
@@ -55,6 +41,7 @@ final class DocumentMapper implements DocumentMapperInterface
         foreach ($block as $contentDocument) {
             $translationSubdocuments = $this->getContentTranslationSubdocuments($content, $contentDocument->languageCode);
 
+            /** @noinspection SlowArrayOperationsInLoopInspection */
             $contentDocument->documents = array_merge(
                 $contentDocument->documents,
                 $subdocuments,
@@ -66,9 +53,9 @@ final class DocumentMapper implements DocumentMapperInterface
     }
 
     /**
-     * @param \eZ\Publish\SPI\Search\Document[] $documents
+     * @param \Ibexa\Contracts\Core\Search\Document[] $documents
      */
-    private function escapeDocumentIds(array $documents)
+    private function escapeDocumentIds(array $documents): void
     {
         foreach ($documents as $document) {
             $document->id = preg_replace('([^A-Za-z0-9/]+)', '', $document->id);
@@ -78,11 +65,11 @@ final class DocumentMapper implements DocumentMapperInterface
     }
 
     /**
-     * @param \eZ\Publish\SPI\Persistence\Content $content
+     * @param \Ibexa\Contracts\Core\Persistence\Content $content
      *
-     * @return array|\eZ\Publish\SPI\Search\Document[]
+     * @return array|\Ibexa\Contracts\Core\Search\Document[]
      */
-    private function getContentSubdocuments(Content $content)
+    private function getContentSubdocuments(Content $content): array
     {
         if ($this->contentSubdocumentMapper->accept($content)) {
             return $this->contentSubdocumentMapper->mapDocuments($content);
@@ -92,12 +79,12 @@ final class DocumentMapper implements DocumentMapperInterface
     }
 
     /**
-     * @param \eZ\Publish\SPI\Persistence\Content $content
+     * @param \Ibexa\Contracts\Core\Persistence\Content $content
      * @param string $languageCode
      *
-     * @return array|\eZ\Publish\SPI\Search\Document[]
+     * @return array|\Ibexa\Contracts\Core\Search\Document[]
      */
-    private function getContentTranslationSubdocuments(Content $content, $languageCode)
+    private function getContentTranslationSubdocuments(Content $content, string $languageCode): array
     {
         if ($this->contentTranslationSubdocumentMapper->accept($content, $languageCode)) {
             return $this->contentTranslationSubdocumentMapper->mapDocuments($content, $languageCode);
@@ -106,12 +93,12 @@ final class DocumentMapper implements DocumentMapperInterface
         return [];
     }
 
-    public function generateContentDocumentId($contentId, $languageCode = null)
+    public function generateContentDocumentId($contentId, $languageCode = null): string
     {
         return $this->nativeDocumentMapper->generateContentDocumentId($contentId, $languageCode);
     }
 
-    public function generateLocationDocumentId($locationId, $languageCode = null)
+    public function generateLocationDocumentId($locationId, $languageCode = null): string
     {
         return $this->nativeDocumentMapper->generateLocationDocumentId($locationId, $languageCode);
     }

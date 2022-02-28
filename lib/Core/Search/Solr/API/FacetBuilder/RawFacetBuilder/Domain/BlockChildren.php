@@ -1,28 +1,20 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain;
+declare(strict_types=1);
 
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain;
 
 /**
  * BlockChildren block-join domain for RawFacetBuilder.
  *
- * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder
+ * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder
  */
 class BlockChildren extends Domain
 {
-    /**
-     * @var string
-     */
-    public $parentDocumentIdentifier;
-
-    /**
-     * @var string
-     */
-    public $childDocumentIdentifier;
-
-    /**
-     * @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion|null
-     */
-    public $filter;
+    public string $parentDocumentIdentifier;
+    public string $childDocumentIdentifier;
+    public ?Criterion $filter;
 }

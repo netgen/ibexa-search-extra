@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Common\EventSubscriber;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Common\EventSubscriber;
 
-use eZ\Publish\API\Repository\Events\Content\DeleteContentEvent;
-use eZ\Publish\API\Repository\Events\Content\DeleteTranslationEvent;
-use eZ\Publish\API\Repository\Events\Content\PublishVersionEvent;
-use eZ\Publish\API\Repository\Events\Location\DeleteLocationEvent;
-use eZ\Publish\API\Repository\Events\Location\HideLocationEvent;
-use eZ\Publish\API\Repository\Events\Location\UnhideLocationEvent;
-use eZ\Publish\API\Repository\Events\Trash\RecoverEvent;
-use eZ\Publish\API\Repository\Events\Trash\TrashEvent;
-use eZ\Publish\SPI\Persistence\Handler as PersistenceHandler;
-use eZ\Publish\SPI\Search\Handler as SearchHandler;
+use Ibexa\Contracts\Core\Repository\Events\Content\DeleteContentEvent;
+use Ibexa\Contracts\Core\Repository\Events\Content\DeleteTranslationEvent;
+use Ibexa\Contracts\Core\Repository\Events\Content\PublishVersionEvent;
+use Ibexa\Contracts\Core\Repository\Events\Location\DeleteLocationEvent;
+use Ibexa\Contracts\Core\Repository\Events\Location\HideLocationEvent;
+use Ibexa\Contracts\Core\Repository\Events\Location\UnhideLocationEvent;
+use Ibexa\Contracts\Core\Repository\Events\Trash\RecoverEvent;
+use Ibexa\Contracts\Core\Repository\Events\Trash\TrashEvent;
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class TestChildUpdatesParent implements EventSubscriberInterface
@@ -21,8 +21,8 @@ class TestChildUpdatesParent implements EventSubscriberInterface
     private const PARENT_CONTENT_TYPE_IDENTIFIER = 'extra_fields_test';
     private const CHILD_CONTENT_TYPE_IDENTIFIER = 'extra_fields_test_comment';
 
-    protected $searchHandler;
-    protected $persistenceHandler;
+    protected SearchHandler $searchHandler;
+    protected PersistenceHandler $persistenceHandler;
 
     public function __construct(
         SearchHandler $searchHandler,
@@ -46,46 +46,73 @@ class TestChildUpdatesParent implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function onPublishVersion(PublishVersionEvent $event): void
     {
         $this->handleEvent($event->getContent()->id);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function onDeleteContent(DeleteContentEvent $event): void
     {
         $this->handleEvent($event->getContentInfo()->id);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function onDeleteTranslation(DeleteTranslationEvent $event): void
     {
         $this->handleEvent($event->getContentInfo()->id);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function onDeleteLocation(DeleteLocationEvent $event): void
     {
         $this->handleEvent($event->getLocation()->contentId);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function onHideLocation(HideLocationEvent $event): void
     {
         $this->handleEvent($event->getLocation()->contentId);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function onUnhideLocation(UnhideLocationEvent $event): void
     {
         $this->handleEvent($event->getRevealedLocation()->contentId);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function onTrash(TrashEvent $event): void
     {
         $this->handleEvent($event->getLocation()->contentId);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function onRecover(RecoverEvent $event): void
     {
         $this->handleEvent($event->getLocation()->contentId);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     private function handleEvent(int $contentId): void
     {
         $contentHandler = $this->persistenceHandler->contentHandler();

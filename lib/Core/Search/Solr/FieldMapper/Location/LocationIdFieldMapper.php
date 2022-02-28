@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\Location;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Location;
 
-use eZ\Publish\SPI\Persistence\Content\Location as SPILocation;
-use eZ\Publish\SPI\Search\Field;
-use eZ\Publish\SPI\Search\FieldType\IntegerField;
-use EzSystems\EzPlatformSolrSearchEngine\FieldMapper\LocationFieldMapper;
+use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
+use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType\IntegerField;
+use Ibexa\Contracts\Solr\FieldMapper\LocationFieldMapper;
 
 class LocationIdFieldMapper extends LocationFieldMapper
 {

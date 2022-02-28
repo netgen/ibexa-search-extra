@@ -1,8 +1,11 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain;
 
 /**
  * RawFacetBuilder provides full Solr JSON facet API.
@@ -21,13 +24,7 @@ class RawFacetBuilder extends FacetBuilder
      *      'limit' => 5,
      *  ];
      * ```
-     *
-     * @var array
      */
-    public $parameters;
-
-    /**
-     * @var \Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain|null
-     */
-    public $domain;
+    public ?array $parameters = null;
+    public ?Domain $domain = null;
 }

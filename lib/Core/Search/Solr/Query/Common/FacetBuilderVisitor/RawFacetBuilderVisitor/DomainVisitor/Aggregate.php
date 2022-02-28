@@ -1,20 +1,22 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor;
+declare(strict_types=1);
+
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor;
 
 use OutOfBoundsException;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor;
 
 class Aggregate extends DomainVisitor
 {
     /**
-     * @var \Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor[]
+     * @var \Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor[]
      */
-    private $visitors = [];
+    private array $visitors = [];
 
     /**
-     * @param \Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor[] $visitors
+     * @param \Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor[] $visitors
      */
     public function __construct(array $visitors = [])
     {
@@ -23,17 +25,17 @@ class Aggregate extends DomainVisitor
         }
     }
 
-    public function addVisitor(DomainVisitor $visitor)
+    public function addVisitor(DomainVisitor $visitor): void
     {
         $this->visitors[] = $visitor;
     }
 
-    public function accept(Domain $domain)
+    public function accept(Domain $domain): bool
     {
         return true;
     }
 
-    public function visit(Domain $domain)
+    public function visit(Domain $domain): array
     {
         foreach ($this->visitors as $visitor) {
             if ($visitor->accept($domain)) {

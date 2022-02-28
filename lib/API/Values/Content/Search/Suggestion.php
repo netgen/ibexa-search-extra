@@ -1,18 +1,20 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Search;
+declare(strict_types=1);
+
+namespace Netgen\IbexaSearchExtra\API\Values\Content\Search;
 
 use InvalidArgumentException;
 
 class Suggestion
 {
     /**
-     * @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[][]
+     * @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion[][]
      */
-    private $suggestionsByOriginalWords = [];
+    private array $suggestionsByOriginalWords = [];
 
     /**
-     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[] $wordSuggestions
+     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion[] $wordSuggestions
      */
     public function __construct(array $wordSuggestions = [])
     {
@@ -28,15 +30,15 @@ class Suggestion
     /**
      * @return bool
      */
-    public function hasSuggestions()
+    public function hasSuggestions(): bool
     {
         return !empty($this->suggestionsByOriginalWords);
     }
 
     /**
-     * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[][]
+     * @return \Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion[][]
      */
-    public function getSuggestions()
+    public function getSuggestions(): array
     {
         return array_values($this->suggestionsByOriginalWords);
     }
@@ -44,7 +46,7 @@ class Suggestion
     /**
      * @return string[]
      */
-    public function getOriginalWords()
+    public function getOriginalWords(): array
     {
         return array_map('strval', array_keys($this->suggestionsByOriginalWords));
     }
@@ -54,9 +56,9 @@ class Suggestion
      *
      * @throws \InvalidArgumentException
      *
-     * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion[]
+     * @return \Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion[]
      */
-    public function getSuggestionsByOriginalWord(string $originalWord)
+    public function getSuggestionsByOriginalWord(string $originalWord): array
     {
         if (!array_key_exists($originalWord, $this->suggestionsByOriginalWords)) {
             throw new InvalidArgumentException('No suggestions found for the given word');
@@ -67,12 +69,8 @@ class Suggestion
 
     /**
      * Get suggested search text based on returned spell check suggestions.
-     *
-     * @param string $originalSearchText
-     *
-     * @return string|null
      */
-    public function getSuggestedSearchText(string $originalSearchText)
+    public function getSuggestedSearchText(string $originalSearchText): ?string
     {
         $originalWords = $this->getOriginalWords();
         $suggestedWords = [];

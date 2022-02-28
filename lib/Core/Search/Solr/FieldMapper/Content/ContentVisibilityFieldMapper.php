@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\Content;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Content;
 
-use eZ\Publish\SPI\Persistence\Content as SPIContent;
-use eZ\Publish\SPI\Search\Field;
-use eZ\Publish\SPI\Search\FieldType;
-use EzSystems\EzPlatformSolrSearchEngine\FieldMapper\ContentFieldMapper;
+use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
+use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType;
+use Ibexa\Contracts\Solr\FieldMapper\ContentFieldMapper;
 
 class ContentVisibilityFieldMapper extends ContentFieldMapper
 {
-    public function accept(SPIContent $content)
+    public function accept(SPIContent $content): bool
     {
         return true;
     }
 
-    public function mapFields(SPIContent $content)
+    public function mapFields(SPIContent $content): array
     {
         return [
             new Field(

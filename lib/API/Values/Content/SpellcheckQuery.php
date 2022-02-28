@@ -1,23 +1,21 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content;
+declare(strict_types=1);
+
+namespace Netgen\IbexaSearchExtra\API\Values\Content;
 
 class SpellcheckQuery
 {
     /**
      * This parameter specifies the query to spellcheck.
-     *
-     * @var string
      */
-    public $query;
+    public string $query;
 
     /**
      * This parameter specifies the maximum number of suggestions
      * that the spellchecker should return for a term.
-     *
-     * @var int
      */
-    public $count;
+    public int $count;
 
     /**
      * Additional Solr spellcheck params as an array to be encoded with \json_encode().
@@ -32,8 +30,6 @@ class SpellcheckQuery
      *      'maxResultsForSuggest' => 5,
      *  ];
      * ```
-     *
-     * @var array
      */
-    public $parameters = [];
+    public array $parameters = [];
 }

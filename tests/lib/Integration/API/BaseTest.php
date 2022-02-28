@@ -1,11 +1,14 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\API;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Tests\BaseTest as APIBaseTest;
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\API;
+
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest as APIBaseTest;
 use RuntimeException;
 
 abstract class BaseTest extends APIBaseTest
@@ -14,7 +17,7 @@ abstract class BaseTest extends APIBaseTest
         SearchResult $searchResult,
         array $expectedIds,
         $totalCount = null
-    ) {
+    ): void {
         $totalCount = $totalCount ?: count($expectedIds);
         self::assertEquals($totalCount, $searchResult->totalCount);
 
@@ -41,7 +44,7 @@ abstract class BaseTest extends APIBaseTest
         SearchResult $searchResult,
         array $expectedIds,
         $totalCount = null
-    ) {
+    ): void {
         $totalCount = $totalCount ?: count($expectedIds);
         self::assertEquals($totalCount, $searchResult->totalCount);
 
@@ -64,7 +67,7 @@ abstract class BaseTest extends APIBaseTest
         self::assertEquals($expectedIds, $foundIds);
     }
 
-    protected function getSearchService($initialInitializeFromScratch = true)
+    protected function getSearchService($initialInitializeFromScratch = true): SearchService
     {
         return $this->getRepository($initialInitializeFromScratch)->getSearchService();
     }

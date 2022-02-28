@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Unit\Core\Pagination\Pagerfanta;
+namespace Netgen\IbexaSearchExtra\Tests\Unit\Core\Pagination\Pagerfanta;
 
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
-use Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta\Slice;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Netgen\IbexaSearchExtra\Core\Pagination\Pagerfanta\Slice;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -25,6 +25,9 @@ class SliceTest extends TestCase
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testIteratorArrayAccess(): void
     {
         $slice = $this->getSlice();

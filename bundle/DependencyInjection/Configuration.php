@@ -1,6 +1,8 @@
 <?php
 
-namespace Netgen\Bundle\EzPlatformSearchExtraBundle\DependencyInjection;
+declare(strict_types=1);
+
+namespace Netgen\Bundle\IbexaSearchExtraBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -8,29 +10,17 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    /**
-     * @var string
-     */
-    protected $rootNodeName;
+    protected string $rootNodeName;
 
-    /**
-     * @param string $rootNodeName
-     */
-    public function __construct($rootNodeName)
+    public function __construct(string $rootNodeName)
     {
         $this->rootNodeName = $rootNodeName;
     }
 
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder($this->rootNodeName);
-
-        // Keep compatibility with symfony/config < 4.2
-        if (!\method_exists($treeBuilder, 'getRootNode')) {
-            $rootNode = $treeBuilder->root($this->rootNodeName);
-        } else {
-            $rootNode = $treeBuilder->getRootNode();
-        }
+        $rootNode = $treeBuilder->getRootNode();
 
         $this->addIndexableFieldTypeSection($rootNode);
         $this->addSearchResultExtractorSection($rootNode);
@@ -38,7 +28,7 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    private function addIndexableFieldTypeSection(ArrayNodeDefinition $nodeDefinition)
+    private function addIndexableFieldTypeSection(ArrayNodeDefinition $nodeDefinition): void
     {
         $nodeDefinition
             ->children()
@@ -71,7 +61,7 @@ class Configuration implements ConfigurationInterface
             ->end();
     }
 
-    private function addSearchResultExtractorSection(ArrayNodeDefinition $nodeDefinition)
+    private function addSearchResultExtractorSection(ArrayNodeDefinition $nodeDefinition): void
     {
         $nodeDefinition
             ->children()

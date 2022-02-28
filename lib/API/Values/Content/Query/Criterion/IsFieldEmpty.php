@@ -1,10 +1,12 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
+namespace Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
 use InvalidArgumentException;
 
 /**
@@ -17,26 +19,23 @@ class IsFieldEmpty extends Criterion
      *
      * @var int
      */
-    const IS_EMPTY = 0;
+    public const IS_EMPTY = 0;
 
     /**
      * Indicates that the field value shouldn't be empty.
      *
      * @var int
      */
-    const IS_NOT_EMPTY = 1;
+    public const IS_NOT_EMPTY = 1;
 
     /**
-     * @param string $fieldDefinitionIdentifier
-     * @param int $value Field value constant, one of self::IS_EMPTY and self::IS_NOT_EMPTY
-     *
      * @throws \InvalidArgumentException
      */
-    public function __construct($fieldDefinitionIdentifier, $value)
+    public function __construct(string $fieldDefinitionIdentifier, int $value)
     {
         if ($value !== self::IS_EMPTY && $value !== self::IS_NOT_EMPTY) {
             throw new InvalidArgumentException(
-                "Invalid has field content value {$value}"
+                "Invalid has field content value $value"
             );
         }
 

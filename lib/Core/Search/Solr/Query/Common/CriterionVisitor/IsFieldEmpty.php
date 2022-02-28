@@ -1,36 +1,27 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\Search\Common\FieldNameGenerator;
-use eZ\Publish\SPI\Persistence\Content\Type\Handler as ContentTypeHandler;
-use eZ\Publish\SPI\Search\FieldType\BooleanField;
-use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\IsFieldEmpty as IsFieldEmptyCriterion;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Search\Common\FieldNameGenerator;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Search\FieldType\BooleanField;
+use Ibexa\Contracts\Solr\Query\CriterionVisitor;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\IsFieldEmpty as IsFieldEmptyCriterion;
 
 /**
  * Visits IsFieldEmpty criterion.
  *
- * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\IsFieldEmpty
+ * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\IsFieldEmpty
  */
 final class IsFieldEmpty extends CriterionVisitor
 {
-    /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler
-     */
-    private $contentTypeHandler;
+    private ContentTypeHandler $contentTypeHandler;
+    private FieldNameGenerator $fieldNameGenerator;
 
-    /**
-     * @var \eZ\Publish\Core\Search\Common\FieldNameGenerator
-     */
-    private $fieldNameGenerator;
-
-    /**
-     * @param \eZ\Publish\SPI\Persistence\Content\Type\Handler $contentTypeHandler
-     * @param \eZ\Publish\Core\Search\Common\FieldNameGenerator $fieldNameGenerator
-     */
     public function __construct(
         ContentTypeHandler $contentTypeHandler,
         FieldNameGenerator $fieldNameGenerator
@@ -39,7 +30,7 @@ final class IsFieldEmpty extends CriterionVisitor
         $this->fieldNameGenerator = $fieldNameGenerator;
     }
 
-    public function canVisit(Criterion $criterion)
+    public function canVisit(Criterion $criterion): bool
     {
         return $criterion instanceof IsFieldEmptyCriterion;
     }
@@ -47,16 +38,16 @@ final class IsFieldEmpty extends CriterionVisitor
     /**
      * {@inheritdoc}
      *
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null)
+    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
     {
         $fieldNames = $this->getFieldNames($criterion);
 
         if (empty($fieldNames)) {
             throw new InvalidArgumentException(
                 '$criterion->target',
-                "No searchable fields found for the given criterion target '{$criterion->target}'."
+                "No searchable fields found for the given criterion target '$criterion->target'."
             );
         }
 
@@ -64,7 +55,7 @@ final class IsFieldEmpty extends CriterionVisitor
 
         foreach ($fieldNames as $fieldName) {
             $match = $criterion->value[0] === IsFieldEmptyCriterion::IS_EMPTY ? 'true' : 'false';
-            $queries[] = "{$fieldName}:{$match}";
+            $queries[] = "$fieldName:$match";
         }
 
         return '(' . implode(' OR ', $queries) . ')';
@@ -73,11 +64,9 @@ final class IsFieldEmpty extends CriterionVisitor
     /**
      * Return all field names for the given criterion.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
-     *
      * @return string[]
      */
-    protected function getFieldNames(Criterion $criterion)
+    protected function getFieldNames(Criterion $criterion): array
     {
         $fieldDefinitionIdentifier = $criterion->target;
         $fieldMap = $this->contentTypeHandler->getSearchableFieldMap();

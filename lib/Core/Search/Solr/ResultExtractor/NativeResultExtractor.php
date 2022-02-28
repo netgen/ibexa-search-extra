@@ -2,25 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
 
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
-use eZ\Publish\API\Repository\Values\ValueObject;
-use EzSystems\EzPlatformSolrSearchEngine\Gateway\EndpointRegistry;
-use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
-use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor as BaseResultExtractor;
-use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor\AggregationResultExtractor;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use IBexa\Contracts\Solr\ResultExtractor\AggregationResultExtractor;
+use Ibexa\Solr\Gateway\EndpointRegistry;
+use Ibexa\Solr\Query\FacetFieldVisitor;
+use Ibexa\Solr\ResultExtractor as BaseResultExtractor;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
 
 /**
  * Native Result Extractor extracts the value object from the data returned by the Solr backend.
  */
 final class NativeResultExtractor Extends ResultExtractor
 {
-    /**
-     * @var \EzSystems\EzPlatformSolrSearchEngine\ResultExtractor
-     */
-    private $nativeResultExtractor;
+    private BaseResultExtractor $nativeResultExtractor;
 
     public function __construct(
         BaseResultExtractor $nativeResultExtractor,

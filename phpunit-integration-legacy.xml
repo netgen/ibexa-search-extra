@@ -5,7 +5,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true">
     <php>
-        <env name="setupFactory" value="Netgen\EzPlatformSearchExtra\Tests\Integration\SetupFactory\Legacy" />
+        <env name="setupFactory" value="Netgen\IbexaSearchExtra\Tests\Integration\SetupFactory\Legacy" />
         <ini name="error_reporting" value="-1" />
     </php>
     <testsuites>

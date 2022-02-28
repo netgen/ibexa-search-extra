@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ContentId as ContentIdCriterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Solr\Query\CriterionVisitor;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ContentId as ContentIdCriterion;
 
 /**
  * Visits the ContentId criterion.
  *
- * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ContentId
+ * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ContentId
  */
 final class ContentIdIn extends CriterionVisitor
 {

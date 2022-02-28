@@ -1,2 +1,0 @@
-imports:
-    - {resource: common/field_value_mappers.yml}

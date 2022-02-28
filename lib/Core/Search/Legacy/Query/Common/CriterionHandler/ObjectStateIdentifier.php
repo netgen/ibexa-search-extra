@@ -1,25 +1,27 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
+declare(strict_types=1);
+
+namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Doctrine\DBAL\Query\QueryBuilder;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
-use eZ\Publish\SPI\Persistence\Content\ObjectState\Handler as ObjectStateHandler;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier as ObjectStateIdentifierCriterion;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as ObjectStateHandler;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier as ObjectStateIdentifierCriterion;
 
 /**
  * Handles the ObjectStateIdentifier criterion.
  *
- * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier
+ * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier
  */
 final class ObjectStateIdentifier extends CriterionHandler
 {
     /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Section\Handler
+     * @var \Ibexa\Contracts\Core\Persistence\Content\Section\Handler
      */
     protected $objectStateHandler;
 
@@ -38,7 +40,7 @@ final class ObjectStateIdentifier extends CriterionHandler
     /**
      * {@inheritdoc}
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function handle(
         CriteriaConverter $converter,

@@ -1,25 +1,26 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Kernel;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Tests\SearchServiceLocationTest as KernelSearchServiceLocationTest;
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult as KernelSearchResult;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit as KernelSearchHit;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchHit;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult;
+namespace Netgen\IbexaSearchExtra\Tests\Kernel;
+
+use Ibexa\Tests\Integration\Core\Repository\SearchServiceLocationTest as KernelSearchServiceLocationTest;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult as KernelSearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit as KernelSearchHit;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult;
 
 class SearchServiceLocationTest extends KernelSearchServiceLocationTest
 {
     /**
      * Assert that query result matches the given fixture.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\LocationQuery $query
      * @param string $fixture
      * @param null|callable $closure
      * @param bool $ignoreScore
      */
-    protected function assertQueryFixture(LocationQuery $query, $fixture, $closure = null, $ignoreScore = true)
+    protected function assertQueryFixture(LocationQuery $query, $fixture, $closure = null, $ignoreScore = true): void
     {
         $newClosure = function (&$data) use ($closure) {
             if ($data instanceof SearchResult) {
@@ -31,14 +32,14 @@ class SearchServiceLocationTest extends KernelSearchServiceLocationTest
             }
         };
 
-        return parent::assertQueryFixture($query, $fixture, $newClosure, $ignoreScore);
+        parent::assertQueryFixture($query, $fixture, $newClosure, $ignoreScore);
     }
 
-    private function mapToKernelSearchResult(SearchResult $data)
+    private function mapToKernelSearchResult(SearchResult $data): KernelSearchResult
     {
         $kernelSearchHits = [];
 
-        /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchHit $searchHit */
+        /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit $searchHit */
         foreach ($data->searchHits as $searchHit) {
             $kernelSearchHits[] = $this->mapToKernelSearchHit($searchHit);
         }
@@ -54,7 +55,7 @@ class SearchServiceLocationTest extends KernelSearchServiceLocationTest
         ]);
     }
 
-    private function mapToKernelSearchHit(SearchHit $searchHit)
+    private function mapToKernelSearchHit(SearchHit $searchHit): KernelSearchHit
     {
         return new KernelSearchHit([
             'valueObject' => $searchHit->valueObject,
