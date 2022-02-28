@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Location\CriterionVisitor;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Location\CriterionVisitor;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\LocationId as LocationIdCriterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Solr\Query\CriterionVisitor;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationId as LocationIdCriterion;
 
 /**
  * Visits the LocationId criterion.
  *
- * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\LocationId
+ * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationId
  */
 class LocationIdBetween extends CriterionVisitor
 {

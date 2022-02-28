@@ -1,25 +1,27 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
+declare(strict_types=1);
+
+namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Doctrine\DBAL\Query\QueryBuilder;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\UserEmail as UserEmailCriterion;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\UserEmail as UserEmailCriterion;
 use RuntimeException;
 
 /**
  * Handles the UserEmail criterion.
  *
- * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\UserEmail
+ * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\UserEmail
  */
 final class UserEmail extends CriterionHandler
 {
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof UserEmailCriterion;
     }
@@ -68,12 +70,8 @@ final class UserEmail extends CriterionHandler
      * Returns the given $string prepared for use in SQL LIKE clause.
      *
      * LIKE clause wildcards '%' and '_' contained in the given $string will be escaped.
-     *
-     * @param $string
-     *
-     * @return string
      */
-    protected function prepareLikeString($string)
+    protected function prepareLikeString(string $string): string
     {
         $string = addcslashes($string, '%_');
 

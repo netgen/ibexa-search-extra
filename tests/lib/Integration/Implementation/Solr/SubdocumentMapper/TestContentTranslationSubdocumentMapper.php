@@ -1,16 +1,18 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper;
+declare(strict_types=1);
 
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Search\Field;
-use eZ\Publish\SPI\Search\FieldType;
-use eZ\Publish\SPI\Search\Document;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper;
+
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType;
+use Ibexa\Contracts\Core\Search\Document;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper;
 
 class TestContentTranslationSubdocumentMapper extends ContentTranslationSubdocumentMapper
 {
-    static private $dataMap = [
+    static private array $dataMap = [
         // Users
         '4' => [
             0 => [
@@ -35,12 +37,12 @@ class TestContentTranslationSubdocumentMapper extends ContentTranslationSubdocum
         ],
     ];
 
-    public function accept(Content $content, $languageCode)
+    public function accept(Content $content, $languageCode): bool
     {
         return $languageCode === 'ger-DE' && array_key_exists($content->versionInfo->contentInfo->id, static::$dataMap);
     }
 
-    public function mapDocuments(Content $content, $languageCode)
+    public function mapDocuments(Content $content, $languageCode): array
     {
         return [
             new Document([

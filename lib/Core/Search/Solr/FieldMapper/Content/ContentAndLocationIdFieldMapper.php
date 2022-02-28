@@ -2,25 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\Content;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Content;
 
-use eZ\Publish\SPI\Persistence\Content as SPIContent;
-use eZ\Publish\SPI\Persistence\Content\Location\Handler as LocationHandler;
-use eZ\Publish\SPI\Search\Field;
-use eZ\Publish\SPI\Search\FieldType\IntegerField;
-use eZ\Publish\SPI\Search\FieldType\MultipleIntegerField;
-use EzSystems\EzPlatformSolrSearchEngine\FieldMapper\ContentFieldMapper;
+use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
+use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType\IntegerField;
+use Ibexa\Contracts\Core\Search\FieldType\MultipleIntegerField;
+use Ibexa\Contracts\Solr\FieldMapper\ContentFieldMapper;
 
 class ContentAndLocationIdFieldMapper extends ContentFieldMapper
 {
-    /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Location\Handler
-     */
-    protected $locationHandler;
+    protected LocationHandler $locationHandler;
 
-    /**
-     * @param \eZ\Publish\SPI\Persistence\Content\Location\Handler $locationHandler
-     */
     public function __construct(LocationHandler $locationHandler)
     {
         $this->locationHandler = $locationHandler;

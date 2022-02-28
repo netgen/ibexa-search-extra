@@ -1,6 +1,8 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Container\Compiler;
+declare(strict_types=1);
+
+namespace Netgen\IbexaSearchExtra\Container\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -10,27 +12,27 @@ use Symfony\Component\DependencyInjection\Definition;
 /**
  * This compiler pass will register Content subdocument mappers.
  *
- * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper
- * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper\Aggregate
+ * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper
+ * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper\Aggregate
  */
 final class AggregateContentSubdocumentMapperPass implements CompilerPassInterface
 {
-    private static $aggregateMapperId = 'netgen.search.solr.subdocument_mapper.content.aggregate';
-    private static $mapperTag = 'netgen.search.solr.subdocument_mapper.content';
+    private static string $aggregateMapperId = 'netgen.ibexa_search_extra.solr.subdocument_mapper.content.aggregate';
+    private static string $mapperTag = 'netgen.ibexa_search_extra.solr.subdocument_mapper.content';
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition(static::$aggregateMapperId)) {
+        if (!$container->hasDefinition(self::$aggregateMapperId)) {
             return;
         }
 
-        $aggregateDefinition = $container->getDefinition(static::$aggregateMapperId);
-        $mapperIds = $container->findTaggedServiceIds(static::$mapperTag);
+        $aggregateDefinition = $container->getDefinition(self::$aggregateMapperId);
+        $mapperIds = $container->findTaggedServiceIds(self::$mapperTag);
 
         $this->registerMappers($aggregateDefinition, $mapperIds);
     }
 
-    private function registerMappers(Definition $definition, array $mapperIds)
+    private function registerMappers(Definition $definition, array $mapperIds): void
     {
         foreach (array_keys($mapperIds) as $id) {
             $definition->addMethodCall('addMapper', [new Reference($id)]);

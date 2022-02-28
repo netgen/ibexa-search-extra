@@ -1,6 +1,8 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Content\CriterionHandler;
+declare(strict_types=1);
+
+namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Content\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;

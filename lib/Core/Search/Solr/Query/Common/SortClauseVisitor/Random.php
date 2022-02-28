@@ -1,37 +1,24 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor;
+declare(strict_types=1);
 
-use EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\Random as RandomSortClause;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor;
 
-/**
- * Visits the sortClause tree into a Solr query.
- */
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Solr\Query\SortClauseVisitor;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\Random as RandomSortClause;
+
 class Random extends SortClauseVisitor
 {
-    /**
-     * Check if visitor is applicable to current sortClause.
-     *
-     * @param SortClause $sortClause
-     *
-     * @return bool
-     */
-    public function canVisit(SortClause $sortClause)
+    public function canVisit(SortClause $sortClause): bool
     {
         return $sortClause instanceof RandomSortClause;
     }
 
-    /**
-     * Map field value to a proper Solr representation.
-     *
-     * @param SortClause $sortClause
-     *
-     * @return string
-     */
-    public function visit(SortClause $sortClause)
+    public function visit(SortClause $sortClause): string
     {
-        return 'random_' . $sortClause->targetData->seed . $this->getDirection($sortClause);
+        $seed = $sortClause->targetData->seed ?? mt_rand();
+
+        return 'random_' . $seed . $this->getDirection($sortClause);
     }
 }

@@ -1,26 +1,28 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Content\CriterionHandler;
+declare(strict_types=1);
+
+namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Content\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
-use eZ\Publish\SPI\Persistence\Content\ContentInfo;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\LocationQuery as LocationQueryCriterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationQuery as LocationQueryCriterion;
 
 /**
  * Handles the LocationQuery criterion.
  *
- * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\LocationQuery
+ * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationQuery
  */
 final class LocationQuery extends CriterionHandler
 {
     /**
-     * @var \eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter
+     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter
      */
     private $locationCriteriaConverter;
 
@@ -42,7 +44,7 @@ final class LocationQuery extends CriterionHandler
         Criterion $criterion,
         array $languageSettings
     ) {
-        /** @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion $filter */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter */
         $filter = $criterion->value;
         $subSelect = new SubSelectQueryBuilder($this->connection, $queryBuilder);
         $condition = $this->locationCriteriaConverter->convertCriteria($subSelect, $filter, []);

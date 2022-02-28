@@ -1,13 +1,15 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Search\Facet;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\API\Facet;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet;
 
 /**
  * Holds facet data for RawFacetBuilder.
  *
- * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet\RawFacetBuilder
+ * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\API\Facet\RawFacetBuilder
  */
 class RawFacet extends Facet
 {

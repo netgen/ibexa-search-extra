@@ -1,12 +1,13 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\SetupFactory;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as CoreLegacySetupFactory;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\SetupFactory;
+
+use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as CoreLegacySetupFactory;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Netgen\EzPlatformSearchExtra\Container\Compiler;
 
 class Legacy extends CoreLegacySetupFactory
 {
@@ -15,15 +16,13 @@ class Legacy extends CoreLegacySetupFactory
      *
      * @throws \Exception
      */
-    protected function externalBuildContainer(ContainerBuilder $containerBuilder)
+    protected function externalBuildContainer(ContainerBuilder $containerBuilder): void
     {
         $loader = new YamlFileLoader(
             $containerBuilder,
             new FileLocator(__DIR__ . '/../../../../lib/Resources/config/')
         );
 
-        $loader->load('search/legacy.yml');
-
-        $containerBuilder->addCompilerPass(new Compiler\FieldTypeRegistryPass());
+        $loader->load('search/legacy.yaml');
     }
 }

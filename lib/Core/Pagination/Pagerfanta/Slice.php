@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta;
+namespace Netgen\IbexaSearchExtra\Core\Pagination\Pagerfanta;
 
-use function array_key_exists;
 use ArrayAccess;
 use ArrayIterator;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use IteratorAggregate;
 use RuntimeException;
+use function array_key_exists;
+use function array_map;
 
 /**
  * Implements IteratorAggregate with access to the array of the SearchHit instances
@@ -18,21 +19,21 @@ use RuntimeException;
 final class Slice implements IteratorAggregate, ArrayAccess
 {
     /**
-     * @var \eZ\Publish\API\Repository\Values\Content\Search\SearchHit[]
+     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit[]
      */
-    private $searchHits;
+    private array $searchHits;
 
     public function __construct(array $searchHits)
     {
         $this->searchHits = $searchHits;
     }
 
-    public function getSearchHits()
+    public function getSearchHits(): array
     {
         return $this->searchHits;
     }
 
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator(
             array_map(

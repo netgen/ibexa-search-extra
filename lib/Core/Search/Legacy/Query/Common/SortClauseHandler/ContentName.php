@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Legacy\Query\Common\SortClauseHandler;
+namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\SortClauseHandler;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use eZ\Publish\Core\Persistence\Legacy\Content\Gateway;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\ContentName as ContentNameSortClause;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\ContentName as ContentNameSortClause;
 
 class ContentName extends SortClauseHandler
 {
-    protected $languageHandler;
+    protected LanguageHandler $languageHandler;
 
     public function __construct(Connection $connection, LanguageHandler $languageHandler)
     {
@@ -42,11 +42,11 @@ class ContentName extends SortClauseHandler
 
     /**
      * @param \Doctrine\DBAL\Query\QueryBuilder $query
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\SortClause $sortClause
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause
      * @param int $number
      * @param array $languageSettings
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function applyJoin(
         QueryBuilder $query,
@@ -74,7 +74,7 @@ class ContentName extends SortClauseHandler
      * @param array $languageSettings
      * @param string $contentNameTableName
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
      * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
      */

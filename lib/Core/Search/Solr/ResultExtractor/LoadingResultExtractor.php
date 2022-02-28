@@ -2,33 +2,33 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult as APISearchResult;
-use eZ\Publish\SPI\Persistence\Content\ContentInfo;
-use eZ\Publish\SPI\Persistence\Content\Location;
-use EzSystems\EzPlatformSolrSearchEngine\Gateway\EndpointRegistry;
-use EzSystems\EzPlatformSolrSearchEngine\Query\FacetFieldVisitor;
-use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor as BaseResultExtractor;
-use eZ\Publish\SPI\Persistence\Content\Handler as ContentHandler;
-use eZ\Publish\SPI\Persistence\Content\Location\Handler as LocationHandler;
-use EzSystems\EzPlatformSolrSearchEngine\ResultExtractor\AggregationResultExtractor;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\WordSuggestion;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\ResultExtractor;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult as APISearchResult;
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
+use IBexa\Contracts\Solr\ResultExtractor\AggregationResultExtractor;
+use IBexa\Solr\Gateway\EndpointRegistry;
+use IBexa\Solr\Query\FacetFieldVisitor;
+use IBexa\Solr\ResultExtractor as BaseResultExtractor;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\Suggestion;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult;
 use RuntimeException;
 
 /**
  * The Loading Result Extractor extracts the value object from the Solr search hit data
  * by loading it from the persistence layer.
  */
-final class LoadingResultExtractor Extends ResultExtractor
+final class LoadingResultExtractor extends ResultExtractor
 {
-    protected $contentHandler;
-    protected $locationHandler;
-    private $nativeResultExtractor;
+    protected ContentHandler $contentHandler;
+    protected LocationHandler $locationHandler;
+    private BaseResultExtractor $nativeResultExtractor;
 
     public function __construct(
         ContentHandler $contentHandler,
@@ -68,11 +68,11 @@ final class LoadingResultExtractor Extends ResultExtractor
     }
 
     /**
-     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult $searchResult
+     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult $searchResult
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Search\SearchResult
+     * @return void
      */
-    private function replaceExtractedValuesByLoadedValues(SearchResult $searchResult): APISearchResult
+    private function replaceExtractedValuesByLoadedValues(SearchResult $searchResult): void
     {
         $valueObjectMapById = $this->loadValueObjectMapById($searchResult);
 
@@ -86,14 +86,12 @@ final class LoadingResultExtractor Extends ResultExtractor
                 --$searchResult->totalCount;
             }
         }
-
-        return $searchResult;
     }
 
     /**
-     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult $searchResult
+     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult $searchResult
      *
-     * @return array|\eZ\Publish\SPI\Persistence\Content\ContentInfo[]
+     * @return array|\Ibexa\Contracts\Core\Persistence\Content\ContentInfo[]
      */
     private function loadValueObjectMapById(SearchResult $searchResult): array
     {
@@ -156,7 +154,7 @@ final class LoadingResultExtractor Extends ResultExtractor
     /**
      * @param array $locationIdList
      *
-     * @return array|\eZ\Publish\SPI\Persistence\Content\ContentInfo[]
+     * @return array|\Ibexa\Contracts\Core\Persistence\Content\ContentInfo[]
      */
     private function loadLocationMapByIdList(array $locationIdList): array
     {
@@ -192,7 +190,7 @@ final class LoadingResultExtractor Extends ResultExtractor
      *
      * @param $data
      *
-     * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion
+     * @return \Netgen\IbexaSearchExtra\API\Values\Content\Search\Suggestion
      */
     private function getSpellCheckSuggestion($data): Suggestion
     {
@@ -223,7 +221,7 @@ final class LoadingResultExtractor Extends ResultExtractor
      * {@inheritdoc}
      *
      * @throws \RuntimeException If search $hit could not be handled
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function extractHit($hit)
     {
@@ -236,7 +234,7 @@ final class LoadingResultExtractor Extends ResultExtractor
         }
 
         throw new RuntimeException(
-            "Extracting documents of type '{$hit->document_type_id}' is not handled."
+            "Extracting documents of type '$hit->document_type_id' is not handled."
         );
     }
 }

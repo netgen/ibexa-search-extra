@@ -1,19 +1,25 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\Solr;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Facet\CustomFieldFacet;
-use eZ\Publish\API\Repository\Tests\BaseTest;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\Facet\RawFacet;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\Solr;
+
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\Facet\CustomFieldFacet;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\Facet\RawFacet;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
 
 class RawFacetTest extends BaseTest
 {
-    public function providerForTestFind()
+    /**
+     * @throws \JsonException
+     */
+    public function providerForTestFind(): array
     {
         return [
             [
@@ -72,8 +78,12 @@ class RawFacetTest extends BaseTest
                                             'sum' => 5,
                                         ],
                                     ],
-                                ]
-                            )
+                                ],
+                                JSON_THROW_ON_ERROR
+                            ),
+                            false,
+                            512,
+                            JSON_THROW_ON_ERROR
                         ),
                     ]),
                 ],
@@ -126,8 +136,12 @@ class RawFacetTest extends BaseTest
                                         'sum' => 305,
                                     ],
                                     'buckets' => [],
-                                ]
-                            )
+                                ],
+                                JSON_THROW_ON_ERROR
+                            ),
+                            false,
+                            512,
+                            JSON_THROW_ON_ERROR
                         ),
                     ]),
                 ],
@@ -167,8 +181,12 @@ class RawFacetTest extends BaseTest
                                         'minimum' => 5,
                                     ],
                                     'buckets' => [],
-                                ]
-                            )
+                                ],
+                                JSON_THROW_ON_ERROR
+                            ),
+                            false,
+                            512,
+                            JSON_THROW_ON_ERROR
                         ),
                     ]),
                 ],
@@ -216,8 +234,12 @@ class RawFacetTest extends BaseTest
                                         'maximum' => 55,
                                     ],
                                     'buckets' => [],
-                                ]
-                            )
+                                ],
+                                JSON_THROW_ON_ERROR
+                            ),
+                            false,
+                            512,
+                            JSON_THROW_ON_ERROR
                         ),
                     ]),
                     new RawFacet([
@@ -278,8 +300,12 @@ class RawFacetTest extends BaseTest
                                             ],
                                         ],
                                     ],
-                                ]
-                            )
+                                ],
+                                JSON_THROW_ON_ERROR
+                            ),
+                            false,
+                            512,
+                            JSON_THROW_ON_ERROR
                         ),
                     ]),
                 ],
@@ -288,15 +314,9 @@ class RawFacetTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testPrepareTestFixtures()
+    public function testPrepareTestFixtures(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -343,12 +363,12 @@ class RawFacetTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $expectedFacets
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[] $expectedFacets
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testFindContent(Query $query, array $expectedFacets)
+    public function testFindContent(Query $query, array $expectedFacets): void
     {
         $searchService = $this->getSearchService(false);
 
@@ -360,12 +380,12 @@ class RawFacetTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\LocationQuery $query
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $expectedFacets
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery $query
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[] $expectedFacets
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testFindLocations(LocationQuery $query, $expectedFacets)
+    public function testFindLocations(LocationQuery $query, array $expectedFacets): void
     {
         $searchService = $this->getSearchService(false);
 
@@ -374,7 +394,7 @@ class RawFacetTest extends BaseTest
         $this->assertEquals($expectedFacets, $searchResult->facets);
     }
 
-    protected function getSearchService($initialInitializeFromScratch = true)
+    protected function getSearchService($initialInitializeFromScratch = true): SearchService
     {
         return $this->getRepository($initialInitializeFromScratch)->getSearchService();
     }

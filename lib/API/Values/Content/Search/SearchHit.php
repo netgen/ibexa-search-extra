@@ -1,15 +1,15 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Search;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit as BaseSearchHit;
+namespace Netgen\IbexaSearchExtra\API\Values\Content\Search;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit as BaseSearchHit;
 
 class SearchHit extends BaseSearchHit
 {
     /**
      * Additional fields from Solr document.
-     *
-     * @var array
      */
-    public $extraFields;
+    public array $extraFields;
 }

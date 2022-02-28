@@ -1,37 +1,33 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\CustomField;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain\BlockChildren as BlockChildrenDomain;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\CustomField;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Solr\Query\CriterionVisitor;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain\BlockChildren as BlockChildrenDomain;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor;
 
 class BlockChildren extends DomainVisitor
 {
-    /**
-     * @var \EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor
-     */
-    private $subdocumentQueryCriterionVisitor;
+    private CriterionVisitor $subdocumentQueryCriterionVisitor;
 
-    /**
-     * @param \EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor $subdocumentQueryCriterionVisitor
-     */
     public function __construct(CriterionVisitor $subdocumentQueryCriterionVisitor)
     {
         $this->subdocumentQueryCriterionVisitor = $subdocumentQueryCriterionVisitor;
     }
 
-    public function accept(Domain $domain)
+    public function accept(Domain $domain): bool
     {
         return $domain instanceof BlockChildrenDomain;
     }
 
-    public function visit(Domain $domain)
+    public function visit(Domain $domain): array
     {
         \assert($domain instanceof BlockChildrenDomain);
 
@@ -43,7 +39,7 @@ class BlockChildren extends DomainVisitor
         ];
     }
 
-    private function getFilterCriteria(BlockChildrenDomain $domain)
+    private function getFilterCriteria(BlockChildrenDomain $domain): Criterion
     {
         $criteria = new CustomField('document_type_id', Operator::EQ, $domain->childDocumentIdentifier);
 

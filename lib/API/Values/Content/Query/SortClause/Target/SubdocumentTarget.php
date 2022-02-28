@@ -1,9 +1,11 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\Target;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\Target;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery;
+namespace Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\Target;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery;
 
 final class SubdocumentTarget extends Target
 {
@@ -17,7 +19,7 @@ final class SubdocumentTarget extends Target
     /**
      * One of the ScoringMode* constants.
      *
-     * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\SubdocumentField
+     * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\SubdocumentField
      *
      * @var string
      */
@@ -26,17 +28,20 @@ final class SubdocumentTarget extends Target
     /**
      * Optional criterion targeting Content subdocument.
      *
-     * @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery
+     * @var \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery
      */
     public $subdocumentQuery;
 
     /**
      * @param string $documentTypeIdentifier
      * @param string $scoringMode
-     * @param \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery $subdocumentQuery
+     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery|null $subdocumentQuery
      */
-    public function __construct($documentTypeIdentifier, $scoringMode, SubdocumentQuery $subdocumentQuery = null)
-    {
+    public function __construct(
+        string $documentTypeIdentifier,
+        string $scoringMode,
+        SubdocumentQuery $subdocumentQuery = null
+    ) {
         $this->documentTypeIdentifier = $documentTypeIdentifier;
         $this->scoringMode = $scoringMode;
         $this->subdocumentQuery = $subdocumentQuery;

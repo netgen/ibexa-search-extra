@@ -1,23 +1,14 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Search;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\ValueObject;
+namespace Netgen\IbexaSearchExtra\API\Values\Content\Search;
+
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 class WordSuggestion extends ValueObject
 {
-    /**
-     * @var string
-     */
-    public $originalWord;
-
-    /**
-     * @var string
-     */
-    public $suggestedWord;
-
-    /**
-     * @var int
-     */
-    public $frequency;
+    public string $originalWord;
+    public string $suggestedWord;
+    public int $frequency;
 }

@@ -1,42 +1,38 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Content\SortClauseVisitor;
+declare(strict_types=1);
 
-use EzSystems\EzPlatformSolrSearchEngine\Query\SortClauseVisitor;
-use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\SubdocumentField as SubdocumentFieldCriterion;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\SortClauseVisitor;
+
+use Ibexa\Contracts\Solr\Query\SortClauseVisitor;
+use Ibexa\Contracts\Solr\Query\CriterionVisitor;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\SubdocumentField as SubdocumentFieldCriterion;
 use RuntimeException;
 
 class SubdocumentField extends SortClauseVisitor
 {
-    /**
-     * @var \EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor
-     */
-    private $subdocumentQueryCriterionVisitor;
+    private CriterionVisitor $subdocumentQueryCriterionVisitor;
 
-    /**
-     * @param \EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor $subdocumentQueryCriterionVisitor
-     */
     public function __construct(CriterionVisitor $subdocumentQueryCriterionVisitor)
     {
         $this->subdocumentQueryCriterionVisitor = $subdocumentQueryCriterionVisitor;
     }
 
-    public function canVisit(SortClause $sortClause)
+    public function canVisit(SortClause $sortClause): bool
     {
         return $sortClause instanceof SubdocumentFieldCriterion;
     }
 
-    public function visit(SortClause $sortClause)
+    public function visit(SortClause $sortClause): string
     {
-        /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\Target\SubdocumentTarget $target */
+        /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\Target\SubdocumentTarget $target */
         $target = $sortClause->targetData;
-        $condition = "document_type_id:{$target->documentTypeIdentifier}";
+        $condition = "document_type_id:$target->documentTypeIdentifier";
 
         if ($target->subdocumentQuery instanceof SubdocumentQuery) {
-            /** @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion $filter */
+            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter */
             $filter = $target->subdocumentQuery->value;
             $queryCondition = $this->subdocumentQueryCriterionVisitor->visit($filter);
             $queryCondition = $this->escapeQuote($queryCondition);
@@ -44,13 +40,13 @@ class SubdocumentField extends SortClauseVisitor
             $condition .= ' AND ' . $queryCondition;
         }
 
-        $condition .= " AND {!func}{$sortClause->target}";
+        $condition .= " AND {!func}$sortClause->target";
         $scoringMode = $this->resolveScoringMode($target->scoringMode);
 
-        return "{!parent which='document_type_id:content' score='{$scoringMode}' v='{$condition}'}" . $this->getDirection($sortClause);
+        return "{!parent which='document_type_id:content' score='$scoringMode' v='$condition'}" . $this->getDirection($sortClause);
     }
 
-    private function resolveScoringMode($mode)
+    private function resolveScoringMode($mode): string
     {
         switch ($mode) {
             case SubdocumentFieldCriterion::ScoringModeNone:
@@ -66,7 +62,7 @@ class SubdocumentField extends SortClauseVisitor
         }
 
         throw new RuntimeException(
-            "Scoring mode '{$mode}' is not handled"
+            "Scoring mode '$mode' is not handled"
         );
     }
 
@@ -74,13 +70,8 @@ class SubdocumentField extends SortClauseVisitor
      * Escapes given $string for wrapping inside single or double quotes.
      *
      * Does not include quotes in the returned string, this needs to be done by the consumer code.
-     *
-     * @param string $string
-     * @param bool $doubleQuote
-     *
-     * @return string
      */
-    private function escapeQuote($string, $doubleQuote = false)
+    private function escapeQuote(string $string, bool $doubleQuote = false): string
     {
         $pattern = ($doubleQuote ? '/("|\\\)/' : '/(\'|\\\)/');
 

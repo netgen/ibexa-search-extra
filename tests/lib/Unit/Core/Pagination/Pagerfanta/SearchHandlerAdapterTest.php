@@ -1,15 +1,16 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Unit\Core\Pagination\Pagerfanta;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Search\AggregationResultCollection;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
-use eZ\Publish\SPI\Search\Handler;
-use Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta\SearchHandlerAdapter;
-use Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta\Slice;
+namespace Netgen\IbexaSearchExtra\Tests\Unit\Core\Pagination\Pagerfanta;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Search\Handler;
+use Netgen\IbexaSearchExtra\Core\Pagination\Pagerfanta\SearchHandlerAdapter;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 class SearchHandlerAdapterTest extends TestCase
 {
     /**
-     * @var \eZ\Publish\SPI\Search\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @var \Ibexa\Contracts\Core\Search\Handler|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $searchHandler;
 
@@ -128,7 +129,7 @@ class SearchHandlerAdapterTest extends TestCase
         $nbResults = 123;
         $facets = ['facet', 'facet'];
         $maxScore = 100.0;
-        $time = 256;
+        $time = 256.0;
         $query = new Query(['offset' => 5, 'limit' => 10]);
         $searchQuery = clone $query;
         $searchQuery->offset = $offset;
@@ -153,7 +154,6 @@ class SearchHandlerAdapterTest extends TestCase
         $adapter = $this->getAdapter($query);
         $slice = $adapter->getSlice($offset, $limit);
 
-        self::assertInstanceOf(Slice::class, $slice);
         self::assertSame($hits, $slice->getSearchHits());
         self::assertSame($nbResults, $adapter->getNbResults());
         self::assertSame($facets, $adapter->getFacets());

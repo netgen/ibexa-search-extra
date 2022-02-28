@@ -1,13 +1,15 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\ValueObject;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * Represents a domain for RawFacetBuilder.
  *
- * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder
+ * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder
  */
 abstract class Domain extends ValueObject
 {

@@ -2,32 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\Location;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Location;
 
-use eZ\Publish\SPI\Persistence\Content\Handler as ContentHandler;
-use eZ\Publish\SPI\Persistence\Content\Location as SPILocation;
-use eZ\Publish\SPI\Search\Field;
-use eZ\Publish\SPI\Search\FieldType;
-use EzSystems\EzPlatformSolrSearchEngine\FieldMapper\LocationFieldMapper;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
+use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType;
+use Ibexa\Contracts\Solr\FieldMapper\LocationFieldMapper;
 
 class LocationVisibilityFieldMapper extends LocationFieldMapper
 {
-    /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Handler
-     */
-    protected $contentHandler;
+    protected ContentHandler $contentHandler;
 
     public function __construct(ContentHandler $contentHandler)
     {
         $this->contentHandler = $contentHandler;
     }
 
-    public function accept(SPILocation $location)
+    public function accept(SPILocation $location): bool
     {
         return true;
     }
 
-    public function mapFields(SPILocation $location)
+    public function mapFields(SPILocation $location): array
     {
         $contentInfo = $this->contentHandler->loadContentInfo($location->contentId);
 

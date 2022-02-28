@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion;
+namespace Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
 
 /**
  * A criterion that matches Content matched translation's Content name.
@@ -34,20 +34,5 @@ class ContentName extends Criterion
             new Specifications(Operator::LIKE, Specifications::FORMAT_SINGLE, Specifications::TYPE_STRING),
             new Specifications(Operator::BETWEEN, Specifications::FORMAT_ARRAY, Specifications::TYPE_STRING, 2),
         ];
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @deprecated since 7.2, will be removed in 8.0. Use the constructor directly instead.
-     */
-    public static function createFromQueryBuilder($target, $operator, $value)
-    {
-        @trigger_error(
-            'The ' . __METHOD__ . ' method is deprecated since version 7.2 and will be removed in 8.0.',
-            E_USER_DEPRECATED
-        );
-
-        return new self($operator, $value);
     }
 }

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta;
+namespace Netgen\IbexaSearchExtra\Core\Pagination\Pagerfanta;
 
-use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 class SearchAdapter extends BaseAdapter
 {
-    private $searchService;
+    private SearchService $searchService;
 
     public function __construct(Query $query, SearchService $searchService)
     {
@@ -23,7 +23,7 @@ class SearchAdapter extends BaseAdapter
     /**
      * {@inheritDoc}
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     protected function executeQuery(Query $query): SearchResult
     {

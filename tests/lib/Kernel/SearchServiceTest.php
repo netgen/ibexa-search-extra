@@ -1,13 +1,16 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Kernel;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Tests\SearchServiceTest as KernelSearchServiceTest;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult as KernelSearchResult;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit as KernelSearchHit;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchHit;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult;
+namespace Netgen\IbexaSearchExtra\Tests\Kernel;
+
+use Ibexa\Tests\Integration\Core\Repository\SearchServiceTest as KernelSearchServiceTest;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult as KernelSearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit as KernelSearchHit;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult;
+use function is_callable;
 
 class SearchServiceTest extends KernelSearchServiceTest
 {
@@ -24,7 +27,7 @@ class SearchServiceTest extends KernelSearchServiceTest
                 $data = $this->mapToKernelSearchResult($data);
             }
 
-            if (\is_callable($closure)) {
+            if (is_callable($closure)) {
                 $closure($data);
             }
         };
@@ -36,7 +39,7 @@ class SearchServiceTest extends KernelSearchServiceTest
     {
         $kernelSearchHits = [];
 
-        /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchHit $searchHit */
+        /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit $searchHit */
         foreach ($data->searchHits as $searchHit) {
             $kernelSearchHits[] = $this->mapToKernelSearchHit($searchHit);
         }

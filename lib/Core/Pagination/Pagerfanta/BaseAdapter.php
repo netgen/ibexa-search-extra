@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Core\Pagination\Pagerfanta;
+namespace Netgen\IbexaSearchExtra\Core\Pagination\Pagerfanta;
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Search\AggregationResultCollection;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchResult as ExtraSearchResult;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion;
-use Netgen\EzPlatformSearchExtra\Core\Pagination\SearchResultExtras;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult as ExtraSearchResult;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\Suggestion;
+use Netgen\IbexaSearchExtra\Core\Pagination\SearchResultExtras;
 use Pagerfanta\Adapter\AdapterInterface;
 
 /**
@@ -17,45 +17,20 @@ use Pagerfanta\Adapter\AdapterInterface;
  */
 abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
 {
-    private $query;
-
-    /**
-     * @var int
-     */
-    private $nbResults;
-
-    /**
-     * @var \eZ\Publish\API\Repository\Values\Content\Search\Facet[]
-     */
-    private $facets;
-
-    /**
-     * @var \eZ\Publish\API\Repository\Values\Content\Search\AggregationResultCollection
-     */
-    private $aggregations;
-
-    /**
-     * @var float
-     */
-    private $maxScore;
-
-    /**
-     * @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Suggestion
-     */
-    private $suggestion;
-
-    /**
-     * @var int
-     */
+    private ?int $nbResults = null;
+    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[] */
+    private ?array $facets = null;
+    private ?AggregationResultCollection $aggregations = null;
+    private ?float $maxScore = null;
+    private ?Suggestion $suggestion = null;
+    /** @var ?int|?float */
     private $time;
 
-    /**
-     * @var bool
-     */
-    private $isExtraInfoInitialized = false;
+    private Query $query;
+    private bool $isExtraInfoInitialized = false;
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
      */
     public function __construct(Query $query)
     {
@@ -97,12 +72,12 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
         return $this->suggestion;
     }
 
-    public function getTime(): ?int
+    public function getTime()
     {
         return $this->time;
     }
 
-    public function getSlice($offset, $length)
+    public function getSlice($offset, $length): Slice
     {
         $query = clone $this->query;
         $query->offset = $offset;
@@ -123,9 +98,9 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
     /**
      * Execute the given $query and return SearchResult instance.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Search\SearchResult
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
      */
     abstract protected function executeQuery(Query $query): SearchResult;
 
@@ -150,7 +125,7 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
         $this->nbResults = $searchResult->totalCount;
         $this->suggestion = new Suggestion([]);
 
-        if ($searchResult instanceof ExtraSearchResult && $searchResult->suggestion instanceof Suggestion) {
+        if ($searchResult instanceof ExtraSearchResult) {
             $this->suggestion = $searchResult->suggestion;
         }
 

@@ -2,41 +2,35 @@
 
 declare(strict_types=1);
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\API;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\API;
 
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentId;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\Id as LocationId;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\Visible;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location\Id as LocationId;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\Visible;
 
 class VisibleCriterionTest extends BaseTest
 {
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function testFindVisibleContent(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
         $this->refreshSearch($repository);
 
         $searchResultVisible = $searchService->findContent($this->getContentQuery(true));
 
         $this->assertSame(2, $searchResultVisible->totalCount);
-        /** @var $content1 \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $content2 \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $content1 \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $content2 \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         $content1 = $searchResultVisible->searchHits[0]->valueObject;
         $content2 = $searchResultVisible->searchHits[1]->valueObject;
         $this->assertSame($contentA->id, $content1->id);
@@ -48,21 +42,15 @@ class VisibleCriterionTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindHiddenContent()
+    public function testFindHiddenContent(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentA->contentInfo);
@@ -71,41 +59,35 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findContent($this->getContentQuery(false));
 
         $this->assertSame(1, $searchResultNotVisible->totalCount);
-        /** @var $content1 \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $content1 \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         $content1 = $searchResultNotVisible->searchHits[0]->valueObject;
         $this->assertSame($contentA->id, $content1->id);
 
         $searchResultVisible = $searchService->findContent($this->getContentQuery(true));
 
         $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $content2 \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $content2 \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         $content2 = $searchResultVisible->searchHits[0]->valueObject;
         $this->assertSame($contentB->id, $content2->id);
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindVisibleLocation()
+    public function testFindVisibleLocation(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
         $this->refreshSearch($repository);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
         $this->assertSame(2, $searchResultVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
         $location2 = $searchResultVisible->searchHits[1]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
@@ -117,21 +99,15 @@ class VisibleCriterionTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindHiddenLocation()
+    public function testFindHiddenLocation(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationB = $locationService->loadLocation($contentB->contentInfo->mainLocationId);
@@ -141,34 +117,28 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
         $this->assertSame(1, $searchResultNotVisible->totalCount);
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
         $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
         $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindInvisibleLocation()
+    public function testFindInvisibleLocation(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationA = $locationService->loadLocation($contentA->contentInfo->mainLocationId);
@@ -178,8 +148,8 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
         $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location2 = $searchResultNotVisible->searchHits[1]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
@@ -191,21 +161,15 @@ class VisibleCriterionTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindLocationHiddenContent()
+    public function testFindLocationHiddenContent(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentB->contentInfo);
@@ -214,34 +178,28 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
         $this->assertSame(1, $searchResultNotVisible->totalCount);
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
         $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
         $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindLocationHiddenParentContent()
+    public function testFindLocationHiddenParentContent(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentA->contentInfo);
@@ -250,8 +208,8 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
         $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location2 = $searchResultNotVisible->searchHits[1]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
@@ -263,21 +221,15 @@ class VisibleCriterionTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindLocationHiddenParentContentReveal()
+    public function testFindLocationHiddenParentContentReveal(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentA->contentInfo);
@@ -291,8 +243,8 @@ class VisibleCriterionTest extends BaseTest
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
         $this->assertSame(2, $searchResultVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
         $location2 = $searchResultVisible->searchHits[1]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
@@ -300,22 +252,16 @@ class VisibleCriterionTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindInvisibleParentLocationHiddenParentContentReveal()
+    public function testFindInvisibleParentLocationHiddenParentContentReveal(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationA = $locationService->loadLocation($contentA->contentInfo->mainLocationId);
@@ -327,8 +273,8 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
         $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location2 = $searchResultNotVisible->searchHits[1]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
@@ -340,22 +286,16 @@ class VisibleCriterionTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindInvisibleChildLocationHiddenParentContentReveal()
+    public function testFindInvisibleChildLocationHiddenParentContentReveal(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationB = $locationService->loadLocation($contentB->contentInfo->mainLocationId);
@@ -367,35 +307,29 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
         $this->assertSame(1, $searchResultNotVisible->totalCount);
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
         $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
         $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindVisibleChildAdditionalLocationHiddenParentContent()
+    public function testFindVisibleChildAdditionalLocationHiddenParentContent(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
@@ -406,8 +340,8 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
         $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location2 = $searchResultNotVisible->searchHits[1]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
@@ -416,28 +350,22 @@ class VisibleCriterionTest extends BaseTest
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
         $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location3 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location3 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location3 = $searchResultVisible->searchHits[0]->valueObject;
         $this->assertSame($additionalLocation->id, $location3->id);
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindVisibleChildAdditionalLocationHiddenParentContentVariant()
+    public function testFindVisibleChildAdditionalLocationHiddenParentContentVariant(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentA->contentInfo);
@@ -448,8 +376,8 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
         $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location2 = $searchResultNotVisible->searchHits[1]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
@@ -458,28 +386,22 @@ class VisibleCriterionTest extends BaseTest
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
         $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location3 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location3 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location3 = $searchResultVisible->searchHits[0]->valueObject;
         $this->assertSame($additionalLocation->id, $location3->id);
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindInvisibleChildAdditionalLocationHiddenChildContent()
+    public function testFindInvisibleChildAdditionalLocationHiddenChildContent(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
@@ -490,8 +412,8 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
         $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location3 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location3 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location3 = $searchResultNotVisible->searchHits[1]->valueObject;
         $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
@@ -500,28 +422,22 @@ class VisibleCriterionTest extends BaseTest
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
         $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindInvisibleChildAdditionalLocationHiddenChildContentVariant()
+    public function testFindInvisibleChildAdditionalLocationHiddenChildContentVariant(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentB->contentInfo);
@@ -532,8 +448,8 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
         $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location3 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location3 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location3 = $searchResultNotVisible->searchHits[1]->valueObject;
         $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
@@ -542,28 +458,22 @@ class VisibleCriterionTest extends BaseTest
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
         $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindInvisibleChildAdditionalSubtreeHiddenChildContent()
+    public function testFindInvisibleChildAdditionalSubtreeHiddenChildContent(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentB->contentInfo);
@@ -576,9 +486,9 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
         $this->assertSame(3, $searchResultNotVisible->totalCount);
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location3 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location4 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location3 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location4 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location3 = $searchResultNotVisible->searchHits[1]->valueObject;
         $location4 = $searchResultNotVisible->searchHits[2]->valueObject;
@@ -589,28 +499,22 @@ class VisibleCriterionTest extends BaseTest
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
         $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testFindInvisibleChildAdditionalSubtreeHiddenChildContentVariant()
+    public function testFindInvisibleChildAdditionalSubtreeHiddenChildContentVariant(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \eZ\Publish\API\Repository\Values\Content\Content */
-        /** @var $contentB \eZ\Publish\API\Repository\Values\Content\Content */
+        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
@@ -623,9 +527,9 @@ class VisibleCriterionTest extends BaseTest
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
         $this->assertSame(3, $searchResultNotVisible->totalCount);
-        /** @var $location2 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location3 \eZ\Publish\API\Repository\Values\Content\Location */
-        /** @var $location4 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location3 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        /** @var $location4 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location3 = $searchResultNotVisible->searchHits[1]->valueObject;
         $location4 = $searchResultNotVisible->searchHits[2]->valueObject;
@@ -636,7 +540,7 @@ class VisibleCriterionTest extends BaseTest
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
         $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \eZ\Publish\API\Repository\Values\Content\Location */
+        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
         $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
@@ -668,15 +572,9 @@ class VisibleCriterionTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function prepareTestFixtures()
+    public function prepareTestFixtures(): array
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();

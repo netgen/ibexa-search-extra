@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-default_config_files[1]='vendor/ezsystems/ezplatform-solr-search-engine/lib/Resources/config/solr/schema.xml'
-default_config_files[2]='vendor/ezsystems/ezplatform-solr-search-engine/lib/Resources/config/solr/language-fieldtypes.xml'
+default_config_files[1]='vendor/ibexa/solr/src/lib/Resources/config/solr/schema.xml'
+default_config_files[2]='vendor/ibexa/solr/src/lib/Resources/config/solr/language-fieldtypes.xml'
 default_config_files[3]='tests/lib/Resources/config/search/solr/7.7/solrconfig.xml'
 default_config_files[4]='tests/lib/Resources/config/search/solr/custom-fields-types.xml'
 
@@ -288,7 +288,7 @@ download
 
 if [ "$SOLR_CLOUD" = "no" ]; then
     config_template_dir="${SOLR_INSTALL_DIR}/server/${SOLR_HOME}/template"
-    "$SCRIPT_DIR"/../../vendor/ezsystems/ezplatform-solr-search-engine/bin/generate-solr-config.sh \
+    "$SCRIPT_DIR"/../../vendor/ibexa/solr/bin/generate-solr-config.sh \
             --solr-install-dir="${SOLR_INSTALL_DIR}" \
             --solr-version="${SOLR_VERSION}" \
             --destination-dir="${config_template_dir}"

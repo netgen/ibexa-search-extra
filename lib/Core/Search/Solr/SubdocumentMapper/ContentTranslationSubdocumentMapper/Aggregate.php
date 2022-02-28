@@ -1,9 +1,11 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper;
+declare(strict_types=1);
 
-use eZ\Publish\SPI\Persistence\Content;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper;
+
+use Ibexa\Contracts\Core\Persistence\Content;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper;
 
 /**
  * Aggregate implementation of Content translation subdocument mapper.
@@ -13,12 +15,12 @@ final class Aggregate extends ContentTranslationSubdocumentMapper
     /**
      * An array of aggregated subdocument mappers.
      *
-     * @var \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper[]
+     * @var \Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper[]
      */
-    protected $mappers = [];
+    protected array $mappers = [];
 
     /**
-     * @param \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper[] $mappers
+     * @param \Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper[] $mappers
      */
     public function __construct(array $mappers = [])
     {
@@ -30,19 +32,19 @@ final class Aggregate extends ContentTranslationSubdocumentMapper
     /**
      * Adds given $mapper to the internal collection.
      *
-     * @param \Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper $mapper
+     * @param \Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper $mapper
      */
-    public function addMapper(ContentTranslationSubdocumentMapper $mapper)
+    public function addMapper(ContentTranslationSubdocumentMapper $mapper): void
     {
         $this->mappers[] = $mapper;
     }
 
-    public function accept(Content $content, $languageCode)
+    public function accept(Content $content, $languageCode): bool
     {
         return true;
     }
 
-    public function mapDocuments(Content $content, $languageCode)
+    public function mapDocuments(Content $content, $languageCode): array
     {
         $documentsGrouped = [[]];
 

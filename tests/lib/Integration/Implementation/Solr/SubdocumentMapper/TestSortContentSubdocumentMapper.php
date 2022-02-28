@@ -1,19 +1,21 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper;
+declare(strict_types=1);
 
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Search\Field;
-use eZ\Publish\SPI\Search\FieldType;
-use eZ\Publish\SPI\Search\Document;
-use Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper;
+
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType;
+use Ibexa\Contracts\Core\Search\Document;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
 
 /**
  * Note: here we are only simulating indexing children data.
  */
 class TestSortContentSubdocumentMapper extends ContentSubdocumentMapper
 {
-    static private $dataMap = [
+    static private array $dataMap = [
         // Administrator Users
         '12' => [
             0 => [
@@ -36,7 +38,7 @@ class TestSortContentSubdocumentMapper extends ContentSubdocumentMapper
             ],
             2 => [
                 'price' => 60,
-            ]
+            ],
         ],
         // Partners
         '59' => [
@@ -55,12 +57,12 @@ class TestSortContentSubdocumentMapper extends ContentSubdocumentMapper
         ],
     ];
 
-    public function accept(Content $content)
+    public function accept(Content $content): bool
     {
         return array_key_exists($content->versionInfo->contentInfo->id, static::$dataMap);
     }
 
-    public function mapDocuments(Content $content)
+    public function mapDocuments(Content $content): array
     {
         $documents = [];
 

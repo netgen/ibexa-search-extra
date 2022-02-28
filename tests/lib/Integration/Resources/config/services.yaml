@@ -1,0 +1,62 @@
+services:
+    netgen_test.ibexa_search_extra.solr.subdocument_mapper.content:
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper\TestContentSubdocumentMapper
+        tags:
+            - { name: netgen.ibexa_search_extra.solr.subdocument_mapper.content }
+
+    netgen_test.ibexa_search_extra.solr.subdocument_mapper.content_translation:
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper\TestContentTranslationSubdocumentMapper
+        tags:
+            - { name: netgen.ibexa_search_extra.solr.subdocument_mapper.content_translation }
+
+    netgen_test.ibexa_search_extra.solr.subdocument_mapper.content.sort:
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper\TestSortContentSubdocumentMapper
+        tags:
+            - { name: netgen.ibexa_search_extra.solr.subdocument_mapper.content }
+
+#    netgen_test.search.solr.slot.subdocument_publish_version:
+#        parent: ezpublish.search.solr.slot
+#        class: '%ezpublish.search.solr.slot.publish_version.class%'
+#        tags:
+#            - { name: ezpublish.search.solr.slot, signal: ContentService\PublishVersionSignal }
+
+    netgen_test.ibexa_search_extra.solr.event_subscriber.child_updates_parent:
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Common\EventSubscriber\TestChildUpdatesParent
+        arguments:
+            - '@ibexa.spi.search'
+            - '@ibexa.api.persistence_handler'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Symfony\Component\EventDispatcher\EventDispatcher:
+        calls:
+            - ['addSubscriber', ['@netgen_test.ibexa_search_extra.solr.event_subscriber.child_updates_parent']]
+            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\ContentEventSubscriber']]
+            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\LocationEventSubscriber']]
+            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\ObjectStateEventSubscriber']]
+            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\SectionEventSubscriber']]
+            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\TrashEventSubscriber']]
+            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\UserEventSubscriber']]
+
+    netgen_test.ibexa_search_extra.solr.field_mapper.content:
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\TestContentFieldMapper
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            - '@Ibexa\Core\Search\Legacy\Content\Handler'
+        tags:
+            - { name: ibexa.search.solr.field.mapper.content }
+
+    netgen_test.ibexa_search_extra.solr.field_mapper.location:
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\TestLocationFieldMapper
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            - '@Ibexa\Core\Search\Legacy\Content\Handler'
+        tags:
+            - { name: ibexa.search.solr.field.mapper.location }
+
+    Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter:
+        class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter
+        tags:
+            - { name: ibexa.field_type.storage.legacy.converter, alias: ezstring }

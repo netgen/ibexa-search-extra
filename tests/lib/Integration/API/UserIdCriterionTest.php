@@ -1,15 +1,17 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\API;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\UserId;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\API;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\UserId;
 
 class UserIdCriterionTest extends BaseTest
 {
-    public function providerForTestFind()
+    public function providerForTestFind(): array
     {
         return [
             [
@@ -25,12 +27,11 @@ class UserIdCriterionTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
-     * @param array $expectedIds
+     * @param int[] $expectedIds
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testFindContent(Query $query, array $expectedIds)
+    public function testFindContent(Query $query, array $expectedIds): void
     {
         $searchService = $this->getSearchService();
 
@@ -42,12 +43,11 @@ class UserIdCriterionTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\LocationQuery $query
-     * @param array $expectedIds
+     * @param int[] $expectedIds
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testFindLocations(LocationQuery $query, $expectedIds)
+    public function testFindLocations(LocationQuery $query, array $expectedIds): void
     {
         $searchService = $this->getSearchService();
 

@@ -1,39 +1,35 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\LocationQuery as LocationQueryCriterion;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Solr\Query\CriterionVisitor;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationQuery as LocationQueryCriterion;
 
 /**
  * Visits the LocationQuery criterion.
  *
- * @see \Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\LocationQuery
+ * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationQuery
  */
 final class LocationQuery extends CriterionVisitor
 {
-    /**
-     * @var \EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor
-     */
-    private $locationQueryCriterionVisitor;
+    private CriterionVisitor $locationQueryCriterionVisitor;
 
-    /**
-     * @param \EzSystems\EzPlatformSolrSearchEngine\Query\CriterionVisitor $locationQueryCriterionVisitor
-     */
     public function __construct(CriterionVisitor $locationQueryCriterionVisitor)
     {
         $this->locationQueryCriterionVisitor = $locationQueryCriterionVisitor;
     }
 
-    public function canVisit(Criterion $criterion)
+    public function canVisit(Criterion $criterion): bool
     {
         return $criterion instanceof LocationQueryCriterion;
     }
 
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null)
+    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
     {
-        /** @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion $filter */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter */
         $filter = $criterion->value;
 
         $condition = $this->escapeQuote(

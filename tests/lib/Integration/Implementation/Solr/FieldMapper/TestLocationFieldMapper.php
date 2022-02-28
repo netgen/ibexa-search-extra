@@ -1,20 +1,20 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper;
+declare(strict_types=1);
 
-use eZ\Publish\SPI\Persistence\Content\Location as SPILocation;
-use EzSystems\EzPlatformSolrSearchEngine\FieldMapper\LocationFieldMapper;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper;
+
+use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
+use Ibexa\Contracts\Solr\FieldMapper\LocationFieldMapper;
 
 class TestLocationFieldMapper extends LocationFieldMapper implements TestFieldMapperInterface
 {
     use TestFieldMapperTrait;
 
     /**
-     * @param \eZ\Publish\SPI\Persistence\Content\Location $location
-     *
-     * @return bool
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function accept(SPILocation $location)
+    public function accept(SPILocation $location): bool
     {
         $content = $this->contentHandler->load($location->contentId);
 
@@ -22,11 +22,11 @@ class TestLocationFieldMapper extends LocationFieldMapper implements TestFieldMa
     }
 
     /**
-     * @param \eZ\Publish\SPI\Persistence\Content\Location $location
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
-     * @return \eZ\Publish\SPI\Search\Field[]|void
+     * @return \eZ\Publish\SPI\Search\Field[]
      */
-    public function mapFields(SPILocation $location)
+    public function mapFields(SPILocation $location): array
     {
         $content = $this->contentHandler->load($location->contentId);
 

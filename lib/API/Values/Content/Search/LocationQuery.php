@@ -1,8 +1,10 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Search;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\LocationQuery as BaseLocationQuery;
+namespace Netgen\IbexaSearchExtra\API\Values\Content\Search;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery as BaseLocationQuery;
 
 class LocationQuery extends BaseLocationQuery
 {
@@ -12,5 +14,5 @@ class LocationQuery extends BaseLocationQuery
      *
      * @var string[]
      */
-    public $extraFields;
+    public array $extraFields;
 }

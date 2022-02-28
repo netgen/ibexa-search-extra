@@ -1,21 +1,18 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+namespace Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 
 /**
  * Sets sort direction on the content score for a content query.
  */
 class Score extends SortClause
 {
-    /**
-     * Constructs a new Score SortClause.
-     *
-     * @param string $sortDirection
-     */
-    public function __construct($sortDirection = Query::SORT_ASC)
+    public function __construct(string $sortDirection = Query::SORT_ASC)
     {
         parent::__construct('score', $sortDirection);
     }

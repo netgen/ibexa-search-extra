@@ -1,6 +1,8 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Container\Compiler;
+declare(strict_types=1);
+
+namespace Netgen\IbexaSearchExtra\Container\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -10,27 +12,27 @@ use Symfony\Component\DependencyInjection\Definition;
 /**
  * This compiler pass will register RawFacetBuilder Domain visitors.
  *
- * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain
- * @see \Netgen\EzPlatformSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor\Aggregate
+ * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain
+ * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor\Aggregate
  */
 final class RawFacetBuilderDomainVisitorPass implements CompilerPassInterface
 {
-    private static $aggregateVisitorId = 'netgen.search.solr.query.common.facet_builder_visitor.raw.domain_visitor.aggregate';
-    private static $visitorTag = 'netgen.search.solr.query.common.facet_builder_visitor.raw.domain_visitor';
+    private static string $aggregateVisitorId = 'netgen.ibexa_search_extra.solr.query.common.facet_builder_visitor.raw.domain_visitor.aggregate';
+    private static string $visitorTag = 'netgen.ibexa_search_extra.solr.query.common.facet_builder_visitor.raw.domain_visitor';
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition(static::$aggregateVisitorId)) {
+        if (!$container->hasDefinition(self::$aggregateVisitorId)) {
             return;
         }
 
-        $aggregateDefinition = $container->getDefinition(static::$aggregateVisitorId);
-        $mapperIds = $container->findTaggedServiceIds(static::$visitorTag);
+        $aggregateDefinition = $container->getDefinition(self::$aggregateVisitorId);
+        $mapperIds = $container->findTaggedServiceIds(self::$visitorTag);
 
         $this->registerMappers($aggregateDefinition, $mapperIds);
     }
 
-    private function registerMappers(Definition $definition, array $visitorIds)
+    private function registerMappers(Definition $definition, array $visitorIds): void
     {
         foreach (array_keys($visitorIds) as $id) {
             $definition->addMethodCall('addVisitor', [new Reference($id)]);

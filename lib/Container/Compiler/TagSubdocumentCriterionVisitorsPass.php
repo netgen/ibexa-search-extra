@@ -1,36 +1,36 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Container\Compiler;
+declare(strict_types=1);
+
+namespace Netgen\IbexaSearchExtra\Container\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\Definition;
 
 /**
- * This compiler pass will add 'netgen.search.solr.criterion_visitor.subdocument_query' tag to the
- * selected eZ Systems provided criterion visitors.
+ * This compiler pass will add 'netgen.ibexa_search_extra.solr.criterion_visitor.subdocument_query' tag to the
+ * selected Ibexa CMS provided criterion visitors.
  */
 final class TagSubdocumentCriterionVisitorsPass implements CompilerPassInterface
 {
-    private static $subdocumentCriterionVisitorTag = 'netgen.search.solr.query.content.criterion_visitor.subdocument_query';
-    private static $criterionVisitorIds = [
-        'ezpublish.search.solr.query.common.criterion_visitor.logical_and',
-        'ezpublish.search.solr.query.common.criterion_visitor.logical_not',
-        'ezpublish.search.solr.query.common.criterion_visitor.logical_or',
-        'ezpublish.search.solr.query.common.criterion_visitor.custom_field_in',
-        'ezpublish.search.solr.query.common.criterion_visitor.custom_field_range',
+    private static string $subdocumentCriterionVisitorTag = 'netgen.ibexa_search_extra.solr.query.content.criterion_visitor.subdocument_query';
+    private static array $criterionVisitorIds = [
+        'Ibexa\Solr\Query\Common\CriterionVisitor\LogicalAnd',
+        'Ibexa\Solr\Query\Common\CriterionVisitor\LogicalNot',
+        'Ibexa\Solr\Query\Common\CriterionVisitor\LogicalOr',
+        'Ibexa\Solr\Query\Common\CriterionVisitor\CustomField\CustomFieldIn',
+        'Ibexa\Solr\Query\Common\CriterionVisitor\CustomField\CustomFieldRange',
     ];
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        foreach (static::$criterionVisitorIds as $id) {
+        foreach (self::$criterionVisitorIds as $id) {
             if (!$container->hasDefinition($id)) {
                 continue;
             }
 
             $definition = $container->getDefinition($id);
-            $definition->addTag(static::$subdocumentCriterionVisitorTag);
+            $definition->addTag(self::$subdocumentCriterionVisitorTag);
         }
     }
 }

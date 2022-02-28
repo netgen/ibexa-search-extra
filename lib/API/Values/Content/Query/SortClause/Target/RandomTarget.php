@@ -1,17 +1,20 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\API\Values\Content\Query\SortClause\Target;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\Target;
+namespace Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\Target;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target;
 
 /**
  * Struct that stores extra target information for a RandomTarget object.
  */
 class RandomTarget extends Target
 {
+    /** @var int|string|null  */
     public $seed;
 
-    public function __construct($seed)
+    public function __construct($seed = null)
     {
         $this->seed = $seed;
     }

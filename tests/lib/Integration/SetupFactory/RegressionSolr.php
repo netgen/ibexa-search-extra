@@ -1,9 +1,11 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\SetupFactory;
+declare(strict_types=1);
 
-use EzSystems\EzPlatformSolrSearchEngine\Tests\SetupFactory\LegacySetupFactory as CoreSolrSetupFactory;
-use Netgen\EzPlatformSearchExtra\Container\Compiler;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\SetupFactory;
+
+use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as CoreSolrSetupFactory;
+use Netgen\IbexaSearchExtra\Container\Compiler;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -15,25 +17,27 @@ class RegressionSolr extends CoreSolrSetupFactory
      *
      * @throws \Exception
      */
-    protected function externalBuildContainer(ContainerBuilder $containerBuilder)
+    protected function externalBuildContainer(ContainerBuilder $containerBuilder): void
     {
-        parent::externalBuildContainer($containerBuilder);
+//        parent::externalBuildContainer($containerBuilder);
+
+        $this->loadSolrSettings($containerBuilder);
 
         $configPath = __DIR__ . '/../../../../lib/Resources/config/';
         $loader = new YamlFileLoader($containerBuilder, new FileLocator($configPath));
-        $loader->load('search/common.yml');
-        $loader->load('search/solr.yml');
+        $loader->load('search/common.yaml');
+        $loader->load('search/solr.yaml');
 
         $testConfigPath = __DIR__ . '/../Resources/config/';
         $loader = new YamlFileLoader($containerBuilder, new FileLocator($testConfigPath));
-        $loader->load('regression_services.yml');
+        $loader->load('regression_services.yaml');
 
         // Needs to be added first because other passes depend on it
         $containerBuilder->addCompilerPass(new Compiler\TagSubdocumentCriterionVisitorsPass());
         $containerBuilder->addCompilerPass(new Compiler\AggregateContentSubdocumentMapperPass());
         $containerBuilder->addCompilerPass(new Compiler\AggregateContentTranslationSubdocumentMapperPass());
+        $containerBuilder->addCompilerPass(new Compiler\AggregateFacetBuilderVisitorPass());
         $containerBuilder->addCompilerPass(new Compiler\AggregateSubdocumentQueryCriterionVisitorPass());
         $containerBuilder->addCompilerPass(new Compiler\RawFacetBuilderDomainVisitorPass());
-        $containerBuilder->addCompilerPass(new Compiler\FieldTypeRegistryPass());
     }
 }

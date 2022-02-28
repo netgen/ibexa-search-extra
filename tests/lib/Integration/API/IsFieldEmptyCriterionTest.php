@@ -1,18 +1,20 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Tests\Integration\API;
+declare(strict_types=1);
 
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentId;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalNot;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
-use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\IsFieldEmpty;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\API;
+
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalNot;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
+use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\IsFieldEmpty;
 
 class IsFieldEmptyCriterionTest extends BaseTest
 {
-    public function providerForTestFind()
+    public function providerForTestFind(): array
     {
         return [
             [
@@ -115,14 +117,9 @@ class IsFieldEmptyCriterionTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testPrepareTestFixtures()
+    public function testPrepareTestFixtures(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -163,13 +160,11 @@ class IsFieldEmptyCriterionTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
-     * @param array $languageFilter
-     * @param array $expectedIds
+     * @param int[] $expectedIds
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testFindContent(Query $query, array $languageFilter, array $expectedIds)
+    public function testFindContent(Query $query, array $languageFilter, array $expectedIds): void
     {
         $searchService = $this->getSearchService(false);
 
@@ -181,13 +176,11 @@ class IsFieldEmptyCriterionTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\LocationQuery $query
-     * @param array $languageFilter
-     * @param array $expectedIds
+     * @param int[] $expectedIds
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function testFindLocations(LocationQuery $query, array $languageFilter, $expectedIds)
+    public function testFindLocations(LocationQuery $query, array $languageFilter, array $expectedIds): void
     {
         $searchService = $this->getSearchService(false);
 

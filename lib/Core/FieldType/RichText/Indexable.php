@@ -1,11 +1,13 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\FieldType\RichText;
+declare(strict_types=1);
 
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
-use eZ\Publish\SPI\FieldType\Indexable as IndexableInterface;
-use eZ\Publish\SPI\Search;
+namespace Netgen\IbexaSearchExtra\Core\FieldType\RichText;
+
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\FieldType\Indexable as IndexableInterface;
+use Ibexa\Contracts\Core\Search;
 use DOMDocument;
 use DOMNode;
 
@@ -52,7 +54,7 @@ final class Indexable implements IndexableInterface
      *
      * @return string
      */
-    private function extractText(DOMNode $node)
+    private function extractText(DOMNode $node): string
     {
         $text = '';
 
@@ -69,29 +71,25 @@ final class Indexable implements IndexableInterface
 
     /**
      * Shorten text from the given $text.
-     *
-     * @param string $text
-     *
-     * @return string
      */
-    private function shortenText($text)
+    private function shortenText(string $text): string
     {
         return mb_substr(trim(strtok($text, "\r\n")), 0, $this->shortTextMaxLength);
     }
 
-    public function getIndexDefinition()
+    public function getIndexDefinition(): array
     {
         return [
             'value' => new Search\FieldType\StringField(),
         ];
     }
 
-    public function getDefaultMatchField()
+    public function getDefaultMatchField(): string
     {
         return 'value';
     }
 
-    public function getDefaultSortField()
+    public function getDefaultSortField(): string
     {
         return $this->getDefaultMatchField();
     }

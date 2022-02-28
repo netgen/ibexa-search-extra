@@ -1,42 +1,28 @@
 <?php
 
-namespace Netgen\EzPlatformSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation;
+declare(strict_types=1);
 
-use eZ\Publish\Core\Persistence\FieldTypeRegistry;
-use eZ\Publish\Core\Search\Common\FieldNameGenerator;
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Persistence\Content\Field as PersistenceField;
-use eZ\Publish\SPI\Persistence\Content\Type as ContentType;
-use eZ\Publish\SPI\Persistence\Content\Type\Handler as ContentTypeHandler;
-use eZ\Publish\SPI\Search\Field;
-use eZ\Publish\SPI\Search\FieldType\BooleanField;
-use EzSystems\EzPlatformSolrSearchEngine\FieldMapper\ContentTranslationFieldMapper;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation;
+
+use Ibexa\Core\Persistence\FieldTypeRegistry;
+use Ibexa\Core\Search\Common\FieldNameGenerator;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Field as PersistenceField;
+use Ibexa\Contracts\Core\Persistence\Content\Type as ContentType;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType\BooleanField;
+use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
 
 /**
  * Indexes information on whether Content field value is empty.
  */
 class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
 {
-    /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler
-     */
-    private $contentTypeHandler;
+    private ContentTypeHandler $contentTypeHandler;
+    private FieldNameGenerator $fieldNameGenerator;
+    private FieldTypeRegistry $fieldTypeRegistry;
 
-    /**
-     * @var \eZ\Publish\Core\Search\Common\FieldNameGenerator
-     */
-    private $fieldNameGenerator;
-
-    /**
-     * @var \Netgen\EzPlatformSearchExtra\Core\Persistence\FieldTypeRegistry
-     */
-    private $fieldTypeRegistry;
-
-    /**
-     * @param \eZ\Publish\SPI\Persistence\Content\Type\Handler $contentTypeHandler
-     * @param \eZ\Publish\Core\Search\Common\FieldNameGenerator $fieldNameGenerator
-     * @param \eZ\Publish\Core\Persistence\FieldTypeRegistry $fieldTypeRegistry
-     */
     public function __construct(
         ContentTypeHandler $contentTypeHandler,
         FieldNameGenerator $fieldNameGenerator,
@@ -47,7 +33,7 @@ class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
         $this->fieldTypeRegistry = $fieldTypeRegistry;
     }
 
-    public function accept(Content $content, $languageCode)
+    public function accept(Content $content, $languageCode): bool
     {
         return true;
     }
@@ -55,9 +41,9 @@ class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
     /**
      * {@inheritdoc}
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function mapFields(Content $content, $languageCode)
+    public function mapFields(Content $content, $languageCode): array
     {
         $fieldsGrouped = [[]];
         $contentType = $this->contentTypeHandler->load(
@@ -75,7 +61,7 @@ class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
         return array_merge(...$fieldsGrouped);
     }
 
-    private function mapField(ContentType $contentType, PersistenceField $field)
+    private function mapField(ContentType $contentType, PersistenceField $field): array
     {
         $fields = [];
 
@@ -84,11 +70,10 @@ class IsFieldEmptyFieldMapper extends ContentTranslationFieldMapper
                 continue;
             }
 
-            /** @var \Netgen\EzPlatformSearchExtra\Core\Persistence\FieldType $fieldType */
             $fieldType = $this->fieldTypeRegistry->getFieldType($fieldDefinition->fieldType);
 
             $fields[] = new Field(
-                $name = $this->fieldNameGenerator->getName(
+                $this->fieldNameGenerator->getName(
                     'ng_is_empty',
                     $fieldDefinition->identifier,
                     $contentType->identifier
