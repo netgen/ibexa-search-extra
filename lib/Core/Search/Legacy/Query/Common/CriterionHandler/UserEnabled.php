@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\UserEnabled as UserEnabledCriterion;
+use function reset;
 
 /**
  * Handles the UserEnabled criterion.
@@ -39,18 +40,18 @@ final class UserEnabled extends CriterionHandler
                 't1',
                 'ezuser_setting',
                 't2',
-                't1.contentobject_id = t2.user_id'
+                't1.contentobject_id = t2.user_id',
             )
             ->where(
                 $subQuery->expr()->eq(
                     't2.is_enabled',
-                    $queryBuilder->createNamedParameter($enabled ? 1 : 0, Types::INTEGER)
-                )
+                    $queryBuilder->createNamedParameter($enabled ? 1 : 0, Types::INTEGER),
+                ),
             );
 
         return $queryBuilder->expr()->in(
             'c.id',
-            $subQuery->getSQL()
+            $subQuery->getSQL(),
         );
     }
 }

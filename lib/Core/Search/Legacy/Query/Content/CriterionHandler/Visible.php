@@ -24,11 +24,11 @@ class Visible extends CriterionHandler
         Criterion $criterion,
         array $languageSettings
     ) {
-        $isHiddenInteger = (int)!$criterion->value[0];
+        $isHiddenInteger = (int) !$criterion->value[0];
 
         return $queryBuilder->expr()->eq(
             'c.is_hidden',
-            $queryBuilder->createNamedParameter($isHiddenInteger, ParameterType::INTEGER)
+            $queryBuilder->createNamedParameter($isHiddenInteger, ParameterType::INTEGER),
         );
     }
 }

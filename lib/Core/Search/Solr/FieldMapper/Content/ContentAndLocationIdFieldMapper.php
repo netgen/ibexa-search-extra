@@ -38,12 +38,12 @@ class ContentAndLocationIdFieldMapper extends ContentFieldMapper
             new Field(
                 'ng_content_id',
                 $content->versionInfo->contentInfo->id,
-                new IntegerField()
+                new IntegerField(),
             ),
             new Field(
                 'ng_location_id',
                 $locationIds,
-                new MultipleIntegerField()
+                new MultipleIntegerField(),
             ),
         ];
     }

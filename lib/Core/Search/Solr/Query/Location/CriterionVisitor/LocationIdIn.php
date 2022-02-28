@@ -8,6 +8,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationId as LocationIdCriterion;
+use function implode;
 
 /**
  * Visits the LocationId criterion.
@@ -26,9 +27,9 @@ class LocationIdIn extends CriterionVisitor
             );
     }
 
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
+    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
-        $values = array();
+        $values = [];
 
         foreach ($criterion->value as $value) {
             $values[] = 'ng_location_id_i:"' . $value . '"';

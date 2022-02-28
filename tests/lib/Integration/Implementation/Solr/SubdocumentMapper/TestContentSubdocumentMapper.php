@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper;
 
 use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Search\Document;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType;
-use Ibexa\Contracts\Core\Search\Document;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
+use function array_key_exists;
+use function uniqid;
 
 /**
  * Note: here we are only simulating indexing children data.
  */
 class TestContentSubdocumentMapper extends ContentSubdocumentMapper
 {
-    static private array $dataMap = [
+    private static array $dataMap = [
         // Administrator Users
         '12' => [
             0 => [
@@ -54,17 +56,17 @@ class TestContentSubdocumentMapper extends ContentSubdocumentMapper
                     new Field(
                         'document_type',
                         'test_content_subdocument',
-                        new FieldType\IdentifierField()
+                        new FieldType\IdentifierField(),
                     ),
                     new Field(
                         'visible',
                         static::$dataMap[$content->versionInfo->contentInfo->id][0]['visible'],
-                        new FieldType\BooleanField()
+                        new FieldType\BooleanField(),
                     ),
                     new Field(
                         'price',
                         static::$dataMap[$content->versionInfo->contentInfo->id][0]['price'],
-                        new FieldType\IntegerField()
+                        new FieldType\IntegerField(),
                     ),
                 ],
             ]),
@@ -74,17 +76,17 @@ class TestContentSubdocumentMapper extends ContentSubdocumentMapper
                     new Field(
                         'document_type',
                         'test_content_subdocument',
-                        new FieldType\IdentifierField()
+                        new FieldType\IdentifierField(),
                     ),
                     new Field(
                         'visible',
                         static::$dataMap[$content->versionInfo->contentInfo->id][1]['visible'],
-                        new FieldType\BooleanField()
+                        new FieldType\BooleanField(),
                     ),
                     new Field(
                         'price',
                         static::$dataMap[$content->versionInfo->contentInfo->id][1]['price'],
-                        new FieldType\IntegerField()
+                        new FieldType\IntegerField(),
                     ),
                 ],
             ]),

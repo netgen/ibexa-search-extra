@@ -22,7 +22,7 @@ class LocationIdFieldMapper extends LocationFieldMapper
             new Field(
                 'ng_location_id',
                 $location->id,
-                new IntegerField()
+                new IntegerField(),
             ),
         ];
     }

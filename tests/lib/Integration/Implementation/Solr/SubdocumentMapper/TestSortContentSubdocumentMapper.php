@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper;
 
 use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Search\Document;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType;
-use Ibexa\Contracts\Core\Search\Document;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
+use function array_key_exists;
+use function uniqid;
 
 /**
  * Note: here we are only simulating indexing children data.
  */
 class TestSortContentSubdocumentMapper extends ContentSubdocumentMapper
 {
-    static private array $dataMap = [
+    private static array $dataMap = [
         // Administrator Users
         '12' => [
             0 => [
@@ -73,12 +75,12 @@ class TestSortContentSubdocumentMapper extends ContentSubdocumentMapper
                     new Field(
                         'document_type',
                         'test_sort_content_subdocument',
-                        new FieldType\IdentifierField()
+                        new FieldType\IdentifierField(),
                     ),
                     new Field(
                         'price',
                         $data['price'],
-                        new FieldType\IntegerField()
+                        new FieldType\IntegerField(),
                     ),
                 ],
             ]);

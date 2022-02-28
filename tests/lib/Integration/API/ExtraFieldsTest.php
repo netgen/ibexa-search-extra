@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\LocationQuery;
 use Netgen\IbexaSearchExtra\Tests\API\FullTextCriterion;
+use function reset;
 
 /**
  * @group extra-fields
@@ -171,6 +172,7 @@ class ExtraFieldsTest extends BaseTest
 
         /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult $searchResult */
         $searchResult = $searchService->findContentInfo($query);
+
         /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit $searchHit */
         $searchHit = $searchResult->searchHits[0];
 
@@ -190,6 +192,7 @@ class ExtraFieldsTest extends BaseTest
 
         /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult $searchResult */
         $searchResult = $searchService->findLocations($query);
+
         /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit $searchHit */
         $searchHit = $searchResult->searchHits[0];
 

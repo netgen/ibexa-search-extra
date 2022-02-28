@@ -56,7 +56,7 @@ class UserLoginCriterionTest extends BaseTest
                             [
                                 'anonymous',
                                 'serverina',
-                            ]
+                            ],
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -72,7 +72,7 @@ class UserLoginCriterionTest extends BaseTest
                             [
                                 'admin',
                                 'serverina',
-                            ]
+                            ],
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -88,7 +88,7 @@ class UserLoginCriterionTest extends BaseTest
                             [
                                 'admin',
                                 'anonymous',
-                            ]
+                            ],
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -101,7 +101,7 @@ class UserLoginCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserLogin(
                             Operator::LIKE,
-                            'a*'
+                            'a*',
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -114,7 +114,7 @@ class UserLoginCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserLogin(
                             Operator::LIKE,
-                            'ad*'
+                            'ad*',
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -127,7 +127,7 @@ class UserLoginCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserLogin(
                             Operator::LIKE,
-                            'anon*'
+                            'anon*',
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -140,7 +140,7 @@ class UserLoginCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserLogin(
                             Operator::LIKE,
-                            '*m*'
+                            '*m*',
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -153,7 +153,7 @@ class UserLoginCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserLogin(
                             Operator::LIKE,
-                            '*mous'
+                            '*mous',
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -166,7 +166,7 @@ class UserLoginCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserLogin(
                             Operator::LIKE,
-                            '*in'
+                            '*in',
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],

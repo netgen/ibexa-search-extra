@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Tests\Kernel;
 
-use Ibexa\Tests\Integration\Core\Repository\SearchServiceLocationTest as KernelSearchServiceLocationTest;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
-use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult as KernelSearchResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit as KernelSearchHit;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult as KernelSearchResult;
+use Ibexa\Tests\Integration\Core\Repository\SearchServiceLocationTest as KernelSearchServiceLocationTest;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult;
+use function is_callable;
 
 class SearchServiceLocationTest extends KernelSearchServiceLocationTest
 {
@@ -17,7 +18,7 @@ class SearchServiceLocationTest extends KernelSearchServiceLocationTest
      * Assert that query result matches the given fixture.
      *
      * @param string $fixture
-     * @param null|callable $closure
+     * @param callable|null $closure
      * @param bool $ignoreScore
      */
     protected function assertQueryFixture(LocationQuery $query, $fixture, $closure = null, $ignoreScore = true): void
@@ -27,7 +28,7 @@ class SearchServiceLocationTest extends KernelSearchServiceLocationTest
                 $data = $this->mapToKernelSearchResult($data);
             }
 
-            if (\is_callable($closure)) {
+            if (is_callable($closure)) {
                 $closure($data);
             }
         };

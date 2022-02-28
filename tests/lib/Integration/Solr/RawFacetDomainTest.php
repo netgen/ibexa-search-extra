@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Tests\Integration\Solr;
 
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\CustomField;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\Facet\RawFacet;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain\BlockChildren;
+use function json_decode;
+use function json_encode;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @group raw
@@ -82,11 +85,11 @@ class RawFacetDomainTest extends BaseTest
                                         ],
                                     ],
                                 ],
-                                JSON_THROW_ON_ERROR
+                                JSON_THROW_ON_ERROR,
                             ),
                             false,
                             512,
-                            JSON_THROW_ON_ERROR
+                            JSON_THROW_ON_ERROR,
                         ),
                     ]),
                 ],
@@ -142,11 +145,11 @@ class RawFacetDomainTest extends BaseTest
                                         ],
                                     ],
                                 ],
-                                JSON_THROW_ON_ERROR
+                                JSON_THROW_ON_ERROR,
                             ),
                             false,
                             512,
-                            JSON_THROW_ON_ERROR
+                            JSON_THROW_ON_ERROR,
                         ),
                     ]),
                 ],
@@ -196,11 +199,11 @@ class RawFacetDomainTest extends BaseTest
                                         ],
                                     ],
                                 ],
-                                JSON_THROW_ON_ERROR
+                                JSON_THROW_ON_ERROR,
                             ),
                             false,
                             512,
-                            JSON_THROW_ON_ERROR
+                            JSON_THROW_ON_ERROR,
                         ),
                     ]),
                 ],
@@ -221,7 +224,7 @@ class RawFacetDomainTest extends BaseTest
 
         $searchResult = $searchService->findContentInfo($query);
 
-        $this->assertEquals($expectedFacets, $searchResult->facets);
+        self::assertEquals($expectedFacets, $searchResult->facets);
     }
 
     protected function getSearchService($initialInitializeFromScratch = true): SearchService

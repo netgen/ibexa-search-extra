@@ -7,6 +7,7 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisito
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationQuery as LocationQueryCriterion;
+use function str_replace;
 
 /**
  * Visits the LocationQuery criterion.
@@ -27,13 +28,13 @@ final class LocationQuery extends CriterionVisitor
         return $criterion instanceof LocationQueryCriterion;
     }
 
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
+    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter */
         $filter = $criterion->value;
 
         $condition = $this->escapeQuote(
-            $this->locationQueryCriterionVisitor->visit($filter)
+            $this->locationQueryCriterionVisitor->visit($filter),
         );
 
         $condition = str_replace('/', '\\/', $condition);

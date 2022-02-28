@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Types;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Types;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as ObjectStateHandler;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
-use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as ObjectStateHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier as ObjectStateIdentifierCriterion;
 
 /**
@@ -59,13 +59,13 @@ final class ObjectStateIdentifier extends CriterionHandler
             ->where(
                 $subQuery->expr()->eq(
                     't1.contentobject_state_id',
-                    $queryBuilder->createNamedParameter($stateId, Types::INTEGER)
-                )
+                    $queryBuilder->createNamedParameter($stateId, Types::INTEGER),
+                ),
             );
 
         return $queryBuilder->expr()->in(
             'c.id',
-            $subQuery->getSQL()
+            $subQuery->getSQL(),
         );
     }
 }

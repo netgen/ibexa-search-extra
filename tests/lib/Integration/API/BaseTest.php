@@ -10,6 +10,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest as APIBaseTest;
 use RuntimeException;
+use function count;
+use function get_class;
 
 abstract class BaseTest extends APIBaseTest
 {
@@ -32,7 +34,7 @@ abstract class BaseTest extends APIBaseTest
                 $foundIds[] = $value->contentId;
             } else {
                 throw new RuntimeException(
-                    'Unknown value type: ' . get_class($value)
+                    'Unknown value type: ' . get_class($value),
                 );
             }
         }
@@ -59,7 +61,7 @@ abstract class BaseTest extends APIBaseTest
                 $foundIds[] = $value->id;
             } else {
                 throw new RuntimeException(
-                    'Unknown value type: ' . get_class($value)
+                    'Unknown value type: ' . get_class($value),
                 );
             }
         }

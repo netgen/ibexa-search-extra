@@ -21,11 +21,11 @@ class ContentNameLike extends CriterionVisitor
         return $criterion instanceof ContentName && $criterion->operator === Operator::LIKE;
     }
 
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
+    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         $value = $criterion->value[0];
 
-        if (strpos($value, '*') !== false) {
+        if (mb_strpos($value, '*') !== false) {
             return 'ng_content_name_s:' . $this->escapeExpressions($value, true);
         }
 

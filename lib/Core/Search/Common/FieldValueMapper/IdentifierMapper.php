@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Common\FieldValueMapper;
 
-use Ibexa\Core\Search\Common\FieldValueMapper;
-use Ibexa\Contracts\Core\Search\FieldType\IdentifierField;
 use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType\IdentifierField;
+use Ibexa\Core\Search\Common\FieldValueMapper;
+use function preg_replace;
 
 /**
  * Common identifier field value mapper implementation, performing different pattern

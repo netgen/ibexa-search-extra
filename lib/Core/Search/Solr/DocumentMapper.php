@@ -8,6 +8,8 @@ use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Solr\DocumentMapper as DocumentMapperInterface;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper;
+use function array_merge;
+use function preg_replace;
 
 /**
  * This DocumentMapper implementation adds support for indexing custom Content subdocuments.
@@ -41,15 +43,25 @@ final class DocumentMapper implements DocumentMapperInterface
         foreach ($block as $contentDocument) {
             $translationSubdocuments = $this->getContentTranslationSubdocuments($content, $contentDocument->languageCode);
 
-            /** @noinspection SlowArrayOperationsInLoopInspection */
+            /* @noinspection SlowArrayOperationsInLoopInspection */
             $contentDocument->documents = array_merge(
                 $contentDocument->documents,
                 $subdocuments,
-                $translationSubdocuments
+                $translationSubdocuments,
             );
         }
 
         return $block;
+    }
+
+    public function generateContentDocumentId($contentId, $languageCode = null): string
+    {
+        return $this->nativeDocumentMapper->generateContentDocumentId($contentId, $languageCode);
+    }
+
+    public function generateLocationDocumentId($locationId, $languageCode = null): string
+    {
+        return $this->nativeDocumentMapper->generateLocationDocumentId($locationId, $languageCode);
     }
 
     /**
@@ -91,15 +103,5 @@ final class DocumentMapper implements DocumentMapperInterface
         }
 
         return [];
-    }
-
-    public function generateContentDocumentId($contentId, $languageCode = null): string
-    {
-        return $this->nativeDocumentMapper->generateContentDocumentId($contentId, $languageCode);
-    }
-
-    public function generateLocationDocumentId($locationId, $languageCode = null): string
-    {
-        return $this->nativeDocumentMapper->generateLocationDocumentId($locationId, $languageCode);
     }
 }

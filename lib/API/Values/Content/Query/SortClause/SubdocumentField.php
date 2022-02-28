@@ -32,7 +32,7 @@ final class SubdocumentField extends SortClause
         string $documentTypeIdentifier,
         string $scoringMode = self::ScoringModeNone,
         string $sortDirection = Query::SORT_ASC,
-        SubdocumentQuery $subdocumentQuery = null
+        ?SubdocumentQuery $subdocumentQuery = null
     ) {
         parent::__construct(
             $fieldName,
@@ -40,8 +40,8 @@ final class SubdocumentField extends SortClause
             new SubdocumentTarget(
                 $documentTypeIdentifier,
                 $scoringMode,
-                $subdocumentQuery
-            )
+                $subdocumentQuery,
+            ),
         );
     }
 }

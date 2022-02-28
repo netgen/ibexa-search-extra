@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor;
 
+use Ibexa\Contracts\Core\Persistence\Content\Section\Handler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
-use Ibexa\Contracts\Core\Persistence\Content\Section\Handler;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SectionIdentifier as SectionIdentifierCriterion;
+use function array_map;
+use function implode;
 
 /**
  * Visits the SectionIdentifier criterion.
@@ -29,23 +31,21 @@ final class SectionIdentifier extends CriterionVisitor
         return
             $criterion instanceof SectionIdentifierCriterion
             && (
-                ($criterion->operator ?: Operator::IN) === Operator::IN ||
-                $criterion->operator === Operator::EQ
+                ($criterion->operator ?: Operator::IN) === Operator::IN
+                || $criterion->operator === Operator::EQ
             );
     }
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
+    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         $handler = $this->sectionHandler;
 
         $conditions = array_map(
-            static function ($value) use ($handler) {
-                return 'content_section_id_id:"' . $handler->loadByIdentifier($value)->id . '"';
-            },
-            $criterion->value
+            static fn ($value) => 'content_section_id_id:"' . $handler->loadByIdentifier($value)->id . '"',
+            $criterion->value,
         );
 
         return '(' . implode(' OR ', $conditions) . ')';

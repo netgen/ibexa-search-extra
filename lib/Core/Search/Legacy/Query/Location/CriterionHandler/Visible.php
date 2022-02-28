@@ -31,15 +31,15 @@ class Visible extends CriterionHandler
             return $expr->andX(
                 $expr->eq(
                     't.is_hidden',
-                    $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)
+                    $queryBuilder->createNamedParameter(0, ParameterType::INTEGER),
                 ),
                 $expr->eq(
                     't.is_invisible',
-                    $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)
+                    $queryBuilder->createNamedParameter(0, ParameterType::INTEGER),
                 ),
                 $expr->eq(
                     'c.is_hidden',
-                    $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)
+                    $queryBuilder->createNamedParameter(0, ParameterType::INTEGER),
                 ),
             );
         }
@@ -47,15 +47,15 @@ class Visible extends CriterionHandler
         return $expr->orX(
             $expr->eq(
                 't.is_hidden',
-                $queryBuilder->createNamedParameter(1, ParameterType::INTEGER)
+                $queryBuilder->createNamedParameter(1, ParameterType::INTEGER),
             ),
             $expr->eq(
                 't.is_invisible',
-                $queryBuilder->createNamedParameter(1, ParameterType::INTEGER)
+                $queryBuilder->createNamedParameter(1, ParameterType::INTEGER),
             ),
             $expr->eq(
                 'c.is_hidden',
-                $queryBuilder->createNamedParameter(1, ParameterType::INTEGER)
+                $queryBuilder->createNamedParameter(1, ParameterType::INTEGER),
             ),
         );
     }

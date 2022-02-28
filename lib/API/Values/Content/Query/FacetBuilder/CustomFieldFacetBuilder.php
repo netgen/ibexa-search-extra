@@ -31,5 +31,5 @@ class CustomFieldFacetBuilder extends FacetBuilder
      *
      * One of CustomFieldFacetBuilder::COUNT_DESC, CustomFieldFacetBuilder::TERM_ASC.
      */
-    public string $sort = CustomFieldFacetBuilder::TERM_ASC;
+    public string $sort = self::TERM_ASC;
 }

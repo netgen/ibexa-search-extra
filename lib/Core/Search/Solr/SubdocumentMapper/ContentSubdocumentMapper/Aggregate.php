@@ -6,6 +6,7 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubd
 
 use Ibexa\Contracts\Core\Persistence\Content;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper;
+use function array_merge;
 
 /**
  * Aggregate implementation of Content subdocument mapper.

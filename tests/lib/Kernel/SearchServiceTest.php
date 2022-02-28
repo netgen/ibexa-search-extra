@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Tests\Kernel;
 
-use Ibexa\Tests\Integration\Core\Repository\SearchServiceTest as KernelSearchServiceTest;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
-use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult as KernelSearchResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit as KernelSearchHit;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult as KernelSearchResult;
+use Ibexa\Tests\Integration\Core\Repository\SearchServiceTest as KernelSearchServiceTest;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult;
 use function is_callable;

@@ -8,6 +8,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use function array_key_exists;
 
 class NetgenIbexaSearchExtraExtension extends Extension
 {
@@ -30,7 +31,7 @@ class NetgenIbexaSearchExtraExtension extends Extension
 
         $loader = new Loader\YamlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../../lib/Resources/config/')
+            new FileLocator(__DIR__ . '/../../lib/Resources/config/'),
         );
 
         if (array_key_exists('IbexaLegacySearchEngineBundle', $activatedBundlesMap)) {
@@ -60,7 +61,7 @@ class NetgenIbexaSearchExtraExtension extends Extension
     {
         $container->setParameter(
             'netgen_ez_platform_search_extra.use_loading_search_result_extractor',
-            $configuration['use_loading_search_result_extractor']
+            $configuration['use_loading_search_result_extractor'],
         );
     }
 
@@ -68,11 +69,11 @@ class NetgenIbexaSearchExtraExtension extends Extension
     {
         $container->setParameter(
             'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.enabled',
-            $configuration['indexable_field_type']['ezrichtext']['enabled']
+            $configuration['indexable_field_type']['ezrichtext']['enabled'],
         );
         $container->setParameter(
             'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.short_text_limit',
-            $configuration['indexable_field_type']['ezrichtext']['short_text_limit']
+            $configuration['indexable_field_type']['ezrichtext']['short_text_limit'],
         );
     }
 }

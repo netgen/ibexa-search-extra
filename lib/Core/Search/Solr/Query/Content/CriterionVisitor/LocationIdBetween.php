@@ -29,7 +29,7 @@ class LocationIdBetween extends CriterionVisitor
             );
     }
 
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
+    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         $start = $criterion->value[0];
         $end = $criterion->value[1] ?? null;

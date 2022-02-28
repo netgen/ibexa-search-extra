@@ -26,7 +26,7 @@ class ContentNameFieldMapper extends ContentTranslationFieldMapper
             new Field(
                 'ng_content_name',
                 $content->versionInfo->names[$languageCode],
-                new StringField()
+                new StringField(),
             ),
         ];
     }

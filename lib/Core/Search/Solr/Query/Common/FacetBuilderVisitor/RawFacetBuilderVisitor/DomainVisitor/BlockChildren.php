@@ -12,6 +12,7 @@ use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Domain\BlockChildren as BlockChildrenDomain;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor;
+use function assert;
 
 class BlockChildren extends DomainVisitor
 {
@@ -29,12 +30,12 @@ class BlockChildren extends DomainVisitor
 
     public function visit(Domain $domain): array
     {
-        \assert($domain instanceof BlockChildrenDomain);
+        assert($domain instanceof BlockChildrenDomain);
 
         return [
             'blockChildren' => "document_type_id:{$domain->parentDocumentIdentifier}",
             'filter' => $this->subdocumentQueryCriterionVisitor->visit(
-                $this->getFilterCriteria($domain)
+                $this->getFilterCriteria($domain),
             ),
         ];
     }

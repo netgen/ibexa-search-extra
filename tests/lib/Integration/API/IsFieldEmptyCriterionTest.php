@@ -44,7 +44,7 @@ class IsFieldEmptyCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 11, 42]),
                         new LogicalNot(
-                            new IsFieldEmpty('description', IsFieldEmpty::IS_NOT_EMPTY)
+                            new IsFieldEmpty('description', IsFieldEmpty::IS_NOT_EMPTY),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -57,7 +57,7 @@ class IsFieldEmptyCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 11, 42]),
                         new LogicalNot(
-                            new IsFieldEmpty('description', IsFieldEmpty::IS_EMPTY)
+                            new IsFieldEmpty('description', IsFieldEmpty::IS_EMPTY),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -92,7 +92,7 @@ class IsFieldEmptyCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 11, 42]),
                         new LogicalNot(
-                            new IsFieldEmpty('description', IsFieldEmpty::IS_NOT_EMPTY)
+                            new IsFieldEmpty('description', IsFieldEmpty::IS_NOT_EMPTY),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -105,7 +105,7 @@ class IsFieldEmptyCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 11, 42]),
                         new LogicalNot(
-                            new IsFieldEmpty('description', IsFieldEmpty::IS_EMPTY)
+                            new IsFieldEmpty('description', IsFieldEmpty::IS_EMPTY),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],

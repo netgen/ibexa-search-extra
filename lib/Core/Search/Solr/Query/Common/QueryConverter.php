@@ -12,7 +12,14 @@ use Ibexa\Solr\Query\FacetFieldVisitor;
 use Ibexa\Solr\Query\QueryConverter as BaseQueryConverter;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\FulltextSpellcheck;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+use function array_filter;
+use function array_map;
+use function array_merge;
+use function implode;
+use function is_array;
 use function json_encode;
+use function spl_object_hash;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * Converts the query tree into an array of Solr query parameters.
@@ -71,7 +78,7 @@ class QueryConverter extends BaseQueryConverter
                     $aggregations[$aggregation->getName()] = $this->aggregationVisitor->visit(
                         $this->aggregationVisitor,
                         $aggregation,
-                        $languageSettings
+                        $languageSettings,
                     );
                 }
             }
@@ -88,7 +95,7 @@ class QueryConverter extends BaseQueryConverter
             $params['spellcheck.count'] = $spellcheckQuery->count;
 
             foreach ($spellcheckQuery->parameters as $key => $value) {
-                $params['spellcheck.'.$key] = $value;
+                $params['spellcheck.' . $key] = $value;
             }
         }
 
@@ -108,8 +115,8 @@ class QueryConverter extends BaseQueryConverter
             ', ',
             array_map(
                 [$this->sortClauseVisitor, 'visit'],
-                $sortClauses
-            )
+                $sortClauses,
+            ),
         );
     }
 
@@ -128,7 +135,7 @@ class QueryConverter extends BaseQueryConverter
 
             $facetParams[$identifier] = $this->facetBuilderVisitor->visitBuilder(
                 $facetBuilder,
-                null
+                null,
             );
         }
 
@@ -144,9 +151,7 @@ class QueryConverter extends BaseQueryConverter
     {
         return array_filter(
             $facetBuilders,
-            static function ($facetBuilder) {
-                return $facetBuilder instanceof RawFacetBuilder;
-            }
+            static fn ($facetBuilder) => $facetBuilder instanceof RawFacetBuilder,
         );
     }
 
@@ -163,10 +168,8 @@ class QueryConverter extends BaseQueryConverter
     private function getOldFacetParams(array $facetBuilders): array
     {
         $facetParamsGrouped = array_map(
-            function ($facetBuilder) {
-                return $this->facetBuilderVisitor->visitBuilder($facetBuilder, spl_object_hash($facetBuilder));
-            },
-            $this->filterOldFacetBuilders($facetBuilders)
+            fn ($facetBuilder) => $this->facetBuilderVisitor->visitBuilder($facetBuilder, spl_object_hash($facetBuilder)),
+            $this->filterOldFacetBuilders($facetBuilders),
         );
 
         return $this->formatOldFacetParams($facetParamsGrouped);
@@ -181,9 +184,7 @@ class QueryConverter extends BaseQueryConverter
     {
         return array_filter(
             $facetBuilders,
-            static function ($facetBuilder) {
-                return !($facetBuilder instanceof RawFacetBuilder);
-            }
+            static fn ($facetBuilder) => !($facetBuilder instanceof RawFacetBuilder),
         );
     }
 

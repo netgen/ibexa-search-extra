@@ -11,6 +11,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion;
 use Netgen\IbexaSearchExtra\Tests\API\FullTextCriterion;
+use function getenv;
+use function in_array;
+use function reset;
 
 /**
  * @group fulltext-spellcheck
@@ -66,8 +69,8 @@ class FulltextSpellcheckCriterionTest extends BaseTest
                             'originalWord' => 'success',
                             'suggestedWord' => 'successful',
                             'frequency' => 1,
-                        ])
-                    ]
+                        ]),
+                    ],
                 ],
             ],
             [
@@ -81,8 +84,8 @@ class FulltextSpellcheckCriterionTest extends BaseTest
                             'originalWord' => 'medioccre',
                             'suggestedWord' => 'mediocre',
                             'frequency' => 1,
-                        ])
-                    ]
+                        ]),
+                    ],
                 ],
             ],
             [
@@ -172,7 +175,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
 
         $this->correctFrequencyForCloudSetup($expectedWordSuggestions);
 
-        $this->assertEquals($expectedWordSuggestions, $searchResult->suggestion->getSuggestions());
+        self::assertEquals($expectedWordSuggestions, $searchResult->suggestion->getSuggestions());
     }
 
     /**
@@ -191,7 +194,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
 
         $this->correctFrequencyForCloudSetup($expectedWordSuggestions);
 
-        $this->assertEquals($expectedWordSuggestions, $searchResult->suggestion->getSuggestions());
+        self::assertEquals($expectedWordSuggestions, $searchResult->suggestion->getSuggestions());
     }
 
     protected function getSearchService($initialInitializeFromScratch = true): SearchService
@@ -201,7 +204,7 @@ class FulltextSpellcheckCriterionTest extends BaseTest
 
     /**
      * For some reason frequency is doubled in the cloud and shared setups.
-     * TODO: investigate why
+     * TODO: investigate why.
      *
      * @param \Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion[] $wordSuggestions
      */

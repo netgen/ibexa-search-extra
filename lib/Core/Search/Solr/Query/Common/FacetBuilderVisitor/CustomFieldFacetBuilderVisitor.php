@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
 use Ibexa\Solr\Query\FacetBuilderVisitor;
 use Ibexa\Solr\Query\FacetFieldVisitor;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
-use Netgen\IbexaSearchExtra\API\Values\Content\Search\Facet\CustomFieldFacet;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\Facet\CustomFieldFacet;
 
 /**
  * Visits the CustomField facet builder.
@@ -20,25 +20,6 @@ class CustomFieldFacetBuilderVisitor extends FacetBuilderVisitor implements Face
     public function canVisit(FacetBuilder $facetBuilder): bool
     {
         return $facetBuilder instanceof CustomFieldFacetBuilder;
-    }
-
-    /**
-     * Returns facet sort parameter.
-     *
-     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder $facetBuilder
-     *
-     * @return string
-     */
-    private function getSort(CustomFieldFacetBuilder $facetBuilder): string
-    {
-        switch ($facetBuilder->sort) {
-            case CustomFieldFacetBuilder::COUNT_DESC:
-                return 'count';
-            case CustomFieldFacetBuilder::TERM_ASC:
-                return 'index';
-        }
-
-        return 'index';
     }
 
     public function mapField($field, array $data, FacetBuilder $facetBuilder): CustomFieldFacet
@@ -60,5 +41,25 @@ class CustomFieldFacetBuilderVisitor extends FacetBuilderVisitor implements Face
             "f.{$fieldName}.facet.mincount" => $facetBuilder->minCount,
             "f.{$fieldName}.facet.sort" => $this->getSort($facetBuilder),
         ];
+    }
+
+    /**
+     * Returns facet sort parameter.
+     *
+     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder $facetBuilder
+     *
+     * @return string
+     */
+    private function getSort(CustomFieldFacetBuilder $facetBuilder): string
+    {
+        switch ($facetBuilder->sort) {
+            case CustomFieldFacetBuilder::COUNT_DESC:
+                return 'count';
+
+            case CustomFieldFacetBuilder::TERM_ASC:
+                return 'index';
+        }
+
+        return 'index';
     }
 }

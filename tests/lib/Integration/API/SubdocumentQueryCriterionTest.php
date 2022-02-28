@@ -31,7 +31,7 @@ class SubdocumentQueryCriterionTest extends BaseTest
                             new LogicalAnd([
                                 new CustomField('visible_b', Operator::EQ, true),
                                 new CustomField('price_i', Operator::EQ, 40),
-                            ])
+                            ]),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -49,8 +49,8 @@ class SubdocumentQueryCriterionTest extends BaseTest
                                 new LogicalAnd([
                                     new CustomField('visible_b', Operator::EQ, true),
                                     new CustomField('price_i', Operator::EQ, 40),
-                                ])
-                            )
+                                ]),
+                            ),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -68,8 +68,8 @@ class SubdocumentQueryCriterionTest extends BaseTest
                                 new LogicalAnd([
                                     new CustomField('visible_b', Operator::EQ, false),
                                     new CustomField('price_i', Operator::EQ, 50),
-                                ])
-                            )
+                                ]),
+                            ),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -87,8 +87,8 @@ class SubdocumentQueryCriterionTest extends BaseTest
                                 new LogicalAnd([
                                     new CustomField('visible_b', Operator::EQ, true),
                                     new CustomField('price_i', Operator::EQ, 40),
-                                ])
-                            )
+                                ]),
+                            ),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -106,8 +106,8 @@ class SubdocumentQueryCriterionTest extends BaseTest
                                 new LogicalAnd([
                                     new CustomField('visible_b', Operator::EQ, false),
                                     new CustomField('price_i', Operator::EQ, 50),
-                                ])
-                            )
+                                ]),
+                            ),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -121,7 +121,7 @@ class SubdocumentQueryCriterionTest extends BaseTest
                         new ContentId([4, 12, 13, 42, 59]),
                         new SubdocumentQuery(
                             'test_content_translation_subdocument',
-                            new CustomField('visible_b', Operator::EQ, true)
+                            new CustomField('visible_b', Operator::EQ, true),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -135,7 +135,7 @@ class SubdocumentQueryCriterionTest extends BaseTest
                         new ContentId([4, 12, 13, 42, 59]),
                         new SubdocumentQuery(
                             'test_content_translation_subdocument',
-                            new CustomField('visible_b', Operator::EQ, true)
+                            new CustomField('visible_b', Operator::EQ, true),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -152,7 +152,7 @@ class SubdocumentQueryCriterionTest extends BaseTest
                             new LogicalAnd([
                                 new CustomField('visible_b', Operator::EQ, true),
                                 new CustomField('price_i', Operator::EQ, 40),
-                            ])
+                            ]),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -170,8 +170,8 @@ class SubdocumentQueryCriterionTest extends BaseTest
                                 new LogicalAnd([
                                     new CustomField('visible_b', Operator::EQ, true),
                                     new CustomField('price_i', Operator::EQ, 40),
-                                ])
-                            )
+                                ]),
+                            ),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -189,8 +189,8 @@ class SubdocumentQueryCriterionTest extends BaseTest
                                 new LogicalAnd([
                                     new CustomField('visible_b', Operator::EQ, false),
                                     new CustomField('price_i', Operator::EQ, 50),
-                                ])
-                            )
+                                ]),
+                            ),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -208,8 +208,8 @@ class SubdocumentQueryCriterionTest extends BaseTest
                                 new LogicalAnd([
                                     new CustomField('visible_b', Operator::EQ, true),
                                     new CustomField('price_i', Operator::EQ, 40),
-                                ])
-                            )
+                                ]),
+                            ),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -227,8 +227,8 @@ class SubdocumentQueryCriterionTest extends BaseTest
                                 new LogicalAnd([
                                     new CustomField('visible_b', Operator::EQ, false),
                                     new CustomField('price_i', Operator::EQ, 50),
-                                ])
-                            )
+                                ]),
+                            ),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -263,7 +263,7 @@ class SubdocumentQueryCriterionTest extends BaseTest
 
         $this->refreshSearch($repository);
 
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 
     /**

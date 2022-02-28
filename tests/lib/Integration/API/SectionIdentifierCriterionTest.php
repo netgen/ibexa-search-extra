@@ -62,7 +62,7 @@ class SectionIdentifierCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
                         new LogicalNot(
-                            new SectionIdentifier('standard')
+                            new SectionIdentifier('standard'),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -74,7 +74,7 @@ class SectionIdentifierCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
                         new LogicalNot(
-                            new SectionIdentifier('users')
+                            new SectionIdentifier('users'),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -86,7 +86,7 @@ class SectionIdentifierCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
                         new LogicalNot(
-                            new SectionIdentifier(['standard', 'users'])
+                            new SectionIdentifier(['standard', 'users']),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -98,7 +98,7 @@ class SectionIdentifierCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
                         new LogicalNot(
-                            new SectionIdentifier('setup')
+                            new SectionIdentifier('setup'),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],

@@ -35,7 +35,7 @@ class IsFieldEmpty extends Criterion
     {
         if ($value !== self::IS_EMPTY && $value !== self::IS_NOT_EMPTY) {
             throw new InvalidArgumentException(
-                "Invalid has field content value $value"
+                "Invalid has field content value {$value}",
             );
         }
 
@@ -48,7 +48,7 @@ class IsFieldEmpty extends Criterion
             new Specifications(
                 Operator::EQ,
                 Specifications::FORMAT_SINGLE,
-                Specifications::TYPE_INTEGER
+                Specifications::TYPE_INTEGER,
             ),
         ];
     }

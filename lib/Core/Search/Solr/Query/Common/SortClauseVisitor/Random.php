@@ -7,6 +7,7 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisito
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Solr\Query\SortClauseVisitor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\Random as RandomSortClause;
+use function mt_rand;
 
 class Random extends SortClauseVisitor
 {

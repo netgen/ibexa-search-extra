@@ -4,21 +4,26 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
 
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult as APISearchResult;
-use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
-use Ibexa\Contracts\Core\Persistence\Content\Location;
-use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
-use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use IBexa\Contracts\Solr\ResultExtractor\AggregationResultExtractor;
 use IBexa\Solr\Gateway\EndpointRegistry;
 use IBexa\Solr\Query\FacetFieldVisitor;
 use IBexa\Solr\ResultExtractor as BaseResultExtractor;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\Suggestion;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
-use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult;
 use RuntimeException;
+use function array_key_exists;
+use function count;
+use function get_object_vars;
+use function method_exists;
+use function property_exists;
 
 /**
  * The Loading Result Extractor extracts the value object from the Solr search hit data
@@ -45,6 +50,27 @@ final class LoadingResultExtractor extends ResultExtractor
         parent::__construct($facetBuilderVisitor, $aggregationResultExtractor, $endpointRegistry);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \RuntimeException If search $hit could not be handled
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function extractHit($hit)
+    {
+        if ($hit->document_type_id === 'content') {
+            return $this->contentHandler->loadContentInfo($hit->content_id_id);
+        }
+
+        if ($hit->document_type_id === 'location') {
+            return $this->locationHandler->load($hit->location_id_id);
+        }
+
+        throw new RuntimeException(
+            "Extracting documents of type '{$hit->document_type_id}' is not handled.",
+        );
+    }
+
     protected function extractSearchResult(
         $data,
         array $facetBuilders = [],
@@ -55,7 +81,7 @@ final class LoadingResultExtractor extends ResultExtractor
             $data,
             $facetBuilders,
             $aggregations,
-            $languageFilter
+            $languageFilter,
         );
         $searchResult = new SearchResult(get_object_vars($searchResult));
         $this->replaceExtractedValuesByLoadedValues($searchResult);
@@ -67,11 +93,6 @@ final class LoadingResultExtractor extends ResultExtractor
         return $searchResult;
     }
 
-    /**
-     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult $searchResult
-     *
-     * @return void
-     */
     private function replaceExtractedValuesByLoadedValues(SearchResult $searchResult): void
     {
         $valueObjectMapById = $this->loadValueObjectMapById($searchResult);
@@ -89,9 +110,7 @@ final class LoadingResultExtractor extends ResultExtractor
     }
 
     /**
-     * @param \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult $searchResult
-     *
-     * @return array|\Ibexa\Contracts\Core\Persistence\Content\ContentInfo[]
+     * @return\Ibexa\Contracts\Core\Persistence\Content\ContentInfo[]
      */
     private function loadValueObjectMapById(SearchResult $searchResult): array
     {
@@ -108,6 +127,9 @@ final class LoadingResultExtractor extends ResultExtractor
         return $this->loadLocationMapByIdList($idList);
     }
 
+    /**
+     * @return int[]
+     */
     private function extractIdList(SearchResult $searchResult): array
     {
         $idList = [];
@@ -132,6 +154,11 @@ final class LoadingResultExtractor extends ResultExtractor
         throw new RuntimeException("Couldn't handle given value object.");
     }
 
+    /**
+     * @param int[] $contentIdList
+     *
+     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[]
+     */
     private function loadContentInfoMapByIdList(array $contentIdList): array
     {
         if (method_exists($this->contentHandler, 'loadContentInfoList')) {
@@ -199,7 +226,7 @@ final class LoadingResultExtractor extends ResultExtractor
 
         for ($i = 0; $i < (count($receivedSuggestions) - 1); $i += 2) {
             $originalWord = $receivedSuggestions[$i];
-            $receivedWordSuggestions = $receivedSuggestions[$i+1];
+            $receivedWordSuggestions = $receivedSuggestions[$i + 1];
 
             if (!property_exists($receivedWordSuggestions, 'suggestion') || empty($receivedWordSuggestions->suggestion)) {
                 continue;
@@ -215,26 +242,5 @@ final class LoadingResultExtractor extends ResultExtractor
         }
 
         return new Suggestion($wordSuggestions);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \RuntimeException If search $hit could not be handled
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     */
-    public function extractHit($hit)
-    {
-        if ($hit->document_type_id === 'content') {
-            return $this->contentHandler->loadContentInfo($hit->content_id_id);
-        }
-
-        if ($hit->document_type_id === 'location') {
-            return $this->locationHandler->load($hit->location_id_id);
-        }
-
-        throw new RuntimeException(
-            "Extracting documents of type '$hit->document_type_id' is not handled."
-        );
     }
 }

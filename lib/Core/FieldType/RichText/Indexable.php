@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\FieldType\RichText;
 
-use Ibexa\Contracts\Core\Persistence\Content\Field;
-use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
-use Ibexa\Contracts\Core\FieldType\Indexable as IndexableInterface;
-use Ibexa\Contracts\Core\Search;
 use DOMDocument;
 use DOMNode;
+use Ibexa\Contracts\Core\FieldType\Indexable as IndexableInterface;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\Search;
+use function mb_substr;
+use function strtok;
+use function trim;
 
 /**
  * Indexable definition for RichText field type.
@@ -37,14 +40,31 @@ final class Indexable implements IndexableInterface
             new Search\Field(
                 'fulltext',
                 $text,
-                new Search\FieldType\FullTextField()
+                new Search\FieldType\FullTextField(),
             ),
             new Search\Field(
                 'value',
                 $shortText,
-                new Search\FieldType\StringField()
+                new Search\FieldType\StringField(),
             ),
         ];
+    }
+
+    public function getIndexDefinition(): array
+    {
+        return [
+            'value' => new Search\FieldType\StringField(),
+        ];
+    }
+
+    public function getDefaultMatchField(): string
+    {
+        return 'value';
+    }
+
+    public function getDefaultSortField(): string
+    {
+        return $this->getDefaultMatchField();
     }
 
     /**
@@ -75,22 +95,5 @@ final class Indexable implements IndexableInterface
     private function shortenText(string $text): string
     {
         return mb_substr(trim(strtok($text, "\r\n")), 0, $this->shortTextMaxLength);
-    }
-
-    public function getIndexDefinition(): array
-    {
-        return [
-            'value' => new Search\FieldType\StringField(),
-        ];
-    }
-
-    public function getDefaultMatchField(): string
-    {
-        return 'value';
-    }
-
-    public function getDefaultSortField(): string
-    {
-        return $this->getDefaultMatchField();
     }
 }

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\Field as PersistenceField;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type as ContentType;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\BooleanField;
 use Ibexa\Contracts\Core\Search\FieldType\IntegerField;
@@ -52,7 +52,7 @@ trait TestFieldMapperTrait
     public function accepts(SPIContent $content): bool
     {
         $contentType = $this->contentTypeHandler->load(
-            $content->versionInfo->contentInfo->contentTypeId
+            $content->versionInfo->contentInfo->contentTypeId,
         );
 
         return $contentType->identifier === self::CONTENT_TYPE_IDENTIFIER;
@@ -66,7 +66,7 @@ trait TestFieldMapperTrait
     public function getFields(SPIContent $content): array
     {
         $contentType = $this->contentTypeHandler->load(
-            $content->versionInfo->contentInfo->contentTypeId
+            $content->versionInfo->contentInfo->contentTypeId,
         );
 
         $commentCount = $this->getCommentCount($content);
@@ -77,22 +77,22 @@ trait TestFieldMapperTrait
             new Field(
                 'extra_prefixed_name',
                 $prefixedName,
-                new StringField()
+                new StringField(),
             ),
             new Field(
                 'extra_comment_count',
                 $commentCount,
-                new IntegerField()
+                new IntegerField(),
             ),
             new Field(
                 'extra_has_comments',
                 $commentCount > 0,
-                new BooleanField()
+                new BooleanField(),
             ),
             new Field(
                 'extra_content_type_identifier',
                 $contentType->identifier,
-                new StringField()
+                new StringField(),
             ),
         ];
     }
@@ -108,7 +108,7 @@ trait TestFieldMapperTrait
         }
 
         throw new RuntimeException(
-            "Could not extract field '$identifier'"
+            "Could not extract field '{$identifier}'",
         );
     }
 
@@ -121,7 +121,7 @@ trait TestFieldMapperTrait
         }
 
         throw new RuntimeException(
-            "Could not extract field definition '$identifier'"
+            "Could not extract field definition '{$identifier}'",
         );
     }
 

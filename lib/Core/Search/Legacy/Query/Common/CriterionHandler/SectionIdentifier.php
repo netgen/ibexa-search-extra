@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SectionHandler;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
-use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SectionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SectionIdentifier as SectionIdentifierCriterion;
 
 /**
@@ -55,7 +55,7 @@ final class SectionIdentifier extends CriterionHandler
 
         return $queryBuilder->expr()->in(
             'c.section_id',
-            $queryBuilder->createNamedParameter($ids, Connection::PARAM_INT_ARRAY)
+            $queryBuilder->createNamedParameter($ids, Connection::PARAM_INT_ARRAY),
         );
     }
 }

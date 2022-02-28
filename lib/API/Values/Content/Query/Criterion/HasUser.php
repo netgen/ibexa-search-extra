@@ -27,7 +27,7 @@ class HasUser extends Criterion
             new Specifications(
                 Operator::EQ,
                 Specifications::FORMAT_SINGLE,
-                Specifications::TYPE_BOOLEAN
+                Specifications::TYPE_BOOLEAN,
             ),
         ];
     }
