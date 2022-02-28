@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location\Id as LocationId;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\Visible;
+use function reset;
 
 class VisibleCriterionTest extends BaseTest
 {
@@ -21,24 +22,24 @@ class VisibleCriterionTest extends BaseTest
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
         $this->refreshSearch($repository);
 
         $searchResultVisible = $searchService->findContent($this->getContentQuery(true));
 
-        $this->assertSame(2, $searchResultVisible->totalCount);
-        /** @var $content1 \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $content2 \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        self::assertSame(2, $searchResultVisible->totalCount);
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $content1 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $content2 */
         $content1 = $searchResultVisible->searchHits[0]->valueObject;
         $content2 = $searchResultVisible->searchHits[1]->valueObject;
-        $this->assertSame($contentA->id, $content1->id);
-        $this->assertSame($contentB->id, $content2->id);
+        self::assertSame($contentA->id, $content1->id);
+        self::assertSame($contentB->id, $content2->id);
 
         $searchResultNotVisible = $searchService->findContent($this->getContentQuery(false));
 
-        $this->assertSame(0, $searchResultNotVisible->totalCount);
+        self::assertSame(0, $searchResultNotVisible->totalCount);
     }
 
     /**
@@ -49,8 +50,8 @@ class VisibleCriterionTest extends BaseTest
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentA->contentInfo);
@@ -58,17 +59,19 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findContent($this->getContentQuery(false));
 
-        $this->assertSame(1, $searchResultNotVisible->totalCount);
-        /** @var $content1 \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        self::assertSame(1, $searchResultNotVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $content1 */
         $content1 = $searchResultNotVisible->searchHits[0]->valueObject;
-        $this->assertSame($contentA->id, $content1->id);
+        self::assertSame($contentA->id, $content1->id);
 
         $searchResultVisible = $searchService->findContent($this->getContentQuery(true));
 
-        $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $content2 \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        self::assertSame(1, $searchResultVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $content2 */
         $content2 = $searchResultVisible->searchHits[0]->valueObject;
-        $this->assertSame($contentB->id, $content2->id);
+        self::assertSame($contentB->id, $content2->id);
     }
 
     /**
@@ -78,24 +81,24 @@ class VisibleCriterionTest extends BaseTest
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
         $this->refreshSearch($repository);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(2, $searchResultVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(2, $searchResultVisible->totalCount);
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
         $location2 = $searchResultVisible->searchHits[1]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(0, $searchResultNotVisible->totalCount);
+        self::assertSame(0, $searchResultNotVisible->totalCount);
     }
 
     /**
@@ -106,8 +109,8 @@ class VisibleCriterionTest extends BaseTest
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationB = $locationService->loadLocation($contentB->contentInfo->mainLocationId);
@@ -116,17 +119,19 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(1, $searchResultNotVisible->totalCount);
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(1, $searchResultNotVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(1, $searchResultVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
@@ -137,8 +142,8 @@ class VisibleCriterionTest extends BaseTest
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationA = $locationService->loadLocation($contentA->contentInfo->mainLocationId);
@@ -147,17 +152,17 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(2, $searchResultNotVisible->totalCount);
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
         $location1 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location2 = $searchResultNotVisible->searchHits[1]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(0, $searchResultVisible->totalCount);
+        self::assertSame(0, $searchResultVisible->totalCount);
     }
 
     /**
@@ -168,8 +173,8 @@ class VisibleCriterionTest extends BaseTest
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentB->contentInfo);
@@ -177,17 +182,19 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(1, $searchResultNotVisible->totalCount);
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(1, $searchResultNotVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(1, $searchResultVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
@@ -198,8 +205,8 @@ class VisibleCriterionTest extends BaseTest
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentA->contentInfo);
@@ -207,17 +214,17 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(2, $searchResultNotVisible->totalCount);
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
         $location1 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location2 = $searchResultNotVisible->searchHits[1]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(0, $searchResultVisible->totalCount);
+        self::assertSame(0, $searchResultVisible->totalCount);
     }
 
     /**
@@ -228,8 +235,8 @@ class VisibleCriterionTest extends BaseTest
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentA->contentInfo);
@@ -238,17 +245,17 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(0, $searchResultNotVisible->totalCount);
+        self::assertSame(0, $searchResultNotVisible->totalCount);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(2, $searchResultVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(2, $searchResultVisible->totalCount);
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
         $location2 = $searchResultVisible->searchHits[1]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
     }
 
     /**
@@ -260,8 +267,8 @@ class VisibleCriterionTest extends BaseTest
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationA = $locationService->loadLocation($contentA->contentInfo->mainLocationId);
@@ -272,17 +279,17 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(2, $searchResultNotVisible->totalCount);
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
         $location1 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location2 = $searchResultNotVisible->searchHits[1]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(0, $searchResultVisible->totalCount);
+        self::assertSame(0, $searchResultVisible->totalCount);
     }
 
     /**
@@ -294,8 +301,8 @@ class VisibleCriterionTest extends BaseTest
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationB = $locationService->loadLocation($contentB->contentInfo->mainLocationId);
@@ -306,17 +313,19 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(1, $searchResultNotVisible->totalCount);
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(1, $searchResultNotVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(1, $searchResultVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
@@ -328,8 +337,8 @@ class VisibleCriterionTest extends BaseTest
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
@@ -339,20 +348,21 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(2, $searchResultNotVisible->totalCount);
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
         $location1 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location2 = $searchResultNotVisible->searchHits[1]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location3 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(1, $searchResultVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location3 */
         $location3 = $searchResultVisible->searchHits[0]->valueObject;
-        $this->assertSame($additionalLocation->id, $location3->id);
+        self::assertSame($additionalLocation->id, $location3->id);
     }
 
     /**
@@ -364,8 +374,8 @@ class VisibleCriterionTest extends BaseTest
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentA->contentInfo);
@@ -375,20 +385,21 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(2, $searchResultNotVisible->totalCount);
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
         $location1 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location2 = $searchResultNotVisible->searchHits[1]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location3 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(1, $searchResultVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location3 */
         $location3 = $searchResultVisible->searchHits[0]->valueObject;
-        $this->assertSame($additionalLocation->id, $location3->id);
+        self::assertSame($additionalLocation->id, $location3->id);
     }
 
     /**
@@ -400,8 +411,8 @@ class VisibleCriterionTest extends BaseTest
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
@@ -411,20 +422,21 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location3 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(2, $searchResultNotVisible->totalCount);
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location3 */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location3 = $searchResultNotVisible->searchHits[1]->valueObject;
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
-        $this->assertSame($additionalLocation->id, $location3->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($additionalLocation->id, $location3->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(1, $searchResultVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
@@ -436,8 +448,8 @@ class VisibleCriterionTest extends BaseTest
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentB->contentInfo);
@@ -447,20 +459,21 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(2, $searchResultNotVisible->totalCount);
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location3 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(2, $searchResultNotVisible->totalCount);
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location3 */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location3 = $searchResultNotVisible->searchHits[1]->valueObject;
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
-        $this->assertSame($additionalLocation->id, $location3->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($additionalLocation->id, $location3->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(1, $searchResultVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
@@ -472,8 +485,8 @@ class VisibleCriterionTest extends BaseTest
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $contentService->hideContent($contentB->contentInfo);
@@ -485,23 +498,25 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(3, $searchResultNotVisible->totalCount);
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location3 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location4 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(3, $searchResultNotVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location3 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location4 */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location3 = $searchResultNotVisible->searchHits[1]->valueObject;
         $location4 = $searchResultNotVisible->searchHits[2]->valueObject;
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
-        $this->assertSame($additionalLocation1->id, $location3->id);
-        $this->assertSame($additionalLocation2->id, $location4->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($additionalLocation1->id, $location3->id);
+        self::assertSame($additionalLocation2->id, $location4->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(1, $searchResultVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
@@ -513,8 +528,8 @@ class VisibleCriterionTest extends BaseTest
         $searchService = $repository->getSearchService();
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
-        /** @var $contentA \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-        /** @var $contentB \Ibexa\Contracts\Core\Repository\Values\Content\Content */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentA */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentB */
         [$contentA, $contentB] = $this->prepareTestFixtures();
 
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
@@ -526,49 +541,25 @@ class VisibleCriterionTest extends BaseTest
 
         $searchResultNotVisible = $searchService->findLocations($this->getLocationQuery(false));
 
-        $this->assertSame(3, $searchResultNotVisible->totalCount);
-        /** @var $location2 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location3 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-        /** @var $location4 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(3, $searchResultNotVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location3 */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location4 */
         $location2 = $searchResultNotVisible->searchHits[0]->valueObject;
         $location3 = $searchResultNotVisible->searchHits[1]->valueObject;
         $location4 = $searchResultNotVisible->searchHits[2]->valueObject;
-        $this->assertSame($contentB->contentInfo->mainLocationId, $location2->id);
-        $this->assertSame($additionalLocation1->id, $location3->id);
-        $this->assertSame($additionalLocation2->id, $location4->id);
+        self::assertSame($contentB->contentInfo->mainLocationId, $location2->id);
+        self::assertSame($additionalLocation1->id, $location3->id);
+        self::assertSame($additionalLocation2->id, $location4->id);
 
         $searchResultVisible = $searchService->findLocations($this->getLocationQuery(true));
 
-        $this->assertSame(1, $searchResultVisible->totalCount);
-        /** @var $location1 \Ibexa\Contracts\Core\Repository\Values\Content\Location */
+        self::assertSame(1, $searchResultVisible->totalCount);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1 */
         $location1 = $searchResultVisible->searchHits[0]->valueObject;
-        $this->assertSame($contentA->contentInfo->mainLocationId, $location1->id);
-    }
-
-    protected function getContentQuery(bool $visible): Query
-    {
-        return new Query([
-            'filter' => new LogicalAnd([
-                new ContentTypeIdentifier('stump'),
-                new Visible($visible),
-            ]),
-            'sortClauses' => [
-                new ContentId(Query::SORT_ASC),
-            ],
-        ]);
-    }
-
-    protected function getLocationQuery(bool $visible): LocationQuery
-    {
-        return new LocationQuery([
-            'filter' => new LogicalAnd([
-                new ContentTypeIdentifier('stump'),
-                new Visible($visible),
-            ]),
-            'sortClauses' => [
-                new LocationId(Query::SORT_ASC),
-            ],
-        ]);
+        self::assertSame($contentA->contentInfo->mainLocationId, $location1->id);
     }
 
     /**
@@ -607,5 +598,31 @@ class VisibleCriterionTest extends BaseTest
         $contentB = $contentService->publishVersion($contentDraft->versionInfo);
 
         return [$contentA, $contentB];
+    }
+
+    protected function getContentQuery(bool $visible): Query
+    {
+        return new Query([
+            'filter' => new LogicalAnd([
+                new ContentTypeIdentifier('stump'),
+                new Visible($visible),
+            ]),
+            'sortClauses' => [
+                new ContentId(Query::SORT_ASC),
+            ],
+        ]);
+    }
+
+    protected function getLocationQuery(bool $visible): LocationQuery
+    {
+        return new LocationQuery([
+            'filter' => new LogicalAnd([
+                new ContentTypeIdentifier('stump'),
+                new Visible($visible),
+            ]),
+            'sortClauses' => [
+                new LocationId(Query::SORT_ASC),
+            ],
+        ]);
     }
 }

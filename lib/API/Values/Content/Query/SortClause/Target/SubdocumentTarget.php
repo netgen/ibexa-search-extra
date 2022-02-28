@@ -40,7 +40,7 @@ final class SubdocumentTarget extends Target
     public function __construct(
         string $documentTypeIdentifier,
         string $scoringMode,
-        SubdocumentQuery $subdocumentQuery = null
+        ?SubdocumentQuery $subdocumentQuery = null
     ) {
         $this->documentTypeIdentifier = $documentTypeIdentifier;
         $this->scoringMode = $scoringMode;

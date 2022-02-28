@@ -8,6 +8,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ContentId as ContentIdCriterion;
+use function implode;
 
 /**
  * Visits the ContentId criterion.
@@ -26,9 +27,9 @@ final class ContentIdIn extends CriterionVisitor
             );
     }
 
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
+    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
-        $values = array();
+        $values = [];
 
         foreach ($criterion->value as $value) {
             $values[] = 'ng_content_id_i:"' . $value . '"';

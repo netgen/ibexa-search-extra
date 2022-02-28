@@ -22,7 +22,7 @@ class ContentVisibilityFieldMapper extends ContentFieldMapper
             new Field(
                 'ng_content_visible',
                 !$content->versionInfo->contentInfo->isHidden,
-                new FieldType\BooleanField()
+                new FieldType\BooleanField(),
             ),
         ];
     }

@@ -15,7 +15,7 @@ use Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
 /**
  * Native Result Extractor extracts the value object from the data returned by the Solr backend.
  */
-final class NativeResultExtractor Extends ResultExtractor
+final class NativeResultExtractor extends ResultExtractor
 {
     private BaseResultExtractor $nativeResultExtractor;
 
@@ -30,6 +30,11 @@ final class NativeResultExtractor Extends ResultExtractor
         parent::__construct($facetBuilderVisitor, $aggregationResultExtractor, $endpointRegistry);
     }
 
+    public function extractHit($hit): ValueObject
+    {
+        return $this->nativeResultExtractor->extractHit($hit);
+    }
+
     protected function extractSearchResult(
         $data,
         array $facetBuilders = [],
@@ -40,12 +45,7 @@ final class NativeResultExtractor Extends ResultExtractor
             $data,
             $facetBuilders,
             $aggregations,
-            $languageFilter
+            $languageFilter,
         );
-    }
-
-    public function extractHit($hit): ValueObject
-    {
-        return $this->nativeResultExtractor->extractHit($hit);
     }
 }

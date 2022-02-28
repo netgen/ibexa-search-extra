@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFacetBuilder;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\Facet\CustomFieldFacet;
+use function reset;
 
 class CustomFieldFacetTest extends BaseTest
 {
@@ -199,7 +200,7 @@ class CustomFieldFacetTest extends BaseTest
 
         $this->refreshSearch($repository);
 
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 
     /**
@@ -215,7 +216,7 @@ class CustomFieldFacetTest extends BaseTest
 
         $searchResult = $searchService->findContentInfo($query);
 
-        $this->assertEquals($expectedFacets, $searchResult->facets);
+        self::assertEquals($expectedFacets, $searchResult->facets);
     }
 
     /**
@@ -231,6 +232,6 @@ class CustomFieldFacetTest extends BaseTest
 
         $searchResult = $searchService->findLocations($query);
 
-        $this->assertEquals($expectedFacets, $searchResult->facets);
+        self::assertEquals($expectedFacets, $searchResult->facets);
     }
 }

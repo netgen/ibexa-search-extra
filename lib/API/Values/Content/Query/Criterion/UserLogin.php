@@ -24,10 +24,10 @@ class UserLogin extends Criterion
 
     public function getSpecifications(): array
     {
-        return array(
+        return [
             new Specifications(Operator::IN, Specifications::FORMAT_ARRAY),
             new Specifications(Operator::EQ, Specifications::FORMAT_SINGLE),
             new Specifications(Operator::LIKE, Specifications::FORMAT_SINGLE),
-        );
+        ];
     }
 }

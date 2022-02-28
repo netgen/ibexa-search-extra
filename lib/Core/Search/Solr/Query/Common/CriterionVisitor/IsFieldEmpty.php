@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
-use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\Search\Common\FieldNameGenerator;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Search\FieldType\BooleanField;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Search\Common\FieldNameGenerator;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\IsFieldEmpty as IsFieldEmptyCriterion;
+use function implode;
 
 /**
  * Visits IsFieldEmpty criterion.
@@ -40,14 +41,14 @@ final class IsFieldEmpty extends CriterionVisitor
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
+    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         $fieldNames = $this->getFieldNames($criterion);
 
         if (empty($fieldNames)) {
             throw new InvalidArgumentException(
                 '$criterion->target',
-                "No searchable fields found for the given criterion target '$criterion->target'."
+                "No searchable fields found for the given criterion target '{$criterion->target}'.",
             );
         }
 
@@ -55,7 +56,7 @@ final class IsFieldEmpty extends CriterionVisitor
 
         foreach ($fieldNames as $fieldName) {
             $match = $criterion->value[0] === IsFieldEmptyCriterion::IS_EMPTY ? 'true' : 'false';
-            $queries[] = "$fieldName:$match";
+            $queries[] = "{$fieldName}:{$match}";
         }
 
         return '(' . implode(' OR ', $queries) . ')';
@@ -81,9 +82,9 @@ final class IsFieldEmpty extends CriterionVisitor
                 $this->fieldNameGenerator->getName(
                     'ng_is_empty',
                     $fieldDefinitionIdentifier,
-                    $contentTypeIdentifier
+                    $contentTypeIdentifier,
                 ),
-                new BooleanField()
+                new BooleanField(),
             );
         }
 

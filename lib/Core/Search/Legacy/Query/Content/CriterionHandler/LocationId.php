@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Content\CriterionHandler;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -13,6 +12,7 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationId as LocationIdCriterion;
 use RuntimeException;
+use function reset;
 
 /**
  * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationId
@@ -45,7 +45,7 @@ final class LocationId extends CriterionHandler
             case Operator::LT:
             case Operator::LTE:
                 $operatorFunction = $this->comparatorMap[$criterion->operator];
-                $expression = $queryBuilder->expr()->$operatorFunction(
+                $expression = $queryBuilder->expr()->{$operatorFunction}(
                     $column,
                     $queryBuilder->createNamedParameter(reset($criterion->value), ParameterType::INTEGER)
                 );
@@ -56,14 +56,14 @@ final class LocationId extends CriterionHandler
                 $expression = $this->dbPlatform->getBetweenExpression(
                     $column,
                     $queryBuilder->createNamedParameter($criterion->value[0], ParameterType::INTEGER),
-                    $queryBuilder->createNamedParameter($criterion->value[1], ParameterType::INTEGER)
+                    $queryBuilder->createNamedParameter($criterion->value[1], ParameterType::INTEGER),
                 );
 
                 break;
 
             default:
                 throw new RuntimeException(
-                    "Unknown operator '{$criterion->operator}' for LocationId criterion handler."
+                    "Unknown operator '{$criterion->operator}' for LocationId criterion handler.",
                 );
         }
 

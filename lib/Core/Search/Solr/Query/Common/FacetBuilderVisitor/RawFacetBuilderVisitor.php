@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
 use Ibexa\Solr\Query\FacetBuilderVisitor;
 use Ibexa\Solr\Query\FacetFieldVisitor;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\Facet\RawFacet;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\FacetBuilderVisitor\RawFacetBuilderVisitor\DomainVisitor;
@@ -39,7 +39,7 @@ class RawFacetBuilderVisitor extends FacetBuilderVisitor implements FacetFieldVi
 
     public function visitBuilder(FacetBuilder $facetBuilder, $fieldId): array
     {
-        /** @var $facetBuilder \Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder */
+        /** @var \Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder $facetBuilder */
         $parameters = $facetBuilder->parameters ?? [];
 
         if ($facetBuilder->domain !== null) {

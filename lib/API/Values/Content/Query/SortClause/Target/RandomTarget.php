@@ -11,7 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Target;
  */
 class RandomTarget extends Target
 {
-    /** @var int|string|null  */
+    /** @var int|string|null */
     public $seed;
 
     public function __construct($seed = null)

@@ -18,11 +18,13 @@ use Pagerfanta\Adapter\AdapterInterface;
 abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
 {
     private ?int $nbResults = null;
+
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[] */
     private ?array $facets = null;
     private ?AggregationResultCollection $aggregations = null;
     private ?float $maxScore = null;
     private ?Suggestion $suggestion = null;
+
     /** @var ?int|?float */
     private $time;
 

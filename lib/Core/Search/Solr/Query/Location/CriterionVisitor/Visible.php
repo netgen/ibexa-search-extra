@@ -15,7 +15,7 @@ class Visible extends CriterionVisitor
         return $criterion instanceof VisibleCriterion;
     }
 
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
+    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         $isVisible = $criterion->value[0];
 

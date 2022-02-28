@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Common\EventSubscriber;
 
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\Events\Content\DeleteContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\DeleteTranslationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\PublishVersionEvent;
@@ -12,7 +13,6 @@ use Ibexa\Contracts\Core\Repository\Events\Location\HideLocationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Location\UnhideLocationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Trash\RecoverEvent;
 use Ibexa\Contracts\Core\Repository\Events\Trash\TrashEvent;
-use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -133,7 +133,7 @@ class TestChildUpdatesParent implements EventSubscriberInterface
         }
 
         $this->searchHandler->indexContent(
-            $contentHandler->load($parentContentInfo->id, $parentContentInfo->currentVersionNo)
+            $contentHandler->load($parentContentInfo->id, $parentContentInfo->currentVersionNo),
         );
     }
 }

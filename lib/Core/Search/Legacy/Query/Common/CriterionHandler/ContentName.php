@@ -7,13 +7,18 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandl
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
-use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ContentName as ContentNameCriterion;
 use RuntimeException;
+use function addcslashes;
+use function count;
+use function reset;
+use function sprintf;
+use function str_replace;
 
 /**
  * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ContentName
@@ -56,61 +61,14 @@ final class ContentName extends CriterionHandler
             ->where(
                 $subQueryBuilder->expr()->and(
                     $this->getCriterionCondition($queryBuilder, $subQueryBuilder, $criterion),
-                    $this->getLanguageCondition($queryBuilder, $subQueryBuilder, $languageSettings)
-                )
+                    $this->getLanguageCondition($queryBuilder, $subQueryBuilder, $languageSettings),
+                ),
             );
 
         return $queryBuilder->expr()->in(
             'c.id',
-            $subQueryBuilder->getSQL()
+            $subQueryBuilder->getSQL(),
         );
-    }
-
-    private function getCriterionCondition(
-        QueryBuilder $queryBuilder,
-        QueryBuilder $subQueryBuilder,
-        Criterion $criterion
-    ): string {
-        $column = 'ezcontentobject_name.name';
-
-        switch ($criterion->operator) {
-            case Criterion\Operator::EQ:
-            case Criterion\Operator::IN:
-                return $subQueryBuilder->expr()->in(
-                    $column,
-                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_STR_ARRAY)
-                );
-
-            case Criterion\Operator::GT:
-            case Criterion\Operator::GTE:
-            case Criterion\Operator::LT:
-            case Criterion\Operator::LTE:
-                $operatorFunction = $this->comparatorMap[$criterion->operator];
-
-                return $subQueryBuilder->expr()->$operatorFunction(
-                    $column,
-                    $queryBuilder->createNamedParameter(reset($criterion->value), ParameterType::STRING)
-                );
-
-            case Criterion\Operator::BETWEEN:
-                return $this->dbPlatform->getBetweenExpression(
-                    $column,
-                    $queryBuilder->createNamedParameter($criterion->value[0], ParameterType::STRING),
-                    $queryBuilder->createNamedParameter($criterion->value[1], ParameterType::STRING)
-                );
-
-            case Operator::LIKE:
-                $string = $this->prepareLikeString(reset($criterion->value));
-                return $subQueryBuilder->expr()->like(
-                    $column,
-                    $queryBuilder->createNamedParameter($string, ParameterType::STRING)
-                );
-
-            default:
-                throw new RuntimeException(
-                    "Unknown operator '{$criterion->operator}' for ContentId criterion handler."
-                );
-        }
     }
 
     /**
@@ -132,9 +90,9 @@ final class ContentName extends CriterionHandler
             return $subQueryBuilder->expr()->gt(
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.initial_language_id',
-                    'ezcontentobject_name.language_id'
+                    'ezcontentobject_name.language_id',
                 ),
-                $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)
+                $queryBuilder->createNamedParameter(0, ParameterType::INTEGER),
             );
         }
 
@@ -144,14 +102,14 @@ final class ContentName extends CriterionHandler
                 'c.language_mask - %s',
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.language_mask',
-                    'ezcontentobject_name.language_id'
-                )
+                    'ezcontentobject_name.language_id',
+                ),
             ),
-            $queryBuilder->createNamedParameter(1, ParameterType::INTEGER)
+            $queryBuilder->createNamedParameter(1, ParameterType::INTEGER),
         );
         $rightSide = $this->dbPlatform->getBitAndComparisonExpression(
             'ezcontentobject_name.language_id',
-            $queryBuilder->createNamedParameter(1, ParameterType::INTEGER)
+            $queryBuilder->createNamedParameter(1, ParameterType::INTEGER),
         );
 
         for (
@@ -167,49 +125,49 @@ final class ContentName extends CriterionHandler
                     'c.language_mask - %s',
                     $this->dbPlatform->getBitAndComparisonExpression(
                         'c.language_mask',
-                        'ezcontentobject_name.language_id'
-                    )
+                        'ezcontentobject_name.language_id',
+                    ),
                 ),
-                $queryBuilder->createNamedParameter($languageId, ParameterType::INTEGER)
+                $queryBuilder->createNamedParameter($languageId, ParameterType::INTEGER),
             );
             $addToRightSide = $this->dbPlatform->getBitAndComparisonExpression(
                 'ezcontentobject_name.language_id',
-                $queryBuilder->createNamedParameter($languageId, ParameterType::INTEGER)
+                $queryBuilder->createNamedParameter($languageId, ParameterType::INTEGER),
             );
 
             if ($multiplier > $languageId) {
                 $factor = $multiplier / $languageId;
-                /** @noinspection PhpStatementHasEmptyBodyInspection */
-                /** @noinspection MissingOrEmptyGroupStatementInspection */
-                /** @noinspection LoopWhichDoesNotLoopInspection */
-                for ($shift = 0; $factor > 1; $factor /= 2, $shift++) {}
+                /* @noinspection PhpStatementHasEmptyBodyInspection */
+                /* @noinspection MissingOrEmptyGroupStatementInspection */
+                /* @noinspection LoopWhichDoesNotLoopInspection */
+                for ($shift = 0; $factor > 1; $factor /= 2, $shift++);
                 $factorTerm = ' << ' . $shift;
                 $addToLeftSide .= $factorTerm;
                 $addToRightSide .= $factorTerm;
             } elseif ($multiplier < $languageId) {
                 $factor = $languageId / $multiplier;
-                /** @noinspection PhpStatementHasEmptyBodyInspection */
-                /** @noinspection MissingOrEmptyGroupStatementInspection */
-                /** @noinspection LoopWhichDoesNotLoopInspection */
-                for ($shift = 0; $factor > 1; $factor /= 2, $shift++) {}
+                /* @noinspection PhpStatementHasEmptyBodyInspection */
+                /* @noinspection MissingOrEmptyGroupStatementInspection */
+                /* @noinspection LoopWhichDoesNotLoopInspection */
+                for ($shift = 0; $factor > 1; $factor /= 2, $shift++);
                 $factorTerm = ' >> ' . $shift;
                 $addToLeftSide .= $factorTerm;
                 $addToRightSide .= $factorTerm;
             }
 
-            $leftSide = "$leftSide + ($addToLeftSide)";
-            $rightSide = "$rightSide + ($addToRightSide)";
+            $leftSide = "{$leftSide} + ({$addToLeftSide})";
+            $rightSide = "{$rightSide} + ({$addToRightSide})";
         }
 
         return $subQueryBuilder->expr()->and(
             $subQueryBuilder->expr()->gt(
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.language_mask',
-                    'ezcontentobject_name.language_id'
+                    'ezcontentobject_name.language_id',
                 ),
-                $queryBuilder->createNamedParameter(0, ParameterType::INTEGER)
+                $queryBuilder->createNamedParameter(0, ParameterType::INTEGER),
             ),
-            $subQueryBuilder->expr()->lt($leftSide, $rightSide)
+            $subQueryBuilder->expr()->lt($leftSide, $rightSide),
         );
     }
 
@@ -227,5 +185,53 @@ final class ContentName extends CriterionHandler
         $string = addcslashes($string, '%_');
 
         return str_replace('*', '%', $string);
+    }
+
+    private function getCriterionCondition(
+        QueryBuilder $queryBuilder,
+        QueryBuilder $subQueryBuilder,
+        Criterion $criterion
+    ): string {
+        $column = 'ezcontentobject_name.name';
+
+        switch ($criterion->operator) {
+            case Criterion\Operator::EQ:
+            case Criterion\Operator::IN:
+                return $subQueryBuilder->expr()->in(
+                    $column,
+                    $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_STR_ARRAY),
+                );
+
+            case Criterion\Operator::GT:
+            case Criterion\Operator::GTE:
+            case Criterion\Operator::LT:
+            case Criterion\Operator::LTE:
+                $operatorFunction = $this->comparatorMap[$criterion->operator];
+
+                return $subQueryBuilder->expr()->{$operatorFunction}(
+                    $column,
+                    $queryBuilder->createNamedParameter(reset($criterion->value), ParameterType::STRING)
+                );
+
+            case Criterion\Operator::BETWEEN:
+                return $this->dbPlatform->getBetweenExpression(
+                    $column,
+                    $queryBuilder->createNamedParameter($criterion->value[0], ParameterType::STRING),
+                    $queryBuilder->createNamedParameter($criterion->value[1], ParameterType::STRING),
+                );
+
+            case Operator::LIKE:
+                $string = $this->prepareLikeString(reset($criterion->value));
+
+                return $subQueryBuilder->expr()->like(
+                    $column,
+                    $queryBuilder->createNamedParameter($string, ParameterType::STRING),
+                );
+
+            default:
+                throw new RuntimeException(
+                    "Unknown operator '{$criterion->operator}' for ContentId criterion handler.",
+                );
+        }
     }
 }

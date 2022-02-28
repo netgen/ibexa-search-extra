@@ -7,11 +7,11 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Content\CriterionHand
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
-use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
-use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationQuery as LocationQueryCriterion;
 
 /**
@@ -56,31 +56,31 @@ final class LocationQuery extends CriterionHandler
                 't',
                 'ezcontentobject',
                 't2',
-                't.contentobject_id = t2.id'
+                't.contentobject_id = t2.id',
             )
             ->innerJoin(
                 't2',
                 'ezcontentobject_version',
                 't3',
-                't2.id = t3.contentobject_id'
+                't2.id = t3.contentobject_id',
             )
             ->where(
                 $subSelect->expr()->andX(
                     $condition,
                     $subSelect->expr()->eq(
                         't2.status',
-                        $queryBuilder->createNamedParameter(ContentInfo::STATUS_PUBLISHED, Types::INTEGER)
+                        $queryBuilder->createNamedParameter(ContentInfo::STATUS_PUBLISHED, Types::INTEGER),
                     ),
                     $subSelect->expr()->eq(
                         't3.status',
-                        $queryBuilder->createNamedParameter(VersionInfo::STATUS_PUBLISHED, Types::INTEGER)
-                    )
-                )
+                        $queryBuilder->createNamedParameter(VersionInfo::STATUS_PUBLISHED, Types::INTEGER),
+                    ),
+                ),
             );
 
         return $queryBuilder->expr()->in(
             'c.id',
-            $subSelect->getSQL()
+            $subSelect->getSQL(),
         );
     }
 }

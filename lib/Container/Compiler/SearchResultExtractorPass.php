@@ -24,7 +24,7 @@ final class SearchResultExtractorPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         $useLoadingSearchResultExtractor = $container->getParameter(
-            'netgen_ibexa_search_extra.use_loading_search_result_extractor'
+            'netgen_ibexa_search_extra.use_loading_search_result_extractor',
         );
 
         if ($useLoadingSearchResultExtractor === true) {

@@ -15,6 +15,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\ContentName;
 use RuntimeException;
+use function count;
+use function reset;
 
 class ContentNameSortClauseTest extends BaseTest
 {
@@ -338,6 +340,7 @@ class ContentNameSortClauseTest extends BaseTest
             $searchHit = $searchResult->searchHits[$index];
             $content = $this->getContent($searchHit->valueObject);
             $languageCode = $this->resolveLanguageCode($value);
+
             /** @var \eZ\Publish\Core\FieldType\TextLine\Value $fieldValue */
             $fieldValue = $content->getFieldValue('title', $languageCode);
 
@@ -365,11 +368,13 @@ class ContentNameSortClauseTest extends BaseTest
     protected function resolveLanguageCode(string $value): string
     {
         switch ($value[0]) {
-            case 'n';
+            case 'n':
                 return 'nor-NO';
-            case 'e';
+
+            case 'e':
                 return 'eng-GB';
-            case 'g';
+
+            case 'g':
                 return 'ger-DE';
         }
 

@@ -7,10 +7,13 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Solr;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Solr\ResultExtractor as BaseResultExtractor;
-use Netgen\IbexaSearchExtra\API\Values\Content\Search\Query as ExtraQuery;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\LocationQuery as ExtraLocationQuery;
+use Netgen\IbexaSearchExtra\API\Values\Content\Search\Query as ExtraQuery;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+use function array_filter;
+use function get_object_vars;
+use function property_exists;
 use function spl_object_hash;
 
 /**
@@ -18,7 +21,7 @@ use function spl_object_hash;
  *
  * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\API\Facet\RawFacetBuilder
  */
-abstract class ResultExtractor Extends BaseResultExtractor
+abstract class ResultExtractor extends BaseResultExtractor
 {
     public function extract(
         $data,
@@ -31,7 +34,7 @@ abstract class ResultExtractor Extends BaseResultExtractor
             $data,
             $facetBuilders,
             $aggregations,
-            $languageFilter
+            $languageFilter,
         );
 
         foreach ($searchResult->searchHits as $key => $searchHit) {
@@ -42,7 +45,7 @@ abstract class ResultExtractor Extends BaseResultExtractor
                 $searchResult->searchHits[$key]->extraFields = $this->extractExtraFields(
                     $data,
                     $searchResult->searchHits[$key],
-                    $query->extraFields
+                    $query->extraFields,
                 );
             }
         }
@@ -57,7 +60,7 @@ abstract class ResultExtractor Extends BaseResultExtractor
             $searchResult->facets[] = $this->facetBuilderVisitor->mapField(
                 $identifier,
                 [$data->facets->{$identifier}],
-                $facetBuilder
+                $facetBuilder,
             );
         }
 
@@ -90,9 +93,7 @@ abstract class ResultExtractor Extends BaseResultExtractor
     {
         return array_filter(
             $facetBuilders,
-            static function ($facetBuilder) {
-                return $facetBuilder instanceof RawFacetBuilder;
-            }
+            static fn ($facetBuilder) => $facetBuilder instanceof RawFacetBuilder,
         );
     }
 
@@ -106,8 +107,8 @@ abstract class ResultExtractor Extends BaseResultExtractor
 
         foreach ($data->response->docs as $doc) {
             if (
-                ($doc->document_type_id === 'content' && $doc->content_id_id == $searchHit->valueObject->id)
-                || ($doc->document_type_id === 'location' && $doc->location_id == $searchHit->valueObject->id)
+                ($doc->document_type_id === 'content' && (int) $doc->content_id_id === $searchHit->valueObject->id)
+                || ($doc->document_type_id === 'location' && (int) $doc->location_id === $searchHit->valueObject->id)
             ) {
                 foreach ($extraFields as $extraField) {
                     if (property_exists($doc, $extraField)) {

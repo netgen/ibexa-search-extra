@@ -37,11 +37,9 @@ final class Slice implements IteratorAggregate, ArrayAccess
     {
         return new ArrayIterator(
             array_map(
-                static function (SearchHit $searchHit) {
-                    return $searchHit->valueObject;
-                },
-                $this->searchHits
-            )
+                static fn (SearchHit $searchHit) => $searchHit->valueObject,
+                $this->searchHits,
+            ),
         );
     }
 

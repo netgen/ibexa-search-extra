@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace Netgen\IbexaSearchExtra\API\Values\Content\Search;
 
 use InvalidArgumentException;
+use function array_key_exists;
+use function array_keys;
+use function array_map;
+use function array_values;
+use function str_replace;
 
 class Suggestion
 {
@@ -79,7 +84,7 @@ class Suggestion
             $suggestedWords[] = $this->getSuggestionsByOriginalWord($originalWord)[0]->suggestedWord;
         }
 
-        $suggestedSearchText = \str_replace($originalWords, $suggestedWords, $originalSearchText);
+        $suggestedSearchText = str_replace($originalWords, $suggestedWords, $originalSearchText);
 
         if ($originalSearchText === $suggestedSearchText) {
             return null;

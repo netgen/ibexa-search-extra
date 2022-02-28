@@ -13,6 +13,10 @@ use Netgen\IbexaSearchExtra\API\Values\Content\Query\FacetBuilder\CustomFieldFac
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\Facet\CustomFieldFacet;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\Facet\RawFacet;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+use function json_decode;
+use function json_encode;
+use function reset;
+use const JSON_THROW_ON_ERROR;
 
 class RawFacetTest extends BaseTest
 {
@@ -79,11 +83,11 @@ class RawFacetTest extends BaseTest
                                         ],
                                     ],
                                 ],
-                                JSON_THROW_ON_ERROR
+                                JSON_THROW_ON_ERROR,
                             ),
                             false,
                             512,
-                            JSON_THROW_ON_ERROR
+                            JSON_THROW_ON_ERROR,
                         ),
                     ]),
                 ],
@@ -137,11 +141,11 @@ class RawFacetTest extends BaseTest
                                     ],
                                     'buckets' => [],
                                 ],
-                                JSON_THROW_ON_ERROR
+                                JSON_THROW_ON_ERROR,
                             ),
                             false,
                             512,
-                            JSON_THROW_ON_ERROR
+                            JSON_THROW_ON_ERROR,
                         ),
                     ]),
                 ],
@@ -182,11 +186,11 @@ class RawFacetTest extends BaseTest
                                     ],
                                     'buckets' => [],
                                 ],
-                                JSON_THROW_ON_ERROR
+                                JSON_THROW_ON_ERROR,
                             ),
                             false,
                             512,
-                            JSON_THROW_ON_ERROR
+                            JSON_THROW_ON_ERROR,
                         ),
                     ]),
                 ],
@@ -235,11 +239,11 @@ class RawFacetTest extends BaseTest
                                     ],
                                     'buckets' => [],
                                 ],
-                                JSON_THROW_ON_ERROR
+                                JSON_THROW_ON_ERROR,
                             ),
                             false,
                             512,
-                            JSON_THROW_ON_ERROR
+                            JSON_THROW_ON_ERROR,
                         ),
                     ]),
                     new RawFacet([
@@ -259,7 +263,7 @@ class RawFacetTest extends BaseTest
                                                     [
                                                         'val' => '55',
                                                         'count' => 4,
-                                                    ]
+                                                    ],
                                                 ],
                                             ],
                                         ],
@@ -271,7 +275,7 @@ class RawFacetTest extends BaseTest
                                                     [
                                                         'val' => '20',
                                                         'count' => 3,
-                                                    ]
+                                                    ],
                                                 ],
                                             ],
                                         ],
@@ -283,7 +287,7 @@ class RawFacetTest extends BaseTest
                                                     [
                                                         'val' => '10',
                                                         'count' => 2,
-                                                    ]
+                                                    ],
                                                 ],
                                             ],
                                         ],
@@ -295,17 +299,17 @@ class RawFacetTest extends BaseTest
                                                     [
                                                         'val' => '5',
                                                         'count' => 1,
-                                                    ]
+                                                    ],
                                                 ],
                                             ],
                                         ],
                                     ],
                                 ],
-                                JSON_THROW_ON_ERROR
+                                JSON_THROW_ON_ERROR,
                             ),
                             false,
                             512,
-                            JSON_THROW_ON_ERROR
+                            JSON_THROW_ON_ERROR,
                         ),
                     ]),
                 ],
@@ -357,7 +361,7 @@ class RawFacetTest extends BaseTest
 
         $this->refreshSearch($repository);
 
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 
     /**
@@ -374,7 +378,7 @@ class RawFacetTest extends BaseTest
 
         $searchResult = $searchService->findContentInfo($query);
 
-        $this->assertEquals($expectedFacets, $searchResult->facets);
+        self::assertEquals($expectedFacets, $searchResult->facets);
     }
 
     /**
@@ -391,7 +395,7 @@ class RawFacetTest extends BaseTest
 
         $searchResult = $searchService->findLocations($query);
 
-        $this->assertEquals($expectedFacets, $searchResult->facets);
+        self::assertEquals($expectedFacets, $searchResult->facets);
     }
 
     protected function getSearchService($initialInitializeFromScratch = true): SearchService

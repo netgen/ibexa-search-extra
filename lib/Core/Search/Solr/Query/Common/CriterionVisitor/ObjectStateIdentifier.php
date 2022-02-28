@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor;
 
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
-use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier as ObjectStateIdentifierCriterion;
 
@@ -39,7 +39,7 @@ final class ObjectStateIdentifier extends CriterionVisitor
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If ObjectStateGroup or ObjectState is not found
      */
-    public function visit(Criterion $criterion, CriterionVisitor $subVisitor = null): string
+    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         $stateIdentifier = $criterion->value[0];
         $groupId = $this->objectStateHandler->loadGroupByIdentifier($criterion->target)->id;

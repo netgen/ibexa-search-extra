@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\UserLogin as UserLoginCriterion;
 use RuntimeException;
+use function addcslashes;
+use function str_replace;
 
 /**
  * Handles the UserLogin criterion.
@@ -49,19 +51,23 @@ final class UserLogin extends CriterionHandler
             case Operator::IN:
                 $expression = $subQuery->expr()->in(
                     't1.login',
-                    $queryBuilder->createNamedParameter((array)$criterion->value, Connection::PARAM_STR_ARRAY)
+                    $queryBuilder->createNamedParameter((array) $criterion->value, Connection::PARAM_STR_ARRAY),
                 );
+
                 break;
+
             case Operator::LIKE:
                 $string = $this->prepareLikeString($criterion->value);
                 $expression = $subQuery->expr()->like(
                     't1.login',
-                    $queryBuilder->createNamedParameter($string, Types::STRING)
+                    $queryBuilder->createNamedParameter($string, Types::STRING),
                 );
+
                 break;
+
             default:
                 throw new RuntimeException(
-                    "Unknown operator '{$criterion->operator}' for UserLogin criterion handler"
+                    "Unknown operator '{$criterion->operator}' for UserLogin criterion handler",
                 );
         }
 
@@ -72,7 +78,7 @@ final class UserLogin extends CriterionHandler
 
         return $queryBuilder->expr()->in(
             'c.id',
-            $subQuery->getSQL()
+            $subQuery->getSQL(),
         );
     }
 

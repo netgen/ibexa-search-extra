@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\SortClauseVisitor;
 
-use Ibexa\Contracts\Solr\Query\SortClauseVisitor;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Solr\Query\SortClauseVisitor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\CustomField as CustomFieldSortClause;
 
 class CustomField extends SortClauseVisitor

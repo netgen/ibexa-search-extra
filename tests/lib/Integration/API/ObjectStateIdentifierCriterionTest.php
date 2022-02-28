@@ -66,7 +66,7 @@ class ObjectStateIdentifierCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
                         new LogicalNot(
-                            new ObjectStateIdentifier('ez_lock', 'locked')
+                            new ObjectStateIdentifier('ez_lock', 'locked'),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -78,7 +78,7 @@ class ObjectStateIdentifierCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
                         new LogicalNot(
-                            new ObjectStateIdentifier('ez_lock', 'not_locked')
+                            new ObjectStateIdentifier('ez_lock', 'not_locked'),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -117,11 +117,11 @@ class ObjectStateIdentifierCriterionTest extends BaseTest
             }
         }
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState $objectState */
+        /* @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState $objectState */
         $objectStateService->setContentState($contentInfo, $objectStateGroup, $objectState);
         $this->refreshSearch($repository);
 
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 
     /**

@@ -12,6 +12,7 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ContentId as ContentIdCriterion;
 use RuntimeException;
+use function reset;
 
 /**
  * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ContentId
@@ -42,7 +43,7 @@ final class ContentId extends CriterionHandler
             case Operator::LTE:
                 $operatorFunction = $this->comparatorMap[$criterion->operator];
 
-                return $queryBuilder->expr()->$operatorFunction(
+                return $queryBuilder->expr()->{$operatorFunction}(
                     $column,
                     $queryBuilder->createNamedParameter(reset($criterion->value), ParameterType::INTEGER)
                 );
@@ -51,12 +52,12 @@ final class ContentId extends CriterionHandler
                 return $this->dbPlatform->getBetweenExpression(
                     $column,
                     $queryBuilder->createNamedParameter($criterion->value[0], ParameterType::INTEGER),
-                    $queryBuilder->createNamedParameter($criterion->value[1], ParameterType::INTEGER)
+                    $queryBuilder->createNamedParameter($criterion->value[1], ParameterType::INTEGER),
                 );
 
             default:
                 throw new RuntimeException(
-                    "Unknown operator '{$criterion->operator}' for ContentId criterion handler."
+                    "Unknown operator '{$criterion->operator}' for ContentId criterion handler.",
                 );
         }
     }

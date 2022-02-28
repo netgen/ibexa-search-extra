@@ -20,7 +20,7 @@ class Legacy extends CoreLegacySetupFactory
     {
         $loader = new YamlFileLoader(
             $containerBuilder,
-            new FileLocator(__DIR__ . '/../../../../lib/Resources/config/')
+            new FileLocator(__DIR__ . '/../../../../lib/Resources/config/'),
         );
 
         $loader->load('search/legacy.yaml');

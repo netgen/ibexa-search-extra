@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\SortClauseVisitor;
 
-use Ibexa\Contracts\Solr\Query\SortClauseVisitor;
-use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Solr\Query\CriterionVisitor;
+use Ibexa\Contracts\Solr\Query\SortClauseVisitor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\SubdocumentField as SubdocumentFieldCriterion;
 use RuntimeException;
+use function preg_replace;
 
 class SubdocumentField extends SortClauseVisitor
 {
@@ -29,7 +30,7 @@ class SubdocumentField extends SortClauseVisitor
     {
         /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\Target\SubdocumentTarget $target */
         $target = $sortClause->targetData;
-        $condition = "document_type_id:$target->documentTypeIdentifier";
+        $condition = "document_type_id:{$target->documentTypeIdentifier}";
 
         if ($target->subdocumentQuery instanceof SubdocumentQuery) {
             /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter */
@@ -40,10 +41,10 @@ class SubdocumentField extends SortClauseVisitor
             $condition .= ' AND ' . $queryCondition;
         }
 
-        $condition .= " AND {!func}$sortClause->target";
+        $condition .= " AND {!func}{$sortClause->target}";
         $scoringMode = $this->resolveScoringMode($target->scoringMode);
 
-        return "{!parent which='document_type_id:content' score='$scoringMode' v='$condition'}" . $this->getDirection($sortClause);
+        return "{!parent which='document_type_id:content' score='{$scoringMode}' v='{$condition}'}" . $this->getDirection($sortClause);
     }
 
     private function resolveScoringMode($mode): string
@@ -51,18 +52,22 @@ class SubdocumentField extends SortClauseVisitor
         switch ($mode) {
             case SubdocumentFieldCriterion::ScoringModeNone:
                 return 'none';
+
             case SubdocumentFieldCriterion::ScoringModeAverage:
                 return 'avg';
+
             case SubdocumentFieldCriterion::ScoringModeMaximum:
                 return 'max';
+
             case SubdocumentFieldCriterion::ScoringModeTotal:
                 return 'total';
+
             case SubdocumentFieldCriterion::ScoringModeMinimum:
                 return 'min';
         }
 
         throw new RuntimeException(
-            "Scoring mode '$mode' is not handled"
+            "Scoring mode '{$mode}' is not handled",
         );
     }
 

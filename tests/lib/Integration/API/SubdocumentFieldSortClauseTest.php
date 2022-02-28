@@ -32,7 +32,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             'price_i',
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeMaximum,
-                            Query::SORT_ASC
+                            Query::SORT_ASC,
                         ),
                     ],
                 ]),
@@ -46,7 +46,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             'price_i',
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeMaximum,
-                            Query::SORT_DESC
+                            Query::SORT_DESC,
                         ),
                     ],
                 ]),
@@ -60,7 +60,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             'price_i',
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeMinimum,
-                            Query::SORT_ASC
+                            Query::SORT_ASC,
                         ),
                     ],
                 ]),
@@ -74,7 +74,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             'price_i',
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeMinimum,
-                            Query::SORT_DESC
+                            Query::SORT_DESC,
                         ),
                     ],
                 ]),
@@ -88,7 +88,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             'price_i',
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeTotal,
-                            Query::SORT_ASC
+                            Query::SORT_ASC,
                         ),
                     ],
                 ]),
@@ -102,7 +102,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             'price_i',
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeTotal,
-                            Query::SORT_DESC
+                            Query::SORT_DESC,
                         ),
                     ],
                 ]),
@@ -116,7 +116,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             'price_i',
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeAverage,
-                            Query::SORT_ASC
+                            Query::SORT_ASC,
                         ),
                     ],
                 ]),
@@ -130,7 +130,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             'price_i',
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeAverage,
-                            Query::SORT_DESC
+                            Query::SORT_DESC,
                         ),
                     ],
                 ]),
@@ -144,7 +144,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             'price_i',
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeNone,
-                            Query::SORT_ASC
+                            Query::SORT_ASC,
                         ),
                         new ContentIdSortClause(Query::SORT_ASC),
                     ],
@@ -159,7 +159,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             'price_i',
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeNone,
-                            Query::SORT_DESC
+                            Query::SORT_DESC,
                         ),
                         new ContentIdSortClause(Query::SORT_DESC),
                     ],
@@ -190,7 +190,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
         $documentTypeIdentifier = 'test_sort_content_subdocument';
         $filter = new SubdocumentQuery(
             'test_sort_content_subdocument',
-            new CustomField('price_i', Operator::LT, 20)
+            new CustomField('price_i', Operator::LT, 20),
         );
 
         return [
@@ -203,7 +203,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeMaximum,
                             Query::SORT_ASC,
-                            $filter
+                            $filter,
                         ),
                     ],
                 ]),
@@ -218,7 +218,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeMaximum,
                             Query::SORT_DESC,
-                            $filter
+                            $filter,
                         ),
                     ],
                 ]),
@@ -233,7 +233,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeMinimum,
                             Query::SORT_ASC,
-                            $filter
+                            $filter,
                         ),
                     ],
                 ]),
@@ -248,7 +248,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeMinimum,
                             Query::SORT_DESC,
-                            $filter
+                            $filter,
                         ),
                     ],
                 ]),
@@ -263,7 +263,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeTotal,
                             Query::SORT_ASC,
-                            $filter
+                            $filter,
                         ),
                     ],
                 ]),
@@ -278,7 +278,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeTotal,
                             Query::SORT_DESC,
-                            $filter
+                            $filter,
                         ),
                     ],
                 ]),
@@ -293,7 +293,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeAverage,
                             Query::SORT_ASC,
-                            $filter
+                            $filter,
                         ),
                     ],
                 ]),
@@ -308,7 +308,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeAverage,
                             Query::SORT_DESC,
-                            $filter
+                            $filter,
                         ),
                     ],
                 ]),
@@ -323,7 +323,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeNone,
                             Query::SORT_ASC,
-                            $filter
+                            $filter,
                         ),
                         new ContentIdSortClause(Query::SORT_ASC),
                     ],
@@ -339,7 +339,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
                             $documentTypeIdentifier,
                             SubdocumentField::ScoringModeNone,
                             Query::SORT_DESC,
-                            $filter
+                            $filter,
                         ),
                         new ContentIdSortClause(Query::SORT_DESC),
                     ],

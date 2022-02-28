@@ -8,13 +8,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
-use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Contracts\Solr\DocumentMapper;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Solr\Handler as BaseHandler;
 
 class Handler extends BaseHandler
 {
-    public function findContent(Query $query, array $languageFilter = array()): SearchResult
+    public function findContent(Query $query, array $languageFilter = []): SearchResult
     {
         $query = clone $query;
         $query->filter = $query->filter ?: new Criterion\MatchAll();
@@ -23,7 +23,7 @@ class Handler extends BaseHandler
         $this->coreFilter->apply(
             $query,
             $languageFilter,
-            DocumentMapper::DOCUMENT_TYPE_IDENTIFIER_CONTENT
+            DocumentMapper::DOCUMENT_TYPE_IDENTIFIER_CONTENT,
         );
 
         return $this->contentResultExtractor->extract(
@@ -31,11 +31,11 @@ class Handler extends BaseHandler
             $query->facetBuilders,
             $query->aggregations,
             $languageFilter,
-            $query
+            $query,
         );
     }
 
-    public function findLocations(LocationQuery $query, array $languageFilter = array()): SearchResult
+    public function findLocations(LocationQuery $query, array $languageFilter = []): SearchResult
     {
         $query = clone $query;
         $query->query = $query->query ?: new Criterion\MatchAll();
@@ -43,7 +43,7 @@ class Handler extends BaseHandler
         $this->coreFilter->apply(
             $query,
             $languageFilter,
-            DocumentMapper::DOCUMENT_TYPE_IDENTIFIER_LOCATION
+            DocumentMapper::DOCUMENT_TYPE_IDENTIFIER_LOCATION,
         );
 
         return $this->locationResultExtractor->extract(
@@ -51,7 +51,7 @@ class Handler extends BaseHandler
             $query->facetBuilders,
             $query->aggregations,
             $languageFilter,
-            $query
+            $query,
         );
     }
 
@@ -65,12 +65,12 @@ class Handler extends BaseHandler
         ]);
 
         $contentIds = $this->extractContentIds(
-            $this->gateway->searchAllEndpoints($query)
+            $this->gateway->searchAllEndpoints($query),
         );
 
         foreach ($contentIds as $contentId) {
             $idPrefix = $this->mapper->generateContentDocumentId($contentId);
-            $this->gateway->deleteByQuery("_root_:$idPrefix*");
+            $this->gateway->deleteByQuery("_root_:{$idPrefix}*");
         }
     }
 
@@ -83,7 +83,7 @@ class Handler extends BaseHandler
         ]);
 
         $contentIds = $this->extractContentIds(
-            $this->gateway->searchAllEndpoints($query)
+            $this->gateway->searchAllEndpoints($query),
         );
 
         $contentItems = [];
@@ -96,7 +96,7 @@ class Handler extends BaseHandler
 
             $contentItems[] = $this->contentHandler->load(
                 $contentInfo->id,
-                $contentInfo->currentVersionNo
+                $contentInfo->currentVersionNo,
             );
         }
 

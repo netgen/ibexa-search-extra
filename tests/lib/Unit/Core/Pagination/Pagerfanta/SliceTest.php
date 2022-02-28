@@ -78,7 +78,7 @@ class SliceTest extends TestCase
 
         self::assertEquals(
             $this->getSearchHits(),
-            $slice->getSearchHits()
+            $slice->getSearchHits(),
         );
     }
 

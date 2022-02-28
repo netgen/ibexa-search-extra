@@ -23,17 +23,17 @@ class UserId extends Criterion
 
     public function getSpecifications(): array
     {
-        return array(
+        return [
             new Specifications(
                 Operator::IN,
                 Specifications::FORMAT_ARRAY,
-                Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
+                Specifications::TYPE_INTEGER | Specifications::TYPE_STRING,
             ),
             new Specifications(
                 Operator::EQ,
                 Specifications::FORMAT_SINGLE,
-                Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
+                Specifications::TYPE_INTEGER | Specifications::TYPE_STRING,
             ),
-        );
+        ];
     }
 }

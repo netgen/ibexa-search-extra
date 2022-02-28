@@ -20,19 +20,12 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
 
         $loader = new YamlFileLoader(
             $this->container,
-            new FileLocator(__DIR__ . '/_fixtures')
+            new FileLocator(__DIR__ . '/_fixtures'),
         );
 
         $loader->load('indexable_field_types.yaml');
 
         $this->setParameter('kernel.bundles', []);
-    }
-
-    protected function getContainerExtensions(): array
-    {
-        return [
-            new NetgenIbexaSearchExtraExtension(),
-        ];
     }
 
     public function providerForIndexableFieldTypeDefaultConfiguration(): array
@@ -86,15 +79,22 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
 
         $this->assertContainerBuilderHasParameter(
             'netgen_ez_platform_search_extra.use_loading_search_result_extractor',
-            true
+            true,
         );
         $this->assertContainerBuilderHasParameter(
             'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.enabled',
-            true
+            true,
         );
         $this->assertContainerBuilderHasParameter(
             'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.short_text_limit',
-            256
+            256,
         );
+    }
+
+    protected function getContainerExtensions(): array
+    {
+        return [
+            new NetgenIbexaSearchExtraExtension(),
+        ];
     }
 }

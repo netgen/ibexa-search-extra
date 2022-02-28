@@ -56,7 +56,7 @@ class UserEmailCriterionTest extends BaseTest
                             [
                                 'anonymous@link.invalid',
                                 'jam@ez.no',
-                            ]
+                            ],
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -72,7 +72,7 @@ class UserEmailCriterionTest extends BaseTest
                             [
                                 'admin@link.invalid',
                                 'jam@ez.no',
-                            ]
+                            ],
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -88,7 +88,7 @@ class UserEmailCriterionTest extends BaseTest
                             [
                                 'admin@link.invalid',
                                 'anonymous@link.invalid',
-                            ]
+                            ],
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -101,7 +101,7 @@ class UserEmailCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserEmail(
                             Operator::LIKE,
-                            '*invalid'
+                            '*invalid',
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -114,7 +114,7 @@ class UserEmailCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserEmail(
                             Operator::LIKE,
-                            'admin*'
+                            'admin*',
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -127,7 +127,7 @@ class UserEmailCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserEmail(
                             Operator::LIKE,
-                            'anonymous*'
+                            'anonymous*',
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -140,7 +140,7 @@ class UserEmailCriterionTest extends BaseTest
                         new ContentId([10, 14, 41]),
                         new UserEmail(
                             Operator::LIKE,
-                            '*link*'
+                            '*link*',
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],

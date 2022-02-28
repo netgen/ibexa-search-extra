@@ -32,7 +32,7 @@ class LocationVisibilityFieldMapper extends LocationFieldMapper
             new Field(
                 'ng_location_visible',
                 !$location->hidden && !$location->invisible && !$contentInfo->isHidden,
-                new FieldType\BooleanField()
+                new FieldType\BooleanField(),
             ),
         ];
     }

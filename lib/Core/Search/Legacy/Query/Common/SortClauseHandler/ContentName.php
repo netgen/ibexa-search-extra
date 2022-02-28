@@ -7,11 +7,13 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\SortClauseHand
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
-use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\ContentName as ContentNameSortClause;
+use function count;
+use function sprintf;
 
 class ContentName extends SortClauseHandler
 {
@@ -64,8 +66,8 @@ class ContentName extends SortClauseHandler
             $query->expr()->and(
                 $query->expr()->eq('c.id', $tableAlias . '.contentobject_id'),
                 $query->expr()->eq('c.current_version', $tableAlias . '.content_version'),
-                $this->getLanguageCondition($query, $languageSettings, $tableAlias)
-            )
+                $this->getLanguageCondition($query, $languageSettings, $tableAlias),
+            ),
         );
     }
 
@@ -88,9 +90,9 @@ class ContentName extends SortClauseHandler
             return $query->expr()->gt(
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.initial_language_id',
-                    $contentNameTableName . '.language_id'
+                    $contentNameTableName . '.language_id',
                 ),
-                $query->createNamedParameter(0, ParameterType::INTEGER)
+                $query->createNamedParameter(0, ParameterType::INTEGER),
             );
         }
 
@@ -100,14 +102,14 @@ class ContentName extends SortClauseHandler
                 'c.language_mask - %s',
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.language_mask',
-                    $contentNameTableName . '.language_id'
-                )
+                    $contentNameTableName . '.language_id',
+                ),
             ),
-            $query->createNamedParameter(1, ParameterType::INTEGER)
+            $query->createNamedParameter(1, ParameterType::INTEGER),
         );
         $rightSide = $this->dbPlatform->getBitAndComparisonExpression(
             $contentNameTableName . '.language_id',
-            $query->createNamedParameter(1, ParameterType::INTEGER)
+            $query->createNamedParameter(1, ParameterType::INTEGER),
         );
 
         for (
@@ -123,49 +125,49 @@ class ContentName extends SortClauseHandler
                     'c.language_mask - %s',
                     $this->dbPlatform->getBitAndComparisonExpression(
                         'c.language_mask',
-                        $contentNameTableName . '.language_id'
-                    )
+                        $contentNameTableName . '.language_id',
+                    ),
                 ),
-                $query->createNamedParameter($languageId, ParameterType::INTEGER)
+                $query->createNamedParameter($languageId, ParameterType::INTEGER),
             );
             $addToRightSide = $this->dbPlatform->getBitAndComparisonExpression(
                 $contentNameTableName . '.language_id',
-                $query->createNamedParameter($languageId, ParameterType::INTEGER)
+                $query->createNamedParameter($languageId, ParameterType::INTEGER),
             );
 
             if ($multiplier > $languageId) {
                 $factor = $multiplier / $languageId;
-                /** @noinspection PhpStatementHasEmptyBodyInspection */
-                /** @noinspection MissingOrEmptyGroupStatementInspection */
-                /** @noinspection LoopWhichDoesNotLoopInspection */
-                for ($shift = 0; $factor > 1; $factor /= 2, $shift++) {}
+                /* @noinspection PhpStatementHasEmptyBodyInspection */
+                /* @noinspection MissingOrEmptyGroupStatementInspection */
+                /* @noinspection LoopWhichDoesNotLoopInspection */
+                for ($shift = 0; $factor > 1; $factor /= 2, $shift++);
                 $factorTerm = ' << ' . $shift;
                 $addToLeftSide .= $factorTerm;
                 $addToRightSide .= $factorTerm;
             } elseif ($multiplier < $languageId) {
                 $factor = $languageId / $multiplier;
-                /** @noinspection PhpStatementHasEmptyBodyInspection */
-                /** @noinspection MissingOrEmptyGroupStatementInspection */
-                /** @noinspection LoopWhichDoesNotLoopInspection */
-                for ($shift = 0; $factor > 1; $factor /= 2, $shift++) {}
+                /* @noinspection PhpStatementHasEmptyBodyInspection */
+                /* @noinspection MissingOrEmptyGroupStatementInspection */
+                /* @noinspection LoopWhichDoesNotLoopInspection */
+                for ($shift = 0; $factor > 1; $factor /= 2, $shift++);
                 $factorTerm = ' >> ' . $shift;
                 $addToLeftSide .= $factorTerm;
                 $addToRightSide .= $factorTerm;
             }
 
-            $leftSide = "$leftSide + ($addToLeftSide)";
-            $rightSide = "$rightSide + ($addToRightSide)";
+            $leftSide = "{$leftSide} + ({$addToLeftSide})";
+            $rightSide = "{$rightSide} + ({$addToRightSide})";
         }
 
         return $query->expr()->and(
             $query->expr()->gt(
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.language_mask',
-                    $contentNameTableName . '.language_id'
+                    $contentNameTableName . '.language_id',
                 ),
-                $query->createNamedParameter(0, ParameterType::INTEGER)
+                $query->createNamedParameter(0, ParameterType::INTEGER),
             ),
-            $query->expr()->lt($leftSide, $rightSide)
+            $query->expr()->lt($leftSide, $rightSide),
         );
     }
 }

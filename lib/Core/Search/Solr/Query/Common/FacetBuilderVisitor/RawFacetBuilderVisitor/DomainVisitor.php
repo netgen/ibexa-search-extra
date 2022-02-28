@@ -9,5 +9,6 @@ use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder\Do
 abstract class DomainVisitor
 {
     abstract public function accept(Domain $domain): bool;
+
     abstract public function visit(Domain $domain): array;
 }
