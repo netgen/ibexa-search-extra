@@ -24,7 +24,7 @@ class TestLocationFieldMapper extends LocationFieldMapper implements TestFieldMa
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
-     * @return \eZ\Publish\SPI\Search\Field[]
+     * @return \Ibexa\Contracts\Core\Search\Field[]
      */
     public function mapFields(SPILocation $location): array
     {

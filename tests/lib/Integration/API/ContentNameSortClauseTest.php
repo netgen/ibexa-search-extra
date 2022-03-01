@@ -341,7 +341,7 @@ class ContentNameSortClauseTest extends BaseTest
             $content = $this->getContent($searchHit->valueObject);
             $languageCode = $this->resolveLanguageCode($value);
 
-            /** @var \eZ\Publish\Core\FieldType\TextLine\Value $fieldValue */
+            /** @var \Ibexa\Core\FieldType\TextLine\Value $fieldValue */
             $fieldValue = $content->getFieldValue('title', $languageCode);
 
             $actualValues[] = $fieldValue->text ?? null;

@@ -21,20 +21,9 @@ use RuntimeException;
 
 trait TestFieldMapperTrait
 {
-    /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Handler
-     */
-    private $contentHandler;
-
-    /**
-     * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler
-     */
-    private $contentTypeHandler;
-
-    /**
-     * @var \eZ\Publish\SPI\Search\Handler
-     */
-    private $searchHandler;
+    private ContentHandler $contentHandler;
+    private ContentTypeHandler $contentTypeHandler;
+    private SearchHandler $searchHandler;
 
     public function __construct(
         ContentHandler $contentHandler,

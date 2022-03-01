@@ -12,7 +12,6 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use function array_map;
-use function class_alias;
 use function explode;
 use function simplexml_load_string;
 
@@ -182,5 +181,3 @@ class SelectionConverter implements Converter
         return $xml;
     }
 }
-
-class_alias(SelectionConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter');
