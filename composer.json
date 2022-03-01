@@ -1,6 +1,6 @@
 {
     "name": "netgen/ibexa-search-extra",
-    "description": "Netgen's extra bits for Ibexa search",
+    "description": "Netgen's extra search bits for Ibexa CMS",
     "type": "ibexa-bundle",
     "license": "GPL-2.0-only",
     "authors": [
@@ -10,23 +10,27 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "ext-dom": "*",
-        "ibexa/core": "^4.0"
+        "ibexa/core": "^4.0",
+        "symfony/proxy-manager-bridge": "5.4.x-dev"
     },
     "require-dev": {
-        "netgen/ezplatform-site-api": "@dev",
+        "netgen/ibexa-site-api": "@dev",
         "ibexa/solr": "^4.0",
         "phpunit/phpunit": "^8.2",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
+        "behat/behat": "^3.6.1",
+        "friends-of-behat/mink-extension": "^2.4",
         "franzl/studio": "^0.15.0"
     },
+    "minimum-stability": "dev",
     "conflict": {
         "symfony/cache": "5.0.11 || 5.1.3"
     },
     "suggest": {
-        "netgen/ezplatform-site-api": "Boost your site-building productivity with Ibexa",
+        "netgen/ibexa-site-api": "Boost your site-building productivity with Ibexa CMS",
         "ibexa/solr": "Supports advanced capabilities with Ibexa search API"
     },
     "autoload": {
@@ -43,7 +47,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.7-dev"
+            "dev-ibexa_migration": "3.0-dev"
         }
     },
     "scripts": {
