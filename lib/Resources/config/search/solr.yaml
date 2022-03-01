@@ -1,12 +1,9 @@
 imports:
-    - {resource: solr/criterion_visitors.yaml}
-    - {resource: solr/facet_builder_visitors.yaml}
-    - {resource: solr/field_mappers.yaml}
-    - {resource: solr/sort_clause_visitors.yaml}
-    - {resource: solr/subdocument_mappers.yaml}
-
-parameters:
-    ezpublish.spi.search.solr.class: Netgen\IbexaSearchExtra\Core\Search\Solr\Handler
+    - { resource: solr/criterion_visitors.yaml }
+    - { resource: solr/facet_builder_visitors.yaml }
+    - { resource: solr/field_mappers.yaml }
+    - { resource: solr/sort_clause_visitors.yaml }
+    - { resource: solr/subdocument_mappers.yaml }
 
 services:
     netgen.ibexa_search_extra.solr.handler:
