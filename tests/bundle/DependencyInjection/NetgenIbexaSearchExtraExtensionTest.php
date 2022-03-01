@@ -78,15 +78,15 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         $this->load($configuration);
 
         $this->assertContainerBuilderHasParameter(
-            'netgen_ez_platform_search_extra.use_loading_search_result_extractor',
+            'netgen_ibexa_search_extra.use_loading_search_result_extractor',
             true,
         );
         $this->assertContainerBuilderHasParameter(
-            'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.enabled',
+            'netgen_ibexa_search_extra.indexable_field_type.ezrichtext.enabled',
             true,
         );
         $this->assertContainerBuilderHasParameter(
-            'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.short_text_limit',
+            'netgen_ibexa_search_extra.indexable_field_type.ezrichtext.short_text_limit',
             256,
         );
     }
