@@ -206,7 +206,7 @@ class CustomFieldFacetTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $expectedFacets
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[] $expectedFacets
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
@@ -222,7 +222,7 @@ class CustomFieldFacetTest extends BaseTest
     /**
      * @dataProvider providerForTestFind
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\Facet[] $expectedFacets
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[] $expectedFacets
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
