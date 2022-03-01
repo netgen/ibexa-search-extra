@@ -109,9 +109,7 @@ Once the added dependency is installed, activate the bundle in `config/bundles.p
 <?php
 
 return [
-
     ...
-
     Netgen\Bundle\IbexaSearchExtraBundle\NetgenIbexaSearchExtraBundle::class => ['all' => true],
 }
 ```

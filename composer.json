@@ -22,8 +22,7 @@
         "phpunit/phpunit": "^8.2",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "behat/behat": "^3.6.1",
-        "friends-of-behat/mink-extension": "^2.4",
-        "franzl/studio": "^0.15.0"
+        "friends-of-behat/mink-extension": "^2.4"
     },
     "minimum-stability": "dev",
     "conflict": {
@@ -47,15 +46,10 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-ibexa_migration": "3.0-dev"
+            "dev-master": "3.0-dev"
         }
     },
     "scripts": {
         "test": "@php vendor/bin/phpunit --colors=always"
-    },
-    "config": {
-        "allow-plugins": {
-            "franzl/studio": true
-        }
     }
 }
