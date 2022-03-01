@@ -14,7 +14,7 @@ class NetgenIbexaSearchExtraExtension extends Extension
 {
     public function getAlias(): string
     {
-        return 'netgen_ez_platform_search_extra';
+        return 'netgen_ibexa_search_extra';
     }
 
     public function getConfiguration(array $config, ContainerBuilder $container): Configuration
@@ -60,7 +60,7 @@ class NetgenIbexaSearchExtraExtension extends Extension
     private function processSearchResultExtractorConfiguration(array $configuration, ContainerBuilder $container): void
     {
         $container->setParameter(
-            'netgen_ez_platform_search_extra.use_loading_search_result_extractor',
+            'netgen_ibexa_search_extra.use_loading_search_result_extractor',
             $configuration['use_loading_search_result_extractor'],
         );
     }
@@ -68,11 +68,11 @@ class NetgenIbexaSearchExtraExtension extends Extension
     private function processIndexableFieldTypeConfiguration(array $configuration, ContainerBuilder $container): void
     {
         $container->setParameter(
-            'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.enabled',
+            'netgen_ibexa_search_extra.indexable_field_type.ezrichtext.enabled',
             $configuration['indexable_field_type']['ezrichtext']['enabled'],
         );
         $container->setParameter(
-            'netgen_ez_platform_search_extra.indexable_field_type.ezrichtext.short_text_limit',
+            'netgen_ibexa_search_extra.indexable_field_type.ezrichtext.short_text_limit',
             $configuration['indexable_field_type']['ezrichtext']['short_text_limit'],
         );
     }
