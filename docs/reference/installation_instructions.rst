@@ -1,22 +1,20 @@
 Installation instructions
 =========================
 
-To install eZ Platform Search Extra first add it as a dependency to your project:
+To install Ibexa CMS Search Extra first add it as a dependency to your project:
 
 .. code-block:: shell
 
-    $ composer require netgen/ezplatform-search-extra:^1.0
+    $ composer require netgen/ibexa-search-extra:^3.0
 
-Once Search Extra is installed, activate the bundle in ``app/AppKernel.php`` file by adding it to
-the ``$bundles`` array in ``registerBundles()`` method, together with other required bundles:
+Once the added dependency is installed, activate the bundle in ``config/bundles.php`` file by adding it to the returned array, together with other required bundles:
 
 .. code-block:: php
 
-    public function registerBundles()
-    {
-        ...
+    <?php
 
-        $bundles[] = new Netgen\Bundle\EzPlatformSearchExtraBundle\NetgenEzPlatformSearchExtraBundle;
+    return [
+        //...
 
-        return $bundles;
+        Netgen\Bundle\IbexaSearchExtraBundle\NetgenIbexaSearchExtraBundle::class => ['all' => true],
     }

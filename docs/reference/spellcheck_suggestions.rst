@@ -1,5 +1,5 @@
 Spellcheck suggestions
-===========
+======================
 
 ``Spellcheck suggestions`` use Solr's SpellCheck component to provide inline query suggestions based on other, similar, terms.
 
@@ -10,7 +10,7 @@ This could be useful to provide the "did you mean" alternative to use when the s
     This feature is available only with the Solr search engine.
 
 1. Activation
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 In order to activate this feature, Solr has to be properly configured. First we need to create a new field type and then a new field of this type for spellcheck suggestions. Then we need to copy all textual fields to it.
 
@@ -120,9 +120,9 @@ Example request handler configuration:
     </arr>
   </requestHandler>
 
-At last, our fulltext search criterion has to implement the ``Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\FulltextSpellcheck`` interface.
+At last, our fulltext search criterion has to implement the ``Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\FulltextSpellcheck`` interface.
 
-Here's the example of a criterion which extends eZ's fulltext criterion and implements the required interface:
+Here's the example of a criterion which extends Ibexa CMS fulltext criterion and implements the required interface:
 
 .. code-block:: php
 
@@ -130,16 +130,16 @@ Here's the example of a criterion which extends eZ's fulltext criterion and impl
 
     namespace AcmeBundle\API\Values\Content\Query\Criterion;
 
-    use eZ\Publish\API\Repository\Values\Content\Query\Criterion\FullText as BaseFullTextCriterion;
-    use Netgen\EzPlatformSearchExtra\API\Values\Content\Query\Criterion\FulltextSpellcheck;
-    use Netgen\EzPlatformSearchExtra\API\Values\Content\SpellcheckQuery;
+    use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\FullText as BaseFullTextCriterion;
+    use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\FulltextSpellcheck;
+    use Netgen\IbexaSearchExtra\API\Values\Content\SpellcheckQuery;
 
     class FullTextCriterion extends BaseFullTextCriterion implements FulltextSpellcheck
     {
         /**
          * Gets query to be used for spell check.
          *
-         * @return \Netgen\EzPlatformSearchExtra\API\Values\Content\SpellcheckQuery
+         * @return \Netgen\IbexaSearchExtra\API\Values\Content\SpellcheckQuery
          */
         public function getSpellcheckQuery()
         {

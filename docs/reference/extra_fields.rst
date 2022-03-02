@@ -10,7 +10,7 @@ This feature allows you to extract additionally indexed Solr fields from each Se
 1. Usage
 ~~~~~~~~
 
-In order for this functionality to work, you have to use overridden `Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Query` or `Netgen\EzPlatformSearchExtra\API\Values\Content\Search\LocationQuery` queries and use it's property `extraFields` to provide a list of additional fields that you want to extract from the Solr document. Those fields, if exist, and their values will appear in the `extraFields` property of each `SearchHit` object contained in the `SearchResult.`
+In order for this functionality to work, you have to use overridden ``Netgen\IbexaSearchExtra\API\Values\Content\Search\Query`` or ``Netgen\IbexaSearchExtra\API\Values\Content\Search\LocationQuery`` queries and use it's property `extraFields` to provide a list of additional fields that you want to extract from the Solr document. Those fields, if exist, and their values will appear in the `extraFields` property of each ``SearchHit`` object contained in the ``SearchResult.``
 
 2. Example
 ~~~~~~~~~~
@@ -19,7 +19,7 @@ Example of a content field mapper:
 
 .. code-block:: php
 
-    public function mapFields(SPIContent $content)
+    public function mapFields(Content $content)
     {
         return [
             new Field(
@@ -34,17 +34,17 @@ Search example:
 
 .. code-block:: php
 
-    /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\Query $query **/
+    /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\Query $query **/
     $query = new Query();
 
     $query->extraFields = [
         'extra_field_example_i',
     ];
 
-    /** @var \Netgen\EzPlatformSiteApi\API\FindService $findService **/
+    /** @var \Netgen\IbexaSiteApi\API\FindService $findService **/
     $searchResult = $findService->findContent($query);
 
-    /** @var \Netgen\EzPlatformSearchExtra\API\Values\Content\Search\SearchHit $searchHit **/
+    /** @var \Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit $searchHit **/
     foreach ($searchResult->searchHits as $searchHit) {
         var_dump($searchHit->extraFields);
     }

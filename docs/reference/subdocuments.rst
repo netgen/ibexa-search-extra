@@ -29,19 +29,19 @@ Two extension points are provided, depending on how you want to index subdocumen
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To index custom subdocuments per Content, implement a service extending
-``Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper`` class,
+``Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentSubdocumentMapper`` class,
 defining two methods:
 
 * ``accept(Content $content): bool``
 
   Here you will receive a Content that is being indexed as an instance of
-  ``eZ\Publish\SPI\Persistence\Content``. Using that object you have to decide whether you want to
+  ``Ibexa\Contracts\Core\Persistence\Content``. Using that object you have to decide whether you want to
   index custom subdocuments for it or not.
 
 * ``map(Content $content): Document``
 
-  Again you will receive an instance of ``eZ\Publish\SPI\Persistence\Content``, which you can use to
-  build and return an array of ``eZ\Publish\SPI\Search\Document`` instances. These represent custom
+  Again you will receive an instance of ``Ibexa\Contracts\Core\Persistence\Content``, which you can use to
+  build and return an array of ``Ibexa\Contracts\Core\Search\Document`` instances. These represent custom
   subdocuments that will be indexed under the given Content.
 
 Code example:
@@ -74,32 +74,32 @@ Code example:
     }
 
 You also have to configure the mapper in the service container configuration, tagging it with
-``netgen.search.solr.subdocument_mapper.content`` tag so that the system can find it.
+``netgen.ibexa_search_extra.solr.subdocument_mapper.content`` tag so that the system can find it.
 
 .. code-block:: php
 
     my_content_subdocument_mapper:
         class: MyContentSubdocumentMapper
         tags:
-            - {name: netgen.search.solr.subdocument_mapper.content}
+            - { name: netgen.ibexa_search_extra.solr.subdocument_mapper.content }
 
 2. Indexing custom subdocuments per Content translation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To index custom subdocuments per Content translation, implement a service extending
-``Netgen\EzPlatformSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper``
+``Netgen\IbexaSearchExtra\Core\Search\Solr\SubdocumentMapper\ContentTranslationSubdocumentMapper``
 class, defining two methods:
 
 * ``accept(Content $content, string $languageCode): bool``
 
   Here you will receive a Content being indexed and a language that it's being indexed in, as an
-  instance of ``eZ\Publish\SPI\Persistence\Content`` and a language code string. Using these
+  instance of ``Ibexa\Contracts\Core\Persistence\Content`` and a language code string. Using these
   parameters you have to decide whether you want to index custom subdocuments for it or not.
 
 * ``map(Content $content, string $languageCode): Document``
 
-  Again you receive an instance of ``eZ\Publish\SPI\Persistence\Content`` and a language code
-  string. You can use these to build and return an array of ``eZ\Publish\SPI\Search\Document``
+  Again you receive an instance of ``Ibexa\Contracts\Core\Persistence\Content`` and a language code
+  string. You can use these to build and return an array of ``Ibexa\Contracts\Core\Search\Document``
   instances, representing custom subdocuments that will be indexed under the given translation of
   a Content.
 
@@ -135,14 +135,14 @@ Code example:
     }
 
 You also have to configure the mapper in the service container configuration, tagging it with
-``netgen.search.solr.subdocument_mapper.content_translation`` tag so that the system can find it.
+``netgen.ibexa_search_extra.solr.subdocument_mapper.content_translation`` tag so that the system can find it.
 
 .. code-block:: php
 
     my_content_translation_subdocument_mapper:
         class: MyContentTranslationSubdocumentMapper
         tags:
-            - {name: netgen.search.solr.subdocument_mapper.content_translation}
+            - { name: netgen.ibexa_search_extra.solr.subdocument_mapper.content_translation }
 
 .. note::
 
@@ -163,7 +163,7 @@ arguments:
 
 2. ``Criterion $filter``
 
-  Filter is an instance of a criterion, with following of the standard eZ criteria being supported
+  Filter is an instance of a criterion, with following of the standard Ibexa CMS criteria being supported
   out of the box:
 
   * ``LogicalAnd``
@@ -195,4 +195,4 @@ Implementing new criteria for ``SubdocumentQuery``
 
 If you want to implement additional criteria to use with ``SubdocumentQuery`` just implement is as
 usual. Then tag the visitor service with
-``netgen.search.solr.query.content.criterion_visitor.subdocument_query`` tag.
+``netgen.ibexa_search_extra.solr.query.content.criterion_visitor.subdocument_query`` tag.

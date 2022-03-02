@@ -1,5 +1,5 @@
-Netgen's eZ Platform Search Extra
-=================================
+Netgen's Search Extra for Ibexa CMS
+===================================
 
 Reference
 ---------
