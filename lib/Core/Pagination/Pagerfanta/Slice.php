@@ -43,21 +43,25 @@ final class Slice implements IteratorAggregate, ArrayAccess
         );
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset): bool
     {
         return array_key_exists($offset, $this->searchHits);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->searchHits[$offset]->valueObject;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value): void
     {
         throw new RuntimeException('Method ' . __METHOD__ . ' is not supported');
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset): void
     {
         throw new RuntimeException('Method ' . __METHOD__ . ' is not supported');
