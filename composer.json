@@ -14,7 +14,7 @@
         "ext-json": "*",
         "ext-dom": "*",
         "ibexa/core": "^4.0",
-        "symfony/proxy-manager-bridge": "5.4.x-dev"
+        "symfony/proxy-manager-bridge": "^5.4"
     },
     "require-dev": {
         "netgen/ibexa-site-api": "@dev",
