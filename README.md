@@ -1,21 +1,21 @@
 # Netgen's extra search bits for Ibexa CMS
 
-[![Build Status](https://img.shields.io/travis/netgen/ibexa-search-extra.svg?style=flat-square)](https://travis-ci.com/netgen/ibexa-search-extra)
-[![Read the Docs](https://img.shields.io/readthedocs/pip.svg?style=flat-square)](https://netgen-ibexa-search-extra.readthedocs.io/en/latest/index.html)
-[![Downloads](https://img.shields.io/packagist/dt/netgen/ibexa-search-extra.svg?style=flat-square)](https://packagist.org/packages/netgen/ibexa-search-extra)
-[![Latest stable](https://img.shields.io/github/release/netgen/ibexa-search-extra.svg?style=flat-square)](https://packagist.org/packages/netgen/ibexa-search-extra)
-[![Ibexa](https://img.shields.io/badge/Ibexa-%E2%89%A5%204.0-orange.svg?style=flat-square)](https://www.ibexa.co)
-[![License](https://img.shields.io/github/license/netgen/ibexa-search-extra.svg?style=flat-square)](https://packagist.org/packages/netgen/ibexa-search-extra)
+[![Build Status](https://img.shields.io/github/workflow/status/netgen/ibexa-search-extra/Tests/master)](https://github.com/netgen/ibexa-search-extra/actions)
+[![Read the Docs](https://img.shields.io/readthedocs/netgens-search-extra-for-ibexa-cms)](https://docs.netgen.io/projects/search-extra)
+[![Downloads](https://img.shields.io/packagist/dt/netgen/ibexa-search-extra.svg)](https://packagist.org/packages/netgen/ibexa-search-extra)
+[![Latest stable](https://img.shields.io/github/release/netgen/ibexa-search-extra.svg)](https://packagist.org/packages/netgen/ibexa-search-extra)
+[![PHP](https://img.shields.io/badge/PHP-%E2%89%A5%207.4-%238892BF.svg)](https://secure.php.net/)
+[![Ibexa](https://img.shields.io/badge/Ibexa-%E2%89%A5%204.0-orange.svg)](https://ibexa.co/)
 
 ## Features
 
 This only lists all implemented features, see the
-[documentation](https://netgen-ibexa-search-extra.readthedocs.io)
+[documentation](https://docs.netgen.io/projects/search-extra)
 for more details on specific ones.
 
-- [`ContentName`](https://github.com/netgen/ibexa-search-extra/blob/1.13/lib/API/Values/Content/Query/Criterion/ContentName.php) criterion that works on matched translation's Content name  (`solr`, `legacy`)
+- [`ContentName`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/ContentName.php) criterion that works on matched translation's Content name  (`solr`, `legacy`)
 
-- [`ContentName`](https://github.com/netgen/ibexa-search-extra/blob/1.13/lib/API/Values/Content/Query/SortClause/ContentName.php) sort clause that works on matched translation's Content name  (`solr`, `legacy`)
+- [`ContentName`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/SortClause/ContentName.php) sort clause that works on matched translation's Content name  (`solr`, `legacy`)
 
 - [`ContentId`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/ContentId.php) and [`LocationId`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/LocationId.php) criteria with support for range operators  (`solr`, `legacy`)
 
@@ -109,7 +109,8 @@ Once the added dependency is installed, activate the bundle in `config/bundles.p
 <?php
 
 return [
-    ...
+    //...
+
     Netgen\Bundle\IbexaSearchExtraBundle\NetgenIbexaSearchExtraBundle::class => ['all' => true],
 }
 ```
