@@ -4,3 +4,4 @@ composer.lock
 .php-cs-fixer.cache
 var
 __solr
+docs/_build
