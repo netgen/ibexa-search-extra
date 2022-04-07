@@ -30,6 +30,6 @@ final class IdentifierMapper extends FieldValueMapper
     protected function convert($value): string
     {
         // Remove everything except alphanumeric characters, slash (/), underscore (_) and minus (-)
-        return preg_replace('([^A-Za-z0-9_\-/]+)', '', $value);
+        return preg_replace('([^A-Za-z0-9_\-/]+)', '', (string) $value);
     }
 }
