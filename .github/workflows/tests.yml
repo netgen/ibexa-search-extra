@@ -120,7 +120,7 @@ jobs:
 
             - run: composer --version
             - run: composer validate --strict
-            - run: COMPOSER_ROOT_VERSION=2.99 composer update --prefer-dist
+            - run: composer update --prefer-dist
             - run: ./bin/.travis/init_solr.sh
               env:
                   SOLR_VERSION: ${{ matrix.solr_version }}
