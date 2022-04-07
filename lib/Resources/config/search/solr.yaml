@@ -6,19 +6,17 @@ imports:
     - { resource: solr/subdocument_mappers.yaml }
 
 services:
-    netgen.ibexa_search_extra.solr.handler:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\Handler
-        decorates: Ibexa\Solr\Handler
+    Ibexa\Bundle\Solr\ApiLoader\SolrEngineFactory:
         arguments:
-            - '@ibexa.solr.gateway'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - '@ibexa.solr.document_mapper'
-            - '@ibexa.solr.result_extractor.content'
-            - '@ibexa.solr.result_extractor.location'
-            - '@ibexa.solr.core_filter'
-        tags:
-            - {name: ibexa.search.engine, alias: solr}
-        lazy: true
+            $repositoryConfigurationProvider: '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+            $defaultConnection: "%ibexa.solr.default_connection%"
+            $searchEngineClass: Netgen\IbexaSearchExtra\Core\Search\Solr\Handler
+            $gatewayRegistry: '@Ibexa\Solr\Gateway\GatewayRegistry'
+            $coreFilterRegistry: '@Ibexa\Solr\CoreFilter\CoreFilterRegistry'
+            $contentHandler: '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            $documentMapper: '@ibexa.solr.document_mapper'
+            $contentResultExtractor: '@ibexa.solr.result_extractor.content'
+            $locationResultExtractor: '@ibexa.solr.result_extractor.location'
 
     netgen.ibexa_search_extra.solr.document_mapper:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\DocumentMapper
