@@ -97,7 +97,7 @@ jobs:
                       coverage: 'integration'
                       engine: 'solr'
                       config: 'phpunit-integration-solr.xml'
-                      solr_version: '8.6.1'
+                      solr_version: '7.7.3'
                       core_setup: 'dedicated'
 
                     - php: '8.1'
