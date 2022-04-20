@@ -6,18 +6,6 @@ imports:
     - { resource: solr/subdocument_mappers.yaml }
 
 services:
-    Ibexa\Bundle\Solr\ApiLoader\SolrEngineFactory:
-        arguments:
-            $repositoryConfigurationProvider: '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
-            $defaultConnection: "%ibexa.solr.default_connection%"
-            $searchEngineClass: Netgen\IbexaSearchExtra\Core\Search\Solr\Handler
-            $gatewayRegistry: '@Ibexa\Solr\Gateway\GatewayRegistry'
-            $coreFilterRegistry: '@Ibexa\Solr\CoreFilter\CoreFilterRegistry'
-            $contentHandler: '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            $documentMapper: '@ibexa.solr.document_mapper'
-            $contentResultExtractor: '@ibexa.solr.result_extractor.content'
-            $locationResultExtractor: '@ibexa.solr.result_extractor.location'
-
     netgen.ibexa_search_extra.solr.document_mapper:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\DocumentMapper
         decorates: ibexa.solr.document_mapper
@@ -65,3 +53,16 @@ services:
             - '@ibexa.solr.query.location.sort_clause_visitor.aggregate'
             - '@ibexa.solr.query.location.facet_builder_visitor.aggregate'
             - '@ibexa.solr.query.location.aggregation_visitor.dispatcher'
+
+    Netgen\IbexaSearchExtra\Core\Search\Solr\Handler:
+        decorates: Ibexa\Solr\Handler
+        arguments:
+            - '@ibexa.solr.gateway'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@ibexa.solr.document_mapper'
+            - '@ibexa.solr.result_extractor.content'
+            - '@ibexa.solr.result_extractor.location'
+            - '@ibexa.solr.core_filter'
+        tags:
+            - {name: ibexa.search.engine, alias: solr}
+        lazy: true

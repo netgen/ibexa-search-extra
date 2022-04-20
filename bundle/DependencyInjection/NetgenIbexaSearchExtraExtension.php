@@ -40,11 +40,25 @@ class NetgenIbexaSearchExtraExtension extends Extension
 
         if (array_key_exists('IbexaSolrBundle', $activatedBundlesMap)) {
             $loader->load('search/solr.yaml');
+            $this->loadBundleSolrConfiguration($container);
         }
 
         $loader->load('search/common.yaml');
 
         $this->processExtensionConfiguration($configs, $container);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function loadBundleSolrConfiguration(ContainerBuilder $container): void
+    {
+        $loader = new Loader\YamlFileLoader(
+            $container,
+            new FileLocator(__DIR__ . '/../Resources/config/'),
+        );
+
+        $loader->load('solr.yaml');
     }
 
     private function processExtensionConfiguration(array $configs, ContainerBuilder $container): void

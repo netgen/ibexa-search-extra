@@ -19,9 +19,7 @@ class RegressionSolr extends CoreSolrSetupFactory
      */
     protected function externalBuildContainer(ContainerBuilder $containerBuilder): void
     {
-//        parent::externalBuildContainer($containerBuilder);
-
-        $this->loadSolrSettings($containerBuilder);
+        parent::externalBuildContainer($containerBuilder);
 
         $configPath = __DIR__ . '/../../../../lib/Resources/config/';
         $loader = new YamlFileLoader($containerBuilder, new FileLocator($configPath));

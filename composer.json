@@ -13,18 +13,17 @@
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "ext-dom": "*",
-        "ibexa/core": "^4.0",
+        "ibexa/core": "^4.1",
         "symfony/proxy-manager-bridge": "^5.4"
     },
     "require-dev": {
         "netgen/ibexa-site-api": "@dev",
-        "ibexa/solr": "^4.0",
+        "ibexa/solr": "^4.1",
         "phpunit/phpunit": "^8.2",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "behat/behat": "^3.6.1",
         "friends-of-behat/mink-extension": "^2.4"
     },
-    "minimum-stability": "dev",
     "conflict": {
         "symfony/cache": "5.0.11 || 5.1.3"
     },
