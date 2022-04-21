@@ -24,7 +24,8 @@ class RegressionSolr extends CoreSolrSetupFactory
         $configPath = __DIR__ . '/../../../../lib/Resources/config/';
         $loader = new YamlFileLoader($containerBuilder, new FileLocator($configPath));
         $loader->load('search/common.yaml');
-        $loader->load('search/solr.yaml');
+        $loader->load('search/solr_services.yaml');
+        $loader->load('search/solr_engine.yaml');
 
         $testConfigPath = __DIR__ . '/../Resources/config/';
         $loader = new YamlFileLoader($containerBuilder, new FileLocator($testConfigPath));

@@ -39,8 +39,8 @@ class NetgenIbexaSearchExtraExtension extends Extension
         }
 
         if (array_key_exists('IbexaSolrBundle', $activatedBundlesMap)) {
-            $loader->load('search/solr.yaml');
-            $this->loadBundleSolrConfiguration($container);
+            $loader->load('search/solr_services.yaml');
+            $this->loadBundleSolrEngine($container);
         }
 
         $loader->load('search/common.yaml');
@@ -51,14 +51,14 @@ class NetgenIbexaSearchExtraExtension extends Extension
     /**
      * @throws \Exception
      */
-    private function loadBundleSolrConfiguration(ContainerBuilder $container): void
+    private function loadBundleSolrEngine(ContainerBuilder $container): void
     {
         $loader = new Loader\YamlFileLoader(
             $container,
             new FileLocator(__DIR__ . '/../Resources/config/'),
         );
 
-        $loader->load('solr.yaml');
+        $loader->load('solr_engine.yaml');
     }
 
     private function processExtensionConfiguration(array $configs, ContainerBuilder $container): void
