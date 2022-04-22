@@ -11,5 +11,5 @@ class SearchResult extends BaseSearchResult
     /**
      * Contains suggestion for misspelled words.
      */
-    public Suggestion $suggestion;
+    public ?Suggestion $suggestion = null;
 }
