@@ -4,8 +4,8 @@
 [![Read the Docs](https://img.shields.io/readthedocs/netgens-search-extra-for-ibexa-cms)](https://docs.netgen.io/projects/search-extra)
 [![Downloads](https://img.shields.io/packagist/dt/netgen/ibexa-search-extra.svg)](https://packagist.org/packages/netgen/ibexa-search-extra)
 [![Latest stable](https://img.shields.io/github/release/netgen/ibexa-search-extra.svg)](https://packagist.org/packages/netgen/ibexa-search-extra)
-[![PHP](https://img.shields.io/badge/PHP-%E2%89%A5%207.4-%238892BF.svg)](https://secure.php.net/)
-[![Ibexa](https://img.shields.io/badge/Ibexa-%E2%89%A5%204.0-orange.svg)](https://ibexa.co/)
+[![PHP](https://img.shields.io/badge/PHP-%E2%89%A5%208.1-%238892BF.svg)](https://secure.php.net/)
+[![Ibexa](https://img.shields.io/badge/Ibexa-%E2%89%A5%204.5-orange.svg)](https://ibexa.co/)
 
 ## Features
 

@@ -10,16 +10,16 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": ">=8.1",
         "ext-json": "*",
         "ext-dom": "*",
-        "ibexa/core": "^4.1",
+        "ibexa/core": "^4.5",
         "symfony/proxy-manager-bridge": "^5.4"
     },
     "require-dev": {
         "netgen/ibexa-site-api": "@dev",
-        "ibexa/solr": "^4.1",
-        "phpunit/phpunit": "^8.2",
+        "ibexa/solr": "^4.5",
+        "phpunit/phpunit": "^8.5",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "behat/behat": "^3.6.1",
         "friends-of-behat/mink-extension": "^2.4"
