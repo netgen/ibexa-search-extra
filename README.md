@@ -1,6 +1,6 @@
 # Netgen's extra search bits for Ibexa CMS
 
-[![Build Status](https://img.shields.io/github/workflow/status/netgen/ibexa-search-extra/Tests/master)](https://github.com/netgen/ibexa-search-extra/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/netgen/ibexa-search-extra/tests.yml?branch=master)](https://github.com/netgen/ibexa-search-extra/actions)
 [![Read the Docs](https://img.shields.io/readthedocs/netgens-search-extra-for-ibexa-cms)](https://docs.netgen.io/projects/search-extra)
 [![Downloads](https://img.shields.io/packagist/dt/netgen/ibexa-search-extra.svg)](https://packagist.org/packages/netgen/ibexa-search-extra)
 [![Latest stable](https://img.shields.io/github/release/netgen/ibexa-search-extra.svg)](https://packagist.org/packages/netgen/ibexa-search-extra)
