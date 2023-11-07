@@ -59,7 +59,7 @@ jobs:
                       config: 'phpunit-integration-solr.xml'
                       solr_version: '7.7.3'
                       solr_cloud: 'yes'
-                      solr_config: 'vendor/ibexa/solr/src/lib/Resources/config/solr/schema.xml vendor/ibexa/solr/src/lib/Resources/config/solr/language-fieldtypes.xml tests/lib/Resources/config/search/solr/8.11/solrconfig.xml tests/lib/Resources/config/search/solr/custom-fields-types.xml'
+                      solr_config: 'vendor/ibexa/solr/src/lib/Resources/config/solr/schema.xml vendor/ibexa/solr/src/lib/Resources/config/solr/language-fieldtypes.xml tests/lib/Resources/config/search/solr/7.7/solrconfig.xml tests/lib/Resources/config/search/solr/custom-fields-types.xml'
                       core_setup: 'cloud'
 
                     - php: '8.1'
