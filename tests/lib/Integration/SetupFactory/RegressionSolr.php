@@ -29,7 +29,7 @@ class RegressionSolr extends CoreSolrSetupFactory
 
         $testConfigPath = __DIR__ . '/../Resources/config/';
         $loader = new YamlFileLoader($containerBuilder, new FileLocator($testConfigPath));
-        $loader->load('regression_services.yaml');
+        $loader->load('services.yaml');
 
         // Needs to be added first because other passes depend on it
         $containerBuilder->addCompilerPass(new Compiler\TagSubdocumentCriterionVisitorsPass());

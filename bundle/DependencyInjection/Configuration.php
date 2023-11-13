@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
 
         $this->addIndexableFieldTypeSection($rootNode);
         $this->addSearchResultExtractorSection($rootNode);
+        $this->addAsynchronousIndexingSection($rootNode);
 
         return $treeBuilder;
     }
@@ -58,6 +59,17 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('use_loading_search_result_extractor')
                     ->info('Get search result objects by loading them from the persistence layer, instead of reconstructing them from the returned Solr data')
                     ->defaultTrue()
+                ->end()
+            ->end();
+    }
+
+    private function addAsynchronousIndexingSection(ArrayNodeDefinition $nodeDefinition): void
+    {
+        $nodeDefinition
+            ->children()
+                ->booleanNode('use_asynchronous_indexing')
+                    ->info('Use asynchronous mechanism to handle repository content indexing')
+                    ->defaultFalse()
                 ->end()
             ->end();
     }
