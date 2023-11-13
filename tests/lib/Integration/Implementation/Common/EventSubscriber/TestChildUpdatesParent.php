@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Events\Location\HideLocationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Location\UnhideLocationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Trash\RecoverEvent;
 use Ibexa\Contracts\Core\Repository\Events\Trash\TrashEvent;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -116,16 +117,27 @@ class TestChildUpdatesParent implements EventSubscriberInterface
     private function handleEvent(int $contentId): void
     {
         $contentHandler = $this->persistenceHandler->contentHandler();
-        $contentInfo = $contentHandler->loadContentInfo($contentId);
+
+        try {
+            $contentInfo = $contentHandler->loadContentInfo($contentId);
+        } catch (NotFoundException) {
+            return;
+        }
+
         $contentType = $this->persistenceHandler->contentTypeHandler()->load($contentInfo->contentTypeId);
 
         if ($contentType->identifier !== self::CHILD_CONTENT_TYPE_IDENTIFIER) {
             return;
         }
 
-        $location = $this->persistenceHandler->locationHandler()->load($contentInfo->mainLocationId);
-        $parentLocation = $this->persistenceHandler->locationHandler()->load($location->parentId);
-        $parentContentInfo = $contentHandler->loadContentInfo($parentLocation->contentId);
+        try {
+            $location = $this->persistenceHandler->locationHandler()->load($contentInfo->mainLocationId);
+            $parentLocation = $this->persistenceHandler->locationHandler()->load($location->parentId);
+            $parentContentInfo = $contentHandler->loadContentInfo($parentLocation->contentId);
+        } catch (NotFoundException) {
+            return;
+        }
+
         $parentContentType = $this->persistenceHandler->contentTypeHandler()->load($parentContentInfo->contentTypeId);
 
         if ($parentContentType->identifier !== self::PARENT_CONTENT_TYPE_IDENTIFIER) {
