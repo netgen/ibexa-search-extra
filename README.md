@@ -13,11 +13,13 @@ This only lists all implemented features, see the
 [documentation](https://docs.netgen.io/projects/search-extra)
 for more details on specific ones.
 
-- [`ContentName`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/ContentName.php) criterion that works on matched translation's Content name  (`solr`, `legacy`)
+- Support for [asynchronous indexing](https://docs.netgen.io/projects/search-extra/en/latest/reference/asynchronous_indexing.html) (`solr`, `legacy`)
 
-- [`ContentName`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/SortClause/ContentName.php) sort clause that works on matched translation's Content name  (`solr`, `legacy`)
+- [`ContentName`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/ContentName.php) criterion that works on matched translation's Content name (`solr`, `legacy`)
 
-- [`ContentId`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/ContentId.php) and [`LocationId`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/LocationId.php) criteria with support for range operators  (`solr`, `legacy`)
+- [`ContentName`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/SortClause/ContentName.php) sort clause that works on matched translation's Content name (`solr`, `legacy`)
+
+- [`ContentId`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/ContentId.php) and [`LocationId`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/LocationId.php) criteria with support for range operators (`solr`, `legacy`)
 
   Supported operators are: `EQ`, `IN`, `GT`, `GTE`, `LT`, `LTE`, `BETWEEN`.
 
