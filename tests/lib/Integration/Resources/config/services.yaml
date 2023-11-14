@@ -58,9 +58,9 @@ services:
     netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.middleware:
         class: Symfony\Component\Messenger\Middleware\HandleMessageMiddleware
         arguments:
-            - '@netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.handler_locator'
+            - '@netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.handler.locator'
 
-    netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.handler_locator:
+    netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.handler.locator:
         class: Symfony\Component\Messenger\Handler\HandlersLocator
         arguments:
             -
