@@ -1,5 +1,4 @@
 messenger:
-    reset_on_message: true
     transports:
         netgen_ibexa_search_extra_asynchronous_indexing:
             dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
@@ -46,6 +45,4 @@ messenger:
         'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\UpdateUser': netgen_ibexa_search_extra_asynchronous_indexing
     default_bus: messenger.bus.default
     buses:
-        messenger.bus.default:
-            middleware:
-                - doctrine_ping_connection
+        messenger.bus.default: ~
