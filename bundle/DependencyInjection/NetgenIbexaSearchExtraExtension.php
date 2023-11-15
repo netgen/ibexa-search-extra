@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace Netgen\Bundle\IbexaSearchExtraBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
+use Symfony\Component\Yaml\Yaml;
 use function array_key_exists;
 
-class NetgenIbexaSearchExtraExtension extends Extension
+class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtensionInterface
 {
     public function getAlias(): string
     {
@@ -47,6 +50,20 @@ class NetgenIbexaSearchExtraExtension extends Extension
         $loader->load('search/common.yaml');
 
         $this->processExtensionConfiguration($configs, $container);
+    }
+
+    public function prepend(ContainerBuilder $container): void
+    {
+        $configs = [
+            'messenger.yaml' => 'framework',
+        ];
+
+        foreach ($configs as $fileName => $extensionName) {
+            $configFile = __DIR__ . '/../Resources/config/' . $fileName;
+            $config = Yaml::parse((string) file_get_contents($configFile));
+            $container->prependExtensionConfig($extensionName, $config);
+            $container->addResource(new FileResource($configFile));
+        }
     }
 
     /**
