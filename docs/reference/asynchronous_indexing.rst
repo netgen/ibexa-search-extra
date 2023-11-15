@@ -17,13 +17,10 @@ In order to enable asynchronous indexing, use the following configuration:
     netgen_ibexa_search_extra:
         use_asynchronous_indexing: true
 
-Together with the configuration above, you will need to configure the Messenger component so that messages are handled
-through the queue. Otherwise, the Messenger's mechanism will handle them them synchronously. An
-`example configuration <https://github.com/netgen/ibexa-search-extra/blob/master/bundle/Resources/config/messenger.yaml>`_
-for that is provided. If it fits your use case, use it, otherwise be free to implement your own.
-
-Additionally, you will need to start the consumer to process the queue. For the example configuration, you would do that
-with:
+`Default Messenger component configuration <https://github.com/netgen/ibexa-search-extra/blob/master/bundle/Resources/config/messenger.yaml>`_
+will be automatically loaded. In case you want to use a different configuration, you will have to override it in the
+project code. Additionally, you will need to start the consumer to process the queue. For the default configuration,
+you can do that with:
 
 .. code-block:: console
 
