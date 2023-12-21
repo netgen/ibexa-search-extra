@@ -24,7 +24,7 @@ for more details on specific ones.
   Supported operators are: `EQ`, `IN`, `GT`, `GTE`, `LT`, `LTE`, `BETWEEN`.
 
 - [`Visible`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/Visible.php) criterion (`solr`, `legacy`),
-  usable in both Content and Location search. The criterion works on compound visiblity of Content and Location objects:
+  usable in both Content and Location search. The criterion works on compound visibility of Content and Location objects:
   the Content is visible if it's marked as visible; the Location is visible if it's marked as visible, is not hidden by
   one of its ancestor Locations, and it's Content is visible.
 
