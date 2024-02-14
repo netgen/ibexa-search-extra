@@ -26,7 +26,7 @@ class RichTextIndexablePass implements CompilerPassInterface
         $definition = $container->findDefinition(SearchField::class);
 
         $definition->setClass(IndexableRichText::class);
-        $definition->setArgument(0, $shortTextLimit);
+        $definition->setArguments([$shortTextLimit]);
         $definition->addTag('ibexa.field_type.indexable', ['alias' => 'ezrichtext']);
 
         $container->setDefinition(SearchField::class, $definition);
