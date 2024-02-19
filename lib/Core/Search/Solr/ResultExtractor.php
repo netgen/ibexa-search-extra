@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Spellcheck;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Solr\ResultExtractor as BaseResultExtractor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\LocationQuery as ExtraLocationQuery;
@@ -28,6 +29,7 @@ abstract class ResultExtractor extends BaseResultExtractor
         array $facetBuilders = [],
         array $aggregations = [],
         array $languageFilter = [],
+        ?Spellcheck $spellcheck = null,
         ?Query $query = null
     ): SearchResult {
         $searchResult = $this->extractSearchResult(

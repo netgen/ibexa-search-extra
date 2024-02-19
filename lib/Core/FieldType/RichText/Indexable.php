@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\FieldType\Indexable as IndexableInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Search;
+use Ibexa\Contracts\FieldTypeRichText\RichText\TextExtractorInterface;
 use function mb_substr;
 use function strtok;
 use function trim;
@@ -22,10 +23,20 @@ final class Indexable implements IndexableInterface
     /**
      * @var int
      */
-    private $shortTextMaxLength;
+    private int $shortTextMaxLength;
 
-    public function __construct($shortTextMaxLength = 256)
+    private TextExtractorInterface $shortTextExtractor;
+
+    private TextExtractorInterface $fullTextExtractor;
+
+    public function __construct(
+        TextExtractorInterface $shortTextExtractor,
+        TextExtractorInterface $fullTextExtractor,
+        $shortTextMaxLength = 256,
+       )
     {
+        $this->shortTextExtractor = $shortTextExtractor;
+        $this->fullTextExtractor = $fullTextExtractor;
         $this->shortTextMaxLength = $shortTextMaxLength;
     }
 
