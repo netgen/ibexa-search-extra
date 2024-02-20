@@ -40,6 +40,7 @@ class TrashEventSubscriber implements EventSubscriberInterface
         $this->messageBus->dispatch(
             new Trash(
                 $event->getLocation()->id,
+                $event->getLocation()->parentLocationId,
                 $event->getLocation()->contentId,
                 $event->getTrashItem() instanceof TrashItem,
             ),

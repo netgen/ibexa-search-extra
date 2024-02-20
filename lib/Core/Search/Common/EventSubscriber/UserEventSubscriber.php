@@ -26,6 +26,7 @@ use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\Upd
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\UpdateUserGroup;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Throwable;
 
 class UserEventSubscriber implements EventSubscriberInterface
 {
@@ -69,20 +70,34 @@ class UserEventSubscriber implements EventSubscriberInterface
 
     public function onDeleteUser(DeleteUserEvent $event): void
     {
+        try {
+            $mainLocationParentLocationId = $event->getUser()->contentInfo->getMainLocation()?->parentLocationId;
+        } catch (Throwable) {
+            $mainLocationParentLocationId = null;
+        }
+
         $this->messageBus->dispatch(
             new DeleteUser(
                 $event->getUser()->id,
                 $event->getLocations(),
+                $mainLocationParentLocationId,
             ),
         );
     }
 
     public function onDeleteUserGroup(DeleteUserGroupEvent $event): void
     {
+        try {
+            $mainLocationParentLocationId = $event->getUserGroup()->contentInfo->getMainLocation()?->parentLocationId;
+        } catch (Throwable) {
+            $mainLocationParentLocationId = null;
+        }
+
         $this->messageBus->dispatch(
             new DeleteUserGroup(
                 $event->getUserGroup()->id,
                 $event->getLocations(),
+                $mainLocationParentLocationId,
             ),
         );
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Common\EventSubscriber;
 
+use Ibexa\Contracts\Core\Repository\Events\Content\BeforeDeleteContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\CopyContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\DeleteContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\DeleteTranslationEvent;
@@ -20,6 +21,7 @@ use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\UpdateContentMetadata;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Throwable;
 
 class ContentEventSubscriber implements EventSubscriberInterface
 {
@@ -31,6 +33,7 @@ class ContentEventSubscriber implements EventSubscriberInterface
     {
         return [
             CopyContentEvent::class => 'onCopyContent',
+            BeforeDeleteContentEvent::class => 'onBeforeDeleteContent',
             DeleteContentEvent::class => 'onDeleteContent',
             DeleteTranslationEvent::class => 'onDeleteTranslation',
             HideContentEvent::class => 'onHideContent',
@@ -50,12 +53,28 @@ class ContentEventSubscriber implements EventSubscriberInterface
         );
     }
 
+    public function onBeforeDeleteContent(BeforeDeleteContentEvent $event): void
+    {
+        try {
+            $event->getContentInfo()->getMainLocation()?->parentLocationId;
+        } catch (Throwable) {
+            // does nothing
+        }
+    }
+
     public function onDeleteContent(DeleteContentEvent $event): void
     {
+        try {
+            $mainLocationParentLocationId = $event->getContentInfo()->getMainLocation()?->parentLocationId;
+        } catch (Throwable) {
+            $mainLocationParentLocationId = null;
+        }
+
         $this->messageBus->dispatch(
             new DeleteContent(
                 $event->getContentInfo()->id,
                 $event->getLocations(),
+                $mainLocationParentLocationId,
             ),
         );
     }

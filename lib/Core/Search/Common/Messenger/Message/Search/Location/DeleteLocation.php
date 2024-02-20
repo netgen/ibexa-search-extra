@@ -8,6 +8,7 @@ final class DeleteLocation
 {
     public function __construct(
         public readonly int $locationId,
+        public readonly int $parentLocationId,
         public readonly int $contentId,
     ) {}
 }

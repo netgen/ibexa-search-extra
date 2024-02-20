@@ -8,5 +8,7 @@ final class MoveSubtree
 {
     public function __construct(
         public readonly int $locationId,
+        public readonly int $oldParentLocationId,
+        public readonly int $newParentLocationId,
     ) {}
 }

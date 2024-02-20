@@ -70,6 +70,7 @@ class LocationEventSubscriber implements EventSubscriberInterface
         $this->messageBus->dispatch(
             new DeleteLocation(
                 $event->getLocation()->id,
+                $event->getLocation()->parentLocationId,
                 $event->getLocation()->contentId,
             ),
         );
@@ -89,6 +90,8 @@ class LocationEventSubscriber implements EventSubscriberInterface
         $this->messageBus->dispatch(
             new MoveSubtree(
                 $event->getLocation()->id,
+                $event->getLocation()->parentLocationId,
+                $event->getNewParentLocation()->id,
             ),
         );
     }

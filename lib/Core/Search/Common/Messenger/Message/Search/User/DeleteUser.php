@@ -12,5 +12,6 @@ final class DeleteUser
     public function __construct(
         public readonly int $contentId,
         public readonly array $locationIds,
+        public readonly ?int $mainLocationParentLocationId,
     ) {}
 }
