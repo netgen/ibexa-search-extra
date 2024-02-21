@@ -8,6 +8,7 @@ use Ibexa\FieldTypeRichText\FieldType\RichText\SearchField;
 use Netgen\IbexaSearchExtra\Core\FieldType\RichText\Indexable as IndexableRichText;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 
 class RichTextIndexablePass implements CompilerPassInterface
 {
@@ -23,10 +24,8 @@ class RichTextIndexablePass implements CompilerPassInterface
 
     private function redefineIndexableImplementation(ContainerBuilder $container, $shortTextLimit): void
     {
-        $definition = $container->findDefinition(SearchField::class);
-
-        $definition->setClass(IndexableRichText::class);
-        $definition->setArgument(0, $shortTextLimit);
+        $definition = new Definition(IndexableRichText::class);
+        $definition->addArgument($shortTextLimit);
         $definition->addTag('ibexa.field_type.indexable', ['alias' => 'ezrichtext']);
 
         $container->setDefinition(SearchField::class, $definition);
