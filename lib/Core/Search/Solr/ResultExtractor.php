@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Spellcheck;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Solr\ResultExtractor as BaseResultExtractor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\LocationQuery as ExtraLocationQuery;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\Query as ExtraQuery;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+
 use function array_filter;
 use function get_object_vars;
 use function property_exists;
@@ -28,13 +30,15 @@ abstract class ResultExtractor extends BaseResultExtractor
         array $facetBuilders = [],
         array $aggregations = [],
         array $languageFilter = [],
-        ?Query $query = null
+        ?Spellcheck $spellcheck = null,
+        ?Query $query = null,
     ): SearchResult {
         $searchResult = $this->extractSearchResult(
             $data,
             $facetBuilders,
             $aggregations,
             $languageFilter,
+            $spellcheck,
         );
 
         foreach ($searchResult->searchHits as $key => $searchHit) {
@@ -81,7 +85,8 @@ abstract class ResultExtractor extends BaseResultExtractor
         $data,
         array $facetBuilders = [],
         array $aggregations = [],
-        array $languageFilter = []
+        array $languageFilter = [],
+        ?Spellcheck $spellcheck = null,
     ): SearchResult;
 
     /**

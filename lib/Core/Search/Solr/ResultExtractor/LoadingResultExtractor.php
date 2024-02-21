@@ -9,6 +9,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Spellcheck;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult as APISearchResult;
 use IBexa\Contracts\Solr\ResultExtractor\AggregationResultExtractor;
 use IBexa\Solr\Gateway\EndpointRegistry;
@@ -19,6 +20,7 @@ use Netgen\IbexaSearchExtra\API\Values\Content\Search\Suggestion;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
 use RuntimeException;
+
 use function array_key_exists;
 use function count;
 use function get_object_vars;
@@ -75,13 +77,15 @@ final class LoadingResultExtractor extends ResultExtractor
         $data,
         array $facetBuilders = [],
         array $aggregations = [],
-        array $languageFilter = []
+        array $languageFilter = [],
+        ?Spellcheck $spellcheck = null,
     ): APISearchResult {
         $searchResult = $this->nativeResultExtractor->extract(
             $data,
             $facetBuilders,
             $aggregations,
             $languageFilter,
+            $spellcheck,
         );
         $searchResult = new SearchResult(get_object_vars($searchResult));
         $this->replaceExtractedValuesByLoadedValues($searchResult);

@@ -31,6 +31,7 @@ class Handler extends BaseHandler
             $query->facetBuilders,
             $query->aggregations,
             $languageFilter,
+            $query->spellcheck,
             $query,
         );
     }
@@ -51,6 +52,7 @@ class Handler extends BaseHandler
             $query->facetBuilders,
             $query->aggregations,
             $languageFilter,
+            $query->spellcheck,
             $query,
         );
     }

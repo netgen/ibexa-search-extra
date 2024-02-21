@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Spellcheck;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use IBexa\Contracts\Solr\ResultExtractor\AggregationResultExtractor;
@@ -39,13 +40,15 @@ final class NativeResultExtractor extends ResultExtractor
         $data,
         array $facetBuilders = [],
         array $aggregations = [],
-        array $languageFilter = []
+        array $languageFilter = [],
+        ?Spellcheck $spellcheck = null,
     ): SearchResult {
         return $this->nativeResultExtractor->extract(
             $data,
             $facetBuilders,
             $aggregations,
             $languageFilter,
+            $spellcheck,
         );
     }
 }
