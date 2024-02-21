@@ -7,7 +7,7 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Spellcheck;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
-use IBexa\Contracts\Solr\ResultExtractor\AggregationResultExtractor;
+use Ibexa\Contracts\Solr\ResultExtractor\AggregationResultExtractor;
 use Ibexa\Solr\Gateway\EndpointRegistry;
 use Ibexa\Solr\Query\FacetFieldVisitor;
 use Ibexa\Solr\ResultExtractor as BaseResultExtractor;
