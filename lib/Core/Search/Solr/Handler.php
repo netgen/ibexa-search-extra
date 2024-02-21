@@ -58,10 +58,12 @@ class Handler extends BaseHandler
         );
     }
 
-    // todo update with origin
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     */
     protected function deleteAllItemsWithoutAdditionalLocation($locationId): void
     {
-        $query = $this->prepareQuery();
+        $query = $this->prepareQuery(self::SOLR_MAX_QUERY_LIMIT);
         $query->filter = new Criterion\LogicalAnd([
             $this->allItemsWithinLocation($locationId),
             new Criterion\LogicalNot($this->allItemsWithinLocationWithAdditionalLocation($locationId)),
@@ -71,12 +73,21 @@ class Handler extends BaseHandler
             $this->gateway->searchAllEndpoints($query),
         );
 
-        foreach ($contentIds as $contentId) {
-            $idPrefix = $this->mapper->generateContentDocumentId($contentId);
-            $this->gateway->deleteByQuery("_root_:{$idPrefix}*");
+        $contentDocumentIds = [];
+
+        foreach ($contentIds as $id) {
+            $contentDocumentIds[] = $this->mapper->generateContentDocumentId($id) . '*';
+        }
+
+        foreach (array_chunk(array_unique($contentDocumentIds), self::SOLR_BULK_REMOVE_LIMIT) as $ids) {
+            $query = '_root_:(' . implode(' OR ', $ids) . ')';
+            $this->gateway->deleteByQuery($query);
         }
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     */
     protected function updateAllElementsWithAdditionalLocation($locationId): void
     {
         $query = $this->prepareQuery();
