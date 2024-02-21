@@ -29,7 +29,7 @@ final class Indexable implements IndexableInterface
         $this->shortTextMaxLength = $shortTextMaxLength;
     }
 
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
+    public function getIndexData(Field $field, FieldDefinition $fieldDefinition): array
     {
         $document = new DOMDocument();
         $document->loadXML($field->value->data);
