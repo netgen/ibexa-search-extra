@@ -104,7 +104,7 @@ class Handler extends BaseHandler
         foreach ($contentIds as $contentId) {
             try {
                 $contentInfo = $this->contentHandler->loadContentInfo($contentId);
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException) {
                 continue;
             }
 
