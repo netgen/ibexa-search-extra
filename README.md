@@ -5,7 +5,7 @@
 [![Downloads](https://img.shields.io/packagist/dt/netgen/ibexa-search-extra.svg)](https://packagist.org/packages/netgen/ibexa-search-extra)
 [![Latest stable](https://img.shields.io/github/release/netgen/ibexa-search-extra.svg)](https://packagist.org/packages/netgen/ibexa-search-extra)
 [![PHP](https://img.shields.io/badge/PHP-%E2%89%A5%208.1-%238892BF.svg)](https://secure.php.net/)
-[![Ibexa](https://img.shields.io/badge/Ibexa-%E2%89%A5%204.5-orange.svg)](https://ibexa.co/)
+[![Ibexa](https://img.shields.io/badge/Ibexa-%E2%89%A5%204.6-orange.svg)](https://ibexa.co/)
 
 ## Features
 
