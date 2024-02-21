@@ -21,7 +21,8 @@
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
         <ini name="error_reporting" value="-1" />
         <env name="DATABASE_URL" value="sqlite://:memory:" />
-        <env name="KERNEL_CLASS" value="Ibexa\Contracts\Core\Test\IbexaTestKernel"/>
+        <env name="KERNEL_CLASS" value="Ibexa\Contracts\Solr\Test\IbexaSolrTestKernel"/>
+        <env name="SEARCH_ENGINE" value="solr"/>
     </php>
     <testsuites>
         <!-- Search service is used all over the place, so we must run entire integration test suite -->
@@ -29,6 +30,7 @@
             <directory>tests/lib/Kernel</directory>
             <directory>vendor/ibexa/core/tests/integration/Core</directory>
             <exclude>vendor/ibexa/core/tests/integration/Core/Repository/Filtering</exclude>
+            <!-- Excluding because overridden locally -->
             <exclude>vendor/ibexa/core/tests/integration/Core/Repository/SearchServiceTest.php</exclude>
             <exclude>vendor/ibexa/core/tests/integration/Core/Repository/SearchServiceLocationTest.php</exclude>
         </testsuite>
