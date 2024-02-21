@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Solr\DocumentMapper;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Solr\Handler as BaseHandler;
+use stdClass;
 
 class Handler extends BaseHandler
 {
@@ -106,11 +107,9 @@ class Handler extends BaseHandler
     }
 
     /**
-     * @param mixed $data
-     *
-     * @return array
+     * @return int[]
      */
-    private function extractContentIds($data): array
+    private function extractContentIds(stdClass $data): array
     {
         $ids = [];
 

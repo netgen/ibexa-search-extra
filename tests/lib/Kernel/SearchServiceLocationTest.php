@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult as Kernel
 use Ibexa\Tests\Integration\Core\Repository\SearchServiceLocationTest as KernelSearchServiceLocationTest;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult;
+
 use function is_callable;
 
 class SearchServiceLocationTest extends KernelSearchServiceLocationTest

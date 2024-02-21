@@ -21,6 +21,7 @@ use Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
 use RuntimeException;
 
+use stdClass;
 use function array_key_exists;
 use function count;
 use function get_object_vars;
@@ -58,7 +59,7 @@ final class LoadingResultExtractor extends ResultExtractor
      * @throws \RuntimeException If search $hit could not be handled
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function extractHit($hit)
+    public function extractHit($hit): ContentInfo|Location
     {
         if ($hit->document_type_id === 'content') {
             return $this->contentHandler->loadContentInfo($hit->content_id_id);
@@ -74,7 +75,7 @@ final class LoadingResultExtractor extends ResultExtractor
     }
 
     protected function extractSearchResult(
-        $data,
+        stdClass $data,
         array $facetBuilders = [],
         array $aggregations = [],
         array $languageFilter = [],

@@ -12,6 +12,7 @@ use Ibexa\Solr\Gateway\EndpointRegistry;
 use Ibexa\Solr\Query\FacetFieldVisitor;
 use Ibexa\Solr\ResultExtractor as BaseResultExtractor;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
+use stdClass;
 
 /**
  * Native Result Extractor extracts the value object from the data returned by the Solr backend.
@@ -37,7 +38,7 @@ final class NativeResultExtractor extends ResultExtractor
     }
 
     protected function extractSearchResult(
-        $data,
+        stdClass $data,
         array $facetBuilders = [],
         array $aggregations = [],
         array $languageFilter = [],

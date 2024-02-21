@@ -12,6 +12,7 @@ use Netgen\IbexaSearchExtra\API\Values\Content\Search\LocationQuery as ExtraLoca
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\Query as ExtraQuery;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchHit;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
+use stdClass;
 
 use function array_filter;
 use function get_object_vars;
@@ -74,7 +75,6 @@ abstract class ResultExtractor extends BaseResultExtractor
     /**
      * Extract the base search result.
      *
-     * @param mixed $data
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation[] $aggregations
      * @param array $languageFilter
@@ -82,7 +82,7 @@ abstract class ResultExtractor extends BaseResultExtractor
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
      */
     abstract protected function extractSearchResult(
-        $data,
+        stdClass $data,
         array $facetBuilders = [],
         array $aggregations = [],
         array $languageFilter = [],
@@ -103,10 +103,9 @@ abstract class ResultExtractor extends BaseResultExtractor
     }
 
     /**
-     * @param mixed $data
      * @param string[] $extraFields
      */
-    private function extractExtraFields($data, SearchHit $searchHit, array $extraFields): array
+    private function extractExtraFields(stdClass $data, SearchHit $searchHit, array $extraFields): array
     {
         $extractedExtraFields = [];
 
