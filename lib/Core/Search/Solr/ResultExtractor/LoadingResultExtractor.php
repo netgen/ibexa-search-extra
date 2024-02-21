@@ -11,10 +11,10 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Spellcheck;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult as APISearchResult;
-use IBexa\Contracts\Solr\ResultExtractor\AggregationResultExtractor;
-use IBexa\Solr\Gateway\EndpointRegistry;
-use IBexa\Solr\Query\FacetFieldVisitor;
-use IBexa\Solr\ResultExtractor as BaseResultExtractor;
+use Ibexa\Contracts\Solr\ResultExtractor\AggregationResultExtractor;
+use Ibexa\Solr\Gateway\EndpointRegistry;
+use Ibexa\Solr\Query\FacetFieldVisitor;
+use Ibexa\Solr\ResultExtractor as BaseResultExtractor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\Suggestion;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion;
