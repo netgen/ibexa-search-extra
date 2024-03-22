@@ -1,0 +1,18 @@
+services:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Trash\RecoverHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Trash\TrashHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }

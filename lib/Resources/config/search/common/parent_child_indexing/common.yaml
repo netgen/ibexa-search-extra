@@ -1,0 +1,29 @@
+services:
+    Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ParentChildFieldMapper:
+        arguments:
+            $configuration: '%netgen.ibexa_search_extra.parent_child_indexer%'
+            $fulltextFieldResolver: '@Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\FulltextFieldResolver'
+            $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            $contentHandler: '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            $locationHandler: '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            $searchHandler: '@Ibexa\Core\Search\Legacy\Content\Handler'
+        tags:
+            - { name: ibexa.search.solr.field.mapper.content.translation }
+
+    Netgen\IbexaSearchExtra\Core\Search\Solr\ParentChildReindexAncestorResolver:
+        arguments:
+            $contentHandler: '@Ibexa\Core\Persistence\Legacy\Content\Handler'
+            $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            $locationHandler: '@Ibexa\Core\Persistence\Cache\LocationHandler'
+            $configuration: '%netgen.ibexa_search_extra.parent_child_indexer%'
+
+    Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\FulltextFieldResolver:
+        arguments:
+            $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            $fieldRegistry: '@Ibexa\Core\Search\Common\FieldRegistry'
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer:
+        arguments:
+            $searchHandler: '@Ibexa\Contracts\Core\Search\VersatileHandler'
+            $contentHandler: '@Ibexa\Core\Persistence\Legacy\Content\Handler'
+            $ancestorResolver: '@Netgen\IbexaSearchExtra\Core\Search\Solr\ParentChildReindexAncestorResolver'

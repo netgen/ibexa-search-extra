@@ -1,0 +1,7 @@
+services:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\ObjectState\SetContentStateHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+        tags:
+            - { name: messenger.message_handler }
