@@ -64,7 +64,7 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
     {
         $this->initializeExtraInfo();
 
-        return $this->maxScore;
+        return $this->maxScore ?? 0;
     }
 
     public function getSuggestion(): Suggestion
