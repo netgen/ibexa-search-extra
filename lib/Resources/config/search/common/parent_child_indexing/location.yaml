@@ -1,0 +1,81 @@
+services:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\AssignSectionToSubtreeHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\CopySubtreeHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\CreateLocationHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\DeleteLocationHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\HideLocationHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\MoveSubtreeHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\SwapLocationHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\UnhideLocationHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\UpdateLocationHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }

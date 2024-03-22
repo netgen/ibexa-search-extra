@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Events\Content\HideContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\PublishVersionEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\RevealContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\UpdateContentMetadataEvent;
+use Ibexa\Contracts\Core\Repository\LocationService;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\CopyContent;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteContent;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteTranslation;
@@ -25,8 +26,11 @@ use Throwable;
 
 class ContentEventSubscriber implements EventSubscriberInterface
 {
+    private array $contentParentLocations = [];
     public function __construct(
         private readonly MessageBusInterface $messageBus,
+        private readonly LocationService $locationService,
+
     ) {}
 
     public static function getSubscribedEvents(): array
@@ -55,8 +59,11 @@ class ContentEventSubscriber implements EventSubscriberInterface
 
     public function onBeforeDeleteContent(BeforeDeleteContentEvent $event): void
     {
+        $contentLocations = $this->locationService->loadLocations($event->getContentInfo());
         try {
-            $event->getContentInfo()->getMainLocation()?->parentLocationId;
+            foreach ($contentLocations as $contentLocation){
+                $this->contentParentLocations[] = $contentLocation->parentLocationId;
+            }
         } catch (Throwable) {
             // does nothing
         }
@@ -64,17 +71,12 @@ class ContentEventSubscriber implements EventSubscriberInterface
 
     public function onDeleteContent(DeleteContentEvent $event): void
     {
-        try {
-            $mainLocationParentLocationId = $event->getContentInfo()->getMainLocation()?->parentLocationId;
-        } catch (Throwable) {
-            $mainLocationParentLocationId = null;
-        }
-
+        $parentLocationIds = $this->contentParentLocations ?? [];
         $this->messageBus->dispatch(
             new DeleteContent(
                 $event->getContentInfo()->id,
                 $event->getLocations(),
-                $mainLocationParentLocationId,
+                $parentLocationIds,
             ),
         );
     }

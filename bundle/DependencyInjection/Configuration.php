@@ -31,6 +31,7 @@ class Configuration implements ConfigurationInterface
         $this->addFulltextBoostSection($rootNode);
         $this->addUsePageIndexingSection($rootNode);
         $this->addPageIndexingSection($rootNode);
+        $this->addParentChildIndexingSection($rootNode);
 
         return $treeBuilder;
     }
@@ -246,6 +247,17 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                     ->end()
+                ->end()
+            ->end();
+    }
+
+    private function addParentChildIndexingSection(ArrayNodeDefinition $nodeDefinition): void
+    {
+        $nodeDefinition
+            ->children()
+                ->booleanNode('use_parent_child_indexing')
+                    ->info('Use parent child indexing')
+                    ->defaultFalse()
                 ->end()
             ->end();
     }

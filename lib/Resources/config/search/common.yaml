@@ -2,6 +2,7 @@ imports:
     - { resource: common/asynchronous_indexing.yaml }
     - { resource: common/field_value_mappers.yaml }
     - { resource: common/page_indexing.yaml }
+    - { resource: common/parent_child_indexing.yaml }
 
 services:
     netgen.ibexa_search_extra.fulltext.configured_factory:

@@ -1,0 +1,57 @@
+services:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\CopyContentHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\DeleteContentHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\DeleteTranslationHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\HideContentHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\PublishVersionHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\RevealContentHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\UpdateContentMetadataHandler:
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
