@@ -7,7 +7,6 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper;
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
-use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -19,7 +18,6 @@ use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
 use Ibexa\Core\Search\Legacy\Content\Handler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationQuery as LocationQueryCriterion;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\Visible;
-use Netgen\IbexaSiteApi\Core\Traits\SearchResultExtractorTrait;
 
 
 use function array_key_exists;
@@ -30,8 +28,6 @@ use function count;
 
 final class ParentChildFieldMapper extends ContentTranslationFieldMapper
 {
-    use SearchResultExtractorTrait;
-
     /**
      * @var array<int, ?string>
      */
@@ -45,7 +41,6 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
         private readonly FulltextFieldResolver $fulltextFieldResolver,
         private readonly ContentTypeHandler $contentTypeHandler,
         private readonly ContentHandler $contentHandler,
-        private readonly LocationHandler $locationHandler,
         private readonly Handler $searchHandler,
         private readonly int $childrenLimit = 99,
     ) {}
