@@ -4,4 +4,4 @@ services:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
         tags:
-            - { name: messenger.message_handler }
+            - { name: netgen.parent_child_indexer.message_handler }

@@ -7,14 +7,4 @@ imports:
     - { resource: parent_child_indexing/trash.yaml }
 
 parameters:
-    netgen.ibexa_search_extra.parent_child_indexer:
-        parent_content:
-            children:
-                child_content:
-                    indexed: true
-                    children:
-                        child_content:
-                            indexed: true
-                            children:
-                                child_content:
-                                    indexed: true
+    netgen.ibexa_search_extra.parent_child_indexer: []
