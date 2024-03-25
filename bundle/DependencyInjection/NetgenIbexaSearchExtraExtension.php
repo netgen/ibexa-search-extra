@@ -94,6 +94,7 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $this->processFullTextBoostConfiguration($configuration, $container);
         $this->processUsePageIndexingConfiguration($configuration, $container);
         $this->processPageIndexingConfiguration($configuration, $container);
+        $this->processParentChildIndexingConfiguration($configuration, $container);
     }
 
     private function processSearchResultExtractorConfiguration(array $configuration, ContainerBuilder $container): void
@@ -155,6 +156,14 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $container->setParameter(
             'netgen_ibexa_search_extra.page_indexing.enabled',
             $configuration['page_indexing']['enabled'] ?? false,
+        );
+    }
+
+    private function processParentChildIndexingConfiguration(array $configuration, ContainerBuilder $container): void
+    {
+        $container->setParameter(
+            'netgen_ibexa_search_extra.use_parent_child_indexing',
+            $configuration['use_parent_child_indexing'],
         );
     }
 }
