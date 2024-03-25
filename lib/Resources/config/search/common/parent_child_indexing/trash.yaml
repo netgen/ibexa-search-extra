@@ -5,7 +5,7 @@ services:
             - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
             - '@?logger'
         tags:
-            - { name: messenger.message_handler }
+            - { name: netgen.parent_child_indexer.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
 
     Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Trash\TrashHandler:
@@ -14,5 +14,5 @@ services:
             - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer'
             - '@?logger'
         tags:
-            - { name: messenger.message_handler }
+            - { name: netgen.parent_child_indexer.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
