@@ -5,7 +5,6 @@ services:
             $fulltextFieldResolver: '@Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\FulltextFieldResolver'
             $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             $contentHandler: '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            $locationHandler: '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             $searchHandler: '@Ibexa\Core\Search\Legacy\Content\Handler'
         tags:
             - { name: ibexa.search.solr.field.mapper.content.translation }
