@@ -1,0 +1,69 @@
+services:
+    netgen_search_extra.parent_child_indexing.copy_content_handler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\CopyContentHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen_search_extra.parent_child_indexing.ancestor_indexer'
+        tags:
+            - { name: netgen.parent_child_indexer.message_handler }
+
+
+    netgen_search_extra.parent_child_indexing.delete_content_handler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\DeleteContentHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen_search_extra.parent_child_indexing.ancestor_indexer'
+            - '@?logger'
+        tags:
+            - { name: netgen.parent_child_indexer.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen_search_extra.parent_child_indexing.delete_translation_handler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\DeleteTranslationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen_search_extra.parent_child_indexing.ancestor_indexer'
+            - '@?logger'
+        tags:
+            - { name: netgen.parent_child_indexer.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+
+    netgen_search_extra.parent_child_indexing.hide_content_handler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\HideContentHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen_search_extra.parent_child_indexing.ancestor_indexer'
+        tags:
+            - { name: netgen.parent_child_indexer.message_handler }
+
+
+    netgen_search_extra.parent_child_indexing.publish_version_handler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\PublishVersionHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen_search_extra.parent_child_indexing.ancestor_indexer'
+        tags:
+            - { name: netgen.parent_child_indexer.message_handler }
+
+
+    netgen_search_extra.parent_child_indexing.reveal_content_handler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\RevealContentHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen_search_extra.parent_child_indexing.ancestor_indexer'
+        tags:
+            - { name: netgen.parent_child_indexer.message_handler }
+
+
+    netgen_search_extra.parent_child_indexing.update_content_metadata_handler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\UpdateContentMetadataHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen_search_extra.parent_child_indexing.ancestor_indexer'
+            - '@?logger'
+        tags:
+            - { name: netgen.parent_child_indexer.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
