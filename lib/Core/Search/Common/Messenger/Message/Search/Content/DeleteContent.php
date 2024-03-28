@@ -8,6 +8,7 @@ final class DeleteContent
 {
     /**
      * @param int[] $locationIds
+     * @param int[] $parentLocationIds
      */
     public function __construct(
         public readonly int $contentId,
