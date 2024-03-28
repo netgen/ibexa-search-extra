@@ -40,10 +40,9 @@ final class AncestorIndexer
     /**
      * @param \Ibexa\Contracts\Core\Persistence\Content\Location $location
      */
-    public function indexSingleForDeleteContent(Location $location): void
+    public function indexSingleForParentLocation(Location $location): void
     {
-        $ancestor = $this->ancestorResolver->resolveAncestorForDeleteContent($location);
-
+        $ancestor = $this->ancestorResolver->resolveAncestorForParentLocation($location);
         if ($ancestor === null) {
             return;
         }
@@ -71,12 +70,12 @@ final class AncestorIndexer
     /***
      * @param \Ibexa\Contracts\Core\Persistence\Content\Location[] $locations
      */
-    public function indexMultipleForDeleteContent(array $locations): void
+    public function indexMultipleForParentLocation(array $locations): void
     {
         $this->indexMultiple($locations);
 
         foreach ($locations as $location) {
-            $this->indexSingleForDeleteContent($location);
+            $this->indexSingleForParentLocation($location);
         }
     }
 }

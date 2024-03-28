@@ -44,7 +44,7 @@ final class MoveSubtreeHandler
                 $message->oldParentLocationId,
             );
 
-            $this->ancestorIndexer->indexSingle($location);
+            $this->ancestorIndexer->indexSingleForParentLocation($location);
         } catch (NotFoundException) {
             $this->logger->info(
                 sprintf(

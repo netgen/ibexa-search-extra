@@ -37,7 +37,7 @@ final class AsynchronousIndexingPass implements CompilerPassInterface
             ->setDecoratedService(CoreContentEventSubscriber::class)
             ->setArguments([
                 new Reference('netgen.ibexa_search_extra.asynchronous_indexing.messenger.bus'),
-                new Reference('ibexa.api.service.location'),
+                new Reference('Ibexa\Contracts\Core\Persistence\Content\Location\Handler'),
             ]);
 
         $container

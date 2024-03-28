@@ -8,7 +8,7 @@ use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
-use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
@@ -19,10 +19,8 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler;
 use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
 
-use Ibexa\Core\Repository\Values\Content\Content;
 use function array_key_exists;
 use function array_keys;
-use function array_map;
 use function array_merge;
 use function count;
 
@@ -42,7 +40,7 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
         private readonly ContentTypeHandler $contentTypeHandler,
         private readonly ContentHandler $contentHandler,
         private readonly Handler $contentFilteringHandler,
-        private readonly PersistenceHandler $persistenceHandler,
+        private readonly LocationHandler $locationHandler,
         private readonly int $childrenLimit = 99,
     ) {}
 
@@ -165,7 +163,7 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
         $items = [];
 
         foreach ($contentItemList as $contentItem) {
-            $contentLocations = $this->persistenceHandler->locationHandler()->loadLocationsByContent($contentItem->contentInfo->id);
+            $contentLocations = $this->locationHandler->loadLocationsByContent($contentItem->contentInfo->id);
 
             foreach ($contentLocations as $contentLocation) {
                 if (

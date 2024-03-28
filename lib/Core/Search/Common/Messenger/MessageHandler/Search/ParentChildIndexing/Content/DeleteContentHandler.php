@@ -48,6 +48,6 @@ final class DeleteContentHandler
             );
             }
         }
-        $this->ancestorIndexer->indexMultipleForDeleteContent($locations);
+        $this->ancestorIndexer->indexMultipleForParentLocation($locations);
     }
 }
