@@ -26,7 +26,7 @@ use Throwable;
 
 class ContentEventSubscriber implements EventSubscriberInterface
 {
-    private array $contentParentLocations = [];
+    private array $parentLocationIdsByContentId = [];
     public function __construct(
         private readonly MessageBusInterface $messageBus,
         private readonly PersistenceHandler  $persistenceHandler,
@@ -62,7 +62,7 @@ class ContentEventSubscriber implements EventSubscriberInterface
         $contentLocations = $this->persistenceHandler->locationHandler()->loadLocationsByContent($event->getContentInfo()->id);
         try {
             foreach ($contentLocations as $contentLocation){
-                $this->contentParentLocations[] = $contentLocation->parentLocationId;
+                $this->parentLocationIdsByContentId[$event->getContentInfo()->id][] = $contentLocation->parentLocationId;
             }
         } catch (Throwable) {
             // does nothing
@@ -71,14 +71,14 @@ class ContentEventSubscriber implements EventSubscriberInterface
 
     public function onDeleteContent(DeleteContentEvent $event): void
     {
-        $parentLocationIds = $this->contentParentLocations ?? [];
         $this->messageBus->dispatch(
             new DeleteContent(
                 $event->getContentInfo()->id,
                 $event->getLocations(),
-                $parentLocationIds,
+                $this->parentLocationIdsByContentId[$event->getContentInfo()->id] ?? [],
             ),
         );
+        $this->parentLocationIdsByContentId = [];
     }
 
     public function onDeleteTranslation(DeleteTranslationEvent $event): void
