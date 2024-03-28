@@ -8,18 +8,18 @@ use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId;
-use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler;
 use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
-use Ibexa\Core\Search\Legacy\Content\Handler;
-use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationQuery as LocationQueryCriterion;
-use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\Visible;
 
-
+use Ibexa\Core\Repository\Values\Content\Content;
 use function array_key_exists;
 use function array_keys;
 use function array_map;
@@ -41,7 +41,8 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
         private readonly FulltextFieldResolver $fulltextFieldResolver,
         private readonly ContentTypeHandler $contentTypeHandler,
         private readonly ContentHandler $contentHandler,
-        private readonly Handler $searchHandler,
+        private readonly Handler $contentFilteringHandler,
+        private readonly PersistenceHandler $persistenceHandler,
         private readonly int $childrenLimit = 99,
     ) {}
 
@@ -95,7 +96,6 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
 
         $childrenContentInfoList = $this->loadChildrenContentInfoList(
             $contentInfo,
-            $languageCode,
             $childrenConfiguration,
         );
 
@@ -139,10 +139,11 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
      * @param array<string, mixed> $configuration
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[]
+     * @throws BadStateException
+     * @throws InvalidCriterionArgumentException
      */
     private function loadChildrenContentInfoList(
         ContentInfo $contentInfo,
-        string $languageCode,
         array $configuration,
     ): array {
         $contentTypeIdentifiers = array_keys($configuration);
@@ -150,31 +151,36 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
         if (count($contentTypeIdentifiers) === 0) {
             return [];
         }
+        $filter = new Filter();
+        $filter
+            ->withCriterion(
+                new LogicalAnd([
+                    new ContentTypeIdentifier($contentTypeIdentifiers),
+                    new ParentLocationId($contentInfo->mainLocationId),
+                ])
+            )
+            ->withLimit($this->childrenLimit);
 
-        $searchResult = $this->searchHandler->findContent(
-            new Query([
-                'filter' => new LocationQueryCriterion(
-                    new LogicalAnd([
-                        new ContentTypeIdentifier($contentTypeIdentifiers),
-                        new ParentLocationId($contentInfo->mainLocationId),
-                        new Visible(true),
-                    ]),
-                ),
-                'limit' => $this->childrenLimit,
-            ]),
-            [
-                'languages' => [
-                    $languageCode,
-                ],
-            ],
-        );
+        $contentItemList = $this->contentFilteringHandler->find($filter);
+        $items = [];
 
-        /** @var \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[] $result */
-        $result = array_map(
-            static fn (SearchHit $searchHit) => $searchHit->valueObject,
-            $searchResult->searchHits,
-        );
+        foreach ($contentItemList as $contentItem) {
+            $contentLocations = $this->persistenceHandler->locationHandler()->loadLocationsByContent($contentItem->contentInfo->id);
 
-        return $result;
+            foreach ($contentLocations as $contentLocation) {
+                if (
+                    $contentLocation->parentId === $contentInfo->mainLocationId
+                    && !$contentLocation->hidden
+                    && !$contentLocation->invisible
+                    && !$contentInfo->isHidden
+                ) {
+                    $items[] = $contentItem->contentInfo;
+
+                    break;
+                }
+            }
+        }
+
+        return $items;
     }
 }
