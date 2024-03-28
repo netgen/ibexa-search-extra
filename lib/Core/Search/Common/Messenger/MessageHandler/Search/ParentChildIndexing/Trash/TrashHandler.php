@@ -39,6 +39,6 @@ final class TrashHandler
             return;
         }
 
-        $this->ancestorIndexer->indexSingle($location);
+        $this->ancestorIndexer->indexSingleForParentLocation($location);
     }
 }
