@@ -7,7 +7,7 @@ services:
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Filter\Content\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
         tags:
             - { name: ibexa.search.solr.field.mapper.content.translation }
 

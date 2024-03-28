@@ -63,7 +63,7 @@ final class ParentChildReindexAncestorResolver
      *
      * @param Location $location
      */
-    public function resolveAncestorForDeleteContent(Location $location): ?Location
+    public function resolveAncestorForParentLocation(Location $location): ?Location
     {
         $contentTypeIdentifier = $this->getContentTypeIdentifier($location);
 
