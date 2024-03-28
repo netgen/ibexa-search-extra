@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Events\Content\HideContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\PublishVersionEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\RevealContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\UpdateContentMetadataEvent;
-use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\CopyContent;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteContent;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteTranslation;
@@ -29,7 +29,7 @@ class ContentEventSubscriber implements EventSubscriberInterface
     private array $contentParentLocations = [];
     public function __construct(
         private readonly MessageBusInterface $messageBus,
-        private readonly LocationService $locationService,
+        private readonly PersistenceHandler  $persistenceHandler,
 
     ) {}
 
@@ -59,7 +59,7 @@ class ContentEventSubscriber implements EventSubscriberInterface
 
     public function onBeforeDeleteContent(BeforeDeleteContentEvent $event): void
     {
-        $contentLocations = $this->locationService->loadLocations($event->getContentInfo());
+        $contentLocations = $this->persistenceHandler->locationHandler()->loadLocationsByContent($event->getContentInfo()->id);
         try {
             foreach ($contentLocations as $contentLocation){
                 $this->contentParentLocations[] = $contentLocation->parentLocationId;
