@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\Bundle\IbexaSearchExtraBundle\DependencyInjection;
 
+use Ibexa\Contracts\Core\Repository\LanguageService;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -26,6 +27,8 @@ class Configuration implements ConfigurationInterface
         $this->addSearchResultExtractorSection($rootNode);
         $this->addAsynchronousIndexingSection($rootNode);
         $this->addFulltextBoostSection($rootNode);
+        $this->addUsePageIndexingSection($rootNode);
+        $this->addPageIndexingSection($rootNode);
 
         return $treeBuilder;
     }
@@ -134,6 +137,47 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                         ->end()
+                    ->end()
+                ->end()
+            ->end();
+    }
+
+    private function addUsePageIndexingSection(ArrayNodeDefinition $nodeDefinition): void
+    {
+        $nodeDefinition
+            ->children()
+                ->booleanNode('use_page_indexing')
+                    ->info('Use layouts page text indexing')
+                    ->defaultFalse()
+                ->end()
+            ->end();
+    }
+
+    private function addPageIndexingSection(ArrayNodeDefinition $nodeDefinition): void
+    {
+        $nodeDefinition
+            ->children()
+                ->arrayNode('page_indexing')
+                ->info('Page indexing configuration')
+                ->children()
+                    ->arrayNode('site_roots')
+                        ->scalarPrototype()->end()
+                        ->info('Location ids of site roots')
+                    ->end()
+                    ->arrayNode('languages_siteaccess_map')
+                        ->prototype('array')
+                            ->prototype('scalar')->end()
+                        ->end()
+                    ->end()
+                    ->scalarNode('host')
+                    ->end()
+                    ->arrayNode('config')
+                        ->prototype('array')
+                            ->prototype('scalar')->end()
+                        ->end()
+                    ->end()
+                    ->arrayNode('allowed_content_types')
+                        ->scalarPrototype()->end()
                     ->end()
                 ->end()
             ->end();

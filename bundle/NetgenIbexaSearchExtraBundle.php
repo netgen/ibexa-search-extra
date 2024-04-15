@@ -25,5 +25,7 @@ class NetgenIbexaSearchExtraBundle extends Bundle
         $container->addCompilerPass(new Compiler\SearchResultExtractorPass());
         $container->addCompilerPass(new Compiler\RawFacetBuilderDomainVisitorPass());
         $container->addCompilerPass(new Compiler\ElasticsearchExtensibleDocumentFactoryPass());
+        $container->addCompilerPass(new Compiler\LayoutsPageIndexingPass());
+        $container->addCompilerPass(new Compiler\AggregateElasticsearchContentFieldMapperMapperPass());
     }
 }

@@ -1,6 +1,8 @@
 imports:
     - { resource: common/asynchronous_indexing.yaml }
     - { resource: common/field_value_mappers.yaml }
+    - { resource: common/layouts_page_text_indexing.yaml }
+    - { resource: elastic_search/document_factory.yaml }
 
 services:
     netgen.ibexa_search_extra.fulltext.configured_factory:

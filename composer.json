@@ -15,7 +15,9 @@
         "ext-dom": "*",
         "ibexa/core": "^4.6",
         "symfony/messenger": "^5.4",
-        "symfony/proxy-manager-bridge": "^5.4"
+        "symfony/proxy-manager-bridge": "^5.4",
+        "ext-libxml": "*",
+        "ext-curl": "*"
     },
     "require-dev": {
         "ibexa/fieldtype-richtext": "^4.5",
@@ -53,5 +55,10 @@
     },
     "scripts": {
         "test": "@php vendor/bin/phpunit --colors=always"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false
+        }
     }
 }
