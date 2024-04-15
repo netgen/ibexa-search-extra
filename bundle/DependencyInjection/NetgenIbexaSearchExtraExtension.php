@@ -86,12 +86,12 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
     private function processExtensionConfiguration(array $configs, ContainerBuilder $container): void
     {
         $configuration = $this->getConfiguration($configs, $container);
-
         $configuration = $this->processConfiguration($configuration, $configs);
-
         $this->processIndexableFieldTypeConfiguration($configuration, $container);
         $this->processSearchResultExtractorConfiguration($configuration, $container);
         $this->processAsynchronousIndexingConfiguration($configuration, $container);
+        $this->processUsePageIndexingConfiguration($configuration, $container);
+        $this->processPageIndexingConfiguration($configuration, $container);
     }
 
     private function processSearchResultExtractorConfiguration(array $configuration, ContainerBuilder $container): void
@@ -119,6 +119,38 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $container->setParameter(
             'netgen_ibexa_search_extra.use_asynchronous_indexing',
             $configuration['use_asynchronous_indexing'],
+        );
+    }
+
+    private function processUsePageIndexingConfiguration(array $configuration, ContainerBuilder $container): void
+    {
+        $container->setParameter(
+            'netgen_ibexa_search_extra.use_page_indexing',
+            $configuration['use_page_indexing'],
+        );
+    }
+
+    private function processPageIndexingConfiguration(array $configuration, ContainerBuilder $container): void
+    {
+        $container->setParameter(
+            'netgen_ibexa_search_extra.page_indexing.site_roots',
+            $configuration['page_indexing']['site_roots'] ?? [],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.page_indexing.languages_siteaccess_map',
+            $configuration['page_indexing']['languages_siteaccess_map'] ?? [],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.page_indexing.host',
+            $configuration['page_indexing']['host'] ?? [],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.page_indexing.config',
+            $configuration['page_indexing']['config'] ?? [],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.page_indexing.allowed_content_types',
+            $configuration['page_indexing']['allowed_content_types'] ?? [],
         );
     }
 }

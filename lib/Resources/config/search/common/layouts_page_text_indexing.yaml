@@ -1,0 +1,30 @@
+services:
+    netgen.ibexa_search_extra.page_indexing.page_text_extractor:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@Symfony\Component\Routing\RouterInterface'
+            - '%netgen.ibexa_search_extra.page_indexing.site_roots%'
+            - '%netgen.ibexa_search_extra.page_indexing.languages_siteaccess_map%'
+            - '%netgen.ibexa_search_extra.page_indexing.host%'
+            - '%netgen.ibexa_search_extra.page_indexing.config%'
+        calls:
+            - setLogger: ['@?logger']
+
+    netgen.ibexa_search_extra.page_indexing:
+        class: Netgen\IbexaSearchExtra\Command\IndexPageContentCommand
+        tags:
+            - { name: console.command }
+        arguments:
+            - '@Ibexa\Contracts\Core\Repository\ContentService'
+            - '@ibexa.spi.search'
+            - '@ibexa.api.persistence_handler'
+            - '%netgen.ibexa_search_extra.page_indexing.allowed_content_types%'
+
+parameters:
+    netgen.ibexa_search_extra.page_indexing.site_roots: []
+    netgen.ibexa_search_extra.page_indexing.languages_siteaccess_map: []
+    netgen.ibexa_search_extra.page_indexing.host: null
+    netgen.ibexa_search_extra.page_indexing.config: []
+    netgen.ibexa_search_extra.page_indexing.allowed_content_types: []
