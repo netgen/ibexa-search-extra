@@ -132,6 +132,7 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
 
     private function processPageIndexingConfiguration(array $configuration, ContainerBuilder $container): void
     {
+
         $container->setParameter(
             'netgen_ibexa_search_extra.page_indexing.site_roots',
             $configuration['page_indexing']['site_roots'] ?? [],
@@ -142,7 +143,7 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         );
         $container->setParameter(
             'netgen_ibexa_search_extra.page_indexing.host',
-            $configuration['page_indexing']['host'] ?? [],
+            $configuration['page_indexing']['host'] ?? null,
         );
         $container->setParameter(
             'netgen_ibexa_search_extra.page_indexing.config',
