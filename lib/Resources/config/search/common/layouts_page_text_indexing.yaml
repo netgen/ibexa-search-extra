@@ -5,10 +5,10 @@ services:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@Symfony\Component\Routing\RouterInterface'
-            - '%netgen.ibexa_search_extra.page_indexing.site_roots%'
-            - '%netgen.ibexa_search_extra.page_indexing.languages_siteaccess_map%'
-            - '%netgen.ibexa_search_extra.page_indexing.host%'
-            - '%netgen.ibexa_search_extra.page_indexing.config%'
+            - '%netgen_ibexa_search_extra.page_indexing.site_roots%'
+            - '%netgen_ibexa_search_extra.page_indexing.languages_siteaccess_map%'
+            - '%netgen_ibexa_search_extra.page_indexing.host%'
+            - '%netgen_ibexa_search_extra.page_indexing.config%'
         calls:
             - setLogger: ['@?logger']
 
@@ -22,9 +22,9 @@ services:
             - '@ibexa.api.persistence_handler'
             - '%netgen.ibexa_search_extra.page_indexing.allowed_content_types%'
 
-parameters:
-    netgen.ibexa_search_extra.page_indexing.site_roots: []
-    netgen.ibexa_search_extra.page_indexing.languages_siteaccess_map: []
-    netgen.ibexa_search_extra.page_indexing.host: null
-    netgen.ibexa_search_extra.page_indexing.config: []
-    netgen.ibexa_search_extra.page_indexing.allowed_content_types: []
+#parameters:
+#    netgen.ibexa_search_extra.page_indexing.site_roots: []
+#    netgen.ibexa_search_extra.page_indexing.languages_siteaccess_map: []
+#    netgen.ibexa_search_extra.page_indexing.host: null
+#    netgen.ibexa_search_extra.page_indexing.config: []
+#    netgen.ibexa_search_extra.page_indexing.allowed_content_types: []
