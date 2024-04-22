@@ -15,26 +15,18 @@ use Netgen\IbexaSearchExtra\Exception\IndexPageUnavailableException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use RuntimeException;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use function count;
-use function curl_close;
-use function curl_error;
-use function curl_exec;
-use function curl_getinfo;
-use function curl_init;
-use function curl_setopt;
 use function explode;
 use function in_array;
-use function is_string;
 use function libxml_use_internal_errors;
 use function mb_strlen;
 use function mb_strpos;
 use function mb_substr;
 use function sprintf;
 use function trim;
-use const CURLINFO_HTTP_CODE;
-use const CURLOPT_RETURNTRANSFER;
 use const XML_ELEMENT_NODE;
 use const XML_HTML_DOCUMENT_NODE;
 use const XML_TEXT_NODE;
@@ -222,32 +214,26 @@ class PageTextExtractor
     private function fetchPageSource(int $contentId, string $languageCode): string
     {
         $url = $this->generateUrl($languageCode, $contentId);
-        $curlHandle = curl_init($url);
 
-        if ($curlHandle === false) {
-            throw new RuntimeException('There was an error initializing a cURL session');
-        }
+        $this->httpClient = HttpClient::create(
+        );
 
-        curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+        $response = $this->httpClient->request(
+            'GET',
+            $url
+        );
 
-        $html = curl_exec($curlHandle);
-        if (!is_string($html)) {
-            throw new RuntimeException('curl_exec could not fetch url');
-        }
+        $html = $response->getContent();
 
-        $httpCode = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
-
-        if ($httpCode !== 200) {
+        if ($response->getStatusCode() !== 200) {
             throw new IndexPageUnavailableException(
                 sprintf(
                     'Could not fetch URL "%s": %s',
                     $url,
-                    curl_error($curlHandle),
+                    $response->getInfo()['error'],
                 ),
             );
         }
-
-        curl_close($curlHandle);
 
         return $html;
     }
