@@ -29,7 +29,7 @@ class Solr extends CoreSolrSetupFactory
 
         $testConfigPath = __DIR__ . '/../Resources/config/';
         $loader = new YamlFileLoader($containerBuilder, new FileLocator($testConfigPath));
-        $loader->load('services.yaml');
+        $loader->load('indexable_field_types.yaml');
         $loader->load('event_dispatcher_override.yaml');
 
         // Needs to be added first because other passes depend on it

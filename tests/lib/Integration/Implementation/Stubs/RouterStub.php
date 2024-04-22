@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\IbexaSearchExtraBundle\Tests\Implementation;
+namespace Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Stubs;
 
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouterInterface;
