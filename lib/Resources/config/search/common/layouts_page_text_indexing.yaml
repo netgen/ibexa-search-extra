@@ -4,7 +4,7 @@ services:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@Symfony\Component\Routing\RouterInterface'
+            - '@Ibexa\Bundle\Core\Routing\UrlAliasRouter'
             - '%netgen_ibexa_search_extra.page_indexing.site_roots%'
             - '%netgen_ibexa_search_extra.page_indexing.languages_siteaccess_map%'
             - '%netgen_ibexa_search_extra.page_indexing.host%'
