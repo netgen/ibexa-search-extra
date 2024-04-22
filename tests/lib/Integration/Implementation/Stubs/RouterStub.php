@@ -6,31 +6,33 @@ namespace Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Stubs;
 
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouterInterface;
+use RuntimeException;
+
 
 class RouterStub implements RouterInterface
 {
     public function setContext(RequestContext $context)
     {
-        // TODO: Implement setContext() method.
+        throw new RuntimeException("Not implemented");
     }
 
     public function getContext()
     {
-        // TODO: Implement getContext() method.
+        throw new RuntimeException("Not implemented");
     }
 
     public function getRouteCollection()
     {
-        // TODO: Implement getRouteCollection() method.
+        throw new RuntimeException("Not implemented");
     }
 
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH)
     {
-        // TODO: Implement generate() method.
+        throw new RuntimeException("Not implemented");
     }
 
     public function match(string $pathinfo)
     {
-        // TODO: Implement match() method.
+        throw new RuntimeException("Not implemented");
     }
 }
