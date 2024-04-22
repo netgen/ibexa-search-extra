@@ -90,3 +90,7 @@ services:
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\UpdateUser': ['@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UpdateUserHandler']
 
     netgen.ibexa_search_extra.asynchronous_indexing.messenger.bus: '@netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.bus'
+
+    Ibexa\Bundle\Core\Routing\UrlAliasRouter:
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Stubs\RouterStub
+

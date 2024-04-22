@@ -25,7 +25,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             new FileLocator(__DIR__ . '/_fixtures'),
         );
 
-        $loader->load('services.yaml');
+        $loader->load('indexable_field_types.yaml');
 
         $this->setParameter('kernel.bundles', []);
     }
