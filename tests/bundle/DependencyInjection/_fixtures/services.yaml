@@ -2,3 +2,6 @@ services:
     Ibexa\FieldTypeRichText\FieldType\RichText\SearchField:
         tags:
             - { name: ibexa.field_type.indexable, alias: ezrichtext }
+
+    Ibexa\Bundle\Core\Routing\UrlAliasRouter:
+        class: Netgen\IbexaSearchExtraBundle\Tests\Implementation\RouterStub
