@@ -94,3 +94,9 @@ services:
     Ibexa\Bundle\Core\Routing\UrlAliasRouter:
         class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Stubs\RouterStub
 
+parameters:
+    netgen_ibexa_search_extra.page_indexing.site_roots: []
+    netgen_ibexa_search_extra.page_indexing.language_siteaccess_map: []
+    netgen_ibexa_search_extra.page_indexing.host: null
+    netgen_ibexa_search_extra.page_indexing.config: []
+
