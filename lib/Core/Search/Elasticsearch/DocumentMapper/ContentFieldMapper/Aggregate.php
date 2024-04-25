@@ -8,7 +8,7 @@ use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\ContentFiel
 class Aggregate extends ContentFieldMapper
 {
     /**
-     * An array of aggregated field mappers, sorted by priority.
+     * An array of aggregated field mappers.
      *
      * @var ContentFieldMapper[]
      */
@@ -16,7 +16,7 @@ class Aggregate extends ContentFieldMapper
 
     /**
      * @param ContentFieldMapper[] $mappers
-     *        An array of mappers, sorted by priority.
+     *        An array of mappers.
      */
     public function __construct(array $mappers = [])
     {
@@ -26,7 +26,7 @@ class Aggregate extends ContentFieldMapper
     }
 
     /**
-     * Adds given $mapper to the internal array as the next one in priority.
+     * Adds given $mapper to the internal array.
      */
     public function addMapper(ContentFieldMapper $mapper): void
     {

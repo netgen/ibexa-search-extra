@@ -10,7 +10,7 @@ use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\LocationFie
 class Aggregate extends LocationFieldMapper
 {
     /**
-     * An array of aggregated field mappers, sorted by priority.
+     * An array of aggregated field mappers.
      *
      * @var LocationFieldMapper[]
      */
@@ -18,7 +18,7 @@ class Aggregate extends LocationFieldMapper
 
     /**
      * @param LocationFieldMapper[] $mappers
-     *        An array of mappers, sorted by priority.
+     *        An array of mappers.
      */
     public function __construct(array $mappers = [])
     {
@@ -28,7 +28,7 @@ class Aggregate extends LocationFieldMapper
     }
 
     /**
-     * Adds given $mapper to the internal array as the next one in priority.
+     * Adds given $mapper to the internal array.
      */
     public function addMapper(LocationFieldMapper $mapper): void
     {

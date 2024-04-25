@@ -8,7 +8,7 @@ use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTransl
 class Aggregate extends BlockTranslationFieldMapper
 {
     /**
-     * An array of aggregated field mappers, sorted by priority.
+     * An array of aggregated field mappers.
      *
      * @var BlockTranslationFieldMapper[]
      */
@@ -26,7 +26,7 @@ class Aggregate extends BlockTranslationFieldMapper
     }
 
     /**
-     * Adds given $mapper to the internal array as the next one in priority.
+     * Adds given $mapper to the internal array.
      */
     public function addMapper(BlockTranslationFieldMapper $mapper): void
     {
