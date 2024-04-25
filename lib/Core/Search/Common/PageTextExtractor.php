@@ -96,7 +96,6 @@ class PageTextExtractor
      * @param int $contentId
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      *
      * @return string
      */
@@ -138,13 +137,23 @@ class PageTextExtractor
             }
 
             if (!isset($this->languageAccessibility[$site][$languageCode])) {
-                throw new RuntimeException("Language not supported for matched siteaccess group '{$site}'");
+                throw new RuntimeException(
+                    sprintf(
+                        "Language not supported for matched siteaccess group %s",
+                        $site
+                    )
+                );
             }
 
             return $this->languageAccessibility[$site][$languageCode];
         }
 
-        throw new RuntimeException("Failed to match content ID '{$contentInfo->id}' to a siteaccess");
+        throw new RuntimeException(
+            sprintf(
+                "Failed to match content ID %d to a siteaccess",
+                $contentInfo->id
+            )
+        );
     }
 
     /**
@@ -160,12 +169,16 @@ class PageTextExtractor
 
             if ($fieldLevel !== null) {
                 $textArray[$fieldLevel][] = $node->textContent;
-            } else {
-                foreach ($node->childNodes as $childNode) {
-                    $this->recursiveExtractTextArray($childNode, $textArray);
-                }
+
+                return $textArray;
             }
-        } elseif ($node->nodeType === XML_TEXT_NODE) {
+
+            foreach ($node->childNodes as $childNode) {
+                $this->recursiveExtractTextArray($childNode, $textArray);
+            }
+
+        }
+        if ($node->nodeType === XML_TEXT_NODE) {
             $textContent = trim($node->textContent);
             if ($textContent !== '') {
                 $textArray['other'][] = $textContent;
@@ -215,10 +228,10 @@ class PageTextExtractor
     {
         $url = $this->generateUrl($languageCode, $contentId);
 
-        $this->httpClient = HttpClient::create(
+        $httpClient = HttpClient::create(
         );
 
-        $response = $this->httpClient->request(
+        $response = $httpClient->request(
             'GET',
             $url
         );
