@@ -5,6 +5,15 @@ services:
     netgen.ibexa_search_extra.elasticsearch.field_mapper.block_translation.aggregate:
         class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTranslationFieldMapper\Aggregate
 
+    netgen.ibexa_search_extra.elasticsearch.field_mapper.block_translation.page_text:
+        class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTranslationFieldMapper\BlockPageTextFieldMapper
+        arguments:
+            - '@netgen.ibexa_search_extra.page_indexing.page_text_extractor'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            - '%netgen_ibexa_search_extra.page_indexing.allowed_content_types%'
+        tags:
+            - { name: netgen.ibexa_search_extra.elasticsearch.field_mapper.block_translation }
+
     netgen.ibexa_search_extra.elasticsearch.field_mapper.content.aggregate:
         class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\ContentFieldMapper\Aggregate
 
