@@ -10,8 +10,6 @@ use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\LocationFie
 
 class LocationVisibilityFieldMapper extends LocationFieldMapper
 {
-
-
     public function __construct(
         private readonly ContentHandler $contentHandler
     ){
