@@ -6,9 +6,6 @@ namespace Netgen\IbexaSearchExtra\Command;
 
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
-use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -30,9 +27,6 @@ class IndexPageContentCommand extends Command
     protected static $defaultName = 'netgen-search-extra:index-page-content';
 
     /**
-     * @param ContentService $contentService
-     * @param SearchHandler $searchHandler
-     * @param PersistenceHandler $persistenceHandler
      * @param array<string> $allowedContentTypes
      */
     public function __construct(
@@ -57,67 +51,84 @@ class IndexPageContentCommand extends Command
     }
 
     /**
-     * @throws NotFoundException
-     * @throws InvalidArgumentException
-     * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $contentIds = $input->getOption('content-ids');
+
         if ($contentIds !== null) {
-            $contentIds = explode(',', $contentIds);
-
-            $totalCount = count($contentIds);
-            $output->writeln("Number of objects to index: {$totalCount}");
-
-            $progressBar = new ProgressBar($output, $totalCount);
-            $progressBar->start();
-            foreach ($contentIds as $contentId) {
-                $content = $this->contentService->loadContent((int) $contentId);
-                $this->indexContentWithLocations($content);
-                $progressBar->advance();
-            }
+            $this->indexByContentIds($contentIds, $output);
         } else {
-            $query = new Query();
-            $offset = 0;
-            $limit = 50;
-            $query->query = new Criterion\ContentTypeIdentifier($this->allowedContentTypes);
-            $totalCount = $this->getTotalCount($query);
-            $progressBar = new ProgressBar($output, $totalCount);
-
-            if ($totalCount <= 0) {
-                $output->writeln('No content found to index, exiting.');
-
-                return Command::SUCCESS;
-            }
-
-            $output->writeln('Found ' . $totalCount . ' content objects...');
-            $output->writeln('');
-
-            $progressBar->start($totalCount);
-
-            while ($offset < $totalCount) {
-                $chunk = $this->getChunk($query, $limit, $offset);
-
-                $this->processChunk($chunk, $output, $progressBar);
-
-                $offset += $limit;
-            }
-
-            $progressBar->finish();
-
-            $output->writeln('');
-            $output->writeln('');
-            $output->writeln('Finished.');
+            $this->indexAllContent($output);
         }
 
         return Command::SUCCESS;
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    private function getTotalCount(Query $query): int
+    private function indexByContentIds(mixed $contentIds, OutputInterface $output): int
+    {
+        $contentIds = explode(',', $contentIds);
+
+        $totalCount = count($contentIds);
+        $output->writeln("Number of objects to index: {$totalCount}");
+
+        $progressBar = new ProgressBar($output, $totalCount);
+        $progressBar->start();
+        foreach ($contentIds as $contentId) {
+            $content = $this->contentService->loadContent((int)$contentId);
+            $this->indexContentWithLocations($content);
+            $progressBar->advance();
+        }
+
+        return Command::SUCCESS;
+    }
+
+    private function indexAllContent(OutputInterface $output): int
+    {
+        $offset = 0;
+        $limit = 50;
+        $totalCount = $this->getTotalCount();
+        $progressBar = new ProgressBar($output, $totalCount);
+
+        if ($totalCount <= 0) {
+            $output->writeln('No content found to index, exiting.');
+
+            return Command::SUCCESS;
+        }
+
+        $output->writeln('Found ' . $totalCount . ' content objects...');
+        $output->writeln('');
+
+        $progressBar->start($totalCount);
+
+        while ($offset < $totalCount) {
+            $chunk = $this->getChunk($limit, $offset);
+
+            $this->processChunk($chunk, $output, $progressBar);
+
+            $offset += $limit;
+        }
+
+        $progressBar->finish();
+
+        $output->writeln('');
+        $output->writeln('');
+        $output->writeln('Finished.');
+
+        return Command::SUCCESS;
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    private function getTotalCount(): int
     {
         $filter = new Filter();
         $filter
@@ -132,9 +143,9 @@ class IndexPageContentCommand extends Command
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    private function getChunk(Query $query, int $limit, int $offset): ContentList
+    private function getChunk(int $limit, int $offset): ContentList
     {
         $filter = new Filter();
         $filter
@@ -148,7 +159,7 @@ class IndexPageContentCommand extends Command
     {
         foreach ($contentList->getIterator() as $content) {
             try {
-                //$this->indexContentWithLocations($content);
+                $this->indexContentWithLocations($content);
                 $progressBar->advance();
             } catch (IndexPageUnavailableException $exception) {
                 $output->writeln($exception->getMessage());
