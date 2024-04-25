@@ -167,5 +167,9 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
             'netgen_ibexa_search_extra.page_indexing.allowed_content_types',
             $configuration['page_indexing']['allowed_content_types'] ?? [],
         );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.page_indexing.enabled',
+            $configuration['page_indexing']['enabled'] ?? false,
+        );
     }
 }
