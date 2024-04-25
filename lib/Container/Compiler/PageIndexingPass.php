@@ -2,16 +2,11 @@
 
 namespace Netgen\IbexaSearchExtra\Container\Compiler;
 
-use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\DocumentFactory;
-use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\Query\CriterionVisitor\Content\VisibilityVisitor as ContentVisibilityVisitor;
-use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\Query\CriterionVisitor\Location\VisibilityVisitor as LocationVisibilityVisitor;
-
 use Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ContentPageTextFieldMapper;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Ibexa\Elasticsearch\DocumentMapper\DocumentFactoryInterface;
-use Ibexa\Contracts\Core\Persistence\Content\Handler;
 
 
 class PageIndexingPass implements CompilerPassInterface
