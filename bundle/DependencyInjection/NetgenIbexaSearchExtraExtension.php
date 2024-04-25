@@ -86,7 +86,6 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $this->processIndexableFieldTypeConfiguration($configuration, $container);
         $this->processSearchResultExtractorConfiguration($configuration, $container);
         $this->processAsynchronousIndexingConfiguration($configuration, $container);
-        $this->processUsePageIndexingConfiguration($configuration, $container);
         $this->processPageIndexingConfiguration($configuration, $container);
     }
 
@@ -118,14 +117,6 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         );
     }
 
-    private function processUsePageIndexingConfiguration(array $configuration, ContainerBuilder $container): void
-    {
-        $container->setParameter(
-            'netgen_ibexa_search_extra.use_page_indexing',
-            $configuration['use_page_indexing'],
-        );
-    }
-
     private function processPageIndexingConfiguration(array $configuration, ContainerBuilder $container): void
     {
 
@@ -148,6 +139,10 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $container->setParameter(
             'netgen_ibexa_search_extra.page_indexing.allowed_content_types',
             $configuration['page_indexing']['allowed_content_types'] ?? [],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.page_indexing.enabled',
+            $configuration['page_indexing']['enabled'] ?? false,
         );
     }
 }

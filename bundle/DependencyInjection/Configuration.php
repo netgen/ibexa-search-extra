@@ -26,7 +26,6 @@ class Configuration implements ConfigurationInterface
         $this->addIndexableFieldTypeSection($rootNode);
         $this->addSearchResultExtractorSection($rootNode);
         $this->addAsynchronousIndexingSection($rootNode);
-        $this->addUsePageIndexingSection($rootNode);
         $this->addPageIndexingSection($rootNode);
 
         return $treeBuilder;
@@ -77,17 +76,6 @@ class Configuration implements ConfigurationInterface
             ->end();
     }
 
-    private function addUsePageIndexingSection(ArrayNodeDefinition $nodeDefinition): void
-    {
-        $nodeDefinition
-            ->children()
-                ->booleanNode('use_page_indexing')
-                    ->info('Use layouts page text indexing')
-                    ->defaultFalse()
-                ->end()
-            ->end();
-    }
-
     private function addPageIndexingSection(ArrayNodeDefinition $nodeDefinition): void
     {
         $keyValidator = static function ($v) {
@@ -103,6 +91,10 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('page_indexing')
                 ->info('Page indexing configuration')
                 ->children()
+                    ->booleanNode('enabled')
+                        ->info('Use layouts page text indexing')
+                        ->defaultFalse()
+                    ->end()
                     ->arrayNode('site_roots')
                         ->info('Site root ids')
                         ->useAttributeAsKey('name')
