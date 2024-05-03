@@ -1,4 +1,4 @@
-# Netgen's extra search bits for Ibexa CMS
+# Netgen's extra bits for Ibexa CMS Search
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/netgen/ibexa-search-extra/tests.yml?branch=master)](https://github.com/netgen/ibexa-search-extra/actions)
 [![Read the Docs](https://img.shields.io/readthedocs/netgens-search-extra-for-ibexa-cms)](https://docs.netgen.io/projects/search-extra)
