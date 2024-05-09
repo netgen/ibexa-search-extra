@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Netgen\IbexaSearchExtra\Command;
+namespace Netgen\Bundle\IbexaSearchExtraBundle\Command;
 
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Netgen\IbexaSearchExtra\Exception\IndexPageUnavailableException;
