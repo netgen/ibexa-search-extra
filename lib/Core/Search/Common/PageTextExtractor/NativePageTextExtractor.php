@@ -59,8 +59,6 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
      */
     public function extractPageText(int $contentId, string $languageCode): array
     {
-        $siteConfig = $this->siteAccessConfigResolver->getSiteConfigForContent($contentId);
-
         if (isset($this->cache[$contentId][$languageCode])) {
             return $this->cache[$contentId][$languageCode];
         }
@@ -69,6 +67,7 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
             $this->cache = [];
         }
 
+        $siteConfig = $this->siteAccessConfigResolver->getSiteConfigForContent($contentId);
 
         try {
             $html = $this->fetchPageSource($contentId, $languageCode, $siteConfig);
