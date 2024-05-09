@@ -56,7 +56,10 @@ class IndexPageContentCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        foreach ($this->sitesConfig as $siteConfig) {
+        foreach ($this->sitesConfig as $site => $siteConfig) {
+            $output->writeln('');
+            $output->writeln("Indexing for site " . $site);
+            $output->writeln('');
             $this->indexContent($output, $input, $siteConfig);
         }
 
@@ -97,6 +100,7 @@ class IndexPageContentCommand extends Command
         $output->writeln('');
         $output->writeln('');
         $output->writeln('Finished.');
+        $output->writeln('');
 
     }
 
