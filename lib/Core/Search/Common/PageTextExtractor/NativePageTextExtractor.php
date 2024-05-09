@@ -10,7 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
-use Netgen\IbexaSearchExtra\Core\Search\Common\SiteAccessConfigResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Common\SiteConfigResolver;
 use Netgen\IbexaSearchExtra\Exception\IndexPageUnavailableException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -41,7 +41,7 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
     public function __construct(
         private readonly ContentHandler $contentHandler,
         private readonly RouterInterface $router,
-        private readonly SiteAccessConfigResolver $siteAccessConfigResolver
+        private readonly SiteConfigResolver $siteConfigResolver
     ) {
         $this->logger = new NullLogger();
     }
@@ -67,7 +67,7 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
             $this->cache = [];
         }
 
-        $siteConfig = $this->siteAccessConfigResolver->getSiteConfigForContent($contentId);
+        $siteConfig = $this->siteConfigResolver->getSiteConfigForContent($contentId);
 
         try {
             $html = $this->fetchPageSource($contentId, $languageCode, $siteConfig);
@@ -123,7 +123,7 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
 
     private function resolveSiteAccess(ContentInfo $contentInfo, string $languageCode): string
     {
-        $siteConfig = $this->siteAccessConfigResolver->getSiteConfigForContent($contentInfo->id);
+        $siteConfig = $this->siteConfigResolver->getSiteConfigForContent($contentInfo->id);
 
         if (!isset($siteConfig['languages_siteaccess_map'][$languageCode])) {
             throw new RuntimeException(
@@ -172,7 +172,7 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
 
     private function getFieldName(DOMNode $node, int $contentId): null|string
     {
-        $siteConfig = $this->siteAccessConfigResolver->getSiteConfigForContent($contentId);
+        $siteConfig = $this->siteConfigResolver->getSiteConfigForContent($contentId);
         $fields = $siteConfig['fields'];
 
         foreach ($fields as $level => $tags) {
