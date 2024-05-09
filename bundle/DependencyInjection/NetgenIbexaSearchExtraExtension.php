@@ -173,11 +173,11 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
             return;
         }
         foreach ($container->getParameter('netgen_ibexa_search_extra.page_indexing.sites') as $siteName => $config) {
-            $this->setPageIndexingSitesParameters($configuration, $container, $siteName);
+            $this->setPageIndexingSitesParameters($container, $siteName);
         }
     }
 
-    private function setPageIndexingSitesParameters(array $configuration, ContainerBuilder $container, string $siteName): void
+    private function setPageIndexingSitesParameters(ContainerBuilder $container, string $siteName): void
     {
         /** @var array $pageIndexingSitesConfig */
         $pageIndexingSitesConfig = $container->getParameter('netgen_ibexa_search_extra.page_indexing.sites');
