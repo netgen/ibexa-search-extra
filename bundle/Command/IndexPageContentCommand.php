@@ -63,7 +63,7 @@ class IndexPageContentCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function indexContent(OutputInterface $output, InputInterface $input, array $siteConfig): int
+    private function indexContent(OutputInterface $output, InputInterface $input, array $siteConfig): void
     {
         $contentIds = explode(',', $input->getOption('content-ids'));
 
@@ -76,7 +76,7 @@ class IndexPageContentCommand extends Command
         if ($totalCount <= 0) {
             $output->writeln('No content found to index, exiting.');
 
-            return Command::SUCCESS;
+            return;
         }
 
         $output->writeln('Found ' . $totalCount . ' content objects...');
@@ -98,7 +98,6 @@ class IndexPageContentCommand extends Command
         $output->writeln('');
         $output->writeln('Finished.');
 
-        return Command::SUCCESS;
     }
 
     /**
