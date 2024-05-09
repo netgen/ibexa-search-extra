@@ -26,7 +26,7 @@ class PageIndexingPass implements CompilerPassInterface
             ->register(ContentPageTextFieldMapper::class, ContentPageTextFieldMapper::class)
             ->setArguments([
                 new Reference('netgen.ibexa_search_extra.page_indexing.page_text_extractor'),
-                '%netgen_ibexa_search_extra.page_indexing.allowed_content_types%',
+                '%netgen_ibexa_search_extra.page_indexing.sites%',
             ])
             ->addTag('ibexa.search.solr.field.mapper.content.translation');
     }

@@ -39,18 +39,13 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
     private LoggerInterface $logger;
 
     /**
-     * @param array<string, int> $siteRoots
-     * @param array<string, array<string, string>> $languageAccessibility
-     * @param array<array<int, string>> $pageTextConfig
+     * @param array<string, mixed> $sitesConfig
      */
     public function __construct(
         private readonly ContentHandler $contentHandler,
         private readonly LocationHandler $locationHandler,
         private readonly RouterInterface $router,
-        private readonly array $siteRoots,
-        private readonly array $languageAccessibility,
-        private readonly string $pageIndexingHost,
-        private readonly array $pageTextConfig,
+        private readonly array $sitesConfig
     ) {
         $this->logger = new NullLogger();
     }
@@ -68,6 +63,8 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
      */
     public function extractPageText(int $contentId, string $languageCode): array
     {
+        $siteConfig = $this->getSiteConfigForContent($contentId);
+
         if (isset($this->cache[$contentId][$languageCode])) {
             return $this->cache[$contentId][$languageCode];
         }
@@ -76,15 +73,16 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
             $this->cache = [];
         }
 
+
         try {
-            $html = $this->fetchPageSource($contentId, $languageCode);
+            $html = $this->fetchPageSource($contentId, $languageCode, $siteConfig);
         } catch (IndexPageUnavailableException|RuntimeException $e) {
             $this->logger->error($e->getMessage());
 
             return [];
         }
 
-        $textArray = $this->extractTextArray($html);
+        $textArray = $this->extractTextArray($html, $contentId);
 
         $this->cache[$contentId][$languageCode] = $textArray;
 
@@ -99,61 +97,50 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
      *
      * @return string
      */
-    private function generateUrl(string $languageCode, int $contentId): string
+    private function generateUrl(string $languageCode, int $contentId, array $siteConfig): string
     {
         $contentInfo = $this->contentHandler->loadContentInfo($contentId);
         $siteAccess = $this->resolveSiteAccess($contentInfo, $languageCode);
 
-        $relativePath = $this->router->generate(
+        if (isset($siteConfig['host'])) {
+            $relativePath = $this->router->generate(
+                'ibexa.url.alias',
+                [
+                    'locationId' => (int) $contentInfo->mainLocationId,
+                    'siteaccess' => $siteAccess,
+                ],
+                UrlGeneratorInterface::RELATIVE_PATH,
+            );
+
+            return $siteConfig['host'] . $relativePath;
+        }
+
+        return $this->router->generate(
             'ibexa.url.alias',
             [
                 'locationId' => (int) $contentInfo->mainLocationId,
                 'siteaccess' => $siteAccess,
             ],
-            UrlGeneratorInterface::RELATIVE_PATH,
+            UrlGeneratorInterface::ABSOLUTE_URL,
         );
 
-        return $this->pageIndexingHost . $relativePath;
     }
 
     private function resolveSiteAccess(ContentInfo $contentInfo, string $languageCode): string
     {
-        try {
-            $location = $this->locationHandler->load($contentInfo->mainLocationId);
-        } catch (NotFoundException) {
+        $siteConfig = $this->getSiteConfigForContent($contentInfo->id);
+
+        if (!isset($siteConfig['languages_siteaccess_map'][$languageCode])) {
             throw new RuntimeException(
                 sprintf(
-                    'Content #%d does not have a location',
-                    $contentInfo->id,
-                ),
+                    "Language not supported for matched siteaccess group %s",
+                    $siteConfig['site']
+                )
             );
         }
 
-        $pathArray = explode('/', $location->pathString);
+        return $siteConfig['languages_siteaccess_map'][$languageCode];
 
-        foreach ($this->siteRoots as $site => $siteRoot) {
-            if (!in_array((string) $siteRoot, $pathArray, true)) {
-                continue;
-            }
-
-            if (!isset($this->languageAccessibility[$site][$languageCode])) {
-                throw new RuntimeException(
-                    sprintf(
-                        "Language not supported for matched siteaccess group %s",
-                        $site
-                    )
-                );
-            }
-
-            return $this->languageAccessibility[$site][$languageCode];
-        }
-
-        throw new RuntimeException(
-            sprintf(
-                "Failed to match content ID %d to a siteaccess",
-                $contentInfo->id
-            )
-        );
     }
 
     /**
@@ -162,10 +149,10 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
      *
      * @return array<string, array<int, string>>
      */
-    private function recursiveExtractTextArray(DOMNode $node, array &$textArray): array
+    private function recursiveExtractTextArray(DOMNode $node, array &$textArray, int $contentId): array
     {
         if ($node->nodeType === XML_ELEMENT_NODE || $node->nodeType === XML_HTML_DOCUMENT_NODE) {
-            $fieldLevel = $this->getFieldName($node);
+            $fieldLevel = $this->getFieldName($node, $contentId);
 
             if ($fieldLevel !== null) {
                 $textArray[$fieldLevel][] = $node->textContent;
@@ -174,7 +161,7 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
             }
 
             foreach ($node->childNodes as $childNode) {
-                $this->recursiveExtractTextArray($childNode, $textArray);
+                $this->recursiveExtractTextArray($childNode, $textArray, $contentId);
             }
 
         }
@@ -188,9 +175,12 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
         return $textArray;
     }
 
-    private function getFieldName(DOMNode $node): null|string
+    private function getFieldName(DOMNode $node, int $contentId): null|string
     {
-        foreach ($this->pageTextConfig as $level => $tags) {
+        $siteConfig = $this->getSiteConfigForContent($contentId);
+        $fields = $siteConfig['fields'];
+
+        foreach ($fields as $level => $tags) {
             foreach ($tags as $tag) {
                 $tagParts = explode('.', $tag); // Split tag and class if present
                 $tagName = $tagParts[0]; // Get the tag name
@@ -224,9 +214,9 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
      * @throws UnauthorizedException
      * @throws \RuntimeException
      */
-    private function fetchPageSource(int $contentId, string $languageCode): string
+    private function fetchPageSource(int $contentId, string $languageCode, array $siteConfig): string
     {
-        $url = $this->generateUrl($languageCode, $contentId);
+        $url = $this->generateUrl($languageCode, $contentId, $siteConfig);
 
         $httpClient = HttpClient::create(
         );
@@ -256,7 +246,7 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
      *
      * @return array<string, array<int, string>>
      */
-    private function extractTextArray(string $html): array
+    private function extractTextArray(string $html, int $contentId): array
     {
         $startTag = '<!--begin page content-->';
         $endTag = '<!--end page content-->';
@@ -274,9 +264,43 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
             $doc = new DOMDocument();
             $doc->loadHTML($extractedContent);
             libxml_use_internal_errors(false);
-            $textArray = $this->recursiveExtractTextArray($doc, $textArray);
+            $textArray = $this->recursiveExtractTextArray($doc, $textArray, $contentId);
         }
 
         return $textArray;
+    }
+
+    public function getSiteConfigForContent(int $contentId): array
+    {
+        $contentInfo = $this->contentHandler->loadContentInfo($contentId);
+
+        try {
+            $location = $this->locationHandler->load($contentInfo->mainLocationId);
+        } catch (NotFoundException) {
+            throw new RuntimeException(
+                sprintf(
+                    'Content #%d does not have a location',
+                    $contentInfo->id,
+                ),
+            );
+        }
+
+        $pathString = $location->pathString;
+        $pathArray = explode('/', $pathString);
+
+        foreach ($this->sitesConfig as $site => $siteConfig)  {
+            if (in_array($siteConfig['tree_root_location_id'], $pathArray, false)) {
+                $siteConfig['site']  = $site;
+                return $siteConfig;
+            }
+        }
+
+        throw new RuntimeException(
+            sprintf(
+                "Failed to match content ID %d to a siteaccess",
+                $contentInfo->id
+            )
+        );
+
     }
 }

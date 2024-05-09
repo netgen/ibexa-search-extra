@@ -27,13 +27,13 @@ class IndexPageContentCommand extends Command
     protected static $defaultName = 'netgen-search-extra:index-page-content';
 
     /**
-     * @param array<string> $allowedContentTypes
+     * @param array<string, mixed> $sitesConfig
      */
     public function __construct(
         private readonly ContentService $contentService,
         private readonly SearchHandler $searchHandler,
         private readonly PersistenceHandler $persistenceHandler,
-        private readonly array $allowedContentTypes,
+        private readonly array $sitesConfig,
     ) {
         parent::__construct($this::$defaultName);
     }
@@ -57,44 +57,21 @@ class IndexPageContentCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $contentIds = $input->getOption('content-ids');
-
-        if ($contentIds !== null) {
-            $this->indexByContentIds($contentIds, $output);
-        } else {
-            $this->indexAllContent($output);
+        foreach ($this->sitesConfig as $siteConfig) {
+            $this->indexContent($output, $input, $siteConfig);
         }
 
         return Command::SUCCESS;
     }
 
-    /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     */
-    private function indexByContentIds(mixed $contentIds, OutputInterface $output): int
+    private function indexContent(OutputInterface $output, InputInterface $input, array $siteConfig): int
     {
-        $contentIds = explode(',', $contentIds);
+        $contentIds = explode(',', $input->getOption('content-ids'));
 
-        $totalCount = count($contentIds);
-        $output->writeln("Number of objects to index: {$totalCount}");
-
-        $progressBar = new ProgressBar($output, $totalCount);
-        $progressBar->start();
-        foreach ($contentIds as $contentId) {
-            $content = $this->contentService->loadContent((int)$contentId);
-            $this->indexContentWithLocations($content);
-            $progressBar->advance();
-        }
-
-        return Command::SUCCESS;
-    }
-
-    private function indexAllContent(OutputInterface $output): int
-    {
+        $allowedContentTypes = $siteConfig['allowed_content_types'];
         $offset = 0;
         $limit = 50;
-        $totalCount = $this->getTotalCount();
+        $totalCount = $this->getTotalCount($allowedContentTypes, $contentIds);
         $progressBar = new ProgressBar($output, $totalCount);
 
         if ($totalCount <= 0) {
@@ -109,7 +86,7 @@ class IndexPageContentCommand extends Command
         $progressBar->start($totalCount);
 
         while ($offset < $totalCount) {
-            $chunk = $this->getChunk($limit, $offset);
+            $chunk = $this->getChunk($limit, $offset, $allowedContentTypes, $contentIds);
 
             $this->processChunk($chunk, $output, $progressBar);
 
@@ -128,16 +105,13 @@ class IndexPageContentCommand extends Command
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    private function getTotalCount(): int
+    private function getTotalCount(array $allowedContentTypes, array $contentIds): int
     {
-        $filter = new Filter();
+        $filter = $this->getFilter($allowedContentTypes, $contentIds);
+
         $filter
-            ->withCriterion(
-                new Query\Criterion\ContentTypeIdentifier($this->allowedContentTypes)
-            )
             ->withLimit(0)
-            ->withOffset(0)
-        ;
+            ->withOffset(0);
 
         return $this->contentService->find($filter)->getTotalCount() ?? 0;
     }
@@ -145,14 +119,25 @@ class IndexPageContentCommand extends Command
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    private function getChunk(int $limit, int $offset): ContentList
+    private function getChunk(int $limit, int $offset, array $allowedContentTypes, array $contentIds): ContentList
     {
-        $filter = new Filter();
+        $filter = $this->getFilter($allowedContentTypes, $contentIds);
         $filter
             ->withLimit($limit)
             ->withOffset($offset)
         ;
         return $this->contentService->find($filter);
+    }
+
+    private function getFilter(array $allowedContentTypes, array $contentIds = []): Filter
+    {
+        $filter = new Filter();
+        $filter->withCriterion(new Query\Criterion\ContentTypeIdentifier($allowedContentTypes));
+
+        if (count($contentIds) > 0) {
+            $filter->andWithCriterion(new Query\Criterion\ContentId($contentIds));
+        }
+        return $filter;
     }
 
     private function processChunk(ContentList $contentList, OutputInterface $output, ProgressBar $progressBar): void

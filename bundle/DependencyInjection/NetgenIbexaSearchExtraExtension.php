@@ -16,6 +16,13 @@ use function array_key_exists;
 
 class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtensionInterface
 {
+    private static array $defaultConfiguration = [
+        'tree_root_location_id' => null,
+        'languages_siteaccess_map' => [],
+        'host' => null,
+        'fields' => [],
+        'allowed_content_types' => []
+    ];
     public function getAlias(): string
     {
         return 'netgen_ibexa_search_extra';
@@ -146,30 +153,62 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
 
     private function processPageIndexingConfiguration(array $configuration, ContainerBuilder $container): void
     {
+        $container->setParameter(
+            'netgen_ibexa_search_extra.page_indexing.sites',
+            $configuration['page_indexing']['sites'] ?? [],
+        );
 
-        $container->setParameter(
-            'netgen_ibexa_search_extra.page_indexing.site_roots',
-            $configuration['page_indexing']['site_roots'] ?? [],
-        );
-        $container->setParameter(
-            'netgen_ibexa_search_extra.page_indexing.languages_siteaccess_map',
-            $configuration['page_indexing']['languages_siteaccess_map'] ?? [],
-        );
-        $container->setParameter(
-            'netgen_ibexa_search_extra.page_indexing.host',
-            $configuration['page_indexing']['host'] ?? null,
-        );
-        $container->setParameter(
-            'netgen_ibexa_search_extra.page_indexing.config',
-            $configuration['page_indexing']['config'] ?? [],
-        );
-        $container->setParameter(
-            'netgen_ibexa_search_extra.page_indexing.allowed_content_types',
-            $configuration['page_indexing']['allowed_content_types'] ?? [],
-        );
         $container->setParameter(
             'netgen_ibexa_search_extra.page_indexing.enabled',
             $configuration['page_indexing']['enabled'] ?? false,
+        );
+
+        if (!$configuration['page_indexing']['enabled']) {
+            return;
+        }
+
+        if ($configuration['page_indexing']['sites'] === []) {
+            $container->setParameter(
+                'netgen_ibexa_search_extra.page_indexing.sites',
+                [
+                    'default' => self::$defaultConfiguration
+                ]
+            );
+            return;
+        }
+        foreach ($container->getParameter('netgen_ibexa_search_extra.page_indexing.sites') as $siteName => $config) {
+            $this->setPageIndexingSitesParameters($configuration, $container, $siteName);
+        }
+    }
+
+    private function setPageIndexingSitesParameters(array $configuration, ContainerBuilder $container, string $siteName): void
+    {
+        /** @var array $pageIndexingSitesConfig */
+        $pageIndexingSitesConfig = $container->getParameter('netgen_ibexa_search_extra.page_indexing.sites');
+
+        if (!array_key_exists('tree_root_location_id', $container->getParameter('netgen_ibexa_search_extra.page_indexing.sites')[$siteName])) {
+            $pageIndexingSitesConfig[$siteName]['tree_root_location_id'] = null;
+        }
+
+        if (!array_key_exists('languages_siteaccess_map', $container->getParameter('netgen_ibexa_search_extra.page_indexing.sites')[$siteName])) {
+            $pageIndexingSitesConfig[$siteName]['languages_siteaccess_map'] = [];
+        }
+
+        if (!array_key_exists('host', $container->getParameter('netgen_ibexa_search_extra.page_indexing.sites')[$siteName])) {
+            $pageIndexingSitesConfig[$siteName]['host'] = null;
+        }
+
+        if (!array_key_exists('fields', $container->getParameter('netgen_ibexa_search_extra.page_indexing.sites')[$siteName])) {
+            $pageIndexingSitesConfig[$siteName]['fields'] = [];
+        }
+
+        if (!array_key_exists('allowed_content_types', $container->getParameter('netgen_ibexa_search_extra.page_indexing.sites')[$siteName])) {
+            $pageIndexingSitesConfig[$siteName]['allowed_content_types'] = [];
+        }
+
+        $container->setParameter(
+            'netgen_ibexa_search_extra.page_indexing.sites',
+            $pageIndexingSitesConfig,
         );
     }
 }

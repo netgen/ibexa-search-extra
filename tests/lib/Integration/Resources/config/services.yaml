@@ -95,9 +95,9 @@ services:
         class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Stubs\RouterStub
 
 parameters:
-    netgen_ibexa_search_extra.page_indexing.site_roots: []
-    netgen_ibexa_search_extra.page_indexing.languages_siteaccess_map: []
-    netgen_ibexa_search_extra.page_indexing.host: null
-    netgen_ibexa_search_extra.page_indexing.config: []
-    netgen_ibexa_search_extra.page_indexing.allowed_content_types: []
+    netgen_ibexa_search_extra.page_indexing.sites.default.tree_root_location_id: null
+    netgen_ibexa_search_extra.page_indexing.sites.default.languages_siteaccess_map: []
+    netgen_ibexa_search_extra.page_indexing.sites.default.host: null
+    netgen_ibexa_search_extra.page_indexing.sites.default.fields: []
+    netgen_ibexa_search_extra.page_indexing.sites.default.allowed_content_types: []
 
