@@ -45,7 +45,7 @@ class IndexPageContentCommand extends Command
             ->addOption(
                 'content-ids',
                 null,
-                InputOption::VALUE_REQUIRED,
+                InputOption::VALUE_OPTIONAL,
                 'Comma separated list of content id\'s of content to index.',
             );
     }
