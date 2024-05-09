@@ -31,7 +31,7 @@ use const XML_ELEMENT_NODE;
 use const XML_HTML_DOCUMENT_NODE;
 use const XML_TEXT_NODE;
 
-class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor
+class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor
 {
     /** @var array<int, array<string, array<string, array<int, string>|string>>> */
     private array $cache = [];
