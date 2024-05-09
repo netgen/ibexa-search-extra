@@ -773,7 +773,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
     /**
      * @dataProvider providerForPageIndexingDefaultConfigurationInvalidCases
      */
-    public function testInvalidPageIndexingDefaultConfiguration(array $siteRootsConfig): void
+    public function testInvalidPageIndexingConfiguration(array $siteRootsConfig): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->load($siteRootsConfig);
