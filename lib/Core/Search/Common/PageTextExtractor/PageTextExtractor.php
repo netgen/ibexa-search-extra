@@ -8,7 +8,6 @@ use DOMDocument;
 use DOMNode;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
-use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Netgen\IbexaSearchExtra\Core\Search\Common\SiteAccessConfigResolver;
@@ -41,7 +40,6 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
 
     public function __construct(
         private readonly ContentHandler $contentHandler,
-        private readonly LocationHandler $locationHandler,
         private readonly RouterInterface $router,
         private readonly SiteAccessConfigResolver $siteAccessConfigResolver
     ) {
