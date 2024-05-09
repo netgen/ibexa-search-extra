@@ -163,10 +163,6 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
             $configuration['page_indexing']['enabled'] ?? false,
         );
 
-        if (!$configuration['page_indexing']['enabled']) {
-            return;
-        }
-
         if ($configuration['page_indexing']['sites'] === []) {
             $container->setParameter(
                 'netgen_ibexa_search_extra.page_indexing.sites',
