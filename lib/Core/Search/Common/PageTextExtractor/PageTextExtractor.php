@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Netgen\IbexaSearchExtra\Core\Search\Common\SiteAccessConfigResolver;
 use Netgen\IbexaSearchExtra\Exception\IndexPageUnavailableException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -38,14 +39,11 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
 
     private LoggerInterface $logger;
 
-    /**
-     * @param array<string, mixed> $sitesConfig
-     */
     public function __construct(
         private readonly ContentHandler $contentHandler,
         private readonly LocationHandler $locationHandler,
         private readonly RouterInterface $router,
-        private readonly array $sitesConfig
+        private readonly SiteAccessConfigResolver $siteAccessConfigResolver
     ) {
         $this->logger = new NullLogger();
     }
@@ -63,7 +61,7 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
      */
     public function extractPageText(int $contentId, string $languageCode): array
     {
-        $siteConfig = $this->getSiteConfigForContent($contentId);
+        $siteConfig = $this->siteAccessConfigResolver->getSiteConfigForContent($contentId);
 
         if (isset($this->cache[$contentId][$languageCode])) {
             return $this->cache[$contentId][$languageCode];
@@ -128,7 +126,7 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
 
     private function resolveSiteAccess(ContentInfo $contentInfo, string $languageCode): string
     {
-        $siteConfig = $this->getSiteConfigForContent($contentInfo->id);
+        $siteConfig = $this->siteAccessConfigResolver->getSiteConfigForContent($contentInfo->id);
 
         if (!isset($siteConfig['languages_siteaccess_map'][$languageCode])) {
             throw new RuntimeException(
@@ -177,7 +175,7 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
 
     private function getFieldName(DOMNode $node, int $contentId): null|string
     {
-        $siteConfig = $this->getSiteConfigForContent($contentId);
+        $siteConfig = $this->siteAccessConfigResolver->getSiteConfigForContent($contentId);
         $fields = $siteConfig['fields'];
 
         foreach ($fields as $level => $tags) {
@@ -268,39 +266,5 @@ class PageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\Page
         }
 
         return $textArray;
-    }
-
-    public function getSiteConfigForContent(int $contentId): array
-    {
-        $contentInfo = $this->contentHandler->loadContentInfo($contentId);
-
-        try {
-            $location = $this->locationHandler->load($contentInfo->mainLocationId);
-        } catch (NotFoundException) {
-            throw new RuntimeException(
-                sprintf(
-                    'Content #%d does not have a location',
-                    $contentInfo->id,
-                ),
-            );
-        }
-
-        $pathString = $location->pathString;
-        $pathArray = explode('/', $pathString);
-
-        foreach ($this->sitesConfig as $site => $siteConfig)  {
-            if (in_array($siteConfig['tree_root_location_id'], $pathArray, false)) {
-                $siteConfig['site']  = $site;
-                return $siteConfig;
-            }
-        }
-
-        throw new RuntimeException(
-            sprintf(
-                "Failed to match content ID %d to a siteaccess",
-                $contentInfo->id
-            )
-        );
-
     }
 }

@@ -5,9 +5,17 @@ services:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@Ibexa\Bundle\Core\Routing\UrlAliasRouter'
-            - '%netgen_ibexa_search_extra.page_indexing.sites%'
+            - '@netgen.ibexa_search_extra.page_indexing.site_access_resolver'
         calls:
             - setLogger: ['@?logger']
+
+    netgen.ibexa_search_extra.page_indexing.site_access_resolver:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\SiteAccessConfigResolver
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '%netgen_ibexa_search_extra.page_indexing.sites%'
+
 
     netgen.ibexa_search_extra.page_indexing:
         class: Netgen\IbexaSearchExtra\Command\IndexPageContentCommand
