@@ -3,7 +3,6 @@ services:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor\PageTextExtractor
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@Ibexa\Bundle\Core\Routing\UrlAliasRouter'
             - '@netgen.ibexa_search_extra.page_indexing.site_access_resolver'
         calls:
