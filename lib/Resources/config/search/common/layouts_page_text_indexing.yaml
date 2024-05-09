@@ -5,10 +5,7 @@ services:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@Ibexa\Bundle\Core\Routing\UrlAliasRouter'
-            - '%netgen_ibexa_search_extra.page_indexing.site_roots%'
-            - '%netgen_ibexa_search_extra.page_indexing.languages_siteaccess_map%'
-            - '%netgen_ibexa_search_extra.page_indexing.host%'
-            - '%netgen_ibexa_search_extra.page_indexing.config%'
+            - '%netgen_ibexa_search_extra.page_indexing.sites%'
         calls:
             - setLogger: ['@?logger']
 
@@ -20,4 +17,4 @@ services:
             - '@Ibexa\Contracts\Core\Repository\ContentService'
             - '@ibexa.spi.search'
             - '@ibexa.api.persistence_handler'
-            - '%netgen_ibexa_search_extra.page_indexing.allowed_content_types%'
+            - '%netgen_ibexa_search_extra.page_indexing.sites%'
