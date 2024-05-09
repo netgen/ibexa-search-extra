@@ -7,7 +7,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use RuntimeException;
 
-class SiteAccessConfigResolver
+class SiteConfigResolver
 {
 
     /**

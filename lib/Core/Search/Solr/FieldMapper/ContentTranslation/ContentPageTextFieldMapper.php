@@ -7,13 +7,13 @@ use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
 use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
-use Netgen\IbexaSearchExtra\Core\Search\Common\SiteAccessConfigResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Common\SiteConfigResolver;
 
 class ContentPageTextFieldMapper extends ContentTranslationFieldMapper
 {
     public function __construct(
         private readonly PageTextExtractor $pageTextExtractor,
-        private readonly SiteAccessConfigResolver $siteAccessConfigResolver
+        private readonly SiteConfigResolver $siteConfigResolver
     ) {}
     public function accept(Content $content, $languageCode): bool
     {
@@ -23,7 +23,7 @@ class ContentPageTextFieldMapper extends ContentTranslationFieldMapper
     public function mapFields(Content $content, $languageCode): array
     {
         $contentTypeIdentifier = $content->versionInfo->contentInfo->contentTypeId;
-        $allowedContentTypes = $this->siteAccessConfigResolver->getSiteConfigForContent($content->versionInfo->contentInfo->id);
+        $allowedContentTypes = $this->siteConfigResolver->getSiteConfigForContent($content->versionInfo->contentInfo->id);
 
         if (!in_array($contentTypeIdentifier, $allowedContentTypes, true)) {
             return [];

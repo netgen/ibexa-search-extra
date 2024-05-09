@@ -8,7 +8,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
-use Netgen\IbexaSearchExtra\Core\Search\Common\SiteAccessConfigResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Common\SiteConfigResolver;
 use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTranslationFieldMapper;
 
 class BlockPageTextFieldMapper extends BlockTranslationFieldMapper
@@ -16,7 +16,7 @@ class BlockPageTextFieldMapper extends BlockTranslationFieldMapper
     public function __construct(
         private readonly PageTextExtractor $pageTextExtractor,
         private readonly ContentTypeHandler $contentTypeHandler,
-        private readonly SiteAccessConfigResolver $siteAccessConfigResolver
+        private readonly SiteConfigResolver $siteConfigResolver
     ) {}
 
     public function accept(SPIContent $content, string $languageCode): bool
@@ -29,7 +29,7 @@ class BlockPageTextFieldMapper extends BlockTranslationFieldMapper
      */
     public function mapFields(SPIContent $content, string $languageCode): array
     {
-        $siteConfig = $this->siteAccessConfigResolver->getSiteConfigForContent($content->versionInfo->contentInfo->id);
+        $siteConfig = $this->siteConfigResolver->getSiteConfigForContent($content->versionInfo->contentInfo->id);
         $fields = [];
         $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
 
