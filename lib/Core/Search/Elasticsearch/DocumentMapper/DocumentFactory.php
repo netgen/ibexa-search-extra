@@ -9,12 +9,9 @@ use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Elasticsearch\DocumentMapper\DocumentFactoryInterface;
-use Ibexa\Contracts\Core\Search\Document;
 use Iterator;
 
-use function in_array;
 use function iterator_to_array;
-use function sprintf;
 
 class DocumentFactory implements DocumentFactoryInterface
 {
