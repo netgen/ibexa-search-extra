@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTranslationFieldMapper;
 
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
@@ -15,8 +17,8 @@ class Aggregate extends BlockTranslationFieldMapper
     protected $mappers = [];
 
     /**
-     * @param BlockTranslationFieldMapper[] $mappers
-     * An array of mappers, sorted by priority.
+     * @param blockTranslationFieldMapper[] $mappers
+     * An array of mappers, sorted by priority
      */
     public function __construct(array $mappers = [])
     {

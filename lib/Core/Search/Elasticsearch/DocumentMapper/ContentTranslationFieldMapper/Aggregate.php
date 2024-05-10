@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\ContentTranslationFieldMapper;
 
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
@@ -15,8 +17,8 @@ class Aggregate extends ContentTranslationFieldMapper
     protected $mappers = [];
 
     /**
-     * @param ContentTranslationFieldMapper[] $mappers
-     *        An array of mappers.
+     * @param contentTranslationFieldMapper[] $mappers
+     *        An array of mappers
      */
     public function __construct(array $mappers = [])
     {

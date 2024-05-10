@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;

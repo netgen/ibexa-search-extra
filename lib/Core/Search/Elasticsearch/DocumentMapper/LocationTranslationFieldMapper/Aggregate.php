@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\LocationTranslationFieldMapper;
 
-use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\LocationTranslationFieldMapper;
 
@@ -16,8 +17,8 @@ class Aggregate extends LocationTranslationFieldMapper
     protected $mappers = [];
 
     /**
-     * @param LocationTranslationFieldMapper[] $mappers
-     *        An array of mappers.
+     * @param locationTranslationFieldMapper[] $mappers
+     *        An array of mappers
      */
     public function __construct(array $mappers = [])
     {
@@ -41,7 +42,6 @@ class Aggregate extends LocationTranslationFieldMapper
 
     public function mapFields(SPILocation $location, string $languageCode): array
     {
-
         $fields = [];
 
         foreach ($this->mappers as $mapper) {

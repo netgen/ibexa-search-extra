@@ -1,17 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\IbexaSearchExtra\Container\Compiler;
 
 use Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ContentPageTextFieldMapper;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Ibexa\Elasticsearch\DocumentMapper\DocumentFactoryInterface;
-
 
 class PageIndexingPass implements CompilerPassInterface
 {
-
     public function process(ContainerBuilder $container)
     {
         $usePageIndexing = $container->getParameter(

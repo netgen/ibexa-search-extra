@@ -15,9 +15,6 @@ use function iterator_to_array;
 
 class DocumentFactory implements DocumentFactoryInterface
 {
-    /**
-     * @param array<string> $allowedContentTypes
-     */
     public function __construct(
         private readonly DocumentFactoryInterface $innerDocumentFactory,
         private readonly ContentHandler $contentHandler,
@@ -26,7 +23,7 @@ class DocumentFactory implements DocumentFactoryInterface
         private readonly ContentTranslationFieldMapper $contentTranslationFieldMapper,
         private readonly LocationTranslationFieldMapper $locationTranslationFieldMapper,
         private readonly BlockFieldMapper $blockFieldMapper,
-        private readonly BlockTranslationFieldMapper $blockTranslationMapper
+        private readonly BlockTranslationFieldMapper $blockTranslationMapper,
     ) {}
 
     public function fromContent(Content $content): Iterator
@@ -47,7 +44,7 @@ class DocumentFactory implements DocumentFactoryInterface
                 ...$contentFields,
                 ...$contentTranslationDependentFields,
                 ...$blockFields,
-                ...$blockTranslationDependentFields
+                ...$blockTranslationDependentFields,
             ];
         }
 
@@ -64,7 +61,6 @@ class DocumentFactory implements DocumentFactoryInterface
         /** @var \Ibexa\Contracts\Elasticsearch\Mapping\LocationDocument[] $documents */
         $documents = iterator_to_array($result);
 
-
         foreach ($documents as $document) {
             $locationFields = $this->locationFieldMapper->mapFields($location);
             $locationTranslationDependentFields = $this->locationTranslationFieldMapper->mapFields($location, $document->languageCode);
@@ -76,11 +72,10 @@ class DocumentFactory implements DocumentFactoryInterface
                 ...$locationFields,
                 ...$locationTranslationDependentFields,
                 ...$blockFields,
-                ...$blockTranslationDependentFields
+                ...$blockTranslationDependentFields,
             ];
         }
 
         return new ArrayIterator($documents);
     }
-
 }

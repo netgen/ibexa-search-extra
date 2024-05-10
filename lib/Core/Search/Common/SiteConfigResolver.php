@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\IbexaSearchExtra\Core\Search\Common;
 
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
@@ -7,18 +9,20 @@ use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use RuntimeException;
 
+use function explode;
+use function in_array;
+use function sprintf;
+
 class SiteConfigResolver
 {
-
     /**
      * @param array<string, mixed> $sitesConfig
      */
     public function __construct(
         private readonly ContentHandler $contentHandler,
         private readonly LocationHandler $locationHandler,
-        private readonly array $sitesConfig
-    ) {
-    }
+        private readonly array $sitesConfig,
+    ) {}
 
     public function getSiteConfigForContent(int $contentId): array
     {
@@ -38,19 +42,19 @@ class SiteConfigResolver
         $pathString = $location->pathString;
         $pathArray = explode('/', $pathString);
 
-        foreach ($this->sitesConfig as $site => $siteConfig)  {
+        foreach ($this->sitesConfig as $site => $siteConfig) {
             if (in_array($siteConfig['tree_root_location_id'], $pathArray, false)) {
-                $siteConfig['site']  = $site;
+                $siteConfig['site'] = $site;
+
                 return $siteConfig;
             }
         }
 
         throw new RuntimeException(
             sprintf(
-                "Failed to match content ID %d to a siteaccess",
-                $contentInfo->id
-            )
+                'Failed to match content ID %d to a siteaccess',
+                $contentInfo->id,
+            ),
         );
-
     }
 }

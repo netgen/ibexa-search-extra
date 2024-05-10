@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\LocationFieldMapper;
 
-use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
-
 use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\LocationFieldMapper;
 
 class Aggregate extends LocationFieldMapper
@@ -17,8 +17,8 @@ class Aggregate extends LocationFieldMapper
     protected $mappers = [];
 
     /**
-     * @param LocationFieldMapper[] $mappers
-     *        An array of mappers.
+     * @param locationFieldMapper[] $mappers
+     *        An array of mappers
      */
     public function __construct(array $mappers = [])
     {
@@ -42,7 +42,6 @@ class Aggregate extends LocationFieldMapper
 
     public function mapFields(SPILocation $location): array
     {
-
         $fields = [];
 
         foreach ($this->mappers as $mapper) {

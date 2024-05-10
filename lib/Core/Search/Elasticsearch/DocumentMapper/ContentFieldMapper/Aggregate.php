@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\ContentFieldMapper;
 
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
@@ -15,8 +17,8 @@ class Aggregate extends ContentFieldMapper
     protected $mappers = [];
 
     /**
-     * @param ContentFieldMapper[] $mappers
-     *        An array of mappers.
+     * @param contentFieldMapper[] $mappers
+     *        An array of mappers
      */
     public function __construct(array $mappers = [])
     {
@@ -40,7 +42,6 @@ class Aggregate extends ContentFieldMapper
 
     public function mapFields(SPIContent $content): array
     {
-
         $fields = [];
 
         foreach ($this->mappers as $mapper) {
@@ -48,6 +49,7 @@ class Aggregate extends ContentFieldMapper
                 $fields = [...$fields, ...$mapper->mapFields($content)];
             }
         }
+
         return $fields;
     }
 }

@@ -6,10 +6,9 @@ namespace Netgen\IbexaSearchExtraBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Netgen\Bundle\IbexaSearchExtraBundle\DependencyInjection\NetgenIbexaSearchExtraExtension;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-
 
 class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
 {
@@ -30,7 +29,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         $this->setParameter('kernel.bundles', []);
     }
 
-    public function providerForIndexableFieldTypeDefaultConfiguration(): array
+    public function provideIndexableFieldTypeDefaultConfigurationCases(): iterable
     {
         return [
             [
@@ -73,7 +72,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     * @dataProvider providerForIndexableFieldTypeDefaultConfiguration
+     * @dataProvider provideIndexableFieldTypeDefaultConfigurationCases
      */
     public function testIndexableFieldTypeDefaultConfiguration(array $configuration): void
     {
@@ -93,14 +92,13 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-
-    public function providerForPageIndexingConfiguration(): array
+    public function providePageIndexingConfigurationCases(): iterable
     {
         return [
             [
                 [
                     'page_indexing' => [
-                        'enabled' => true
+                        'enabled' => true,
                     ],
                 ],
                 null,
@@ -117,8 +115,8 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         'sites' => [
                             'finaweb' => [
                                 'tree_root_location_id' => '42',
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                 ],
                 42,
@@ -135,19 +133,19 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         'sites' => [
                             'finaweb' => [
                                 'languages_siteaccess_map' => [
-                                    'cro-HR' => 'fina_cro'
+                                    'cro-HR' => 'fina_cro',
                                 ],
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                 ],
                 null,
                 [
-                    'cro-HR' => 'fina_cro'
+                    'cro-HR' => 'fina_cro',
                 ],
                 null,
                 [],
-                []
+                [],
             ],
 
             [
@@ -156,16 +154,16 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         'enabled' => true,
                         'sites' => [
                             'finaweb' => [
-                                'host' => 'string'
-                            ]
-                        ]
+                                'host' => 'string',
+                            ],
+                        ],
                     ],
                 ],
                 null,
                 [],
                 'string',
                 [],
-                []
+                [],
             ],
 
             [
@@ -177,11 +175,11 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                                 'fields' => [
                                     'level1' => [
                                         'h1',
-                                        'h2'
-                                    ]
+                                        'h2',
+                                    ],
                                 ],
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                 ],
                 null,
@@ -190,10 +188,10 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                 [
                     'level1' => [
                         'h1',
-                        'h2'
-                    ]
+                        'h2',
+                    ],
                 ],
-                []
+                [],
             ],
 
             [
@@ -204,11 +202,11 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                             'finaweb' => [
                                 'allowed_content_types' => [
                                     'ng_landing_page',
-                                    'ng_frontpage'
+                                    'ng_frontpage',
                                 ],
-                            ]
-                        ]
-                    ]
+                            ],
+                        ],
+                    ],
                 ],
                 null,
                 [],
@@ -216,8 +214,8 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                 [],
                 [
                     'ng_landing_page',
-                    'ng_frontpage'
-                ]
+                    'ng_frontpage',
+                ],
             ],
 
             [
@@ -228,45 +226,44 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                             'finaweb' => [
                                 'tree_root_location_id' => '42',
                                 'languages_siteaccess_map' => [
-                                    'cro-HR' => 'fina_cro'
+                                    'cro-HR' => 'fina_cro',
                                 ],
                                 'host' => 'string',
                                 'fields' => [
                                     'level1' => [
                                         'h1',
-                                        'h2'
-                                    ]
+                                        'h2',
+                                    ],
                                 ],
                                 'allowed_content_types' => [
                                     'ng_landing_page',
-                                    'ng_frontpage'
+                                    'ng_frontpage',
                                 ],
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                 ],
                 42,
                 [
-                    'cro-HR' => 'fina_cro'
+                    'cro-HR' => 'fina_cro',
                 ],
                 'string',
                 [
                     'level1' => [
                         'h1',
-                        'h2'
-                    ]
+                        'h2',
+                    ],
                 ],
                 [
                     'ng_landing_page',
-                    'ng_frontpage'
-                ]
+                    'ng_frontpage',
+                ],
             ],
         ];
     }
 
-
     /**
-     * @dataProvider providerForPageIndexingConfiguration
+     * @dataProvider providePageIndexingConfigurationCases
      */
     public function testPageIndexingConfiguration(
         array $configuration,
@@ -274,7 +271,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         array $expectedLanguagesSiteaccessMap,
         ?string $expectedHost,
         array $expectedFields,
-        array $expectedAllowedContentTypes
+        array $expectedAllowedContentTypes,
     ): void {
         $this->load($configuration);
 
@@ -282,41 +279,39 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         $sitesConfig = $this->container->getParameter('netgen_ibexa_search_extra.page_indexing.sites');
 
         foreach ($sitesConfig as $site => $siteConfig) {
-            $this->assertArrayHasKey(
+            self::assertArrayHasKey(
                 'tree_root_location_id',
                 $siteConfig,
             );
-            $this->assertEquals($expectedTreeRootLocationId, $siteConfig['tree_root_location_id']);
+            self::assertEquals($expectedTreeRootLocationId, $siteConfig['tree_root_location_id']);
 
-            $this->assertArrayHasKey(
+            self::assertArrayHasKey(
                 'languages_siteaccess_map',
                 $siteConfig,
             );
-            $this->assertEquals($expectedLanguagesSiteaccessMap, $siteConfig['languages_siteaccess_map']);
+            self::assertEquals($expectedLanguagesSiteaccessMap, $siteConfig['languages_siteaccess_map']);
 
-            $this->assertArrayHasKey(
+            self::assertArrayHasKey(
                 'fields',
                 $siteConfig,
             );
-            $this->assertEquals($expectedFields, $siteConfig['fields']);
+            self::assertEquals($expectedFields, $siteConfig['fields']);
 
-            $this->assertArrayHasKey(
+            self::assertArrayHasKey(
                 'allowed_content_types',
                 $siteConfig,
             );
-            $this->assertEquals($expectedAllowedContentTypes, $siteConfig['allowed_content_types']);
+            self::assertEquals($expectedAllowedContentTypes, $siteConfig['allowed_content_types']);
 
-            $this->assertArrayHasKey(
+            self::assertArrayHasKey(
                 'host',
                 $siteConfig,
             );
-            $this->assertEquals($expectedHost, $siteConfig['host']);
-
+            self::assertEquals($expectedHost, $siteConfig['host']);
         }
     }
 
-
-    public function providerForPageIndexingDefaultConfigurationInvalidCases(): array
+    public function provideInvalidPageIndexingConfigurationCases(): iterable
     {
         return [
             [
@@ -346,8 +341,8 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     'page_indexing' => [
                         'finaweb' => [
                             'languages_siteaccess_map' => [
-                                'cro-HR' => 5
-                            ]
+                                'cro-HR' => 5,
+                            ],
                         ],
                     ],
                 ],
@@ -358,7 +353,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                 [
                     'page_indexing' => [
                         'finaweb' => [
-                            'host' => []
+                            'host' => [],
                         ],
                     ],
                 ],
@@ -370,8 +365,8 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     'page_indexing' => [
                         'finaweb' => [
                             'config' => [
-                                'level1' => 'a'
-                            ]
+                                'level1' => 'a',
+                            ],
                         ],
                     ],
                 ],
@@ -383,13 +378,13 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     'page_indexing' => [
                         'finaweb' => [
                             'config' => [
-                                ['h1', 'h2']
-                            ]
+                                ['h1', 'h2'],
+                            ],
                         ],
                     ],
                 ],
                 InvalidConfigurationException::class,
-                'Array key (field importance level) must be of string type'
+                'Array key (field importance level) must be of string type',
             ],
             [
                 [
@@ -397,28 +392,25 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         'finaweb' => [
                             'allowed_content_types' => [
                                 34,
-                                52
+                                52,
                             ],
                         ],
                     ],
                 ],
                 InvalidConfigurationException::class,
-                'Expected "string", but got "int"'
+                'Expected "string", but got "int"',
             ],
         ];
-
     }
 
     /**
-     * @dataProvider providerForPageIndexingDefaultConfigurationInvalidCases
+     * @dataProvider provideInvalidPageIndexingConfigurationCases
      */
     public function testInvalidPageIndexingConfiguration(array $siteRootsConfig): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->load($siteRootsConfig);
     }
-
-
 
     protected function getContainerExtensions(): array
     {
