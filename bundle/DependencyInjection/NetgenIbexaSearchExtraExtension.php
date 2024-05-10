@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Yaml\Yaml;
 
 use function array_key_exists;
+use function file_get_contents;
 
 class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtensionInterface
 {
@@ -21,8 +22,9 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         'languages_siteaccess_map' => [],
         'host' => null,
         'fields' => [],
-        'allowed_content_types' => []
+        'allowed_content_types' => [],
     ];
+
     public function getAlias(): string
     {
         return 'netgen_ibexa_search_extra';

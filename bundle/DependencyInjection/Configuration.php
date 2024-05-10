@@ -8,6 +8,9 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
+use function array_keys;
+use function is_string;
+
 class Configuration implements ConfigurationInterface
 {
     protected string $rootNodeName;
@@ -160,6 +163,7 @@ class Configuration implements ConfigurationInterface
                     return true;
                 }
             }
+
             return false;
         };
         $nodeDefinition
@@ -183,7 +187,7 @@ class Configuration implements ConfigurationInterface
                             ->children()
                                 ->integerNode('tree_root_location_id')
                                     ->info('Site root Location ID')
-                                    ->beforeNormalization()->always(static fn ($v) => is_string($v) ? (int)$v : $v)->end()
+                                    ->beforeNormalization()->always(static fn ($v) => is_string($v) ? (int) $v : $v)->end()
                                 ->end()
                                 ->arrayNode('languages_siteaccess_map')
                                     ->info('Language code mapped to page siteaccess')

@@ -11,7 +11,6 @@ use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\ContentFiel
 
 final class ContentVisibilityFieldMapper extends ContentFieldMapper
 {
-
     public function accept(SPIContent $content): bool
     {
         return true;

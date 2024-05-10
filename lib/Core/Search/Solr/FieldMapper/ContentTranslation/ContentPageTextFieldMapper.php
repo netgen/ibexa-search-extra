@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation;
 
 use Ibexa\Contracts\Core\Persistence\Content;
@@ -9,12 +11,15 @@ use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
 use Netgen\IbexaSearchExtra\Core\Search\Common\SiteConfigResolver;
 
+use function in_array;
+
 class ContentPageTextFieldMapper extends ContentTranslationFieldMapper
 {
     public function __construct(
         private readonly PageTextExtractor $pageTextExtractor,
-        private readonly SiteConfigResolver $siteConfigResolver
+        private readonly SiteConfigResolver $siteConfigResolver,
     ) {}
+
     public function accept(Content $content, $languageCode): bool
     {
         return true;
@@ -38,6 +43,7 @@ class ContentPageTextFieldMapper extends ContentTranslationFieldMapper
                 new FullTextField(),
             );
         }
+
         return $pageTextFields;
     }
 }

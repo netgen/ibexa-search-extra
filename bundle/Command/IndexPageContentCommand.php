@@ -6,7 +6,11 @@ namespace Netgen\Bundle\IbexaSearchExtraBundle\Command;
 
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
@@ -16,9 +20,8 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
-
 use Symfony\Component\Console\Style\SymfonyStyle;
+
 use function count;
 use function explode;
 
@@ -57,14 +60,14 @@ class IndexPageContentCommand extends Command
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws NotFoundException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         foreach ($this->sitesConfig as $site => $siteConfig) {
-            $this->style->info("Indexing for site " . $site);
+            $this->style->info('Indexing for site ' . $site);
             $this->indexContent($output, $input, $siteConfig);
         }
 
@@ -103,11 +106,10 @@ class IndexPageContentCommand extends Command
 
         $output->writeln('');
         $this->style->info('Finished.');
-
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function getTotalCount(array $allowedContentTypes, array $contentIds): int
     {
@@ -121,7 +123,7 @@ class IndexPageContentCommand extends Command
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function getChunk(int $limit, int $offset, array $allowedContentTypes, array $contentIds): ContentList
     {
@@ -130,6 +132,7 @@ class IndexPageContentCommand extends Command
             ->withLimit($limit)
             ->withOffset($offset)
         ;
+
         return $this->contentService->find($filter);
     }
 
@@ -141,6 +144,7 @@ class IndexPageContentCommand extends Command
         if (count($contentIds) > 0) {
             $filter->andWithCriterion(new Query\Criterion\ContentId($contentIds));
         }
+
         return $filter;
     }
 
