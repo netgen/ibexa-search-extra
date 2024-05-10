@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
 use Netgen\IbexaSearchExtra\Core\Search\Common\SiteConfigResolver;
 use Netgen\IbexaSearchExtra\Exception\IndexPageUnavailableException;
 use Psr\Log\LoggerInterface;
@@ -18,6 +19,7 @@ use RuntimeException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+
 use function count;
 use function explode;
 use function in_array;
@@ -27,11 +29,12 @@ use function mb_strpos;
 use function mb_substr;
 use function sprintf;
 use function trim;
+
 use const XML_ELEMENT_NODE;
 use const XML_HTML_DOCUMENT_NODE;
 use const XML_TEXT_NODE;
 
-class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor
+class NativePageTextExtractor extends PageTextExtractor
 {
     /** @var array<int, array<string, array<string, array<int, string>|string>>> */
     private array $cache = [];
@@ -41,7 +44,7 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
     public function __construct(
         private readonly ContentHandler $contentHandler,
         private readonly RouterInterface $router,
-        private readonly SiteConfigResolver $siteConfigResolver
+        private readonly SiteConfigResolver $siteConfigResolver,
     ) {
         $this->logger = new NullLogger();
     }
@@ -52,9 +55,6 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
     }
 
     /**
-     * @param int $contentId
-     * @param string $languageCode
-     *
      * @return array<string, array<int, string>|string>
      */
     public function extractPageText(int $contentId, string $languageCode): array
@@ -85,12 +85,7 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
     }
 
     /**
-     * @param string $languageCode
-     * @param int $contentId
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     *
-     * @return string
+     * @throws NotFoundException
      */
     private function generateUrl(string $languageCode, int $contentId, array $siteConfig): string
     {
@@ -118,7 +113,6 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
             ],
             UrlGeneratorInterface::ABSOLUTE_URL,
         );
-
     }
 
     private function resolveSiteAccess(ContentInfo $contentInfo, string $languageCode): string
@@ -128,18 +122,16 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
         if (!isset($siteConfig['languages_siteaccess_map'][$languageCode])) {
             throw new RuntimeException(
                 sprintf(
-                    "Language not supported for matched siteaccess group %s",
-                    $siteConfig['site']
-                )
+                    'Language not supported for matched siteaccess group %s',
+                    $siteConfig['site'],
+                ),
             );
         }
 
         return $siteConfig['languages_siteaccess_map'][$languageCode];
-
     }
 
     /**
-     * @param \DOMNode $node
      * @param array<string, array<int, string>> $textArray
      *
      * @return array<string, array<int, string>>
@@ -158,7 +150,6 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
             foreach ($node->childNodes as $childNode) {
                 $this->recursiveExtractTextArray($childNode, $textArray, $contentId);
             }
-
         }
         if ($node->nodeType === XML_TEXT_NODE) {
             $textContent = trim($node->textContent);
@@ -207,7 +198,7 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
     /**
      * @throws NotFoundException
      * @throws UnauthorizedException
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function fetchPageSource(int $contentId, string $languageCode, array $siteConfig): string
     {
@@ -218,7 +209,7 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
 
         $response = $httpClient->request(
             'GET',
-            $url
+            $url,
         );
 
         $html = $response->getContent();
@@ -237,8 +228,6 @@ class NativePageTextExtractor extends \Netgen\IbexaSearchExtra\Core\Search\Commo
     }
 
     /**
-     * @param string $html
-     *
      * @return array<string, array<int, string>>
      */
     private function extractTextArray(string $html, int $contentId): array
