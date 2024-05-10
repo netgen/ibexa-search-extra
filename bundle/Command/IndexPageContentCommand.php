@@ -18,12 +18,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
 
+use Symfony\Component\Console\Style\SymfonyStyle;
 use function count;
 use function explode;
 
 class IndexPageContentCommand extends Command
 {
     protected static $defaultName = 'netgen-search-extra:index-page-content';
+    private SymfonyStyle $style;
 
     /**
      * @param array<string, mixed> $sitesConfig
@@ -49,6 +51,11 @@ class IndexPageContentCommand extends Command
             );
     }
 
+    protected function initialize(InputInterface $input, OutputInterface $output): void
+    {
+        $this->style = new SymfonyStyle($input, $output);
+    }
+
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
@@ -57,9 +64,7 @@ class IndexPageContentCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         foreach ($this->sitesConfig as $site => $siteConfig) {
-            $output->writeln('');
-            $output->writeln("Indexing for site " . $site);
-            $output->writeln('');
+            $this->style->info("Indexing for site " . $site);
             $this->indexContent($output, $input, $siteConfig);
         }
 
@@ -77,20 +82,19 @@ class IndexPageContentCommand extends Command
         $progressBar = new ProgressBar($output, $totalCount);
 
         if ($totalCount <= 0) {
-            $output->writeln('No content found to index, exiting.');
+            $this->style->info('No content found to index, exiting.');
 
             return;
         }
 
-        $output->writeln('Found ' . $totalCount . ' content objects...');
-        $output->writeln('');
+        $this->style->info('Found ' . $totalCount . ' content objects...');
 
         $progressBar->start($totalCount);
 
         while ($offset < $totalCount) {
             $chunk = $this->getChunk($limit, $offset, $allowedContentTypes, $contentIds);
 
-            $this->processChunk($chunk, $output, $progressBar);
+            $this->processChunk($chunk, $progressBar);
 
             $offset += $limit;
         }
@@ -98,9 +102,7 @@ class IndexPageContentCommand extends Command
         $progressBar->finish();
 
         $output->writeln('');
-        $output->writeln('');
-        $output->writeln('Finished.');
-        $output->writeln('');
+        $this->style->info('Finished.');
 
     }
 
@@ -142,14 +144,14 @@ class IndexPageContentCommand extends Command
         return $filter;
     }
 
-    private function processChunk(ContentList $contentList, OutputInterface $output, ProgressBar $progressBar): void
+    private function processChunk(ContentList $contentList, ProgressBar $progressBar): void
     {
         foreach ($contentList->getIterator() as $content) {
             try {
                 $this->indexContentWithLocations($content);
                 $progressBar->advance();
             } catch (IndexPageUnavailableException $exception) {
-                $output->writeln($exception->getMessage());
+                $this->style->error($exception->getMessage());
             }
         }
     }
