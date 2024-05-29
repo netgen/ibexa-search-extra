@@ -8,14 +8,13 @@ use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\VersatileHandler;
-use Netgen\IbexaSearchExtra\Core\Search\Solr\ParentChildReindexAncestorResolver;
 
 final class AncestorIndexer
 {
     public function __construct(
         private readonly VersatileHandler $searchHandler,
         private readonly ContentHandler $contentHandler,
-        private readonly ParentChildReindexAncestorResolver $ancestorResolver,
+        private readonly AncestorResolver $ancestorResolver,
     ) {}
 
     public function indexSingle(Location $location): void
