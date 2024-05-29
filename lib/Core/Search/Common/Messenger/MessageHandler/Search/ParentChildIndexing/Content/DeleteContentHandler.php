@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content;
 
-use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteContent;
+use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -23,7 +23,7 @@ final class DeleteContentHandler
 
     public function __invoke(DeleteContent $message): void
     {
-        if ($message->parentLocationIds === []) {
+        if (count($message->parentLocationIds) === 0) {
             $this->logger->info(
                 sprintf(
                     '%s: Could not find main Location parent Location ID for deleted Content #%d, aborting',
@@ -34,7 +34,9 @@ final class DeleteContentHandler
 
             return;
         }
+
         $locations = [];
+
         foreach ($message->parentLocationIds as $locationId) {
             try {
                 $locations[] = $this->locationHandler->load($locationId);
@@ -48,6 +50,7 @@ final class DeleteContentHandler
             );
             }
         }
+
         $this->ancestorIndexer->indexMultipleForParentLocation($locations);
     }
 }
