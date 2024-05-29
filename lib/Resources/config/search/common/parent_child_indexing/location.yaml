@@ -87,4 +87,4 @@ services:
             - '@?logger'
         tags:
             - { name: netgen.parent_child_indexer.message_handler }
-            - { name: monolog.logger, channel: ngsearchextra }ž
+            - { name: monolog.logger, channel: ngsearchextra }
