@@ -28,7 +28,6 @@ services:
             - { name: netgen.parent_child_indexer.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
 
-
     netgen_search_extra.parent_child_indexing.hide_content_handler:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\HideContentHandler
         arguments:
