@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\IbexaSearchExtra\Container\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -26,6 +28,5 @@ class ParentChildIndexingPass implements CompilerPassInterface
             $definition = $container->getDefinition($serviceId);
             $definition->addTag(self::MessageHandlerTag);
         }
-
     }
 }
