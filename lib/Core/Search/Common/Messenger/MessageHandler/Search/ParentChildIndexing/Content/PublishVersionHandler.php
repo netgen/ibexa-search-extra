@@ -7,7 +7,6 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Se
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\PublishVersion;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 final class PublishVersionHandler
 {

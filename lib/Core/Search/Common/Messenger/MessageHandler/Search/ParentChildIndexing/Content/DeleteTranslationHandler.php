@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteTranslation;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 use function sprintf;
 
