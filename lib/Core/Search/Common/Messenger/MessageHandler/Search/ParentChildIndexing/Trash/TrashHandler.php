@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Trash;
 
+use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
@@ -39,6 +40,15 @@ final class TrashHandler
             return;
         }
 
+        if ($this->isRootLocation($location)) {
+            return;
+        }
+
         $this->ancestorIndexer->indexSingleForParentLocation($location);
+    }
+
+    private function isRootLocation(Location $location): bool
+    {
+        return $location->contentId === 0;
     }
 }
