@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\FullTextFieldResolver;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper\FullTextFieldResolver;
 
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
@@ -11,7 +11,7 @@ use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
 use Ibexa\Contracts\Core\Search\FieldType\TextField;
 use Ibexa\Core\Search\Common\FieldRegistry;
-use Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\FullTextFieldResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper\FullTextFieldResolver;
 
 final class NativeFulltextFieldResolver implements FullTextFieldResolver
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper;
 
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 
