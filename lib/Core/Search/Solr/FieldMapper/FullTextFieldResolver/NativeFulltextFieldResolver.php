@@ -52,7 +52,7 @@ final class NativeFulltextFieldResolver implements FullTextFieldResolver
                 $indexFields = $fieldType->getIndexData($field, $fieldDefinition);
 
                 foreach ($indexFields as $indexField) {
-                    if ($indexField->value === null) {
+                    if ($indexField->getValue() === null) {
                         continue;
                     }
 
@@ -62,12 +62,13 @@ final class NativeFulltextFieldResolver implements FullTextFieldResolver
 
                     $fields[] = new Field(
                         'meta_content__text',
-                        (string) $indexField->value,
+                        (string) $indexField->getValue(),
                         new TextField(),
                     );
                 }
             }
         }
+
         return $fields;
     }
 }
