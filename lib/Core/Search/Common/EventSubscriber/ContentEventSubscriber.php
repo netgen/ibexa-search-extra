@@ -26,11 +26,14 @@ use Throwable;
 
 class ContentEventSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var array<int, int[]>
+     */
     private array $parentLocationIdsByContentId = [];
+
     public function __construct(
         private readonly MessageBusInterface $messageBus,
-        private readonly LocationHandler  $locationHandler,
-
+        private readonly LocationHandler $locationHandler,
     ) {}
 
     public static function getSubscribedEvents(): array
@@ -60,6 +63,7 @@ class ContentEventSubscriber implements EventSubscriberInterface
     public function onBeforeDeleteContent(BeforeDeleteContentEvent $event): void
     {
         $contentLocations = $this->locationHandler->loadLocationsByContent($event->getContentInfo()->id);
+
         try {
             foreach ($contentLocations as $contentLocation){
                 $this->parentLocationIdsByContentId[$event->getContentInfo()->id][] = $contentLocation->parentId;
@@ -78,6 +82,7 @@ class ContentEventSubscriber implements EventSubscriberInterface
                 $this->parentLocationIdsByContentId[$event->getContentInfo()->id] ?? [],
             ),
         );
+
         unset($this->parentLocationIdsByContentId[$event->getContentInfo()->id]);
     }
 
