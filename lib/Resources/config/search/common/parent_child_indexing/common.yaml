@@ -2,12 +2,12 @@ services:
     netgen_search_extra.parent_child_indexing.parent_child_field_mapper:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ParentChildFieldMapper
         arguments:
-            - '%netgen.ibexa_search_extra.parent_child_indexer%'
             - '@netgen_search_extra.parent_child_indexing.fulltext_field_resolver'
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Filter\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '%netgen.ibexa_search_extra.parent_child_indexer%'
         tags:
             - { name: ibexa.search.solr.field.mapper.content.translation }
 
