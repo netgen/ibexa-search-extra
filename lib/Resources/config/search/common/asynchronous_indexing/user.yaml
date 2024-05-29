@@ -1,18 +1,18 @@
 services:
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\AssignUserToUserGroupHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\AssignUserToUserGroupHandler:
         arguments:
-            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\UserContentWithLocationIndexer'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\UserContentWithLocationIndexer'
         tags:
             - { name: messenger.message_handler }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\BeforeUnAssignUserFromUserGroupHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\BeforeUnAssignUserFromUserGroupHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@ibexa.spi.search'
         tags:
             - { name: messenger.message_handler }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\CreateUserGroupHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\CreateUserGroupHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
@@ -21,7 +21,7 @@ services:
             - { name: messenger.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\CreateUserHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\CreateUserHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
@@ -31,32 +31,32 @@ services:
             - { name: messenger.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserGroupHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\DeleteUserGroupHandler:
         arguments:
             - '@ibexa.spi.search'
         tags:
             - { name: messenger.message_handler }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\DeleteUserHandler:
         arguments:
             - '@ibexa.spi.search'
         tags:
             - { name: messenger.message_handler }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\MoveUserGroupHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\MoveUserGroupHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UnAssignUserFromUserGroupHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\UnAssignUserFromUserGroupHandler:
         arguments:
-            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\UserContentWithLocationIndexer'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\UserContentWithLocationIndexer'
         tags:
             - { name: messenger.message_handler }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UpdateUserGroupHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\UpdateUserGroupHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
@@ -66,7 +66,7 @@ services:
             - { name: messenger.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UpdateUserHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\UpdateUserHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
