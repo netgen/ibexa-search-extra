@@ -10,7 +10,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class RegressionSolr extends CoreSolrSetupFactory
+class SolrAsynchronous extends CoreSolrSetupFactory
 {
     /**
      * {@inheritdoc}
@@ -30,7 +30,7 @@ class RegressionSolr extends CoreSolrSetupFactory
         $testConfigPath = __DIR__ . '/../Resources/config/';
         $loader = new YamlFileLoader($containerBuilder, new FileLocator($testConfigPath));
         $loader->load('services.yaml');
-        $loader->load('event_dispatcher_override.yaml');
+        $loader->load('event_dispatcher_override_asynchronous.yaml');
 
         // Needs to be added first because other passes depend on it
         $containerBuilder->addCompilerPass(new Compiler\TagSubdocumentCriterionVisitorsPass());
