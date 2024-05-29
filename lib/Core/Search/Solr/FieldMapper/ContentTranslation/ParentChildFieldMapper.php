@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation;
 
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
@@ -16,8 +17,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
-use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler;
 use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper\FullTextFieldResolver;
 
 use function array_key_exists;
 use function array_keys;
