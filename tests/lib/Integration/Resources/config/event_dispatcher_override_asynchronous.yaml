@@ -178,85 +178,85 @@ services:
         arguments:
             -
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\CopyContent':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\CopyContentHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\CopyContentHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\CopyContentHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteContent':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\DeleteContentHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\DeleteContentHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\DeleteContentHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteTranslation':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\DeleteTranslationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\DeleteTranslationHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\DeleteTranslationHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\HideContent':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\HideContentHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\HideContentHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\HideContentHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\PublishVersion':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\PublishVersionHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\PublishVersionHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\PublishVersionHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\RevealContent':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\RevealContentHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\RevealContentHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\RevealContentHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\UpdateContentMetadata':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\UpdateContentMetadataHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\UpdateContentMetadataHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\UpdateContentMetadataHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\AssignSectionToSubtree':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\AssignSectionToSubtreeHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\AssignSectionToSubtreeHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\AssignSectionToSubtreeHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\CopySubtree':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\CopySubtreeHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\CopySubtreeHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\CopySubtreeHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\CreateLocation':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\CreateLocationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\CreateLocationHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\CreateLocationHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\DeleteLocation':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\DeleteLocationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\DeleteLocationHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\DeleteLocationHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\HideLocation':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\HideLocationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\HideLocationHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\HideLocationHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\MoveSubtree':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\MoveSubtreeHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\MoveSubtreeHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\MoveSubtreeHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\SwapLocation':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\SwapLocationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\SwapLocationHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\SwapLocationHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\UnhideLocation':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\UnhideLocationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\UnhideLocationHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\UnhideLocationHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\UpdateLocation':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\UpdateLocationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\UpdateLocationHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Location\UpdateLocationHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\ObjectState\SetContentState':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ObjectState\SetContentStateHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\ObjectState\SetContentStateHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\ObjectState\SetContentStateHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Section\AssignSection':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Section\AssignSectionHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Section\AssignSectionHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Section\AssignSectionHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Trash\Recover':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Trash\RecoverHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Trash\RecoverHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Trash\RecoverHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Trash\Trash':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Trash\TrashHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Trash\TrashHandler'
                     - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Trash\TrashHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\AssignUserToUserGroup':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\AssignUserToUserGroupHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\AssignUserToUserGroupHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\BeforeUnAssignUserFromUserGroup':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\BeforeUnAssignUserFromUserGroupHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\BeforeUnAssignUserFromUserGroupHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\CreateUserGroup':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\CreateUserGroupHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\CreateUserGroupHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\CreateUser':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\CreateUserHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\CreateUserHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\DeleteUserGroup':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserGroupHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\DeleteUserGroupHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\DeleteUser':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\DeleteUserHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\MoveUserGroup':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\MoveUserGroupHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\MoveUserGroupHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\UnAssignUserFromUserGroup':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UnAssignUserFromUserGroupHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\UnAssignUserFromUserGroupHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\UpdateUserGroup':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UpdateUserGroupHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\UpdateUserGroupHandler'
                 'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\UpdateUser':
-                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UpdateUserHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\UpdateUserHandler'
 
     netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.middleware:
         class: Symfony\Component\Messenger\Middleware\HandleMessageMiddleware
