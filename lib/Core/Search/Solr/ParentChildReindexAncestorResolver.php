@@ -59,9 +59,7 @@ final class ParentChildReindexAncestorResolver
     }
 
     /**
-     * Return the location if its content type matches the path parent
-     *
-     * @param Location $location
+     * Return the location if its content type matches the path parent.
      */
     public function resolveAncestorForParentLocation(Location $location): ?Location
     {
@@ -135,11 +133,17 @@ final class ParentChildReindexAncestorResolver
         return true;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     private function getParentLocation(Location $location): Location
     {
         return $this->locationHandler->load($location->parentId);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     private function getContentTypeIdentifier(Location $location): string
     {
         /** @var int $contentId */
