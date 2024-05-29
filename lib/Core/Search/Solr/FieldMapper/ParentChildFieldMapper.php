@@ -44,6 +44,9 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
         private readonly int $childrenLimit = 99,
     ) {}
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function accept(SPIContent $content, $languageCode): bool
     {
         $contentTypeId = $content->versionInfo->contentInfo->contentTypeId;
@@ -55,6 +58,10 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
 
     /**
      * @param string $languageCode
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
      * @return \Ibexa\Contracts\Core\Search\Field[]
      */
@@ -73,7 +80,10 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
     }
 
     /**
-     * @param array<string, mixed> $configuration
+     * @param array<string, mixed>|null $configuration
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      *
      * @return \Ibexa\Contracts\Core\Search\Field[]
      */
@@ -136,9 +146,10 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
     /**
      * @param array<string, mixed> $configuration
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[]
      * @throws BadStateException
      * @throws InvalidCriterionArgumentException
+     *
+     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[]
      */
     private function loadChildrenContentInfoList(
         ContentInfo $contentInfo,
