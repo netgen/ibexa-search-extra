@@ -36,7 +36,7 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
      */
     public function __construct(
         private readonly array $configuration,
-        private readonly FulltextFieldResolver $fulltextFieldResolver,
+        private readonly FullTextFieldResolver $fullTextFieldResolver,
         private readonly ContentTypeHandler $contentTypeHandler,
         private readonly ContentHandler $contentHandler,
         private readonly Handler $contentFilteringHandler,
@@ -89,7 +89,7 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
 
         if ($isIndexed && $doIndex) {
             $content = $this->contentHandler->load($contentInfo->id);
-            $fieldsGrouped[] = $this->fulltextFieldResolver->resolveFields($content, $languageCode);
+            $fieldsGrouped[] = $this->fullTextFieldResolver->resolveFields($content, $languageCode);
         }
 
         $childrenContentInfoList = $this->loadChildrenContentInfoList(
