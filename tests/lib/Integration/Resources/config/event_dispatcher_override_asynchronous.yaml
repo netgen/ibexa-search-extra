@@ -1,3 +1,10 @@
+parameters:
+    netgen.ibexa_search_extra.parent_child_indexer:
+        parent_child_test:
+            children:
+                parent_child_test:
+                    indexed: true
+
 services:
     netgen_search_extra.parent_child_indexing.parent_child_field_mapper:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper
@@ -9,7 +16,7 @@ services:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '%netgen.ibexa_search_extra.parent_child_indexer%'
         tags:
-            - { name: messenger.message_handler }
+            - { name: ibexa.search.solr.field.mapper.block.translation }
 
     Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\CopyContentHandler:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\CopyContentHandler
