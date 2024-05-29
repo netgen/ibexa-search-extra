@@ -11,8 +11,8 @@ services:
         tags:
             - { name: ibexa.search.solr.field.mapper.content.translation }
 
-    netgen_search_extra.parent_child_indexing.parent_child_reindex_ancestor_resolver:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\ParentChildReindexAncestorResolver
+    netgen_search_extra.parent_child_indexing.ancestor_resolver:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorResolver
         arguments:
             - '@Ibexa\Core\Persistence\Legacy\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
@@ -33,4 +33,4 @@ services:
         arguments:
             - '@Ibexa\Contracts\Core\Search\VersatileHandler'
             - '@Ibexa\Core\Persistence\Legacy\Content\Handler'
-            - '@netgen_search_extra.parent_child_indexing.parent_child_reindex_ancestor_resolver'
+            - '@netgen_search_extra.parent_child_indexing.ancestor_resolver'
