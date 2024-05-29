@@ -35,12 +35,12 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
      * @param array<string, mixed> $configuration
      */
     public function __construct(
-        private readonly array $configuration,
         private readonly FullTextFieldResolver $fullTextFieldResolver,
         private readonly ContentTypeHandler $contentTypeHandler,
         private readonly ContentHandler $contentHandler,
         private readonly Handler $contentFilteringHandler,
         private readonly LocationHandler $locationHandler,
+        private readonly array $configuration,
         private readonly int $childrenLimit = 99,
     ) {}
 
