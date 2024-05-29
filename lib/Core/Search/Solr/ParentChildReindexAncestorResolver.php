@@ -63,7 +63,11 @@ final class ParentChildReindexAncestorResolver
      */
     public function resolveAncestorForParentLocation(Location $location): ?Location
     {
-        $contentTypeIdentifier = $this->getContentTypeIdentifier($location);
+        try {
+            $contentTypeIdentifier = $this->getContentTypeIdentifier($location);
+        } catch (NotFoundException) {
+            return null;
+        }
 
         foreach ($this->getPaths() as $path) {
             if (str_ends_with($path, $contentTypeIdentifier)) {
