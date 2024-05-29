@@ -94,7 +94,7 @@ final class ParentChildFieldMapper extends ContentTranslationFieldMapper
         bool $doIndex = true,
     ): array {
         $fieldsGrouped = [[]];
-        $isIndexed = !isset($configuration['indexed']) || (bool) $configuration['indexed'];
+        $isIndexed = !isset($configuration['indexed']) || $configuration['indexed'];
         $childrenConfiguration = $configuration['children'] ?? [];
 
         if ($isIndexed && $doIndex) {
