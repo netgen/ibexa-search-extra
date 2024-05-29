@@ -1,6 +1,6 @@
 services:
     netgen_search_extra.parent_child_indexing.parent_child_field_mapper:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ParentChildFieldMapper
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper
         arguments:
             - '@netgen_search_extra.parent_child_indexing.fulltext_field_resolver'
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
