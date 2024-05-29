@@ -19,6 +19,7 @@ use Netgen\IbexaSearchExtra\Core\Search\Common\EventSubscriber\UserEventSubscrib
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 
 final class AsynchronousIndexingPass implements CompilerPassInterface
 {
@@ -37,7 +38,7 @@ final class AsynchronousIndexingPass implements CompilerPassInterface
             ->setDecoratedService(CoreContentEventSubscriber::class)
             ->setArguments([
                 new Reference('netgen.ibexa_search_extra.asynchronous_indexing.messenger.bus'),
-                new Reference('Ibexa\Contracts\Core\Persistence\Content\Location\Handler'),
+                new Reference(LocationHandler::class),
             ]);
 
         $container
