@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing;
 
-use Netgen\IbexaSearchExtra\Core\Search\Solr\ParentChildReindexAncestorResolver;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\VersatileHandler;
+use Netgen\IbexaSearchExtra\Core\Search\Solr\ParentChildReindexAncestorResolver;
 
 final class AncestorIndexer
 {
@@ -21,7 +21,6 @@ final class AncestorIndexer
     public function indexSingle(Location $location): void
     {
         $ancestor = $this->ancestorResolver->resolveAncestor($location);
-
 
         if ($ancestor === null) {
             return;
@@ -43,6 +42,7 @@ final class AncestorIndexer
     public function indexSingleForParentLocation(Location $location): void
     {
         $ancestor = $this->ancestorResolver->resolveAncestorForParentLocation($location);
+
         if ($ancestor === null) {
             return;
         }
