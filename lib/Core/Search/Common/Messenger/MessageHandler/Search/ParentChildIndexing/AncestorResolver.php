@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Netgen\IbexaSearchExtra\Core\Search\Solr;
+namespace Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing;
 
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-
 use function array_merge;
 use function array_shift;
 use function count;
@@ -21,7 +20,7 @@ use function is_int;
 use function mb_strlen;
 use function str_starts_with;
 
-final class ParentChildReindexAncestorResolver
+final class AncestorResolver
 {
     /**
      * @var string[]|null
