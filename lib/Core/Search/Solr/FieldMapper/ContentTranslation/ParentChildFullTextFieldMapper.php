@@ -25,7 +25,7 @@ use function array_keys;
 use function array_merge;
 use function count;
 
-final class ParentChildFieldMapper extends ContentTranslationFieldMapper
+final class ParentChildFullTextFieldMapper extends ContentTranslationFieldMapper
 {
     /**
      * @var array<int, ?string>

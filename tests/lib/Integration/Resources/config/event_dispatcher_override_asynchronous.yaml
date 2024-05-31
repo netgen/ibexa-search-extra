@@ -6,8 +6,8 @@ parameters:
                     indexed: true
 
 services:
-    netgen_search_extra.parent_child_indexing.parent_child_field_mapper:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper
+    netgen_search_extra.parent_child_indexing.field_mapper.fulltext:
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFullTextFieldMapper
         arguments:
             - '@netgen_search_extra.parent_child_indexing.fulltext_field_resolver'
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
