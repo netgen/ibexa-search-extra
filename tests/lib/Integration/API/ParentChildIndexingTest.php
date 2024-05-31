@@ -33,7 +33,7 @@ final class ParentChildIndexingTest extends BaseTest
         $contentTypeGroups = $contentTypeService->loadContentTypeGroups();
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('parent_child_test');
         $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
-        $contentTypeCreateStruct->names = ['eng-GB' => 'Article'];
+        $contentTypeCreateStruct->names = ['eng-GB' => 'Parent child test'];
         $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
         $fieldDefinitionCreateStruct->position = 0;
         $fieldDefinitionCreateStruct->isSearchable = true;
