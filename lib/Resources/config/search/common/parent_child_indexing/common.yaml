@@ -18,7 +18,7 @@ services:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '%netgen.ibexa_search_extra.parent_child_indexer%'
         tags:
-            - { name: ibexa.search.solr.field.mapper.content.translation }
+            - { name: ibexa.search.solr.field.mapper.content.translation.disabled }
 
     netgen_search_extra.parent_child_indexing.ancestor_resolver:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorResolver

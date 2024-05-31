@@ -28,5 +28,19 @@ class ParentChildIndexingPass implements CompilerPassInterface
             $definition = $container->getDefinition($serviceId);
             $definition->addTag(self::MessageHandlerTag);
         }
+
+        $parentChildIndexingUseDefaultSolrFullTextFieldMapper = $container->getParameter(
+            'netgen_ibexa_search_extra.parent_child_indexing_use_default_solr_fulltext_field_mapper',
+        );
+
+        if ($parentChildIndexingUseDefaultSolrFullTextFieldMapper !== true) {
+            return;
+        }
+
+        $solrFullTextFieldMapper = $container->getDefinition(
+            'netgen_search_extra.parent_child_indexing.field_mapper.fulltext'
+        );
+
+        $solrFullTextFieldMapper->addTag('ibexa.search.solr.field.mapper.content.translation');
     }
 }

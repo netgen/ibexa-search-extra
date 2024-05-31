@@ -81,7 +81,11 @@ class Configuration implements ConfigurationInterface
         $nodeDefinition
             ->children()
                 ->booleanNode('use_parent_child_indexing')
-                    ->info('Use parent child indexing')
+                    ->info('Use parent-child indexing')
+                    ->defaultFalse()
+                ->end()
+                ->booleanNode('parent_child_indexing_use_default_solr_fulltext_field_mapper')
+                    ->info('Use parent-child indexing default Solr fulltext field mapper')
                     ->defaultFalse()
                 ->end()
             ->end();
