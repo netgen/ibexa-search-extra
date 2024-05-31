@@ -16,7 +16,7 @@ services:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '%netgen.ibexa_search_extra.parent_child_indexer%'
         tags:
-            - { name: ibexa.search.solr.field.mapper.block.translation }
+            - { name: ibexa.search.solr.field.mapper.content.translation }
 
     Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\CopyContentHandler:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\CopyContentHandler
