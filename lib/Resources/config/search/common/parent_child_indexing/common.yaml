@@ -20,6 +20,11 @@ services:
         tags:
             - { name: ibexa.search.solr.field.mapper.content.translation.disabled }
 
+    netgen_search_extra.parent_child_indexing.ancestor_path_generator:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorPathGenerator
+        arguments:
+            - '%netgen.ibexa_search_extra.parent_child_indexer%'
+
     netgen_search_extra.parent_child_indexing.ancestor_resolver:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorResolver
         arguments:
