@@ -42,12 +42,12 @@ final class DeleteContentHandler
                 $locations[] = $this->locationHandler->load($locationId);
             } catch (NotFoundException) {
                 $this->logger->info(
-                sprintf(
-                    '%s: Location #%d is gone, aborting',
-                    $this::class,
-                    $locationId,
-                ),
-            );
+                    sprintf(
+                        '%s: Location #%d is gone, aborting',
+                        $this::class,
+                        $locationId,
+                    ),
+                );
             }
         }
 
