@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Search\FieldType\TextField;
 use Ibexa\Core\Search\Common\FieldRegistry;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper\FullTextFieldResolver;
 
-final class NativeFulltextFieldResolver implements FullTextFieldResolver
+final class NativeFullTextFieldResolver implements FullTextFieldResolver
 {
     public function __construct(
         private readonly ContentTypeHandler $contentTypeHandler,

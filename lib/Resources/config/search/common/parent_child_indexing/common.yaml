@@ -1,6 +1,6 @@
 services:
     netgen_search_extra.parent_child_indexing.fulltext_field_resolver.native:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper\FullTextFieldResolver\NativeFulltextFieldResolver
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper\FullTextFieldResolver\NativeFullTextFieldResolver
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             - '@Ibexa\Core\Search\Common\FieldRegistry'
