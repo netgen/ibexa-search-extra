@@ -26,7 +26,7 @@ final class DeleteContentHandler
         if (count($message->parentLocationIds) === 0) {
             $this->logger->info(
                 sprintf(
-                    '%s: Could not find main Location parent Location ID for deleted Content #%d, aborting',
+                    '%s: Could not find parent Location IDs for deleted Content #%d, aborting',
                     $this::class,
                     $message->contentId,
                 ),
