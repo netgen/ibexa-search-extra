@@ -54,7 +54,7 @@ final class ParentChildFullTextFieldMapper extends ContentTranslationFieldMapper
         $contentType = $this->contentTypeHandler->load($contentTypeId);
         $contentTypeIdentifier = $contentType->identifier;
 
-        return array_key_exists($contentTypeIdentifier, $this->configuration);
+        return array_key_exists($contentTypeIdentifier, $this->configuration['map']);
     }
 
     /**
@@ -75,7 +75,7 @@ final class ParentChildFullTextFieldMapper extends ContentTranslationFieldMapper
         return $this->recursiveMapFields(
             $content->versionInfo->contentInfo,
             $languageCode,
-            $this->configuration[$contentTypeIdentifier],
+            $this->configuration['map'][$contentTypeIdentifier],
             false,
         );
     }
