@@ -18,6 +18,7 @@
         <whitelist>
             <directory>./bundle</directory>
             <directory>./lib</directory>
+            <exclude>tests/lib/Integration/API/ParentChildIndexingTest.php</exclude>
         </whitelist>
     </filter>
 </phpunit>
