@@ -31,7 +31,7 @@ services:
             - '@Ibexa\Core\Persistence\Legacy\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             - '@Ibexa\Core\Persistence\Cache\LocationHandler'
-            - '%netgen.ibexa_search_extra.parent_child_indexer%'
+            - '@netgen_search_extra.parent_child_indexing.ancestor_path_generator'
 
     netgen_search_extra.parent_child_indexing.ancestor_indexer:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer
