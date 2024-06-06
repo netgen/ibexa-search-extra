@@ -12,13 +12,13 @@
     <testsuites>
         <testsuite name="Solr Search Engine tests">
             <directory suffix="Test.php">./tests/lib/Integration/</directory>
+            <exclude>tests/lib/Integration/API/ParentChildIndexingTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
             <directory>./bundle</directory>
             <directory>./lib</directory>
-            <exclude>tests/lib/Integration/API/ParentChildIndexingTest.php</exclude>
         </whitelist>
     </filter>
 </phpunit>
