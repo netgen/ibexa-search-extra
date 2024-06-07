@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper;
 
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -20,12 +20,13 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper\FullTextFieldResolver;
 
+use Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\IdentifiableFieldMapper;
 use function array_key_exists;
 use function array_keys;
 use function array_merge;
 use function count;
 
-final class ParentChildFullTextFieldMapper extends ContentTranslationFieldMapper
+final class FullTextFieldMapper extends BaseFieldMapper
 {
     /**
      * @var array<int, ?string>
@@ -43,18 +44,16 @@ final class ParentChildFullTextFieldMapper extends ContentTranslationFieldMapper
         private readonly LocationHandler $locationHandler,
         private readonly array $configuration,
         private readonly int $childrenLimit = 99,
-    ) {}
+    ) {
+        parent::__construct(
+            $contentTypeHandler,
+            $this->configuration,
+        );
+    }
 
-    /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     */
-    public function accept(SPIContent $content, $languageCode): bool
+    public function doAccept(SPIContent $content, $languageCode): bool
     {
-        $contentTypeId = $content->versionInfo->contentInfo->contentTypeId;
-        $contentType = $this->contentTypeHandler->load($contentTypeId);
-        $contentTypeIdentifier = $contentType->identifier;
-
-        return array_key_exists($contentTypeIdentifier, $this->configuration['map']);
+        return true;
     }
 
     /**
@@ -62,22 +61,25 @@ final class ParentChildFullTextFieldMapper extends ContentTranslationFieldMapper
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
      * @return \Ibexa\Contracts\Core\Search\Field[]
      */
     public function mapFields(SPIContent $content, $languageCode): array
     {
         $contentTypeId = $content->versionInfo->contentInfo->contentTypeId;
-        $contentType = $this->contentTypeHandler->load($contentTypeId);
-        $contentTypeIdentifier = $contentType->identifier;
+        $contentTypeIdentifier = $this->getContentTypeIdentifier($contentTypeId);
 
         return $this->recursiveMapFields(
             $content->versionInfo->contentInfo,
             $languageCode,
-            $this->configuration['map'][$contentTypeIdentifier],
+            $this->configuration['map'][$contentTypeIdentifier] ?? [],
             false,
         );
+    }
+
+    public function getIdentifier(): string
+    {
+        return 'ng_parent_child_indexing_fulltext';
     }
 
     /**
@@ -111,11 +113,7 @@ final class ParentChildFullTextFieldMapper extends ContentTranslationFieldMapper
         foreach ($childrenContentInfoList as $childContentInfo) {
             $contentTypeId = $childContentInfo->contentTypeId;
             $contentTypeIdentifier = $this->getContentTypeIdentifier($contentTypeId);
-            $childConfiguration = $childrenConfiguration[$contentTypeIdentifier] ?? null;
-
-            if ($childConfiguration === null) {
-                continue;
-            }
+            $childConfiguration = $childrenConfiguration[$contentTypeIdentifier] ?? [];
 
             $fieldsGrouped[] = $this->recursiveMapFields(
                 $childContentInfo,
@@ -123,6 +121,7 @@ final class ParentChildFullTextFieldMapper extends ContentTranslationFieldMapper
                 $childConfiguration,
             );
         }
+
         return array_merge(...$fieldsGrouped);
     }
 
@@ -161,6 +160,7 @@ final class ParentChildFullTextFieldMapper extends ContentTranslationFieldMapper
         if (count($contentTypeIdentifiers) === 0) {
             return [];
         }
+
         $filter = new Filter();
         $filter
             ->withCriterion(

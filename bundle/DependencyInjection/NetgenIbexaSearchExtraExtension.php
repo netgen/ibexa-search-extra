@@ -122,13 +122,8 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
     private function processParentChildIndexingConfiguration(array $configuration, ContainerBuilder $container): void
     {
         $container->setParameter(
-            'netgen_ibexa_search_extra.use_parent_child_indexing',
-            $configuration['use_parent_child_indexing'],
-        );
-
-        $container->setParameter(
-            'netgen_ibexa_search_extra.parent_child_indexing_use_default_solr_fulltext_field_mapper',
-            $configuration['parent_child_indexing_use_default_solr_fulltext_field_mapper'],
+            'netgen.ibexa_search_extra.parent_child_indexing.configuration',
+            $configuration['hierarchical_indexing']['descendant_indexing'],
         );
     }
 }

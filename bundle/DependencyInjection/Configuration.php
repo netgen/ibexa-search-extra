@@ -26,7 +26,6 @@ class Configuration implements ConfigurationInterface
         $this->addIndexableFieldTypeSection($rootNode);
         $this->addSearchResultExtractorSection($rootNode);
         $this->addAsynchronousIndexingSection($rootNode);
-        $this->addParentChildIndexingSection($rootNode);
         $this->addHierarchicalIndexingSection($rootNode);
 
         return $treeBuilder;
@@ -72,21 +71,6 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->booleanNode('use_asynchronous_indexing')
                     ->info('Use asynchronous mechanism to handle repository content indexing')
-                    ->defaultFalse()
-                ->end()
-            ?->end();
-    }
-
-    private function addParentChildIndexingSection(ArrayNodeDefinition $nodeDefinition): void
-    {
-        $nodeDefinition
-            ->children()
-                ->booleanNode('use_parent_child_indexing')
-                    ->info('Use parent-child indexing')
-                    ->defaultFalse()
-                ->end()
-                ?->booleanNode('parent_child_indexing_use_default_solr_fulltext_field_mapper')
-                    ->info('Use parent-child indexing default Solr fulltext field mapper')
                     ->defaultFalse()
                 ->end()
             ?->end();
