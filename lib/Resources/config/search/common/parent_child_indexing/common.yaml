@@ -1,41 +1,20 @@
 services:
-    netgen_search_extra.parent_child_indexing.fulltext_field_resolver.native:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper\FullTextFieldResolver\NativeFullTextFieldResolver
-        arguments:
-            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
-            - '@Ibexa\Core\Search\Common\FieldRegistry'
-
-    netgen_search_extra.parent_child_indexing.fulltext_field_resolver:
-        alias: netgen_search_extra.parent_child_indexing.fulltext_field_resolver.native
-
-    netgen_search_extra.parent_child_indexing.field_mapper.fulltext:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFullTextFieldMapper
-        arguments:
-            - '@netgen_search_extra.parent_child_indexing.fulltext_field_resolver'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Filter\Content\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '%netgen.ibexa_search_extra.parent_child_indexer%'
-        tags:
-            - { name: ibexa.search.solr.field.mapper.content.translation.disabled }
-
-    netgen_search_extra.parent_child_indexing.ancestor_path_generator:
+    netgen.ibexa_search_extra.parent_child_indexing.ancestor_path_generator:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorPathGenerator
         arguments:
-            - '%netgen.ibexa_search_extra.parent_child_indexer%'
+            - '%netgen.ibexa_search_extra.parent_child_indexing.configuration%'
 
-    netgen_search_extra.parent_child_indexing.ancestor_resolver:
+    netgen.ibexa_search_extra.parent_child_indexing.ancestor_resolver:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorResolver
         arguments:
             - '@Ibexa\Core\Persistence\Legacy\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             - '@Ibexa\Core\Persistence\Cache\LocationHandler'
-            - '@netgen_search_extra.parent_child_indexing.ancestor_path_generator'
+            - '@netgen.ibexa_search_extra.parent_child_indexing.ancestor_path_generator'
 
-    netgen_search_extra.parent_child_indexing.ancestor_indexer:
+    netgen.ibexa_search_extra.parent_child_indexing.ancestor_indexer:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorIndexer
         arguments:
             - '@Ibexa\Contracts\Core\Search\VersatileHandler'
             - '@Ibexa\Core\Persistence\Legacy\Content\Handler'
-            - '@netgen_search_extra.parent_child_indexing.ancestor_resolver'
+            - '@netgen.ibexa_search_extra.parent_child_indexing.ancestor_resolver'
