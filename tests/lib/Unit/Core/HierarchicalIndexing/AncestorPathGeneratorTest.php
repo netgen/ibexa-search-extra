@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Tests\Unit\Core\HierarchicalIndexing;
 
-use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\AncestorPathGenerator;
+use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\AncestorPathGenerator;
 use PHPUnit\Framework\TestCase;
 
 /**

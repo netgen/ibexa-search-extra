@@ -10,19 +10,19 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class DescendantIndexingPass implements CompilerPassInterface
 {
-    private const ParentChildConfigurationParameter = 'netgen.ibexa_search_extra.descendant_indexing.configuration';
-    private const ParentChildMessageHandlerTag = 'netgen.ibexa_search_extra.descendant_indexing.message_handler';
+    private const DescendantIndexingConfigurationParameter = 'netgen.ibexa_search_extra.descendant_indexing.configuration';
+    private const DescendantIndexingMessageHandlerTag = 'netgen.ibexa_search_extra.descendant_indexing.message_handler';
     private const MessageHandlerTag = 'messenger.message_handler';
-    private const ParentChildSolrContentFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content';
-    private const ParentChildSolrContentFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content';
-    private const ParentChildSolrContentTranslationFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation';
-    private const ParentChildSolrContentTranslationFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation';
-    private const ParentChildSolrLocationFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.location';
-    private const ParentChildSolrLocationFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.location';
+    private const DescendantIndexingSolrContentFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content';
+    private const DescendantIndexingSolrContentFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content';
+    private const DescendantIndexingSolrContentTranslationFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation';
+    private const DescendantIndexingSolrContentTranslationFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation';
+    private const DescendantIndexingSolrLocationFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.location';
+    private const DescendantIndexingSolrLocationFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.location';
 
     public function process(ContainerBuilder $container): void
     {
-        $configuration = $container->getParameter(self::ParentChildConfigurationParameter);
+        $configuration = $container->getParameter(self::DescendantIndexingConfigurationParameter);
         $isEnabled = $configuration['enabled'] ?? false;
 
         if (!$isEnabled) {
@@ -37,7 +37,7 @@ class DescendantIndexingPass implements CompilerPassInterface
 
     private function registerHandlers(ContainerBuilder $container): void
     {
-        $serviceIds = $container->findTaggedServiceIds(self::ParentChildMessageHandlerTag);
+        $serviceIds = $container->findTaggedServiceIds(self::DescendantIndexingMessageHandlerTag);
 
         foreach ($serviceIds as $serviceId => $tag) {
             $definition = $container->getDefinition($serviceId);
@@ -47,8 +47,8 @@ class DescendantIndexingPass implements CompilerPassInterface
 
     private function registerSolrContentFieldMappers(ContainerBuilder $container): void
     {
-        $definition = $container->getDefinition(self::ParentChildSolrContentFieldMapperServiceId);
-        $serviceIds = $container->findTaggedServiceIds(self::ParentChildSolrContentFieldMapperTag);
+        $definition = $container->getDefinition(self::DescendantIndexingSolrContentFieldMapperServiceId);
+        $serviceIds = $container->findTaggedServiceIds(self::DescendantIndexingSolrContentFieldMapperTag);
 
         foreach (array_keys($serviceIds) as $id) {
             $definition->addMethodCall('addFieldMapper', [new Reference($id)]);
@@ -57,8 +57,8 @@ class DescendantIndexingPass implements CompilerPassInterface
 
     private function registerSolrContentTranslationFieldMappers(ContainerBuilder $container): void
     {
-        $definition = $container->getDefinition(self::ParentChildSolrContentTranslationFieldMapperServiceId);
-        $serviceIds = $container->findTaggedServiceIds(self::ParentChildSolrContentTranslationFieldMapperTag);
+        $definition = $container->getDefinition(self::DescendantIndexingSolrContentTranslationFieldMapperServiceId);
+        $serviceIds = $container->findTaggedServiceIds(self::DescendantIndexingSolrContentTranslationFieldMapperTag);
 
         foreach (array_keys($serviceIds) as $id) {
             $definition->addMethodCall('addFieldMapper', [new Reference($id)]);
@@ -67,8 +67,8 @@ class DescendantIndexingPass implements CompilerPassInterface
 
     private function registerSolrLocationFieldMappers(ContainerBuilder $container): void
     {
-        $definition = $container->getDefinition(self::ParentChildSolrLocationFieldMapperServiceId);
-        $serviceIds = $container->findTaggedServiceIds(self::ParentChildSolrLocationFieldMapperTag);
+        $definition = $container->getDefinition(self::DescendantIndexingSolrLocationFieldMapperServiceId);
+        $serviceIds = $container->findTaggedServiceIds(self::DescendantIndexingSolrLocationFieldMapperTag);
 
         foreach (array_keys($serviceIds) as $id) {
             $definition->addMethodCall('addFieldMapper', [new Reference($id)]);
