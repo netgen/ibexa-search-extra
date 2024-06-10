@@ -162,7 +162,7 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
     private function processParentChildIndexingConfiguration(array $configuration, ContainerBuilder $container): void
     {
         $container->setParameter(
-            'netgen.ibexa_search_extra.parent_child_indexing.configuration',
+            'netgen.ibexa_search_extra.descendant_indexing.configuration',
             $configuration['hierarchical_indexing']['descendant_indexing'],
         );
     }

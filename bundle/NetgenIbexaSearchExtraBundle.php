@@ -22,7 +22,7 @@ class NetgenIbexaSearchExtraBundle extends Bundle
         $container->addCompilerPass(new Compiler\AggregateFacetBuilderVisitorPass());
         $container->addCompilerPass(new Compiler\AggregateSubdocumentQueryCriterionVisitorPass());
         $container->addCompilerPass(new Compiler\AsynchronousIndexingPass());
-        $container->addCompilerPass(new Compiler\ParentChildIndexingPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 100);
+        $container->addCompilerPass(new Compiler\DescendantIndexingPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 100);
         $container->addCompilerPass(new Compiler\FieldType\RichTextIndexablePass());
         $container->addCompilerPass(new Compiler\SearchResultExtractorPass());
         $container->addCompilerPass(new Compiler\RawFacetBuilderDomainVisitorPass());
