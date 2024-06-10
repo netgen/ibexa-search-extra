@@ -1,27 +1,27 @@
 services:
     netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Content\ParentChildFieldMapper
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Content\DescendantFieldMapper
         arguments:
             - '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
         tags:
             - { name: ibexa.search.solr.field.mapper.content }
 
     netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\DescendantFieldMapper
         arguments:
             - '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
         tags:
             - { name: ibexa.search.solr.field.mapper.content.translation }
 
     netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.location:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Location\ParentChildFieldMapper
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Location\DescendantFieldMapper
         arguments:
             - '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
         tags:
             - { name: ibexa.search.solr.field.mapper.location }
 
     netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation.fulltext_field_resolver.native:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper\FullTextFieldResolver\NativeFullTextFieldResolver
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\DescendantFieldMapper\FullTextFieldResolver\NativeFullTextFieldResolver
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             - '@Ibexa\Core\Search\Common\FieldRegistry'
@@ -30,7 +30,7 @@ services:
         alias: netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation.fulltext_field_resolver.native
 
     netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation.fulltext:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper\FullTextFieldMapper
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\DescendantFieldMapper\FullTextFieldMapper
         arguments:
             - '@netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation.fulltext_field_resolver'
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'

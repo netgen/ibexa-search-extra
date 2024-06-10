@@ -1,6 +1,6 @@
 services:
     netgen.ibexa_search_extra.descendant_indexing.message_handler.set_content_state:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\ObjectState\SetContentStateHandler
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\ObjectState\SetContentStateHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'

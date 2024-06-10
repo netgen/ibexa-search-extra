@@ -1,6 +1,6 @@
 services:
     netgen.ibexa_search_extra.descendant_indexing.message_handler.copy_content:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\CopyContentHandler
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\CopyContentHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
@@ -8,7 +8,7 @@ services:
             - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
 
     netgen.ibexa_search_extra.descendant_indexing.message_handler.delete_content:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\DeleteContentHandler
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\DeleteContentHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
@@ -18,7 +18,7 @@ services:
             - { name: monolog.logger, channel: ngsearchextra }
 
     netgen.ibexa_search_extra.descendant_indexing.message_handler.delete_translation:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\DeleteTranslationHandler
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\DeleteTranslationHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
@@ -29,7 +29,7 @@ services:
             - { name: monolog.logger, channel: ngsearchextra }
 
     netgen.ibexa_search_extra.descendant_indexing.message_handler.hide_content:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\HideContentHandler
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\HideContentHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
@@ -37,7 +37,7 @@ services:
             - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
 
     netgen.ibexa_search_extra.descendant_indexing.message_handler.publish_version:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\PublishVersionHandler
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\PublishVersionHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
@@ -45,7 +45,7 @@ services:
             - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
 
     netgen.ibexa_search_extra.descendant_indexing.message_handler.reveal_content:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\RevealContentHandler
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\RevealContentHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
@@ -53,7 +53,7 @@ services:
             - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
 
     netgen.ibexa_search_extra.descendant_indexing.message_handler.update_content_metadata:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Content\UpdateContentMetadataHandler
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\UpdateContentMetadataHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
