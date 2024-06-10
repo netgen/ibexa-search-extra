@@ -8,17 +8,17 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class ParentChildIndexingPass implements CompilerPassInterface
+class DescendantIndexingPass implements CompilerPassInterface
 {
-    private const ParentChildConfigurationParameter = 'netgen.ibexa_search_extra.parent_child_indexing.configuration';
-    private const ParentChildMessageHandlerTag = 'netgen.ibexa_search_extra.parent_child_indexing.message_handler';
+    private const ParentChildConfigurationParameter = 'netgen.ibexa_search_extra.descendant_indexing.configuration';
+    private const ParentChildMessageHandlerTag = 'netgen.ibexa_search_extra.descendant_indexing.message_handler';
     private const MessageHandlerTag = 'messenger.message_handler';
-    private const ParentChildSolrContentFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.content';
-    private const ParentChildSolrContentFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.content';
-    private const ParentChildSolrContentTranslationFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.content.translation';
-    private const ParentChildSolrContentTranslationFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.content.translation';
-    private const ParentChildSolrLocationFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.location';
-    private const ParentChildSolrLocationFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.location';
+    private const ParentChildSolrContentFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content';
+    private const ParentChildSolrContentFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content';
+    private const ParentChildSolrContentTranslationFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation';
+    private const ParentChildSolrContentTranslationFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation';
+    private const ParentChildSolrLocationFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.location';
+    private const ParentChildSolrLocationFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.location';
 
     public function process(ContainerBuilder $container): void
     {

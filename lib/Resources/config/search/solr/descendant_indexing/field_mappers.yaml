@@ -1,42 +1,42 @@
 services:
-    netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.content:
+    netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Content\ParentChildFieldMapper
         arguments:
-            - '%netgen.ibexa_search_extra.parent_child_indexing.configuration%'
+            - '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
         tags:
             - { name: ibexa.search.solr.field.mapper.content }
 
-    netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.content.translation:
+    netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper
         arguments:
-            - '%netgen.ibexa_search_extra.parent_child_indexing.configuration%'
+            - '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
         tags:
             - { name: ibexa.search.solr.field.mapper.content.translation }
 
-    netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.location:
+    netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.location:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Location\ParentChildFieldMapper
         arguments:
-            - '%netgen.ibexa_search_extra.parent_child_indexing.configuration%'
+            - '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
         tags:
             - { name: ibexa.search.solr.field.mapper.location }
 
-    netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.content.translation.fulltext_field_resolver.native:
+    netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation.fulltext_field_resolver.native:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper\FullTextFieldResolver\NativeFullTextFieldResolver
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             - '@Ibexa\Core\Search\Common\FieldRegistry'
 
-    netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.content.translation.fulltext_field_resolver:
-        alias: netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.content.translation.fulltext_field_resolver.native
+    netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation.fulltext_field_resolver:
+        alias: netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation.fulltext_field_resolver.native
 
-    netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.content.translation.fulltext:
+    netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation.fulltext:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ParentChildFieldMapper\FullTextFieldMapper
         arguments:
-            - '@netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.content.translation.fulltext_field_resolver'
+            - '@netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation.fulltext_field_resolver'
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Filter\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '%netgen.ibexa_search_extra.parent_child_indexing.configuration%'
+            - '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
         tags:
-            - { name: netgen.ibexa_search_extra.solr.field_mapper.parent_child_indexing.content.translation }
+            - { name: netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation }

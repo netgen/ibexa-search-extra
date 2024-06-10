@@ -10,7 +10,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 /**
  * @group parent-child-indexing
  */
-final class ParentChildIndexingTest extends BaseTest
+final class DescendantIndexingTest extends BaseTest
 {
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
@@ -31,9 +31,9 @@ final class ParentChildIndexingTest extends BaseTest
         $searchService = $repository->getSearchService();
 
         $contentTypeGroups = $contentTypeService->loadContentTypeGroups();
-        $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('parent_child_test');
+        $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('descendant_indexing_test');
         $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
-        $contentTypeCreateStruct->names = ['eng-GB' => 'Parent child test'];
+        $contentTypeCreateStruct->names = ['eng-GB' => 'Descendant indexing test'];
         $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
         $fieldDefinitionCreateStruct->position = 0;
         $fieldDefinitionCreateStruct->isSearchable = true;
@@ -41,7 +41,7 @@ final class ParentChildIndexingTest extends BaseTest
         $contentTypeDraft = $contentTypeService->createContentType($contentTypeCreateStruct, [reset($contentTypeGroups)]);
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
 
-        $contentType = $contentTypeService->loadContentTypeByIdentifier('parent_child_test');
+        $contentType = $contentTypeService->loadContentTypeByIdentifier('descendant_indexing_test');
 
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
         $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');

@@ -1,8 +1,8 @@
 services:
-    netgen.ibexa_search_extra.parent_child_indexing.message_handler.assign_section:
+    netgen.ibexa_search_extra.descendant_indexing.message_handler.assign_section:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Section\AssignSectionHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@netgen.ibexa_search_extra.parent_child_indexing.ancestor_indexer'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
         tags:
-            - { name: netgen.ibexa_search_extra.parent_child_indexing.message_handler }
+            - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
