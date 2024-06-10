@@ -79,7 +79,7 @@ final class FullTextFieldMapper extends BaseFieldMapper
 
     public function getIdentifier(): string
     {
-        return 'ng_parent_child_indexing_fulltext';
+        return 'ng_descendant_indexing_fulltext';
     }
 
     /**

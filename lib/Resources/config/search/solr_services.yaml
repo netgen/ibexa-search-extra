@@ -2,7 +2,7 @@ imports:
     - { resource: solr/criterion_visitors.yaml }
     - { resource: solr/facet_builder_visitors.yaml }
     - { resource: solr/field_mappers.yaml }
-    - { resource: solr/parent_child_indexing/field_mappers.yaml }
+    - { resource: solr/descendant_indexing/field_mappers.yaml }
     - { resource: solr/sort_clause_visitors.yaml }
     - { resource: solr/subdocument_mappers.yaml }
 

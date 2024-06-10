@@ -1,20 +1,20 @@
 services:
-    netgen.ibexa_search_extra.parent_child_indexing.message_handler.recover:
+    netgen.ibexa_search_extra.descendant_indexing.message_handler.recover:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Trash\RecoverHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@netgen.ibexa_search_extra.parent_child_indexing.ancestor_indexer'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
             - '@?logger'
         tags:
-            - { name: netgen.ibexa_search_extra.parent_child_indexing.message_handler }
+            - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
 
-    netgen.ibexa_search_extra.parent_child_indexing.message_handler.trash:
+    netgen.ibexa_search_extra.descendant_indexing.message_handler.trash:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ParentChildIndexing\Trash\TrashHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@netgen.ibexa_search_extra.parent_child_indexing.ancestor_indexer'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
             - '@?logger'
         tags:
-            - { name: netgen.ibexa_search_extra.parent_child_indexing.message_handler }
+            - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
