@@ -46,7 +46,7 @@ final class AncestorResolver
     }
 
     /**
-     * Return the location if its content type matches the path parent.
+     * Return the Location if its content type matches the path parent.
      */
     public function resolveAncestorForParentLocation(Location $location): ?Location
     {

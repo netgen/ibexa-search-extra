@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Content\DescendantFieldMapper;
 
 use Ibexa\Contracts\Core\Persistence\Content;
