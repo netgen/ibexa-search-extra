@@ -8,7 +8,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 /**
- * @group parent-child-indexing
+ * @group descendant-indexing
  */
 final class DescendantIndexingTest extends BaseTest
 {
