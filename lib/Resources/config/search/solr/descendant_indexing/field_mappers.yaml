@@ -1,4 +1,18 @@
 services:
+    netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.block:
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Block\DescendantFieldMapper
+        arguments:
+            - '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
+        tags:
+            - { name: ibexa.search.solr.field.mapper.block }
+
+    netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.block.translation:
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\BlockTranslation\DescendantFieldMapper
+        arguments:
+            - '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
+        tags:
+            - { name: ibexa.search.solr.field.mapper.block.translation }
+
     netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Content\DescendantFieldMapper
         arguments:

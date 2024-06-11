@@ -13,6 +13,10 @@ class DescendantIndexingPass implements CompilerPassInterface
     private const DescendantIndexingConfigurationParameter = 'netgen.ibexa_search_extra.descendant_indexing.configuration';
     private const DescendantIndexingMessageHandlerTag = 'netgen.ibexa_search_extra.descendant_indexing.message_handler';
     private const MessageHandlerTag = 'messenger.message_handler';
+    private const DescendantIndexingSolrBlockFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.block';
+    private const DescendantIndexingSolrBlockFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.block';
+    private const DescendantIndexingSolrBlockTranslationFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.block.translation';
+    private const DescendantIndexingSolrBlockTranslationFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.block.translation';
     private const DescendantIndexingSolrContentFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content';
     private const DescendantIndexingSolrContentFieldMapperTag = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content';
     private const DescendantIndexingSolrContentTranslationFieldMapperServiceId = 'netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation';
@@ -42,6 +46,26 @@ class DescendantIndexingPass implements CompilerPassInterface
         foreach ($serviceIds as $serviceId => $tag) {
             $definition = $container->getDefinition($serviceId);
             $definition->addTag(self::MessageHandlerTag);
+        }
+    }
+
+    private function registerSolrBlockFieldMappers(ContainerBuilder $container): void
+    {
+        $definition = $container->getDefinition(self::DescendantIndexingSolrBlockFieldMapperServiceId);
+        $serviceIds = $container->findTaggedServiceIds(self::DescendantIndexingSolrBlockFieldMapperTag);
+
+        foreach (array_keys($serviceIds) as $id) {
+            $definition->addMethodCall('addFieldMapper', [new Reference($id)]);
+        }
+    }
+
+    private function registerSolrBlockTranslationFieldMappers(ContainerBuilder $container): void
+    {
+        $definition = $container->getDefinition(self::DescendantIndexingSolrBlockTranslationFieldMapperServiceId);
+        $serviceIds = $container->findTaggedServiceIds(self::DescendantIndexingSolrBlockTranslationFieldMapperTag);
+
+        foreach (array_keys($serviceIds) as $id) {
+            $definition->addMethodCall('addFieldMapper', [new Reference($id)]);
         }
     }
 
