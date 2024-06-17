@@ -1,0 +1,27 @@
+services:
+    netgen.ibexa_search_extra.page_indexing.page_text_extractor:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor\NativePageTextExtractor
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Bundle\Core\Routing\UrlAliasRouter'
+            - '@netgen.ibexa_search_extra.page_indexing.site_access_resolver'
+        calls:
+            - setLogger: ['@?logger']
+
+    netgen.ibexa_search_extra.page_indexing.site_access_resolver:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\SiteConfigResolver
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '%netgen_ibexa_search_extra.page_indexing.sites%'
+
+
+    netgen.ibexa_search_extra.page_indexing:
+        class: Netgen\Bundle\IbexaSearchExtraBundle\Command\IndexPageContentCommand
+        tags:
+            - { name: console.command }
+        arguments:
+            - '@Ibexa\Contracts\Core\Repository\ContentService'
+            - '@ibexa.spi.search'
+            - '@ibexa.api.persistence_handler'
+            - '%netgen_ibexa_search_extra.page_indexing.sites%'

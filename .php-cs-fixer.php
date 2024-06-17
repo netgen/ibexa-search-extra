@@ -19,7 +19,7 @@ return $config
         'method_chaining_indentation' => false,
         'multiline_whitespace_before_semicolons' => false,
         'native_function_invocation' => ['include' => ['@all']],
-        'no_superfluous_phpdoc_tags' => false,
+        'no_superfluous_phpdoc_tags' => true,
         'no_unset_on_property' => false,
         'ordered_imports' => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
         'php_unit_internal_class' => false,
@@ -27,8 +27,9 @@ return $config
         'php_unit_test_class_requires_covers' => false,
         'phpdoc_align' => false,
         'phpdoc_types_order' => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
+        'phpdoc_no_alias_tag' => ['replacements' => ['type' => 'var', 'link' => 'see']],
         'single_line_comment_style' => false,
-        'trailing_comma_in_multiline' => ['elements' => ['arrays', 'arguments']],
+        'trailing_comma_in_multiline' => ['elements' => ['arrays', 'arguments', 'match', 'parameters']],
         'yoda_style' => false,
         'php_unit_strict' => false,
         'php_unit_test_annotation' => false,
@@ -50,7 +51,8 @@ return $config
         'static_lambda' => true,
         'ternary_to_null_coalescing' => true,
         'use_arrow_functions' => true,
-   ])
+        'no_alias_language_construct_call' => true,
+    ])
     ->setRiskyAllowed(true)
     ->setFinder($finder)
-;
+    ;
