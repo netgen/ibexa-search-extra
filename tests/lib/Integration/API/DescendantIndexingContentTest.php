@@ -9,12 +9,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Core\Repository\SiteAccessAware\ContentTypeService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
-/**
- * @group descendant-indexing
- */
 final class DescendantIndexingContentTest extends BaseTest
 {
     /**
+     * @return void
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
@@ -52,6 +50,7 @@ final class DescendantIndexingContentTest extends BaseTest
     }
 
     /**
+     * @return void
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
@@ -61,7 +60,6 @@ final class DescendantIndexingContentTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      *
-     * @group delete
      * @depends testPublishVersion
      */
     public function testDeleteContent(): void
@@ -91,6 +89,7 @@ final class DescendantIndexingContentTest extends BaseTest
     }
 
     /**
+     * @return void
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
@@ -129,6 +128,17 @@ final class DescendantIndexingContentTest extends BaseTest
     }
 
 
+    /**
+     * @return int
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
     public function testHideContent(): int
     {
         $repository = $this->getRepository();
@@ -158,6 +168,7 @@ final class DescendantIndexingContentTest extends BaseTest
     }
 
     /**
+     * @param int $hiddenContentId
      * @return void
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
@@ -195,6 +206,16 @@ final class DescendantIndexingContentTest extends BaseTest
 
     }
 
+    /**
+     * @return void
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
     public function testUpdateContentMetadataHandler(): void
     {
         $repository = $this->getRepository();
@@ -228,7 +249,16 @@ final class DescendantIndexingContentTest extends BaseTest
 
     }
 
-
+    /**
+     * @param ContentTypeService $contentTypeService
+     * @param string $identifier
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
     private function createContentType(ContentTypeService $contentTypeService, string $identifier) {
 
         $contentTypeGroups = $contentTypeService->loadContentTypeGroups();
@@ -246,6 +276,16 @@ final class DescendantIndexingContentTest extends BaseTest
 
     }
 
+    /**
+     * @return array
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
     private function createContentForTesting() {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
