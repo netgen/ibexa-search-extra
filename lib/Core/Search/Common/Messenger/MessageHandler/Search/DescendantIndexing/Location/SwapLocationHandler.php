@@ -23,11 +23,11 @@ final class SwapLocationHandler
 
     public function __invoke(SwapLocation $message): void
     {
-        $this->reindexForLocation($message->location1Id);
-        $this->reindexForLocation($message->location2Id);
+        $this->reindexForLocation($message->location1Id, $message->location2Id);
+        $this->reindexForLocation($message->location2Id, $message->location1Id);
     }
 
-    private function reindexForLocation(int $locationId): void
+    private function reindexForLocation(int $locationId, int $swappedLocationId): void
     {
         try {
             $location = $this->locationHandler->load($locationId);
@@ -43,6 +43,20 @@ final class SwapLocationHandler
             return;
         }
 
-        $this->ancestorIndexer->indexSingle($location);
+        try {
+            $swappedLocation = $this->locationHandler->load($swappedLocationId);
+        } catch (NotFoundException) {
+            $this->logger->info(
+                sprintf(
+                    '%s: Location #%d is gone, aborting',
+                    $this::class,
+                    $swappedLocationId,
+                ),
+            );
+
+            return;
+        }
+
+        $this->ancestorIndexer->indexSingleForSwapLocation($location, $swappedLocation);
     }
 }

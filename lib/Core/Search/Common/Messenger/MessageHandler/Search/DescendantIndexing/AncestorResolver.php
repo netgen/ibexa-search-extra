@@ -37,10 +37,28 @@ final class AncestorResolver
         do {
             $match = $this->matchPath($ancestry);
 
-            if ($match === 0) {
+            if ($match === true) {
                 return end($ancestry);
             }
-        } while (is_int($match) && $this->addToAncestry($ancestry));
+        } while (is_bool($match) && $this->addToAncestry($ancestry));
+
+        return null;
+    }
+
+    public function resolveAncestorForSwapLocation(Location $location, Location $swappedLocation): ?Location
+    {
+        $contentInfo = $this->contentHandler->loadContentInfo($swappedLocation->contentId);
+        $contentType = $this->contentTypeHandler->load($contentInfo->contentTypeId);
+        $contentTypeIdentifier = $contentType->identifier;
+        $ancestry = [$location];
+
+        do {
+            $match = $this->matchPath($ancestry, $contentTypeIdentifier);
+
+            if ($match === true) {
+                return end($ancestry);
+            }
+        } while (is_bool($match) && $this->addToAncestry($ancestry));
 
         return null;
     }
@@ -70,33 +88,46 @@ final class AncestorResolver
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\Location[] $ancestry
      */
-    private function matchPath(array $ancestry): false|int
+    private function matchPath(array $ancestry, ?string $firstContentTypeIdentifier = null): ?bool
     {
-        $ancestryPath = $this->getAncestryPath($ancestry);
+        $ancestryPath = $this->getAncestryPath($ancestry, $firstContentTypeIdentifier);
 
         if ($ancestryPath === null) {
             return false;
         }
+        $isPartialMatch = false;
 
         foreach ($this->ancestorPathGenerator->getPaths() as $path) {
-            if (str_starts_with($path, $ancestryPath)) {
-                return mb_strlen($path) - mb_strlen($ancestryPath);
+            if (str_starts_with($path, $ancestryPath . '/')) {
+                $isPartialMatch = true;
+            }
+
+            if ($path === $ancestryPath) {
+                return true;
             }
         }
 
-        return false;
+        if ($isPartialMatch) {
+            return false;
+        }
+
+        return null;
     }
 
     /**
      * @param \Ibexa\Contracts\Core\Persistence\Content\Location[] $ancestry
      */
-    private function getAncestryPath(array $ancestry): ?string
+    private function getAncestryPath(array $ancestry, ?string $firstContentTypeIdentifier = null): ?string
     {
         $pathElements = [];
 
-        foreach ($ancestry as $location) {
+        foreach ($ancestry as $index => $location) {
             try {
-                $pathElements[] = $this->getContentTypeIdentifier($location);
+                if ($index === 0 && $firstContentTypeIdentifier !== null) {
+                    $pathElements[] = $firstContentTypeIdentifier;
+                } else {
+                    $pathElements[] = $this->getContentTypeIdentifier($location);
+                }
             } catch (NotFoundException) {
                 return null;
             }

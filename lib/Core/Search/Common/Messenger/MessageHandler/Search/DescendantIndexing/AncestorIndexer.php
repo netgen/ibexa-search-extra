@@ -38,8 +38,31 @@ final class AncestorIndexer
     /**
      * @param \Ibexa\Contracts\Core\Persistence\Content\Location $location
      */
+    public function indexSingleForSwapLocation(Location $location, Location $swappedLocation): void
+    {
+        $ancestor = $this->ancestorResolver->resolveAncestorForSwapLocation($location, $swappedLocation);
+
+        if ($ancestor === null) {
+            return;
+        }
+
+        try {
+            $content = $this->contentHandler->load($ancestor->contentId);
+        } catch (NotFoundException) {
+            return;
+        }
+
+        $this->searchHandler->indexContent($content);
+        $this->searchHandler->indexLocation($ancestor);
+    }
+
+    /**
+     * @param \Ibexa\Contracts\Core\Persistence\Content\Location $location
+     */
     public function indexSingleForParentLocation(Location $location): void
     {
+        $this->indexSingle($location);
+
         $ancestor = $this->ancestorResolver->resolveAncestorForParentLocation($location);
 
         if ($ancestor === null) {
@@ -71,8 +94,6 @@ final class AncestorIndexer
      */
     public function indexMultipleForParentLocation(array $locations): void
     {
-        $this->indexMultiple($locations);
-
         foreach ($locations as $location) {
             $this->indexSingleForParentLocation($location);
         }
