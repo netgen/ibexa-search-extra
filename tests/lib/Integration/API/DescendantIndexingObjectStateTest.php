@@ -9,12 +9,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Core\Repository\SiteAccessAware\ContentTypeService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
-/**
- * @group descendant-indexing
- */
 final class DescendantIndexingObjectStateTest extends BaseTest
 {
 
+    /**
+     * @return void
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
     public function testSetObjectState()
     {
         $repository = $this->getRepository();
@@ -58,6 +62,14 @@ final class DescendantIndexingObjectStateTest extends BaseTest
     }
 
 
+    /**
+     * @return array
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
     private function createContentForTesting() {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -95,6 +107,16 @@ final class DescendantIndexingObjectStateTest extends BaseTest
         ];
     }
 
+    /**
+     * @param ContentTypeService $contentTypeService
+     * @param string $identifier
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
     private function createContentType(ContentTypeService $contentTypeService, string $identifier) {
         $contentTypeGroups = $contentTypeService->loadContentTypeGroups();
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct($identifier);

@@ -16,17 +16,18 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Core\Repository\SiteAccessAware\ContentTypeService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
-/**
- * @group descendant-indexing
- */
 final class DescendantIndexingLocationTest extends BaseTest
 {
 
     /**
      * @return void
+     * @throws BadStateException
+     * @throws ContentFieldValidationException
+     * @throws ContentValidationException
+     * @throws InvalidArgumentException
      * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @group assign-section-to-subtree
      */
     public function testAssignSectionToSubtree()
     {
@@ -74,7 +75,16 @@ final class DescendantIndexingLocationTest extends BaseTest
 
     }
 
-
+    /**
+     * @return void
+     * @throws BadStateException
+     * @throws ContentFieldValidationException
+     * @throws ContentValidationException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testCopySubtree()
     {
         $repository = $this->getRepository();
@@ -116,6 +126,16 @@ final class DescendantIndexingLocationTest extends BaseTest
 
     }
 
+    /**
+     * @return void
+     * @throws BadStateException
+     * @throws ContentFieldValidationException
+     * @throws ContentValidationException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testCreateLocation()
     {
         $repository = $this->getRepository();
@@ -143,6 +163,16 @@ final class DescendantIndexingLocationTest extends BaseTest
         self::assertEquals($parentContentFound->id, $parentLocation->contentId);
     }
 
+    /**
+     * @return void
+     * @throws BadStateException
+     * @throws ContentFieldValidationException
+     * @throws ContentValidationException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testDeleteLocation()
     {
         $repository = $this->getRepository();
@@ -170,7 +200,16 @@ final class DescendantIndexingLocationTest extends BaseTest
         self::assertEquals(0, $searchResult->totalCount);
     }
 
-
+    /**
+     * @return void
+     * @throws BadStateException
+     * @throws ContentFieldValidationException
+     * @throws ContentValidationException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testMoveSubtree()
     {
         $repository = $this->getRepository();
@@ -226,11 +265,13 @@ final class DescendantIndexingLocationTest extends BaseTest
 
     /**
      * @return void
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws BadStateException
+     * @throws ContentFieldValidationException
+     * @throws ContentValidationException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @group swap
      */
     public function testSwapLocation()
     {
@@ -277,6 +318,16 @@ final class DescendantIndexingLocationTest extends BaseTest
         self::assertEquals(0, $searchResult->totalCount);
     }
 
+    /**
+     * @return array
+     * @throws BadStateException
+     * @throws ContentFieldValidationException
+     * @throws ContentValidationException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testHideLocation()
     {
         $repository = $this->getRepository();
@@ -310,11 +361,12 @@ final class DescendantIndexingLocationTest extends BaseTest
     }
 
     /**
+     * @param array $locations
      * @return void
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      *
      * @depends testHideLocation
      */
@@ -353,11 +405,13 @@ final class DescendantIndexingLocationTest extends BaseTest
 
     /**
      * @return void
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws BadStateException
+     * @throws ContentFieldValidationException
+     * @throws ContentValidationException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @group update-location
      */
     public function testUpdateLocation()
     {
@@ -398,6 +452,16 @@ final class DescendantIndexingLocationTest extends BaseTest
         self::assertEquals($parentLocation->contentId, $parentContentFound->contentInfo->id);
     }
 
+    /**
+     * @param ContentTypeService $contentTypeService
+     * @param string $identifier
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @throws BadStateException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     private function createContentType(ContentTypeService $contentTypeService, string $identifier) {
         $contentTypeGroups = $contentTypeService->loadContentTypeGroups();
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct($identifier);
@@ -416,11 +480,14 @@ final class DescendantIndexingLocationTest extends BaseTest
     }
 
     /**
-     * @throws ContentFieldValidationException
-     * @throws InvalidArgumentException
+     * @return array
      * @throws BadStateException
+     * @throws ContentFieldValidationException
      * @throws ContentValidationException
+     * @throws InvalidArgumentException
      * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     private function createLocationsForTesting() {
         $repository = $this->getRepository();
