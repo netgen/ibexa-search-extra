@@ -17,11 +17,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
-use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
-use Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\DescendantFieldMapper\FullTextFieldResolver;
 
 use Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\IdentifiableFieldMapper;
-use function array_key_exists;
 use function array_keys;
 use function array_merge;
 use function count;
