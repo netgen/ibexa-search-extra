@@ -3,35 +3,19 @@ parameters:
         enabled: true
         handlers:
             - ng_descendant_indexing_fulltext
+            - ng_descendant_indexing_location_priority
+            - ng_descendant_indexing_section
+            - ng_descendant_indexing_object_state
         map:
             descendant_indexing_test:
                 children:
-                    descendant_indexing_test:
+                    descendant_indexing_test_2:
                         indexed: true
+                        children:
+                            descendant_indexing_test_3:
+                                indexed: true
 
 services:
-    netgen_search_extra.descendant_indexing.field_mapper.fulltext:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\DescendantFieldMapper\FullTextFieldMapper
-        arguments:
-            - '@netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation.fulltext_field_resolver.native'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Filter\Content\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
-        tags:
-            - { name: netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation }
-
-    netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content.translation:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\DescendantFieldMapper
-        arguments:
-            - '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
-            -
-                - '@netgen_search_extra.descendant_indexing.field_mapper.fulltext'
-
-        tags:
-            - { name: ibexa.search.solr.field.mapper.content.translation }
-
     Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\CopyContentHandler:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\CopyContentHandler
         arguments:

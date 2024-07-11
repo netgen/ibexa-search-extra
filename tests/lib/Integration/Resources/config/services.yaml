@@ -48,3 +48,41 @@ services:
 
     Ibexa\Bundle\Core\Routing\UrlAliasRouter:
         class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Stubs\RouterStub
+
+    netgen.ibexa_search_extra.solr.field_mapper.location.location_priority:
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\LocationPriorityFieldMapper
+        arguments:
+          [
+              '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler',
+              '@Ibexa\Contracts\Core\Persistence\Content\Handler',
+              '@Ibexa\Core\Persistence\Legacy\Filter\Handler\ContentFilteringHandler',
+              '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler',
+              '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
+          ]
+        tags:
+            - { name: netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.location }
+
+
+    netgen.ibexa_search_extra.solr.field_mapper.content.section:
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\SectionFieldMapper
+        arguments:
+          [
+              '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler',
+              '@Ibexa\Core\Persistence\Legacy\Filter\Handler\ContentFilteringHandler',
+              '%netgen.ibexa_search_extra.descendant_indexing.configuration%',
+          ]
+        tags:
+            - { name: netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content }
+
+
+    netgen.ibexa_search_extra.solr.field_mapper.content.object_state:
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\ObjectStateFieldMapper
+        arguments:
+          [
+              '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler',
+              '@Ibexa\Core\Persistence\Legacy\Filter\Handler\ContentFilteringHandler',
+              '@Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler',
+              '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
+          ]
+        tags:
+            - { name: netgen.ibexa_search_extra.solr.field_mapper.descendant_indexing.content }
