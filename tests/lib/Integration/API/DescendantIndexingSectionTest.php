@@ -14,12 +14,19 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Core\Repository\SiteAccessAware\ContentTypeService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
-/**
- * @group descendant-indexing
- */
 final class DescendantIndexingSectionTest extends BaseTest
 {
 
+    /**
+     * @return void
+     * @throws BadStateException
+     * @throws ContentFieldValidationException
+     * @throws ContentValidationException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testAssignSection()
     {
         $repository = $this->getRepository();
@@ -62,10 +69,11 @@ final class DescendantIndexingSectionTest extends BaseTest
 
 
     /**
-     * @throws ContentFieldValidationException
-     * @throws InvalidArgumentException
+     * @return array
      * @throws BadStateException
+     * @throws ContentFieldValidationException
      * @throws ContentValidationException
+     * @throws InvalidArgumentException
      * @throws UnauthorizedException
      */
     private function createLocationsForTesting() {
@@ -115,6 +123,16 @@ final class DescendantIndexingSectionTest extends BaseTest
         ];
     }
 
+    /**
+     * @param ContentTypeService $contentTypeService
+     * @param string $identifier
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @throws BadStateException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     private function createContentType(ContentTypeService $contentTypeService, string $identifier) {
         $contentTypeGroups = $contentTypeService->loadContentTypeGroups();
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct($identifier);
