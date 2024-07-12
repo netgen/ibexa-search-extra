@@ -13,9 +13,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\TrashItem;
 use Ibexa\Core\Repository\SiteAccessAware\ContentTypeService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
-/**
- * @group descendant-indexing
- */
 final class DescendantIndexingTrashTest extends BaseTest
 {
 
@@ -143,8 +140,6 @@ final class DescendantIndexingTrashTest extends BaseTest
         $locationCreateStruct = $locationService->newLocationCreateStruct($childLocation->id);
         $contentCreateStruct = $contentService->newContentCreateStruct($contentType3, 'eng-GB');
         $contentCreateStruct->setField('name', 'more');
-        //for testDeleteTranslation()
-        $contentCreateStruct->setField('name', 'mogorush', 'ger-DE');
         $contentDraft = $contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
         $grandChildContentCreated = $contentService->publishVersion($contentDraft->versionInfo);
 
