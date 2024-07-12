@@ -2,9 +2,11 @@
 
 namespace Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper;
 
-use eZ\Publish\SPI\Search\FieldType\IntegerField;
+use eZ\Publish\SPI\Search\FieldType\StringField;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as ObjectStateHandler;
+
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
@@ -14,9 +16,8 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Search\Field;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Content\DescendantFieldMapper\BaseFieldMapper;
 
-class SectionFieldMapper extends BaseFieldMapper
+class TestObjectStateFieldMapper extends BaseFieldMapper
 {
-
     /**
      * @var array<int, ?string>
      */
@@ -28,6 +29,7 @@ class SectionFieldMapper extends BaseFieldMapper
     public function __construct(
         private readonly ContentTypeHandler $contentTypeHandler,
         private readonly Handler $contentFilteringHandler,
+        private readonly ObjectStateHandler $objectStateHandler,
         private readonly array $configuration,
         private readonly int $childrenLimit = 99,
     ) {
@@ -75,13 +77,19 @@ class SectionFieldMapper extends BaseFieldMapper
             $childContentTypeIdentifier = $this->getContentTypeIdentifier($contentTypeId);
 
             $childConfiguration = $childrenConfiguration[$childContentTypeIdentifier] ?? [];
-
+            $stateGroup = $this->objectStateHandler->loadGroupByIdentifier(
+                "ez_lock",
+            );
+            $objectState = $this->objectStateHandler->getContentState(
+                $contentItem->contentInfo->id,
+                $stateGroup->id,
+            );
             if (isset($childConfiguration['indexed']) && $childConfiguration['indexed'] === true) {
                 $fieldsGrouped[] = [
                     new Field(
-                        'ng_child_section_field_1',
-                        $contentItem->contentInfo->sectionId,
-                        new IntegerField(),
+                        'ng_child_object_state',
+                        $objectState->identifier,
+                        new StringField(),
                     ),
                 ];
             }
@@ -99,13 +107,22 @@ class SectionFieldMapper extends BaseFieldMapper
 
             $grandChildContentItemList = $this->contentFilteringHandler->find($filter);
             foreach ($grandChildContentItemList as $grandChildContentItem) {
+
+                $stateGroup = $this->objectStateHandler->loadGroupByIdentifier(
+                    "ez_lock",
+                );
+                $objectState = $this->objectStateHandler->getContentState(
+                    $grandChildContentItem->contentInfo->id,
+                    $stateGroup->id,
+                );
+
                 $grandChildConfiguration = $childConfiguration['children'][$grandChildContentTypeIdentifier] ?? [];
                 if (isset($grandChildConfiguration['indexed']) && $grandChildConfiguration['indexed'] === true) {
                     $fieldsGrouped[] = [
                         new Field(
-                            'ng_child_section_field_2',
-                            $grandChildContentItem->contentInfo->sectionId,
-                            new IntegerField(),
+                            'ng_grandchild_object_state',
+                            $objectState->identifier,
+                            new StringField(),
                         ),
                     ];
 
@@ -120,7 +137,7 @@ class SectionFieldMapper extends BaseFieldMapper
 
     public function getIdentifier(): string
     {
-        return 'ng_descendant_indexing_section';
+        return 'ng_descendant_indexing_object_state';
     }
 
     private function getContentTypeIdentifier(int $contentTypeId): ?string
