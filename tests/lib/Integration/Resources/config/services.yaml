@@ -50,7 +50,7 @@ services:
         class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Stubs\RouterStub
 
     netgen.ibexa_search_extra.solr.field_mapper.location.location_priority:
-        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\LocationPriorityFieldMapper
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\TestLocationPriorityFieldMapper
         arguments:
           [
               '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler',
@@ -64,7 +64,7 @@ services:
 
 
     netgen.ibexa_search_extra.solr.field_mapper.content.section:
-        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\SectionFieldMapper
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\TestSectionFieldMapper
         arguments:
           [
               '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler',
@@ -76,7 +76,7 @@ services:
 
 
     netgen.ibexa_search_extra.solr.field_mapper.content.object_state:
-        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\ObjectStateFieldMapper
+        class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\FieldMapper\TestObjectStateFieldMapper
         arguments:
           [
               '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler',
