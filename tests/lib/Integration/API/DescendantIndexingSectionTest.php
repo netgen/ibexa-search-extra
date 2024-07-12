@@ -27,7 +27,7 @@ final class DescendantIndexingSectionTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testAssignSection()
+    public function testAssignSection(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -76,7 +76,8 @@ final class DescendantIndexingSectionTest extends BaseTest
      * @throws InvalidArgumentException
      * @throws UnauthorizedException
      */
-    private function createLocationsForTesting() {
+    private function createLocationsForTesting(): array
+    {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();
@@ -133,7 +134,8 @@ final class DescendantIndexingSectionTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    private function createContentType(ContentTypeService $contentTypeService, string $identifier) {
+    private function createContentType(ContentTypeService $contentTypeService, string $identifier): \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+    {
         $contentTypeGroups = $contentTypeService->loadContentTypeGroups();
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct($identifier);
         $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';

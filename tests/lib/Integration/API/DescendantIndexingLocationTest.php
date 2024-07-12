@@ -29,7 +29,7 @@ final class DescendantIndexingLocationTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testAssignSectionToSubtree()
+    public function testAssignSectionToSubtree(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -85,7 +85,7 @@ final class DescendantIndexingLocationTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testCopySubtree()
+    public function testCopySubtree(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -136,7 +136,7 @@ final class DescendantIndexingLocationTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testCreateLocation()
+    public function testCreateLocation(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -173,7 +173,7 @@ final class DescendantIndexingLocationTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testDeleteLocation()
+    public function testDeleteLocation(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -210,7 +210,7 @@ final class DescendantIndexingLocationTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testMoveSubtree()
+    public function testMoveSubtree(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -273,7 +273,7 @@ final class DescendantIndexingLocationTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testSwapLocation()
+    public function testSwapLocation(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -328,7 +328,7 @@ final class DescendantIndexingLocationTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testHideLocation()
+    public function testHideLocation(): array
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -370,7 +370,7 @@ final class DescendantIndexingLocationTest extends BaseTest
      *
      * @depends testHideLocation
      */
-    public function testUnhideLocation(array $locations)
+    public function testUnhideLocation(array $locations): void
     {
         $repository = $this->getRepository(false);
         $searchService = $repository->getSearchService();
@@ -413,7 +413,7 @@ final class DescendantIndexingLocationTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testUpdateLocation()
+    public function testUpdateLocation(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -462,7 +462,8 @@ final class DescendantIndexingLocationTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    private function createContentType(ContentTypeService $contentTypeService, string $identifier) {
+    private function createContentType(ContentTypeService $contentTypeService, string $identifier): \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+    {
         $contentTypeGroups = $contentTypeService->loadContentTypeGroups();
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct($identifier);
         $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
@@ -489,7 +490,8 @@ final class DescendantIndexingLocationTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    private function createLocationsForTesting() {
+    private function createLocationsForTesting(): array
+    {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();
