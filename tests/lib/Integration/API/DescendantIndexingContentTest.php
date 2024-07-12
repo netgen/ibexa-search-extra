@@ -22,7 +22,7 @@ final class DescendantIndexingContentTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testPublishVersion()
+    public function testPublishVersion(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -259,7 +259,8 @@ final class DescendantIndexingContentTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    private function createContentType(ContentTypeService $contentTypeService, string $identifier) {
+    private function createContentType(ContentTypeService $contentTypeService, string $identifier): \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+    {
 
         $contentTypeGroups = $contentTypeService->loadContentTypeGroups();
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct($identifier);
@@ -286,7 +287,8 @@ final class DescendantIndexingContentTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    private function createContentForTesting() {
+    private function createContentForTesting(): array
+    {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();
