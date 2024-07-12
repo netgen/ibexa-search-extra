@@ -525,7 +525,6 @@ final class DescendantIndexingLocationTest extends BaseTest
         $locationCreateStruct = $locationService->newLocationCreateStruct($childLocation->id);
         $contentCreateStruct = $contentService->newContentCreateStruct($contentType3, 'eng-GB');
         $contentCreateStruct->setField('name', 'more');
-        $contentCreateStruct->setField('name', 'mogorush', 'ger-DE');
         $contentDraft = $contentService->createContent($contentCreateStruct, [$locationCreateStruct]);
         $grandChildContentCreated = $contentService->publishVersion($contentDraft->versionInfo);
         $grandChildLocation = $grandChildContentCreated->contentInfo->getMainLocation();
