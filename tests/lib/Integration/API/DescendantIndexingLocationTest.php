@@ -59,7 +59,7 @@ final class DescendantIndexingLocationTest extends BaseTest
             'filter' => new Query\Criterion\LogicalAnd([
                 new Query\Criterion\LocationId($parentLocationId),
                 new Query\Criterion\CustomField(
-                    'ng_child_section_field_1_i',
+                    'ng_child_section_i',
                     Operator::EQ,
                     $mediaSectionId),
                 new Query\Criterion\SectionId($mediaSectionId),
@@ -437,7 +437,7 @@ final class DescendantIndexingLocationTest extends BaseTest
             'filter' => new Query\Criterion\LogicalAnd([
                 new Query\Criterion\LocationId($parentLocationId),
                 new Query\Criterion\CustomField(
-                    'ng_child_location_priority_field_2_i',
+                    'ng_grandchild_location_priority_i',
                     Operator::EQ,
                     3)
             ]),

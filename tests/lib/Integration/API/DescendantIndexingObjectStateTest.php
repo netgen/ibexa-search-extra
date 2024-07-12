@@ -46,7 +46,7 @@ final class DescendantIndexingObjectStateTest extends BaseTest
             'filter' => new Query\Criterion\LogicalAnd([
                 new Query\Criterion\LocationId($parentContent->contentInfo->mainLocationId),
                 new Query\Criterion\CustomField(
-                    'ng_child_object_state_2_s',
+                    'ng_grandchild_object_state_s',
                     Operator::EQ,
                     $lockedState->identifier
                 )

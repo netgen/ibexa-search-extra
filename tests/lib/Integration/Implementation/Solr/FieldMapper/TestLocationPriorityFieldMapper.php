@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Search\Field;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Location\DescendantFieldMapper\BaseFieldMapper;
 
-class LocationPriorityFieldMapper extends BaseFieldMapper
+class TestLocationPriorityFieldMapper extends BaseFieldMapper
 {
 
     /**
@@ -85,7 +85,7 @@ class LocationPriorityFieldMapper extends BaseFieldMapper
             if (isset($childConfiguration['indexed']) && $childConfiguration['indexed'] === true) {
                 $fieldsGrouped[] = [
                     new Field(
-                        'ng_child_location_priority_field_1',
+                        'ng_child_location_priority',
                         $childLocation->priority,
                         new IntegerField(),
                     ),
@@ -110,7 +110,7 @@ class LocationPriorityFieldMapper extends BaseFieldMapper
                 if (isset($grandChildConfiguration['indexed']) && $grandChildConfiguration['indexed'] === true) {
                     $fieldsGrouped[] = [
                         new Field(
-                            'ng_child_location_priority_field_2',
+                            'ng_grandchild_location_priority',
                             $grandChildLocation->priority,
                             new IntegerField(),
                         ),
