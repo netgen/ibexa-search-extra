@@ -35,7 +35,7 @@ abstract class BaseFieldMapper extends ContentTranslationFieldMapper
         $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
 
         $map = $this->configuration['map'] ?? [];
-        $handlers = $this->configuration['handlers'] ?? [];
+        $handlers = $map[$contentType->identifier]['handlers'] ?? [];
 
         return array_key_exists($contentType->identifier, $map)
             && in_array($this->getIdentifier(), $handlers, true);
