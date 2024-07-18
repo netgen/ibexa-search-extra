@@ -1,13 +1,13 @@
 parameters:
     netgen.ibexa_search_extra.descendant_indexing.configuration:
         enabled: true
-        handlers:
-            - ng_descendant_indexing_fulltext
-            - ng_descendant_indexing_location_priority
-            - ng_descendant_indexing_section
-            - ng_descendant_indexing_object_state
         map:
             descendant_indexing_test:
+                handlers:
+                    - ng_descendant_indexing_fulltext
+                    - ng_descendant_indexing_location_priority
+                    - ng_descendant_indexing_section
+                    - ng_descendant_indexing_object_state
                 children:
                     descendant_indexing_test_2:
                         indexed: true
