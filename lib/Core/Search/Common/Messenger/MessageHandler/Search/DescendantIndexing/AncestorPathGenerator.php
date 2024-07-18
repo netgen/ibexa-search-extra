@@ -127,7 +127,7 @@ final class AncestorPathGenerator
         $normalizedConfig = [];
 
         foreach ($config as $key => $value) {
-            if ($key === 'indexed') {
+            if ($key === 'indexed' || $key === 'handlers') {
                 continue;
             }
 
