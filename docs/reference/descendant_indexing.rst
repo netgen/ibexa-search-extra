@@ -2,7 +2,8 @@ Descendant indexing
 =====================
 
 This feature helps in indexing hierarchical content structures. It allows the children of a content item to be indexed
-within the same document as the parent if both are configured for descendant indexing.
+within the same document as the parent if both are configured for descendant indexing. This means that when you search
+for a child content, the parent content will also appear in the search results.
 
 ''Configuration''
 
@@ -23,6 +24,8 @@ To enable this feature, set up the descendant indexing configuration:
 
 The ``enabled`` field must be set to true to activate descendant indexing services by registering them in the container.
 In the array parameter ``map`` we define the structure of content to be included in descendant indexing by content types.
+The first content type identifier represents the parent content, which will hold the indexed children content document,
+and the rest represent the structure under it and whether it will be indexed or not.
 Any structure in the content tree that matches the configuration will be part of descendant indexing. Content can be
 part of the structure but not included in the index. To index the content in the parent document, set the ``indexed```
 parameter to ``true``.
@@ -55,17 +58,5 @@ identifier defined in the configuration.
         return 'ng_descendant_indexing_fulltext';
     }
 
-''AncestorIndexer''
-
-AncestorIndexer is a service that ensures descendant indexing is considered during reindexing. For example, if we edit
-content that is part of the descendant indexing map, the descendant content in which it is indexed should also be
-reindexed.
-
-The service contains methods ``indexSingle()`` and ``indexMultiple()``, which are called in handlers for any content
-changes (e.g., ``CopyContentHandler``, ``DeleteContentHandler``). These methods use the AncestorResolver service to
-resolve the ancestor to be reindexed. If no ancestor matches the configuration map structure, the ``resolveAncestor()``
-method returns null.
-
-The AncestorResolver service uses AncestorPathGenerator service to read from the configuration and return an array of
-strings representing all of the paths matching the given configuration in order to be able to find a match with any of
-the paths.
+The BaseFieldMapper is implemented only for Solr indexing engine and the field mappers are plugged into the existing
+solr indexing system.
