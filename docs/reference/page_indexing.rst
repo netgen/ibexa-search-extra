@@ -1,7 +1,7 @@
 Page indexing
 =====================
 
-This feature allows indexing of content by scraping the page using Symfony's HTTP client and indexing its content into Elasticsearch document fields.
+This feature allows indexing of content by scraping the page using Symfony's HTTP client and indexing its content into document fields.
 
 ''Config''
 To enable this feature, set up the page indexing configuration:
