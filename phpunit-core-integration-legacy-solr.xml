@@ -31,10 +31,10 @@
             <exclude>vendor/ibexa/core/tests/integration/Core/Repository/Filtering</exclude>
             <exclude>vendor/ibexa/core/tests/integration/Core/Repository/SearchServiceTest.php</exclude>
             <exclude>vendor/ibexa/core/tests/integration/Core/Repository/SearchServiceLocationTest.php</exclude>
-            <exclude>tests/lib/Integration/Solr/DescendantIndexingContentTest.php</exclude>
-            <exclude>tests/lib/Integration/Solr/DescendantIndexingLocationTest.php</exclude>
-            <exclude>tests/lib/Integration/Solr/DescendantIndexingObjectStateTest.php</exclude>
-            <exclude>tests/lib/Integration/Solr/DescendantIndexingTrashTest.php</exclude>
+            <exclude>tests/lib/Integration/API/DescendantIndexingContentTest.php</exclude>
+            <exclude>tests/lib/Integration/API/DescendantIndexingLocationTest.php</exclude>
+            <exclude>tests/lib/Integration/API/DescendantIndexingObjectStateTest.php</exclude>
+            <exclude>tests/lib/Integration/API/DescendantIndexingTrashTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
