@@ -31,7 +31,8 @@
     },
     "suggest": {
         "netgen/ibexa-site-api": "Boost your site-building productivity with Ibexa CMS",
-        "ibexa/solr": "Supports advanced capabilities with Ibexa search API"
+        "ibexa/solr": "Supports advanced capabilities with Ibexa search API",
+        "ibexa/elasticsearch": "Supports advanced capabilities with Ibexa search API"
     },
     "autoload": {
         "psr-4": {
