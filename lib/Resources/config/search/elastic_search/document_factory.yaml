@@ -32,4 +32,10 @@ services:
         decorates: Ibexa\Elasticsearch\DocumentMapper\DocumentFactoryInterface
         arguments:
             - '@.inner'
-            -
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - 'netgen.ibexa_search_extra.elasticsearch.field_mapper.content.aggregate'
+            - 'netgen.ibexa_search_extra.elasticsearch.field_mapper.location.aggregate'
+            - 'netgen.ibexa_search_extra.elasticsearch.field_mapper.content_translation.aggregate'
+            - 'netgen.ibexa_search_extra.elasticsearch.field_mapper.location_translation.aggregate'
+            - 'netgen.ibexa_search_extra.elasticsearch.field_mapper.block.aggregate'
+            - 'netgen.ibexa_search_extra.elasticsearch.field_mapper.block_translation.aggregate'
