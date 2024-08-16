@@ -16,26 +16,3 @@ services:
 
     netgen.ibexa_search_extra.elasticsearch.field_mapper.location.aggregate:
         class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\LocationFieldMapper\Aggregate
-
-    netgen.ibexa_search_extra.elastic_search.content.visibility_visitor:
-        class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\Query\CriterionVisitor\Content\VisibilityVisitor
-        tags:
-            - {name: ibexa.search.elasticsearch.query.content.criterion.visitor}
-
-    netgen.ibexa_search_extra.elastic_search.location.visibility_visitor:
-        class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\Query\CriterionVisitor\Location\VisibilityVisitor
-        tags:
-            - {name: ibexa.search.elasticsearch.query.location.criterion.visitor}
-
-    netgen.ibexa_search_extra.elastic_search.document_factory:
-        class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\DocumentFactory
-        decorates: Ibexa\Elasticsearch\DocumentMapper\DocumentFactoryInterface
-        arguments:
-            - '@.inner'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - 'netgen.ibexa_search_extra.elasticsearch.field_mapper.content.aggregate'
-            - 'netgen.ibexa_search_extra.elasticsearch.field_mapper.location.aggregate'
-            - 'netgen.ibexa_search_extra.elasticsearch.field_mapper.content_translation.aggregate'
-            - 'netgen.ibexa_search_extra.elasticsearch.field_mapper.location_translation.aggregate'
-            - 'netgen.ibexa_search_extra.elasticsearch.field_mapper.block.aggregate'
-            - 'netgen.ibexa_search_extra.elasticsearch.field_mapper.block_translation.aggregate'
