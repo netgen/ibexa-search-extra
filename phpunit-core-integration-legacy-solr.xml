@@ -35,6 +35,7 @@
             <exclude>tests/lib/Integration/API/DescendantIndexingLocationTest.php</exclude>
             <exclude>tests/lib/Integration/API/DescendantIndexingObjectStateTest.php</exclude>
             <exclude>tests/lib/Integration/API/DescendantIndexingTrashTest.php</exclude>
+            <exclude>tests/lib/Integration/API/DescendantIndexingSectionTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
