@@ -7,3 +7,4 @@
 * :doc:`/reference/document_factory`
 * :doc:`/reference/fulltext_search_boosting`
 * :doc:`/reference/page_indexing`
+* :doc:`/reference/descendant_indexing`
