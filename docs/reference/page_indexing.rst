@@ -65,36 +65,6 @@ following the HTML tag with a class name as shown in the example.
 
 ``host`` Define this parameter in the .env file. It's used by the Symfony HTTP client to resolve the page URL.
 
-
-DocumentFactory
----------------
-DocumentFactory is an implementation of field mappers for Elasticsearch modeled after the Solr implementation using the
-template method pattern. It implements the Elasticsearch ``DocumentFactoryInterface`` and its methods ``fromContent()``
-and ``fromLocation()`` add fields to document. These methods index the fields from the suitable field mappers.
-
-The ``DocumentFactory`` service uses all base field mapper services to index content into the correct document
-(content, location, or translation-dependent document)::
-
-    ContentFieldMapper
-    LocationFieldMapper
-    ContentTranslationFieldMapper
-    LocationTranslationFieldMapper
-    BlockFieldMapper
-    BlockTranslationFieldMapper
-
-These services are abstract classes containing methods ``accept()`` and ``mapFields()`` which are implemented by new
-field mappers as needed.
-
-To add a new field mapper, create a class that extends one of the base field mappers above, implements its methods, and
-registers the service with one of the following tags, depending on the base field mapper::
-
-    netgen.ibexa_search_extra.elasticsearch.field_mapper.content
-    netgen.ibexa_search_extra.elasticsearch.field_mapper.location
-    netgen.ibexa_search_extra.elasticsearch.field_mapper.content_translation
-    netgen.ibexa_search_extra.elasticsearch.field_mapper.location_translation
-    netgen.ibexa_search_extra.elasticsearch.field_mapper.block_translation
-
-
 PageTextExtractor
 -----------------
 The PageTextExtractor is a service that scrapes the page with Symfony's http client.  It contains a cache parameter that
