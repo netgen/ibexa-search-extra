@@ -6,3 +6,4 @@
 * :doc:`/reference/extra_fields`
 * :doc:`/reference/document_factory`
 * :doc:`/reference/fulltext_search_boosting`
+* :doc:`/reference/page_indexing`

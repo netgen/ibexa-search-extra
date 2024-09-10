@@ -3,7 +3,8 @@ Page indexing
 
 This feature allows indexing of content by scraping the page using Symfony's HTTP client and indexing its content into document fields.
 
-''Config''
+Configuration
+-------------
 To enable this feature, set up the page indexing configuration:
 
 .. code-block:: yaml
@@ -65,15 +66,15 @@ following the HTML tag with a class name as shown in the example.
 ``host`` Define this parameter in the .env file. It's used by the Symfony HTTP client to resolve the page URL.
 
 
-''DocumentFactory''
+DocumentFactory
+---------------
 DocumentFactory is an implementation of field mappers for Elasticsearch modeled after the Solr implementation using the
 template method pattern. It implements the Elasticsearch ``DocumentFactoryInterface`` and its methods ``fromContent()``
 and ``fromLocation()`` add fields to document. These methods index the fields from the suitable field mappers.
 
 The ``DocumentFactory`` service uses all base field mapper services to index content into the correct document
-(content, location, or translation-dependent document):
+(content, location, or translation-dependent document)::
 
-.. code-block:: php
     ContentFieldMapper
     LocationFieldMapper
     ContentTranslationFieldMapper
@@ -85,9 +86,8 @@ These services are abstract classes containing methods ``accept()`` and ``mapFie
 field mappers as needed.
 
 To add a new field mapper, create a class that extends one of the base field mappers above, implements its methods, and
-registers the service with one of the following tags, depending on the base field mapper:
+registers the service with one of the following tags, depending on the base field mapper::
 
-.. code-block:: yaml
     netgen.ibexa_search_extra.elasticsearch.field_mapper.content
     netgen.ibexa_search_extra.elasticsearch.field_mapper.location
     netgen.ibexa_search_extra.elasticsearch.field_mapper.content_translation
@@ -95,7 +95,8 @@ registers the service with one of the following tags, depending on the base fiel
     netgen.ibexa_search_extra.elasticsearch.field_mapper.block_translation
 
 
-''PageTextExtractor''
+PageTextExtractor
+-----------------
 The PageTextExtractor is a service that scrapes the page with Symfony's http client.  It contains a cache parameter that
 holds the last 10 indexed contents by language. The entire logic is stored in the ``NativePageTextExtractor``, allowing
 for new methods of indexing page content to be implemented if needed. This service extends PageTextExtractor so to
@@ -103,21 +104,22 @@ implement new logic, extend ``PageTextExtractor`` and implement the new logic.
 
 This service also manages the fields configuration explained above.
 
-''Command''
+Command
+-------
 As a part of this feature we have implemented the ``IndexPageContentCommand``.
 
 This command is used to perform a complete page index when the feature is new to the project. It goes through all
 content types specified in the configuration (``allowed_content_types``) and reindexes all existing content of the specified
 types by their pages.
 
-To start the reindex, use the following command:
+To start the reindex, use the following command::
 
-.. code-block:: command
     netgen-search-extra:index-page-content
 
-The command also has an option ``content-ids``:
 
-.. code-block:: command
+The command also has an option ``content-ids``::
+
     netgen-search-extra:index-page-content --content-ids=38
+
 
 To index multiple content IDs, add them to the command separated by commas.
