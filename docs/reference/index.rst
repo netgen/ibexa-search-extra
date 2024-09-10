@@ -11,5 +11,6 @@ Reference
     extra_fields
     asynchronous_indexing
     document_factory
+    page_indexing
 
 .. include:: /reference/map.rst.inc
