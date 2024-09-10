@@ -5,11 +5,13 @@ This feature helps in indexing hierarchical content structures. It allows the ch
 within the same document as the parent if both are configured for descendant indexing. This means that when you search
 for a child content, the parent content will also appear in the search results.
 
-''Configuration''
+Configuration
+--------------
 
 To enable this feature, set up the descendant indexing configuration:
 
 .. code-block:: yaml
+
     hierarchical_indexing:
         descendant_indexing:
             enabled: false
@@ -36,6 +38,7 @@ Depending on what we want to index, we use different handlers. They represent th
 If you want to index content to the full text fields, you should use the 'ng_descendant_indexing_fulltext' handler:
 
 .. code-block:: yaml
+
     hierarchical_indexing:
         descendant_indexing:
             enabled: true
@@ -47,16 +50,23 @@ If you want to index content to the full text fields, you should use the 'ng_des
                         content_type_identifier:
                             indexed: true
 
+
+
 To index something other than full text fields (e.g., location information or content metadata), implement new field
 mappers by extending the corresponding ``BaseFieldMapper`` and registering the field mapper as a service with needed tag.
 The ``getIdentifier()`` method returns a string of handler identifier which should match the handler
 identifier defined in the configuration.
 
 .. code-block:: php
+
     public function getIdentifier(): string
     {
         return 'ng_descendant_indexing_fulltext';
     }
 
-The BaseFieldMapper is implemented only for Solr indexing engine and the field mappers are plugged into the existing
-solr indexing system.
+
+.. note::
+
+    The BaseFieldMapper is implemented only for Solr indexing engine and the field mappers are plugged into the existing
+    solr indexing system.
+
