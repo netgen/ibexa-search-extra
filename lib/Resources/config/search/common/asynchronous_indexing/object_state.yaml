@@ -1,5 +1,5 @@
 services:
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ObjectState\SetContentStateHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\ObjectState\SetContentStateHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
