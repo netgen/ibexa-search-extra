@@ -53,3 +53,18 @@ services:
             - '@ibexa.solr.query.location.sort_clause_visitor.aggregate'
             - '@ibexa.solr.query.location.facet_builder_visitor.aggregate'
             - '@ibexa.solr.query.location.aggregation_visitor.dispatcher'
+
+    netgen.ibexa_search_extra.solr.query.content.criterion_visitor.full_text_factory:
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor\Factory\ContentFullTextFactory
+        arguments:
+            - '@ibexa.solr.query.query_translator.galach.tokenizer'
+            - '@ibexa.solr.query.query_translator.galach.parser'
+            - '@ibexa.solr.query.query_translator.galach.generator.edismax'
+
+    netgen.ibexa_search_extra.solr.query.location.criterion_visitor.full_text_factory:
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Location\CriterionVisitor\Factory\LocationFullTextFactory
+        arguments:
+            - '@ibexa.solr.query.query_translator.galach.tokenizer'
+            - '@ibexa.solr.query.query_translator.galach.parser'
+            - '@ibexa.solr.query.query_translator.galach.generator.edismax'
+
