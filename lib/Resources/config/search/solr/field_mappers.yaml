@@ -28,7 +28,7 @@ services:
         tags:
             - { name: ibexa.search.solr.field.mapper.location }
 
-    netgen.ibexa_search_extra.solr.field_mapper.content.user_enabled:
+    netgen.ibexa_search_extra.solr.field_mapper.common.user_enabled:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Content\UserEnabledFieldMapper
         tags:
-            - { name: ibexa.search.solr.field.mapper.content }
+            - { name: ibexa.search.solr.field.mapper.block }

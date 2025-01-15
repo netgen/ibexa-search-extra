@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor;
+namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
