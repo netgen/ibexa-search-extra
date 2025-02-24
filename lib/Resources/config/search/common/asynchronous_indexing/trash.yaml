@@ -1,13 +1,30 @@
 services:
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Trash\RecoverHandler:
+    netgen.search_extra.message_handler.recover_trash:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Trash\RecoverHandler
         arguments:
             - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
             - '@ibexa.spi.search'
         tags:
-            - { name: messenger.message_handler }
+            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Trash\TrashHandler:
+    netgen.search_extra.message_handler.recover_trash_sync:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Trash\RecoverHandler
+        arguments:
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
+            - '@ibexa.spi.search'
+        tags:
+            - { name: messenger.message_handler, from_transport: sync }
+
+    netgen.search_extra.message_handler.trash:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Trash\TrashHandler
         arguments:
             - '@ibexa.spi.search'
         tags:
-            - { name: messenger.message_handler }
+            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing  }
+
+    netgen.search_extra.message_handler.trash_sync:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Trash\TrashHandler
+        arguments:
+            - '@ibexa.spi.search'
+        tags:
+            - { name: messenger.message_handler, from_transport: sync }
