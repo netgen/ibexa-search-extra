@@ -2,7 +2,7 @@ services:
     netgen.search_extra.message_handler.recover_trash:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Trash\RecoverHandler
         arguments:
-            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
+            - 'netgen.search_extra.message_handler.subtree_index'
             - '@ibexa.spi.search'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
@@ -10,7 +10,7 @@ services:
     netgen.search_extra.message_handler.recover_trash_sync:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Trash\RecoverHandler
         arguments:
-            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
+            - 'netgen.search_extra.message_handler.subtree_index'
             - '@ibexa.spi.search'
         tags:
             - { name: messenger.message_handler, from_transport: sync }
