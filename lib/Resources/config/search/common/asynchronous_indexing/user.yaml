@@ -1,175 +1,77 @@
 services:
-    netgen.search_extra.message_handler.assign_user_to_group:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\AssignUserToUserGroupHandler
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\AssignUserToUserGroupHandler:
         arguments:
             - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\UserContentWithLocationIndexer'
         tags:
-            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
+            - { name: messenger.message_handler }
 
-    netgen.search_extra.message_handler.assign_user_to_group_sync:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\AssignUserToUserGroupHandler
-        arguments:
-            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\UserContentWithLocationIndexer'
-        tags:
-            - { name: messenger.message_handler, from_transport: sync }
-
-    netgen.search_extra.message_handler.before_unassign_user_from_group:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\BeforeUnAssignUserFromUserGroupHandler
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\BeforeUnAssignUserFromUserGroupHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@ibexa.spi.search'
         tags:
-            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
+            - { name: messenger.message_handler }
 
-    netgen.search_extra.message_handler.before_unassign_user_from_group_sync:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\BeforeUnAssignUserFromUserGroupHandler
-        arguments:
-            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@ibexa.spi.search'
-        tags:
-            - { name: messenger.message_handler, from_transport: sync }
-
-    netgen.search_extra.message_handler.create_user_group:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\CreateUserGroupHandler
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\CreateUserGroupHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@ibexa.spi.search'
         tags:
-            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
+            - { name: messenger.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
 
-    netgen.search_extra.message_handler.create_user_group_sync:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\CreateUserGroupHandler
-        arguments:
-            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@ibexa.spi.search'
-        tags:
-            - { name: messenger.message_handler, from_transport: sync }
-            - { name: monolog.logger, channel: ngsearchextra }
-
-    netgen.search_extra.message_handler.create_user:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\CreateUserHandler
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\CreateUserHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@ibexa.spi.search'
             - '@?logger'
         tags:
-            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
+            - { name: messenger.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
 
-    netgen.search_extra.message_handler.create_user_sync:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\CreateUserHandler
-        arguments:
-            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@ibexa.spi.search'
-            - '@?logger'
-        tags:
-            - { name: messenger.message_handler, from_transport: sync }
-            - { name: monolog.logger, channel: ngsearchextra }
-
-    netgen.search_extra.message_handler.delete_user_group:
-        class:Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserGroupHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserGroupHandler:
         arguments:
             - '@ibexa.spi.search'
         tags:
-            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
+            - { name: messenger.message_handler }
 
-    netgen.search_extra.message_handler.delete_user_group_sync:
-        class:Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserGroupHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserHandler:
         arguments:
             - '@ibexa.spi.search'
         tags:
-            - { name: messenger.message_handler, , from_transport: sync }
+            - { name: messenger.message_handler }
 
-    netgen.search_extra.message_handler.delete_user:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserHandler
-        arguments:
-            - '@ibexa.spi.search'
-        tags:
-            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
-
-    netgen.search_extra.message_handler.delete_user_sync:
-        class:
-            Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserHandler
-        arguments:
-            - '@ibexa.spi.search'
-        tags:
-            - { name: messenger.message_handler, from_transport: sync }
-
-    netgen.search_extra.message_handler.move_user_group:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\MoveUserGroupHandler
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\MoveUserGroupHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
         tags:
-            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
+            - { name: messenger.message_handler }
 
-    netgen.search_extra.message_handler.move_user_group_sync:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\MoveUserGroupHandler
-        arguments:
-            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
-        tags:
-            - { name: messenger.message_handler, from_transport: sync }
-
-    netgen.search_extra.message_handler.unassign_user_from_user_group:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UnAssignUserFromUserGroupHandler
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UnAssignUserFromUserGroupHandler:
         arguments:
             - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\UserContentWithLocationIndexer'
         tags:
-            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
+            - { name: messenger.message_handler }
 
-    netgen.search_extra.message_handler.unassign_user_from_user_group_sync:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UnAssignUserFromUserGroupHandler
-        arguments:
-            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\UserContentWithLocationIndexer'
-        tags:
-            - { name: messenger.message_handler, from_transport: sync }
-
-    netgen.search_extra.message_handler.update_user_group:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UpdateUserGroupHandler
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UpdateUserGroupHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@ibexa.spi.search'
             - '@?logger'
         tags:
-            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing  }
+            - { name: messenger.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
 
-    netgen.search_extra.message_handler.update_user_group_sync:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UpdateUserGroupHandler
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UpdateUserHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@ibexa.spi.search'
             - '@?logger'
         tags:
-            - { name: messenger.message_handler, from_transport: sync }
-            - { name: monolog.logger, channel: ngsearchextra }
-
-    netgen.search_extra.message_handler.update_user:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UpdateUserHandler
-        arguments:
-            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@ibexa.spi.search'
-            - '@?logger'
-        tags:
-            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing  }
-            - { name: monolog.logger, channel: ngsearchextra }
-
-    netgen.search_extra.message_handler.update_user_sync:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UpdateUserHandler
-        arguments:
-            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@ibexa.spi.search'
-            - '@?logger'
-        tags:
-            - { name: messenger.message_handler, from_transport: sync }
+            - { name: messenger.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
