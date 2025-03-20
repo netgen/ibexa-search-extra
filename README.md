@@ -99,14 +99,12 @@ for more details on specific ones.
 
 ## Installation
 
-### 1. 
 To install Ibexa Search Extra first add it as a dependency to your project:
 
 ```sh
 composer require netgen/ibexa-search-extra:^3.0
 ```
 
-### 2. 
 Once the added dependency is installed, activate the bundle in `config/bundles.php` file by adding it to the returned array, together with other required bundles:
 
 ```php
@@ -117,44 +115,4 @@ return [
 
     Netgen\Bundle\IbexaSearchExtraBundle\NetgenIbexaSearchExtraBundle::class => ['all' => true],
 }
-```
-
-
-### 3. 
-Routing needs to be setup in project. It maps message to the queue/queues it needs to go in. 
-If you want async indexing for all events, just add this routing:
-
-```yaml
-messenger:
-    routing:
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\CopyContent': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteContent': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteTranslation': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\HideContent': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\PublishVersion': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\RevealContent': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\UpdateContentMetadata': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\AssignSectionToSubtree': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\CopySubtree': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\CreateLocation': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\DeleteLocation': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\HideLocation': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\MoveSubtree': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\SwapLocation': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\UnhideLocation': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\UpdateLocation': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\ObjectState\SetContentState': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Section\AssignSection': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Trash\Recover': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Trash\Trash': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\AssignUserToUserGroup': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\BeforeUnAssignUserFromUserGroup': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\CreateUserGroup': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\CreateUser': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\DeleteUserGroup': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\DeleteUser': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\MoveUserGroup': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\UnAssignUserFromUserGroup': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\UpdateUserGroup': netgen_ibexa_search_extra_asynchronous_indexing
-        'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\UpdateUser': netgen_ibexa_search_extra_asynchronous_indexing
 ```
