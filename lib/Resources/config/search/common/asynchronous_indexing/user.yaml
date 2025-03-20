@@ -2,14 +2,14 @@ services:
     netgen.search_extra.message_handler.assign_user_to_group:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\AssignUserToUserGroupHandler
         arguments:
-            - '@netgen.search_extra.message_handler.user_content_with_location_indexer'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\UserContentWithLocationIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
 
     netgen.search_extra.message_handler.assign_user_to_group_sync:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\AssignUserToUserGroupHandler
         arguments:
-            - '@netgen.search_extra.message_handler.user_content_with_location_indexer'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\UserContentWithLocationIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: sync }
 
@@ -104,7 +104,7 @@ services:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\MoveUserGroupHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - 'netgen.search_extra.message_handler.subtree_index'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
 
@@ -112,21 +112,21 @@ services:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\MoveUserGroupHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - '@netgen.search_extra.message_handler.subtree_index'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: sync }
 
     netgen.search_extra.message_handler.unassign_user_from_user_group:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UnAssignUserFromUserGroupHandler
         arguments:
-            - '@netgen.search_extra.message_handler.user_content_with_location_indexer'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\UserContentWithLocationIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
 
     netgen.search_extra.message_handler.unassign_user_from_user_group_sync:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\UnAssignUserFromUserGroupHandler
         arguments:
-            - '@netgen.search_extra.message_handler.user_content_with_location_indexer'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\UserContentWithLocationIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: sync }
 

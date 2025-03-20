@@ -2,28 +2,28 @@ services:
     netgen.search_extra.message_handler.location_assign_section_to_subtree:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\AssignSectionToSubtreeHandler
         arguments:
-            - '@netgen.search_extra.message_handler.subtree_index'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
 
     netgen.search_extra.message_handler.location_assign_section_to_subtree_sync:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\AssignSectionToSubtreeHandler
         arguments:
-            - '@netgen.search_extra.message_handler.subtree_index'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: sync }
 
     netgen.search_extra.message_handler.location_copy_subtree:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\CopySubtreeHandler
         arguments:
-            - 'netgen.search_extra.message_handler.subtree_index'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
 
     netgen.search_extra.message_handler.location_copy_subtree_sync:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\CopySubtreeHandler
         arguments:
-            - 'netgen.search_extra.message_handler.subtree_index'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: sync }
 
@@ -66,28 +66,28 @@ services:
     netgen.search_extra.message_handler.hide_location:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\HideLocationHandler
         arguments:
-            - '@netgen.search_extra.message_handler.subtree_index'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing}
 
     netgen.search_extra.message_handler.hide_location_sync:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\HideLocationHandler
         arguments:
-            - 'netgen.search_extra.message_handler.subtree_index'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: sync }
 
     netgen.search_extra.message_handler.location_move_subtree:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\MoveSubtreeHandler
         arguments:
-            - 'netgen.search_extra.message_handler.subtree_index'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
 
     netgen.search_extra.message_handler.location_move_subtree_sync:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\MoveSubtreeHandler
         arguments:
-            - '@netgen.search_extra.message_handler.subtree_index'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler, from_transport: sync }
 
@@ -116,7 +116,7 @@ services:
     netgen.search_extra.message_handler.unhide_location:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\UnhideLocationHandler
         arguments:
-            - 'netgen.search_extra.message_handler.subtree_index'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
             - '@ibexa.spi.search'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
@@ -124,7 +124,7 @@ services:
     netgen.search_extra.message_handler.unhide_location_sync:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Location\UnhideLocationHandler
         arguments:
-            - 'netgen.search_extra.message_handler.subtree_index'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
             - '@ibexa.spi.search'
         tags:
             - { name: messenger.message_handler, from_transport: sync }
