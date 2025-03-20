@@ -72,14 +72,14 @@ services:
             - { name: monolog.logger, channel: ngsearchextra }
 
     netgen.search_extra.message_handler.delete_user_group:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserGroupHandler
+        class:Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserGroupHandler:
         arguments:
             - '@ibexa.spi.search'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
 
     netgen.search_extra.message_handler.delete_user_group_sync:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserGroupHandler
+        class:Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\DeleteUserGroupHandler:
         arguments:
             - '@ibexa.spi.search'
         tags:
