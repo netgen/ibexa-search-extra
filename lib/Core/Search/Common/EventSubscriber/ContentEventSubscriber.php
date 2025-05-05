@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Events\Content\HideContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\PublishVersionEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\RevealContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\UpdateContentMetadataEvent;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\CopyContent;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteContent;
 use Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteTranslation;
@@ -25,8 +26,14 @@ use Throwable;
 
 class ContentEventSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var array<int, int[]>
+     */
+    private array $parentLocationIdsByContentId = [];
+
     public function __construct(
         private readonly MessageBusInterface $messageBus,
+        private readonly LocationHandler $locationHandler,
     ) {}
 
     public static function getSubscribedEvents(): array
@@ -55,8 +62,12 @@ class ContentEventSubscriber implements EventSubscriberInterface
 
     public function onBeforeDeleteContent(BeforeDeleteContentEvent $event): void
     {
+        $contentLocations = $this->locationHandler->loadLocationsByContent($event->getContentInfo()->id);
+
         try {
-            $event->getContentInfo()->getMainLocation()?->parentLocationId;
+            foreach ($contentLocations as $contentLocation){
+                $this->parentLocationIdsByContentId[$event->getContentInfo()->id][] = $contentLocation->parentId;
+            }
         } catch (Throwable) {
             // does nothing
         }
@@ -64,19 +75,15 @@ class ContentEventSubscriber implements EventSubscriberInterface
 
     public function onDeleteContent(DeleteContentEvent $event): void
     {
-        try {
-            $mainLocationParentLocationId = $event->getContentInfo()->getMainLocation()?->parentLocationId;
-        } catch (Throwable) {
-            $mainLocationParentLocationId = null;
-        }
-
         $this->messageBus->dispatch(
             new DeleteContent(
                 $event->getContentInfo()->id,
                 $event->getLocations(),
-                $mainLocationParentLocationId,
+                $this->parentLocationIdsByContentId[$event->getContentInfo()->id] ?? [],
             ),
         );
+
+        unset($this->parentLocationIdsByContentId[$event->getContentInfo()->id]);
     }
 
     public function onDeleteTranslation(DeleteTranslationEvent $event): void

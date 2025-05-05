@@ -1,0 +1,20 @@
+services:
+    netgen.ibexa_search_extra.descendant_indexing.ancestor_path_generator:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\AncestorPathGenerator
+        arguments:
+            - '%netgen.ibexa_search_extra.descendant_indexing.configuration%'
+
+    netgen.ibexa_search_extra.descendant_indexing.ancestor_resolver:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\AncestorResolver
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            - '@Ibexa\Core\Persistence\Cache\LocationHandler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_path_generator'
+
+    netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\AncestorIndexer
+        arguments:
+            - '@Ibexa\Contracts\Core\Search\VersatileHandler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_resolver'

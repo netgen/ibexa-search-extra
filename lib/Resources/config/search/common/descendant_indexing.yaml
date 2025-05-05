@@ -1,0 +1,10 @@
+imports:
+    - { resource: descendant_indexing/common.yaml }
+    - { resource: descendant_indexing/content.yaml }
+    - { resource: descendant_indexing/location.yaml }
+    - { resource: descendant_indexing/object_state.yaml }
+    - { resource: descendant_indexing/section.yaml }
+    - { resource: descendant_indexing/trash.yaml }
+
+parameters:
+    netgen.ibexa_search_extra.descendant_indexing.configuration: []
