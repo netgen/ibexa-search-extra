@@ -8,6 +8,7 @@
         <env name="setupFactory" value="Netgen\IbexaSearchExtra\Tests\Integration\SetupFactory\Legacy" />
         <ini name="error_reporting" value="-1" />
         <env name="SEARCH_ENGINE" value="legacy"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
     </php>
     <testsuites>
         <testsuite name="Legacy Search Engine tests">
