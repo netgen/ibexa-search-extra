@@ -20,7 +20,8 @@
     "require-dev": {
         "ibexa/fieldtype-richtext": "^4.5",
         "ibexa/solr": "^4.5",
-        "phpunit/phpunit": "^8.5",
+        "phpunit/phpunit": "^9.6",
+        "symfony/phpunit-bridge": "^7.2",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "behat/behat": "^3.6.1",
         "friends-of-behat/mink-extension": "^2.4"
@@ -51,5 +52,10 @@
     },
     "scripts": {
         "test": "@php vendor/bin/phpunit --colors=always"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false
+        }
     }
 }
