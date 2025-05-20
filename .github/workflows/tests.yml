@@ -10,7 +10,7 @@ on:
 jobs:
     tests:
         name: ${{ matrix.php }} ${{ matrix.coverage }} ${{ matrix.engine }} ${{ matrix.solr_version }} ${{ matrix.regression }} ${{ matrix.core_setup }}
-        runs-on: ubuntu-latest
+        runs-on: "ubuntu-22.04"
         env:
             extensions: pdo_sqlite
 
