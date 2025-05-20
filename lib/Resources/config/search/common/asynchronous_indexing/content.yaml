@@ -62,7 +62,7 @@ services:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\HideContentHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - 'netgen.search_extra.message_handler.subtree_index'
+            - '@netgen.search_extra.message_handler.subtree_index'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing}
 
@@ -70,7 +70,7 @@ services:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\HideContentHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - 'netgen.search_extra.message_handler.subtree_index'
+            - '@netgen.search_extra.message_handler.subtree_index'
         tags:
             - { name: messenger.message_handler, from_transport: sync }
 
@@ -100,7 +100,7 @@ services:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\RevealContentHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - 'netgen.search_extra.message_handler.subtree_index'
+            - '@netgen.search_extra.message_handler.subtree_index'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
 
@@ -108,7 +108,7 @@ services:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\RevealContentHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - 'netgen.search_extra.message_handler.subtree_index'
+            - '@netgen.search_extra.message_handler.subtree_index'
         tags:
             - { name: messenger.message_handler, from_transport: sync }
 

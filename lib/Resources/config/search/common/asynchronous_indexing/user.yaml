@@ -104,7 +104,7 @@ services:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\User\MoveUserGroupHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
-            - 'netgen.search_extra.message_handler.subtree_index'
+            - '@netgen.search_extra.message_handler.subtree_index'
         tags:
             - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
 
