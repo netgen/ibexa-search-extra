@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation;
 
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
