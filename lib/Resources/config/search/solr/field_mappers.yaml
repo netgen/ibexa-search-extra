@@ -38,6 +38,6 @@ services:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             - '@Ibexa\Core\Search\Common\FieldRegistry'
-            - '@parameter_bag'
+            - '%netgen_ibexa_search_extra.field_mapper_custom_fulltext_field_config%'
         tags:
             - { name: ibexa.search.solr.field.mapper.content.translation }
