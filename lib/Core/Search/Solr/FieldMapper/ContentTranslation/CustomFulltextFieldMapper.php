@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
 use Ibexa\Contracts\Core\Search\FieldType\TextField;
 use Ibexa\Core\Search\Common\FieldRegistry;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 use function count;
 use function in_array;
@@ -23,14 +22,12 @@ use function sprintf;
 class CustomFulltextFieldMapper extends ContentTranslationFieldMapper
 {
     /**
-     * @var array<string, mixed>
+     * @param array<string, array<string>> $fieldConfig
      */
-    private array $fieldConfig = [];
-
     public function __construct(
         private readonly ContentTypeHandler $contentTypeHandler,
         private readonly FieldRegistry $fieldRegistry,
-        private readonly ParameterBagInterface $parameterBag,
+        private readonly array $fieldConfig,
     ) {}
 
     /**
@@ -38,8 +35,6 @@ class CustomFulltextFieldMapper extends ContentTranslationFieldMapper
      */
     public function accept(SPIContent $content, $languageCode): bool
     {
-        $this->fieldConfig = $this->parameterBag->get('ibexa_search_extra.search_boost')['field_mapper_custom_fulltext_field_config'];
-
         return count($this->fieldConfig) > 0;
     }
 

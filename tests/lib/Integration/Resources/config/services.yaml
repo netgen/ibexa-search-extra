@@ -1,3 +1,6 @@
+parameters:
+    netgen.ibexa_search_extra.solr.field_mapper.content.full_text: []
+
 services:
     netgen_test.ibexa_search_extra.solr.subdocument_mapper.content:
         class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper\TestContentSubdocumentMapper
