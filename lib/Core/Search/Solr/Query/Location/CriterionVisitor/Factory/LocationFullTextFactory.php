@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @copyright Copyright (C) Ibexa AS. All rights reserved.
- * @license For full copyright and license information view LICENSE file distributed with this source code.
- */
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Location\CriterionVisitor\Factory;
 
 use Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor\FullText as ContentFullText;
@@ -12,6 +8,7 @@ use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use QueryTranslator\Languages\Galach\Generators\ExtendedDisMax;
 use QueryTranslator\Languages\Galach\Parser;
 use QueryTranslator\Languages\Galach\Tokenizer;
+
 final class LocationFullTextFactory
 {
     public function __construct(
@@ -19,6 +16,7 @@ final class LocationFullTextFactory
         private readonly Parser $parser,
         private readonly ExtendedDisMax $generator,
     ) {}
+
     public function createCriterionVisitor(): CriterionVisitor
     {
         return new FullText(
