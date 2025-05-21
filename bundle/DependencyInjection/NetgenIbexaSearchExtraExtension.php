@@ -123,7 +123,7 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         );
     }
 
-    private function processFullTextBoostConfiguration(array $configuration, ContainerBuilder $container)
+    private function processFullTextBoostConfiguration(array $configuration, ContainerBuilder $container): void
     {
         $fullTextBoostConfig = $container->getParameter('netgen_ibexa_search_extra')['search_boost'];
 
