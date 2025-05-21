@@ -140,9 +140,11 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         if (!array_key_exists('content_types', $container->getParameter('netgen_ibexa_search_extra.search_boost'))) {
             $fullTextBoostConfig['content_types'] = null;
         }
+
         if (!array_key_exists('raw_fields', $container->getParameter('netgen_ibexa_search_extra.search_boost'))) {
             $fullTextBoostConfig['raw_fields'] = null;
         }
+
         if (!array_key_exists('meta_fields', $container->getParameter('netgen_ibexa_search_extra.search_boost'))) {
             $fullTextBoostConfig['meta_fields'] = null;
         }
