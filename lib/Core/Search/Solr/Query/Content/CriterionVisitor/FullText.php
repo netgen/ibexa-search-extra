@@ -8,6 +8,7 @@ use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use QueryTranslator\Languages\Galach\Generators\ExtendedDisMax;
 use QueryTranslator\Languages\Galach\Parser;
 use QueryTranslator\Languages\Galach\Tokenizer;
+
 use function array_keys;
 use function array_map;
 use function count;
@@ -22,25 +23,33 @@ class FullText extends CriterionVisitor
         private readonly Parser $parser,
         private readonly ExtendedDisMax $generator,
     ) {}
+
     public function canVisit(Criterion $criterion): bool
     {
         return $criterion instanceof FullTextCriterion;
     }
+
     public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         /** @var FullTextCriterion $criterion */
         /** @var string $value */
         $value = $criterion->value;
+
         $tokenSequence = $this->tokenizer->tokenize($value);
         $syntaxTree = $this->parser->parse($tokenSequence);
+
         $options = [];
+
         if ($criterion->fuzziness < 1) {
             $options['fuzziness'] = $criterion->fuzziness;
         }
+
         $queryString = $this->generator->generate($syntaxTree, $options);
         $queryStringEscaped = $this->escapeQuote($queryString);
         $queryFields = $this->getQueryFields($criterion);
+
         $boost = $this->getBoostParameter($criterion);
+
         $queryParams = [
             'v' => $queryStringEscaped,
             'qf' => $queryFields,
@@ -48,6 +57,7 @@ class FullText extends CriterionVisitor
             'uf' => '-*',
             'boost' => $boost,
         ];
+
         $queryParamsString = implode(
             ' ',
             array_map(
@@ -56,32 +66,41 @@ class FullText extends CriterionVisitor
                 $queryParams,
             ),
         );
+
         return sprintf('{!edismax %s}', $queryParamsString);
     }
+
     /**
      * @param FullTextCriterion $criterion
      */
     private function getBoostParameter(Criterion $criterion): string
     {
         $function = '';
+
         foreach ($criterion->contentTypeBoost as $contentTypeIdentifier) {
             $function .= 'if(exists(query({!lucene v=\"content_type_id_id:' . $contentTypeIdentifier['id'] . '\"})),' . $contentTypeIdentifier['boost_value'] . ',';
         }
+
         $function .= '1' . str_repeat(')', count($criterion->contentTypeBoost));
+
         return $function;
     }
+
     /**
      * @param FullTextCriterion $criterion
      */
     private function getQueryFields(Criterion $criterion): string
     {
         $queryFields = ['meta_content__text_t'];
+
         foreach ($criterion->solrFieldsBoost as $field => $boost) {
             $queryFields[] = sprintf('%s^%s', $field, $boost);
         }
+
         foreach ($criterion->metaFieldsBoost as $fieldKey => $boost) {
             $queryFields[] = sprintf('meta_%s__text_t^%s', $fieldKey, $boost);
         }
+
         return implode(' ', $queryFields);
     }
 }
