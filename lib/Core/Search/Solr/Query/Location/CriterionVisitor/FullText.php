@@ -5,6 +5,7 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Location\CriterionVisit
 use Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor\FullText as ContentFullText;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
+
 use function sprintf;
 
 final class FullText extends CriterionVisitor

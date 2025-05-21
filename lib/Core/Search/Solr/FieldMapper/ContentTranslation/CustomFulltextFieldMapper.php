@@ -12,69 +12,85 @@ use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
 use Ibexa\Contracts\Core\Search\FieldType\TextField;
 use Ibexa\Core\Search\Common\FieldRegistry;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
 use function count;
 use function in_array;
 use function sprintf;
+
 class CustomFulltextFieldMapper extends ContentTranslationFieldMapper
 {
     /**
      * @var array<string, mixed>
      */
     private array $fieldConfig = [];
+
     public function __construct(
         private readonly ContentTypeHandler $contentTypeHandler,
         private readonly FieldRegistry $fieldRegistry,
         private readonly ParameterBagInterface $parameterBag,
     ) {}
+
     /**
      * @param string $languageCode
      */
     public function accept(SPIContent $content, $languageCode): bool
     {
         $this->fieldConfig = $this->parameterBag->get('ibexa_search_extra.search_boost')['field_mapper_custom_fulltext_field_config'];
+
         return count($this->fieldConfig) > 0;
     }
+
     public function mapFields(SPIContent $content, $languageCode): array
     {
         $fields = [];
+
         try {
             $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
         } catch (NotFoundException) {
             return $fields;
         }
+
         foreach ($content->fields as $field) {
             if ($field->languageCode !== $languageCode) {
                 continue;
             }
+
             foreach ($contentType->fieldDefinitions as $fieldDefinition) {
                 if (!$fieldDefinition->isSearchable) {
                     continue;
                 }
+
                 if ($fieldDefinition->id !== $field->fieldDefinitionId) {
                     continue;
                 }
+
                 $fieldNames = $this->getFieldNames($fieldDefinition, $contentType);
+
                 if (count($fieldNames) === 0) {
                     continue;
                 }
+
                 $fieldType = $this->fieldRegistry->getType($field->type);
                 $indexFields = $fieldType->getIndexData($field, $fieldDefinition);
+
                 foreach ($indexFields as $indexField) {
                     if ($indexField->value === null) {
                         continue;
                     }
+
                     if (!$indexField->getType() instanceof FullTextField) {
                         continue;
                     }
+
                     $this->appendField($fields, $indexField, $fieldNames);
                 }
             }
         }
+
         return $fields;
     }
+
     /**
      * @param array<string, mixed> $fields
      * @param array<string, mixed> $fieldNames
@@ -92,19 +108,23 @@ class CustomFulltextFieldMapper extends ContentTranslationFieldMapper
             );
         }
     }
+
     /**
      * @return array<string>
      */
     private function getFieldNames(FieldDefinition $fieldDefinition, ContentType $contentType): array
     {
         $fieldNames = [];
+
         foreach ($this->fieldConfig as $fieldName => $fieldIdentifiers) {
             if ($this->isMapped($fieldDefinition, $contentType, $fieldIdentifiers)) {
                 $fieldNames[] = $fieldName;
             }
         }
+
         return $fieldNames;
     }
+
     /**
      * @param array<string> $fieldIdentifiers
      */
@@ -113,10 +133,13 @@ class CustomFulltextFieldMapper extends ContentTranslationFieldMapper
         if (in_array($fieldDefinition->identifier, $fieldIdentifiers, true)) {
             return true;
         }
+
         $needle = sprintf('%s/%s', $contentType->identifier, $fieldDefinition->identifier);
+
         if (in_array($needle, $fieldIdentifiers, true)) {
             return true;
         }
+
         return false;
     }
 }
