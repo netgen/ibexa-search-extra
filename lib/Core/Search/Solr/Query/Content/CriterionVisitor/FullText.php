@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor;
 
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\FullText as FullTextCriterion;
