@@ -125,8 +125,6 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
 
     private function processFullTextBoostConfiguration(array $configuration, ContainerBuilder $container): void
     {
-        $fullTextBoostConfig = $container->getParameter('netgen_ibexa_search_extra')['search_boost'];
-
         $container->setParameter(
             'netgen_ibexa_search_extra.search_boost',
             $configuration['search_boost'] ?? [],
@@ -135,23 +133,6 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $container->setParameter(
             'netgen_ibexa_search_extra.field_mapper_custom_fulltext_field_config',
             $configuration['field_mapper_custom_fulltext_field_config'] ?? [],
-        );
-
-        if (!array_key_exists('content_types', $container->getParameter('netgen_ibexa_search_extra.search_boost'))) {
-            $fullTextBoostConfig['content_types'] = null;
-        }
-
-        if (!array_key_exists('raw_fields', $container->getParameter('netgen_ibexa_search_extra.search_boost'))) {
-            $fullTextBoostConfig['raw_fields'] = null;
-        }
-
-        if (!array_key_exists('meta_fields', $container->getParameter('netgen_ibexa_search_extra.search_boost'))) {
-            $fullTextBoostConfig['meta_fields'] = null;
-        }
-
-        $container->setParameter(
-            'netgen_ibexa_search_extra.search_boost',
-            $fullTextBoostConfig,
         );
     }
 }
