@@ -95,7 +95,7 @@ class FullText extends CriterionVisitor
     {
         $queryFields = ['meta_content__text_t'];
 
-        foreach ($criterion->solrFieldsBoost as $field => $boost) {
+        foreach ($criterion->rawFieldsBoost as $field => $boost) {
             $queryFields[] = sprintf('%s^%s', $field, $boost);
         }
 
