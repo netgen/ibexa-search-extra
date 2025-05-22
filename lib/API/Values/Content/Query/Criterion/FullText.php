@@ -48,7 +48,7 @@ class FullText extends Criterion implements FulltextSpellcheck
      *
      * @var array<string, int|float>
      */
-    public array $solrFieldsBoost = [];
+    public array $rawFieldsBoost = [];
 
     /**
      * Boost for ContentTypes.
