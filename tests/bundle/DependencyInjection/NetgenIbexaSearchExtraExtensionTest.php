@@ -93,15 +93,75 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    public function providerForSearchBoostDefaultConfiguration(): array
+    public function providerForFulltextBoostDefaultConfiguration(): array
     {
         return [
             [
                 [],
+                [],
             ],
             [
                 [
-                    'search_boost' => [
+                    'fulltext' => [],
+                ],
+                [],
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'boost' => [],
+                    ],
+                ],
+                [],
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'boost' => [
+                            'configuration_name' => [],
+                        ],
+                    ],
+                ],
+                [
+                    'configuration_name' => [
+                        'content_types' => [],
+                        'raw_fields' => [],
+                        'meta_fields' => [],
+                    ],
+                ],
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'boost' => [
+                            'configuration_name' => [
+                                'content_types' => [],
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'configuration_name' => [
+                        'content_types' => [],
+                        'raw_fields' => [],
+                        'meta_fields' => [],
+                    ],
+                ],
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'boost' => [
+                            'configuration_name' => [
+                                'content_types' => [],
+                                'raw_fields' => [],
+                                'meta_fields' => [],
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'configuration_name' => [
                         'content_types' => [],
                         'raw_fields' => [],
                         'meta_fields' => [],
@@ -112,160 +172,205 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     * @dataProvider providerForSearchBoostDefaultConfiguration
+     * @dataProvider providerForFulltextBoostDefaultConfiguration
      */
-    public function testSearchBoostDefaultConfiguration(array $configuration): void
+    public function testFulltextBoostDefaultConfiguration(array $configuration, array $expectedValue): void
     {
         $this->load($configuration);
 
         $this->assertContainerBuilderHasParameter(
-            'netgen_ibexa_search_extra.search_boost',
-            [
-                'content_types' => [],
-                'raw_fields' => [],
-                'meta_fields' => [],
-            ],
+            'netgen_ibexa_search_extra.fulltext.boost',
+            $expectedValue,
         );
     }
 
-    public function testSearchBoostConfigurationValues(): void
+    public function testFulltextBoostConfigurationValues(): void
     {
         $boost = [
-            'content_types' => [
-                'rocket' => [
-                    'id' => 24,
-                    'boost_value' => 2,
+            'default_configuration' => [
+                'content_types' => [
+                    'rocket' => [
+                        'id' => 24,
+                        'boost_value' => 2,
+                    ],
+                    'missile' => [
+                        'id' => 42,
+                        'boost_value' => 4,
+                    ],
                 ],
-                'missile' => [
-                    'id' => 42,
-                    'boost_value' => 4,
+                'raw_fields' => [
+                    'meta_content__satellite_t' => 2,
+                    'meta_content__station_t' => 2,
                 ],
-            ],
-            'raw_fields' => [
-                'meta_content__satellite_t' => 2,
-                'meta_content__station_t' => 2,
-            ],
-            'meta_fields' => [
-                'energia' => 128,
-                'proton' => 16,
-            ],
+                'meta_fields' => [
+                    'energia' => 128,
+                    'proton' => 16,
+                ],
+            ]
         ];
 
         $this->load([
-            'search_boost' => $boost,
+            'fulltext' => [
+                'boost' => $boost,
+            ],
         ]);
 
         $this->assertContainerBuilderHasParameter(
-            'netgen_ibexa_search_extra.search_boost',
+            'netgen_ibexa_search_extra.fulltext.boost',
             $boost,
         );
     }
 
-    public function providerForSearchBoostConfigurationInvalidValues(): array
+    public function providerForFulltextBoostConfigurationInvalidValues(): array
     {
         return [
             [
                 [
-                    'search_boost' => 1,
-                ],
-                InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.search_boost". Expected "array", but got "int"',
-            ],
-            [
-                [
-                    'search_boost' => [
-                        'content_types' => 11,
+                    'fulltext' => [
+                        'boost' => 1,
                     ],
                 ],
                 InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.search_boost.content_types". Expected "array", but got "int"',
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost". Expected "array", but got "int"',
             ],
             [
                 [
-                    'search_boost' => [
-                        'raw_fields' => 11,
-                    ],
-                ],
-                InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.search_boost.raw_fields". Expected "array", but got "int"',
-            ],
-            [
-                [
-                    'search_boost' => [
-                        'meta_fields' => 11,
-                    ],
-                ],
-                InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.search_boost.meta_fields". Expected "array", but got "int"',
-            ],
-            [
-                [
-                    'search_boost' => [
-                        'raw_fields' => [
-                            'meta_content__satellite_t' => '2',
+                    'fulltext' => [
+                        'boost' => [
+                            'kvak_configuration' => 11,
                         ],
                     ],
                 ],
                 InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.search_boost.raw_fields.meta_content__satellite_t". Expected "float", but got "string"',
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration". Expected "array", but got "int"',
             ],
             [
                 [
-                    'search_boost' => [
-                        'meta_fields' => [
-                            'energia' => '128',
-                        ],
-                    ],
-                ],
-                InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.search_boost.meta_fields.energia". Expected "float", but got "string"',
-            ],
-            [
-                [
-                    'search_boost' => [
-                        'content_types' => [
-                            'rocket' => 22,
-                        ],
-                    ],
-                ],
-                InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.search_boost.content_types.rocket". Expected "array", but got "int"',
-            ],
-            [
-                [
-                    'search_boost' => [
-                        'content_types' => [
-                            'rocket' => [
-                                'id' => '24',
-                                'boost_value' => 2,
+                    'fulltext' => [
+                        'boost' => [
+                            'kvak_configuration' => [
+                                'content_types' => 11,
                             ],
                         ],
                     ],
                 ],
                 InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.search_boost.content_types.rocket.id". Expected "int", but got "string"',
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration.content_types". Expected "array", but got "int"',
             ],
             [
                 [
-                    'search_boost' => [
-                        'content_types' => [
-                            'rocket' => [
-                                'id' => 24,
-                                'boost_value' => '2',
+                    'fulltext' => [
+                        'boost' => [
+                            'kvak_configuration' => [
+                                'raw_fields' => 11,
                             ],
                         ],
                     ],
                 ],
                 InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.search_boost.content_types.rocket.boost_value". Expected "float", but got "string"',
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration.raw_fields". Expected "array", but got "int"',
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'boost' => [
+                            'kvak_configuration' => [
+                                'meta_fields' => 11,
+                            ],
+                        ],
+                    ],
+                ],
+                InvalidTypeException::class,
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration.meta_fields". Expected "array", but got "int"',
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'boost' => [
+                            'kvak_configuration' => [
+                                'raw_fields' => [
+                                    'meta_content__satellite_t' => '2',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                InvalidTypeException::class,
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration.raw_fields.meta_content__satellite_t". Expected "float", but got "string"',
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'boost' => [
+                            'kvak_configuration' => [
+                                'meta_fields' => [
+                                    'energia' => '128',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                InvalidTypeException::class,
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration.meta_fields.energia". Expected "float", but got "string"',
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'boost' => [
+                            'kvak_configuration' => [
+                                'content_types' => [
+                                    'rocket' => 22,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                InvalidTypeException::class,
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration.content_types.rocket". Expected "array", but got "int"',
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'boost' => [
+                            'kvak_configuration' => [
+                                'content_types' => [
+                                    'rocket' => [
+                                        'id' => '24',
+                                        'boost_value' => 2,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                InvalidTypeException::class,
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration.content_types.rocket.id". Expected "int", but got "string"',
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'boost' => [
+                            'kvak_configuration' => [
+                                'content_types' => [
+                                    'rocket' => [
+                                        'id' => 24,
+                                        'boost_value' => '2',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                InvalidTypeException::class,
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration.content_types.rocket.boost_value". Expected "float", but got "string"',
             ],
         ];
     }
 
     /**
-     * @dataProvider providerForSearchBoostConfigurationInvalidValues
+     * @dataProvider providerForFulltextBoostConfigurationInvalidValues
      */
-    public function testSearchBoostConfigurationInvalidValues(array $configuration, string $exceptionFqcn, string $message): void
+    public function testFulltextBoostConfigurationInvalidValues(array $configuration, string $exceptionFqcn, string $message): void
     {
         $this->expectException($exceptionFqcn);
         $this->expectExceptionMessage($message);
@@ -273,34 +378,44 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         $this->load($configuration);
     }
 
-    public function providerForCustomFulltextFieldsDefaultConfiguration(): array
+    public function providerForFulltextMetaFieldsDefaultConfiguration(): array
     {
         return [
             [
                 [],
+                [],
             ],
             [
                 [
-                    'field_mapper_custom_fulltext_field_config' => [],
+                    'fulltext' => [],
                 ],
+                [],
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'meta_fields' => [],
+                    ],
+                ],
+                [],
             ],
         ];
     }
 
     /**
-     * @dataProvider providerForSearchBoostDefaultConfiguration
+     * @dataProvider providerForFulltextMetaFieldsDefaultConfiguration
      */
-    public function testCustomFulltextFieldsDefaultConfiguration(array $configuration): void
+    public function testFulltextMetaFieldsDefaultConfiguration(array $configuration, array $expectedValue): void
     {
         $this->load($configuration);
 
         $this->assertContainerBuilderHasParameter(
-            'netgen_ibexa_search_extra.field_mapper_custom_fulltext_field_config',
-            [],
+            'netgen_ibexa_search_extra.fulltext.meta_fields',
+            $expectedValue,
         );
     }
 
-    public function testCustomFulltextFieldsConfigurationValues(): void
+    public function testFulltextMetaFieldsConfigurationValues(): void
     {
         $fields = [
             'energia' => [
@@ -310,48 +425,58 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         ];
 
         $this->load([
-            'field_mapper_custom_fulltext_field_config' => $fields,
+            'fulltext' => [
+                'meta_fields' => $fields,
+            ],
         ]);
 
         $this->assertContainerBuilderHasParameter(
-            'netgen_ibexa_search_extra.field_mapper_custom_fulltext_field_config',
+            'netgen_ibexa_search_extra.fulltext.meta_fields',
             $fields,
         );
     }
 
-    public function providerForCustomFulltextFieldsConfigurationInvalidValues(): array
+    public function providerForFulltextMetaFieldsConfigurationInvalidValues(): array
     {
         return [
             [
                 [
-                    'field_mapper_custom_fulltext_field_config' => 12,
-                ],
-                InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.field_mapper_custom_fulltext_field_config". Expected "array", but got "int"',
-            ],
-            [
-                [
-                    'field_mapper_custom_fulltext_field_config' => [
-                        12,
+                    'fulltext' => [
+                        'meta_fields' => 12,
                     ],
                 ],
                 InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.field_mapper_custom_fulltext_field_config.0". Expected "array", but got "int"',
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.meta_fields". Expected "array", but got "int"',
             ],
             [
                 [
-                    'field_mapper_custom_fulltext_field_config' => [
-                        'energia' => 12,
-                    ],
-                ],
-                InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.field_mapper_custom_fulltext_field_config.energia". Expected "array", but got "int"',
-            ],
-            [
-                [
-                    'field_mapper_custom_fulltext_field_config' => [
-                        'energia' => [
+                    'fulltext' => [
+                        'meta_fields' => [
                             12,
+                        ],
+                    ],
+                ],
+                InvalidTypeException::class,
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.meta_fields.0". Expected "array", but got "int"',
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'meta_fields' => [
+                            'energia' => 12,
+                        ],
+                    ],
+                ],
+                InvalidTypeException::class,
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.meta_fields.energia". Expected "array", but got "int"',
+            ],
+            [
+                [
+                    'fulltext' => [
+                        'meta_fields' => [
+                            'energia' => [
+                                12,
+                            ],
                         ],
                     ],
                 ],
@@ -362,9 +487,9 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     * @dataProvider providerForCustomFulltextFieldsConfigurationInvalidValues
+     * @dataProvider providerForFulltextMetaFieldsConfigurationInvalidValues
      */
-    public function testCustomFulltextFieldsDefaultConfigurationInvalidValues(array $configuration, string $exceptionFqcn, string $message): void
+    public function testFulltextMetaFieldsDefaultConfigurationInvalidValues(array $configuration, string $exceptionFqcn, string $message): void
     {
         $this->expectException($exceptionFqcn);
         $this->expectExceptionMessage($message);
