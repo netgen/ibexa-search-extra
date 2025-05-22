@@ -25,12 +25,14 @@ class Configuration implements ConfigurationInterface
         $this->addIndexableFieldTypeSection($rootNode);
         $this->addSearchResultExtractorSection($rootNode);
         $this->addAsynchronousIndexingSection($rootNode);
+        $this->addFulltextBoostSection($rootNode);
 
         return $treeBuilder;
     }
 
     private function addIndexableFieldTypeSection(ArrayNodeDefinition $nodeDefinition): void
     {
+        /** @noinspection NullPointerExceptionInspection */
         $nodeDefinition
             ->children()
                 ->arrayNode('indexable_field_type')
@@ -54,6 +56,7 @@ class Configuration implements ConfigurationInterface
 
     private function addSearchResultExtractorSection(ArrayNodeDefinition $nodeDefinition): void
     {
+        /** @noinspection NullPointerExceptionInspection */
         $nodeDefinition
             ->children()
                 ->booleanNode('use_loading_search_result_extractor')
@@ -65,11 +68,73 @@ class Configuration implements ConfigurationInterface
 
     private function addAsynchronousIndexingSection(ArrayNodeDefinition $nodeDefinition): void
     {
+        /** @noinspection NullPointerExceptionInspection */
         $nodeDefinition
             ->children()
                 ->booleanNode('use_asynchronous_indexing')
                     ->info('Use asynchronous mechanism to handle repository content indexing')
                     ->defaultFalse()
+                ->end()
+            ->end();
+    }
+
+    private function addFulltextBoostSection(ArrayNodeDefinition $nodeDefinition): void
+    {
+        /** @noinspection NullPointerExceptionInspection */
+        $nodeDefinition
+            ->children()
+                ->arrayNode('fulltext')
+                    ->info('Fulltext configuration')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('boost')
+                            ->info('Boost configurations for SearchExtra Fulltext criterion')
+                            ->useAttributeAsKey('name')
+                            ->normalizeKeys(false)
+                            ->arrayPrototype()
+                                ->children()
+                                    ->arrayNode('content_types')
+                                        ->info('Boost values per ContentType')
+                                        ->useAttributeAsKey('name')
+                                        ->normalizeKeys(false)
+                                        ->floatPrototype()
+                                            ->info('Boost value for the ContentType')
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('raw_fields')
+                                        ->info('Boost values for raw fields')
+                                        ->useAttributeAsKey('name')
+                                        ->normalizeKeys(false)
+                                        ->floatPrototype()
+                                            ->info('Boost value for the raw field')
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('meta_fields')
+                                        ->info('Boost values for meta fields')
+                                        ->useAttributeAsKey('name')
+                                        ->normalizeKeys(false)
+                                        ->floatPrototype()
+                                            ->info('Boost value for the meta field')
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('meta_fields')
+                            ->info('Indexed fulltext meta fields mapping')
+                            ->useAttributeAsKey('name')
+                            ->normalizeKeys(false)
+                            ->arrayPrototype()
+                                ->scalarPrototype()
+                                    ->info('List of mapped fields')
+                                    ->validate()
+                                        ->ifTrue(static fn ($v) => !is_string($v))
+                                        ->thenInvalid('Mapped fields must be of string type')
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
                 ->end()
             ->end();
     }

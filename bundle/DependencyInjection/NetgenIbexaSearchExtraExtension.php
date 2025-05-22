@@ -88,6 +88,7 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $this->processIndexableFieldTypeConfiguration($configuration, $container);
         $this->processSearchResultExtractorConfiguration($configuration, $container);
         $this->processAsynchronousIndexingConfiguration($configuration, $container);
+        $this->processFullTextBoostConfiguration($configuration, $container);
     }
 
     private function processSearchResultExtractorConfiguration(array $configuration, ContainerBuilder $container): void
@@ -115,6 +116,19 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $container->setParameter(
             'netgen_ibexa_search_extra.use_asynchronous_indexing',
             $configuration['use_asynchronous_indexing'],
+        );
+    }
+
+    private function processFullTextBoostConfiguration(array $configuration, ContainerBuilder $container): void
+    {
+        $container->setParameter(
+            'netgen_ibexa_search_extra.fulltext.boost',
+            $configuration['fulltext']['boost'] ?? [],
+        );
+
+        $container->setParameter(
+            'netgen_ibexa_search_extra.fulltext.meta_fields',
+            $configuration['fulltext']['meta_fields'] ?? [],
         );
     }
 }
