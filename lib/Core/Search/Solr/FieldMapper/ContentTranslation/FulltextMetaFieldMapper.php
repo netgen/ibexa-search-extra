@@ -19,15 +19,15 @@ use function count;
 use function in_array;
 use function sprintf;
 
-class CustomFulltextFieldMapper extends ContentTranslationFieldMapper
+class FulltextMetaFieldMapper extends ContentTranslationFieldMapper
 {
     /**
-     * @param array<string, array<string>> $fieldConfig
+     * @param array<string, array<string>> $metaFieldMap
      */
     public function __construct(
         private readonly ContentTypeHandler $contentTypeHandler,
         private readonly FieldRegistry $fieldRegistry,
-        private readonly array $fieldConfig,
+        private readonly array $metaFieldMap,
     ) {}
 
     /**
@@ -35,7 +35,7 @@ class CustomFulltextFieldMapper extends ContentTranslationFieldMapper
      */
     public function accept(SPIContent $content, $languageCode): bool
     {
-        return count($this->fieldConfig) > 0;
+        return count($this->metaFieldMap) > 0;
     }
 
     public function mapFields(SPIContent $content, $languageCode): array
@@ -62,9 +62,9 @@ class CustomFulltextFieldMapper extends ContentTranslationFieldMapper
                     continue;
                 }
 
-                $fieldNames = $this->getFieldNames($fieldDefinition, $contentType);
+                $metaFieldNames = $this->getMetaFieldNames($fieldDefinition, $contentType);
 
-                if (count($fieldNames) === 0) {
+                if (count($metaFieldNames) === 0) {
                     continue;
                 }
 
@@ -80,7 +80,7 @@ class CustomFulltextFieldMapper extends ContentTranslationFieldMapper
                         continue;
                     }
 
-                    $this->appendField($fields, $indexField, $fieldNames);
+                    $this->appendField($fields, $indexField, $metaFieldNames);
                 }
             }
         }
@@ -90,14 +90,14 @@ class CustomFulltextFieldMapper extends ContentTranslationFieldMapper
 
     /**
      * @param array<string, mixed> $fields
-     * @param array<string, mixed> $fieldNames
+     * @param array<string, mixed> $metaFieldNames
      */
     private function appendField(
         array &$fields,
         Field $indexField,
-        array $fieldNames,
+        array $metaFieldNames,
     ): void {
-        foreach ($fieldNames as $fieldName) {
+        foreach ($metaFieldNames as $fieldName) {
             $fields[] = new Field(
                 sprintf('meta_%s__text', $fieldName),
                 (string) $indexField->value,
@@ -109,11 +109,11 @@ class CustomFulltextFieldMapper extends ContentTranslationFieldMapper
     /**
      * @return array<string>
      */
-    private function getFieldNames(FieldDefinition $fieldDefinition, ContentType $contentType): array
+    private function getMetaFieldNames(FieldDefinition $fieldDefinition, ContentType $contentType): array
     {
         $fieldNames = [];
 
-        foreach ($this->fieldConfig as $fieldName => $fieldIdentifiers) {
+        foreach ($this->metaFieldMap as $fieldName => $fieldIdentifiers) {
             if ($this->isMapped($fieldDefinition, $contentType, $fieldIdentifiers)) {
                 $fieldNames[] = $fieldName;
             }
