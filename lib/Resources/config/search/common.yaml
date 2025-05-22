@@ -7,3 +7,6 @@ services:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\Query\ConfiguredFulltextCriterionFactory
         arguments:
             - '%netgen_ibexa_search_extra.fulltext.boost%'
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Query\ConfiguredFulltextCriterionFactory:
+        alias: netgen.ibexa_search_extra.fulltext.configured_factory
