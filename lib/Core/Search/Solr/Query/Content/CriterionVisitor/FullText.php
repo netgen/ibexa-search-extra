@@ -78,7 +78,11 @@ class FullText extends CriterionVisitor
         $function = '';
 
         foreach ($criterion->contentTypeBoost as $contentTypeIdentifier) {
-            $function .= 'if(exists(query({!lucene v=\"content_type_id_id:' . $contentTypeIdentifier['id'] . '\"})),' . $contentTypeIdentifier['boost_value'] . ',';
+            $function .= sprintf(
+                'if(exists(query({!lucene v=\"content_type_id_id:%s\"})),%s,',
+                $contentTypeIdentifier['id'],
+                $contentTypeIdentifier['boost_value'],
+            );
         }
 
         $function .= '1' . str_repeat(')', count($criterion->contentTypeBoost));
