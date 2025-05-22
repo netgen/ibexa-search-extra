@@ -36,16 +36,14 @@ class FullText extends CriterionVisitor
         /** @var FullTextCriterion $criterion */
         /** @var string $value */
         $value = $criterion->value;
-
-        $tokenSequence = $this->tokenizer->tokenize($value);
-        $syntaxTree = $this->parser->parse($tokenSequence);
-
         $options = [];
 
         if ($criterion->fuzziness < 1) {
             $options['fuzziness'] = $criterion->fuzziness;
         }
 
+        $tokenSequence = $this->tokenizer->tokenize($value);
+        $syntaxTree = $this->parser->parse($tokenSequence);
         $queryString = $this->generator->generate($syntaxTree, $options);
         $queryStringEscaped = $this->escapeQuote($queryString);
         $queryFields = $this->getQueryFields($criterion);
