@@ -21,10 +21,9 @@ class FullText extends Criterion implements FulltextSpellcheck
     public float $fuzziness = 1.;
 
     /**
-     * Boost for certain fields.
+     * Boost for Content Fields.
      *
-     * Array of boosts to apply for certain fields – the array should look like
-     * this:
+     * Array of boosts to apply for given fields – the array should look like this:
      *
      * ```php
      * [
@@ -32,15 +31,14 @@ class FullText extends Criterion implements FulltextSpellcheck
      * ]
      * ```
      *
-     * @var array<string, mixed>
+     * @var array<string, int|float>
      */
     public array $boost = [];
 
     /**
-     * Boost for certain solr fields.
+     * Boost for raw search engine (e.g., Solr) fields.
      *
-     * Array of boosts to apply for certain fields – the array should look like
-     * this:
+     * Array of boosts to apply for given fields – the array should look like this:
      *
      * ```php
      * [
@@ -48,15 +46,14 @@ class FullText extends Criterion implements FulltextSpellcheck
      * ]
      * ```
      *
-     * @var array<string, mixed>
+     * @var array<string, int|float>
      */
     public array $solrFieldsBoost = [];
 
     /**
-     * Boost for certain content types.
+     * Boost for ContentTypes.
      *
-     * Array of boosts to apply for certain content type – the array should look like
-     * this:
+     * Array of boosts to apply for given ContentTypes – the array should look like this:
      *
      * ```php
      * [
@@ -67,7 +64,7 @@ class FullText extends Criterion implements FulltextSpellcheck
      * ]
      * ```
      *
-     * @var array<string, mixed>
+     * @var array<string, array<string, int|float>>
      */
     public array $contentTypeBoost = [];
 
@@ -82,7 +79,7 @@ class FullText extends Criterion implements FulltextSpellcheck
      * ]
      * ```
      *
-     * @var array<string, mixed>
+     * @var array<string, int|float>
      */
     public array $metaFieldsBoost = [];
 
