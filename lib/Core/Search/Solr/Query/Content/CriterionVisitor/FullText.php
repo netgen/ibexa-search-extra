@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor;
 
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\FullText as FullTextCriterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
@@ -24,6 +25,7 @@ class FullText extends CriterionVisitor
         private readonly Tokenizer $tokenizer,
         private readonly Parser $parser,
         private readonly ExtendedDisMax $generator,
+        private readonly Handler $contentTypeHandler,
     ) {}
 
     public function canVisit(Criterion $criterion): bool
@@ -31,6 +33,9 @@ class FullText extends CriterionVisitor
         return $criterion instanceof FullTextCriterion;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         /** @var FullTextCriterion $criterion */
@@ -72,16 +77,17 @@ class FullText extends CriterionVisitor
 
     /**
      * @param FullTextCriterion $criterion
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     private function getBoostParameter(Criterion $criterion): string
     {
         $function = '';
 
-        foreach ($criterion->contentTypeBoost as $contentTypeIdentifier) {
+        foreach ($criterion->contentTypeBoost as $contentTypeIdentifier => $boostValue) {
             $function .= sprintf(
                 'if(exists(query({!lucene v=\"content_type_id_id:%s\"})),%s,',
-                $contentTypeIdentifier['id'],
-                $contentTypeIdentifier['boost_value'],
+                $this->contentTypeHandler->loadByIdentifier($contentTypeIdentifier)->id,
+                $boostValue,
             );
         }
 
