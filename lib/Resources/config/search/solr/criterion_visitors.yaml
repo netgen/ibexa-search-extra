@@ -93,3 +93,15 @@ services:
         tags:
             - { name: ibexa.search.solr.query.content.criterion.visitor }
             - { name: ibexa.search.solr.query.location.criterion.visitor }
+
+    netgen.ibexa_search_extra.solr.query.content.criterion_visitor.full_text:
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor\FullText
+        factory: [ '@netgen.ibexa_search_extra.solr.query.content.criterion_visitor.full_text_factory', 'createCriterionVisitor' ]
+        tags:
+            - { name: ibexa.search.solr.query.content.criterion.visitor }
+
+    netgen.ibexa_search_extra.solr.query.location.criterion_visitor.full_text:
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Location\CriterionVisitor\FullText
+        factory: [ '@netgen.ibexa_search_extra.solr.query.location.criterion_visitor.full_text_factory', 'createCriterionVisitor' ]
+        tags:
+            - { name: ibexa.search.solr.query.location.criterion.visitor }

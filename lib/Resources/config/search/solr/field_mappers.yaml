@@ -27,3 +27,12 @@ services:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Location\LocationIdFieldMapper
         tags:
             - { name: ibexa.search.solr.field.mapper.location }
+
+    netgen.ibexa_search_extra.solr.field_mapper.content.full_text:
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\CustomFulltextFieldMapper
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            - '@Ibexa\Core\Search\Common\FieldRegistry'
+            - '@parameter_bag'
+        tags:
+            - { name: ibexa.search.solr.field.mapper.content.translation }
