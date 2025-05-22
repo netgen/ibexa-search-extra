@@ -189,14 +189,8 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         $boost = [
             'default_configuration' => [
                 'content_types' => [
-                    'rocket' => [
-                        'id' => 24,
-                        'boost_value' => 2,
-                    ],
-                    'missile' => [
-                        'id' => 42,
-                        'boost_value' => 4,
-                    ],
+                    'rocket' => 2,
+                    'missile' => 4,
                 ],
                 'raw_fields' => [
                     'meta_content__satellite_t' => 2,
@@ -319,50 +313,14 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         'boost' => [
                             'kvak_configuration' => [
                                 'content_types' => [
-                                    'rocket' => 22,
+                                    'rocket' => '24',
                                 ],
                             ],
                         ],
                     ],
                 ],
                 InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration.content_types.rocket". Expected "array", but got "int"',
-            ],
-            [
-                [
-                    'fulltext' => [
-                        'boost' => [
-                            'kvak_configuration' => [
-                                'content_types' => [
-                                    'rocket' => [
-                                        'id' => '24',
-                                        'boost_value' => 2,
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration.content_types.rocket.id". Expected "int", but got "string"',
-            ],
-            [
-                [
-                    'fulltext' => [
-                        'boost' => [
-                            'kvak_configuration' => [
-                                'content_types' => [
-                                    'rocket' => [
-                                        'id' => 24,
-                                        'boost_value' => '2',
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                InvalidTypeException::class,
-                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration.content_types.rocket.boost_value". Expected "float", but got "string"',
+                'Invalid type for path "netgen_ibexa_search_extra.fulltext.boost.kvak_configuration.content_types.rocket". Expected "float", but got "string"',
             ],
         ];
     }
