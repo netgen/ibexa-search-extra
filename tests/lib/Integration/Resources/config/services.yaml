@@ -1,5 +1,6 @@
 parameters:
     netgen_ibexa_search_extra.fulltext.meta_fields: []
+    netgen_ibexa_search_extra.fulltext.boost: []
 
 services:
     netgen_test.ibexa_search_extra.solr.subdocument_mapper.content:
