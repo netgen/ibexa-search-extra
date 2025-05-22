@@ -60,6 +60,7 @@ services:
             - '@ibexa.solr.query.query_translator.galach.tokenizer'
             - '@ibexa.solr.query.query_translator.galach.parser'
             - '@ibexa.solr.query.query_translator.galach.generator.edismax'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
 
     netgen.ibexa_search_extra.solr.query.location.criterion_visitor.full_text_factory:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Location\CriterionVisitor\Factory\LocationFullTextFactory
@@ -67,4 +68,4 @@ services:
             - '@ibexa.solr.query.query_translator.galach.tokenizer'
             - '@ibexa.solr.query.query_translator.galach.parser'
             - '@ibexa.solr.query.query_translator.galach.generator.edismax'
-
+            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
