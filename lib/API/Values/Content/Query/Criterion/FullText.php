@@ -21,36 +21,6 @@ class FullText extends Criterion implements FulltextSpellcheck
     public float $fuzziness = 1.;
 
     /**
-     * Boost for Content Fields.
-     *
-     * Array of boosts to apply for given fields – the array should look like this:
-     *
-     * ```php
-     * [
-     *     'title' => 2,
-     * ]
-     * ```
-     *
-     * @var array<string, int|float>
-     */
-    public array $boost = [];
-
-    /**
-     * Boost for raw search engine (e.g., Solr) fields.
-     *
-     * Array of boosts to apply for given fields – the array should look like this:
-     *
-     * ```php
-     * [
-     *     'meta_content__name_t' => 2.1,
-     * ]
-     * ```
-     *
-     * @var array<string, int|float>
-     */
-    public array $rawFieldsBoost = [];
-
-    /**
      * Boost for ContentTypes.
      *
      * Array of boosts to apply for given ContentTypes – the array should look like this:
@@ -69,13 +39,28 @@ class FullText extends Criterion implements FulltextSpellcheck
     public array $contentTypeBoost = [];
 
     /**
+     * Boost for raw search engine (e.g., Solr) fields.
+     *
+     * Array of boosts to apply for given fields – the array should look like this:
+     *
+     * ```php
+     * [
+     *     'meta_content__name_t' => 2.1,
+     * ]
+     * ```
+     *
+     * @var array<string, int|float>
+     */
+    public array $rawFieldsBoost = [];
+
+    /**
      * Boost for fulltext meta-fields.
      *
      * Array of boosts to apply for meta-fields – the array should look like this:
      *
      * ```php
      * [
-     *      'meta_field_key' => 2,
+     *      'meta_field_key' => 3.14,
      * ]
      * ```
      *
