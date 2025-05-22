@@ -7,17 +7,16 @@ namespace Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
 use InvalidArgumentException;
 use Netgen\IbexaSearchExtra\API\Values\Content\SpellcheckQuery;
 use RuntimeException;
 
-class FullText extends Criterion implements CustomFieldInterface, FulltextSpellcheck
+class FullText extends Criterion implements FulltextSpellcheck
 {
     /**
      * Fuzziness of the fulltext search.
      *
-     * May be a value between 0. (fuzzy) and 1. (sharp).
+     * Can be a value between 0.0 (fuzzy) and 1.0 (sharp).
      */
     public float $fuzziness = 1.;
 
@@ -27,12 +26,11 @@ class FullText extends Criterion implements CustomFieldInterface, FulltextSpellc
      * Array of boosts to apply for certain fields – the array should look like
      * this:
      *
-     * <code>
-     *  array(
-     *      'title' => 2,
-     *      …
-     *  )
-     * </code>
+     * ```php
+     * [
+     *     'title' => 2,
+     * ]
+     * ```
      *
      * @var array<string, mixed>
      */
@@ -44,12 +42,11 @@ class FullText extends Criterion implements CustomFieldInterface, FulltextSpellc
      * Array of boosts to apply for certain fields – the array should look like
      * this:
      *
-     * <code>
-     *  array(
-     *      'meta_content__name_t' => 2,
-     *      …
-     *  )
-     * </code>
+     * ```php
+     * [
+     *     'meta_content__name_t' => 2.1,
+     * ]
+     * ```
      *
      * @var array<string, mixed>
      */
@@ -61,53 +58,33 @@ class FullText extends Criterion implements CustomFieldInterface, FulltextSpellc
      * Array of boosts to apply for certain content type – the array should look like
      * this:
      *
-     * <code>
-     *  array(
-     *       'content_type_identifier' => array(
-     *          'id' => 2,
-     *          'boost' => 3
-     *      )
-     *      …
-     *  )
-     * </code>
+     * ```php
+     * [
+     *      'content_type_identifier' => [
+     *         'id' => 2.5,
+     *         'boost' => 3,
+     *     ]
+     * ]
+     * ```
      *
      * @var array<string, mixed>
      */
     public array $contentTypeBoost = [];
 
     /**
-     * Boost for certain fulltext meta fields.
+     * Boost for fulltext meta-fields.
      *
-     * Array of boosts to apply for certain meta fields – the array should look like
-     * this:
+     * Array of boosts to apply for meta-fields – the array should look like this:
      *
-     * <code>
-     * array(
-     *       'meta_field_key' => 2,
-     *       …
-     *   )
-     * </code>
+     * ```php
+     * [
+     *      'meta_field_key' => 2,
+     * ]
+     * ```
      *
      * @var array<string, mixed>
      */
     public array $metaFieldsBoost = [];
-
-    /**
-     * Analyzer configuration.
-     */
-    public mixed $analyzers;
-
-    /**
-     * Analyzer wildcard handling configuration.
-     */
-    public mixed $wildcards;
-
-    /**
-     * Custom field definitions to query instead of default field.
-     *
-     * @var array<string, mixed>
-     */
-    private array $customFields = [];
 
     /**
      * @param array<string, mixed> $properties
@@ -123,7 +100,6 @@ class FullText extends Criterion implements CustomFieldInterface, FulltextSpellc
 
             $this->{$name} = $propertyValue;
         }
-
     }
 
     public function getSpecifications(): array
@@ -131,16 +107,6 @@ class FullText extends Criterion implements CustomFieldInterface, FulltextSpellc
         return [
             new Specifications(Operator::LIKE, Specifications::FORMAT_SINGLE),
         ];
-    }
-
-    public function setCustomField(string $type, string $field, string $customField): void
-    {
-        $this->customFields[$type][$field] = $customField;
-    }
-
-    public function getCustomField(string $type, string $field): ?string
-    {
-        return $this->customFields[$type][$field] ?? null;
     }
 
     public function getSpellcheckQuery(): SpellcheckQuery
