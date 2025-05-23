@@ -1,60 +1,135 @@
 services:
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\CopyContentHandler:
+    netgen.search_extra.message_handler.copy_content:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\CopyContentHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@ibexa.spi.search'
             - '@?logger'
         tags:
-            - { name: messenger.message_handler }
+            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing}
             - { name: monolog.logger, channel: ngsearchextra }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\DeleteContentHandler:
-        arguments:
-            - '@ibexa.spi.search'
-        tags:
-            - { name: messenger.message_handler }
-
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\DeleteTranslationHandler:
+    netgen.search_extra.message_handler.copy_content_sync:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\CopyContentHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@ibexa.spi.search'
             - '@?logger'
         tags:
-            - { name: messenger.message_handler }
+            - { name: messenger.message_handler, from_transport: sync }
             - { name: monolog.logger, channel: ngsearchextra }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\HideContentHandler:
+    netgen.search_extra.message_handler.delete_content:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\DeleteContentHandler
         arguments:
-            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
+            - '@ibexa.spi.search'
         tags:
-            - { name: messenger.message_handler }
+            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing}
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\PublishVersionHandler:
+    netgen.search_extra.message_handler.delete_content_sync:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\DeleteContentHandler
+        arguments:
+            - '@ibexa.spi.search'
+        tags:
+            - { name: messenger.message_handler, from_transport: sync }
+
+
+    netgen.search_extra.message_handler.delete_translation:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\DeleteTranslationHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@ibexa.spi.search'
             - '@?logger'
         tags:
-            - { name: messenger.message_handler }
+            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing}
             - { name: monolog.logger, channel: ngsearchextra }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\RevealContentHandler:
-        arguments:
-            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
-        tags:
-            - { name: messenger.message_handler }
-
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\UpdateContentMetadataHandler:
+    netgen.search_extra.message_handler.delete_translation_sync:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\DeleteTranslationHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@ibexa.spi.search'
             - '@?logger'
         tags:
-            - { name: messenger.message_handler }
+            - { name: messenger.message_handler, from_transport: sync}
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.search_extra.message_handler.hide_content:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\HideContentHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.search_extra.message_handler.subtree_index'
+        tags:
+            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing}
+
+    netgen.search_extra.message_handler.hide_content_sync:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\HideContentHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.search_extra.message_handler.subtree_index'
+        tags:
+            - { name: messenger.message_handler, from_transport: sync }
+
+    netgen.search_extra.message_handler.publish_version:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\PublishVersionHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@ibexa.spi.search'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.search_extra.message_handler.publish_version_sync:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\PublishVersionHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@ibexa.spi.search'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler, from_transport: sync }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.search_extra.message_handler.reveal_content:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\RevealContentHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.search_extra.message_handler.subtree_index'
+        tags:
+            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
+
+    netgen.search_extra.message_handler.reveal_content_sync:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\RevealContentHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.search_extra.message_handler.subtree_index'
+        tags:
+            - { name: messenger.message_handler, from_transport: sync }
+
+    netgen.search_extra.message_handler.update_content:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\UpdateContentMetadataHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@ibexa.spi.search'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.search_extra.message_handler.update_content_sync:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\UpdateContentMetadataHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@ibexa.spi.search'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler, from_transport: sync }
             - { name: monolog.logger, channel: ngsearchextra }
