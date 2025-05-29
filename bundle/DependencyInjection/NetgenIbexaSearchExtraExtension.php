@@ -148,7 +148,7 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
     private function processPageIndexingConfiguration(array $configuration, ContainerBuilder $container): void
     {
         $container->setParameter(
-            'netgen_ibexa_search_extra.page_indexing.sites',
+            'netgen_ibexa_search_extra.page_indexing.configuration',
             $configuration['page_indexing']['sites'] ?? [],
         );
 

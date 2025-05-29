@@ -644,8 +644,8 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
     ): void {
         $this->load($configuration);
 
-        $this->assertContainerBuilderHasParameter('netgen_ibexa_search_extra.page_indexing.sites');
-        $sitesConfig = $this->container->getParameter('netgen_ibexa_search_extra.page_indexing.sites');
+        $this->assertContainerBuilderHasParameter('netgen_ibexa_search_extra.page_indexing.configuration');
+        $sitesConfig = $this->container->getParameter('netgen_ibexa_search_extra.page_indexing.configuration');
 
         foreach ($sitesConfig as $site => $siteConfig) {
             self::assertIsString($site);

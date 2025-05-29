@@ -95,6 +95,5 @@ services:
         class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Stubs\RouterStub
 
 parameters:
-    netgen_ibexa_search_extra.page_indexing.sites: []
+    netgen_ibexa_search_extra.page_indexing.configuration: []
     netgen_ibexa_search_extra.page_indexing.enabled: true
-
