@@ -6,7 +6,7 @@ namespace Netgen\IbexaSearchExtra\Exception;
 
 use RuntimeException;
 
-class IndexPageUnavailableException extends RuntimeException
+class PageUnavailableException extends RuntimeException
 {
     public function __construct(string $message)
     {

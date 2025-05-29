@@ -10,13 +10,14 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
 use Netgen\IbexaSearchExtra\Core\Search\Common\SiteConfigResolver;
-use Netgen\IbexaSearchExtra\Exception\IndexPageUnavailableException;
+use Netgen\IbexaSearchExtra\Exception\PageUnavailableException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use RuntimeException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientException;
 
 use function count;
 use function explode;
@@ -53,8 +54,6 @@ class NativePageTextExtractor extends PageTextExtractor
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\ExceptionInterface
-     *
      * @return array<string, array<int, string>|string>
      */
     public function extractPageText(int $contentId, string $languageCode): array
@@ -71,7 +70,7 @@ class NativePageTextExtractor extends PageTextExtractor
 
         try {
             $html = $this->fetchPageSource($contentId, $languageCode, $siteConfig);
-        } catch (IndexPageUnavailableException|RuntimeException $e) {
+        } catch (PageUnavailableException|HttpClientException $e) {
             $this->logger->error($e->getMessage());
 
             return [];
@@ -206,7 +205,7 @@ class NativePageTextExtractor extends PageTextExtractor
         $html = $response->getContent();
 
         if ($response->getStatusCode() !== 200) {
-            throw new IndexPageUnavailableException(
+            throw new PageUnavailableException(
                 sprintf(
                     'Could not fetch URL "%s": %s',
                     $url,
