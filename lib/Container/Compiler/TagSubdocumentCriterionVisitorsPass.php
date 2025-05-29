@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * This compiler pass will add 'netgen.ibexa_search_extra.solr.criterion_visitor.subdocument_query' tag to the
+ * This compiler pass will add the 'netgen.ibexa_search_extra.solr.criterion_visitor.subdocument_query' tag to the
  * selected Ibexa CMS provided criterion visitors.
  */
 final class TagSubdocumentCriterionVisitorsPass implements CompilerPassInterface
