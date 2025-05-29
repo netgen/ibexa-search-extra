@@ -33,7 +33,7 @@ class SiteConfigResolver
         } catch (NotFoundException) {
             throw new RuntimeException(
                 sprintf(
-                    'Content #%d does not have a location',
+                    'Content #%d does not have a Location',
                     $contentInfo->id,
                 ),
             );
@@ -52,7 +52,7 @@ class SiteConfigResolver
 
         throw new RuntimeException(
             sprintf(
-                'Failed to match content ID %d to a siteaccess',
+                'Failed to match Content #%d to a siteaccess',
                 $contentInfo->id,
             ),
         );
