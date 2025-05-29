@@ -20,11 +20,12 @@ class ContentPageTextFieldMapper extends ContentTranslationFieldMapper
         private readonly TextExtractor $pageTextExtractor,
         private readonly ConfigResolver $configResolver,
         private readonly Handler $contentTypeHandler,
+        private readonly bool $isEnabled,
     ) {}
 
     public function accept(Content $content, $languageCode): bool
     {
-        return true;
+        return $this->isEnabled;
     }
 
     /**
