@@ -1,0 +1,49 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing;
+
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
+
+final class FieldMapper
+{
+    public function __construct(
+        private readonly TextExtractor $pageTextExtractor,
+        private readonly ContentTypeHandler $contentTypeHandler,
+        private readonly ConfigResolver $configResolver,
+    ) {}
+
+    /**
+     * @throws NotFoundException
+     */
+    public function mapFields(Content $content, string $languageCode): array
+    {
+        $contentInfo = $content->versionInfo->contentInfo;
+        $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
+        $contentTypeIdentifier = $contentType->identifier;
+
+        $config = $this->configResolver->getSiteConfigForContent($contentInfo->id, $languageCode);
+
+        if (!in_array($contentTypeIdentifier, $config->getAllowedContentTypes(), true)) {
+            return [];
+        }
+
+        $text = $this->pageTextExtractor->extractPageText($contentInfo->id, $languageCode);
+        $fields = [];
+
+        foreach ($text as $level => $value) {
+            $fields[] = new Field(
+                'page_text_' . $level,
+                $value,
+                new FullTextField(),
+            );
+        }
+
+        return $fields;
+    }
+}
