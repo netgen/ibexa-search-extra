@@ -1,10 +1,12 @@
 Page indexing
-=====================
+=============
 
-This feature allows indexing of content by scraping the page using Symfony's HTTP client and indexing its content into document fields.
+This feature implements indexing of Content by scraping the corresponding web page and indexing its content into the
+configured search engine.
 
 Configuration
 -------------
+
 To enable this feature, set up the page indexing configuration:
 
 .. code-block:: yaml
@@ -15,7 +17,7 @@ To enable this feature, set up the page indexing configuration:
             sites:
                 site1:
                     tree_root_location_id: '%site1.locations.tree_root.id%'
-                    languages_siteaccess_map:
+                    language_siteaccess_map:
                         cro-HR: cro
                         eng-GB: eng
                     fields:
@@ -33,7 +35,7 @@ To enable this feature, set up the page indexing configuration:
                     host: "%env(PAGE_INDEXING_HOST)%"
                 site2:
                     tree_root_location_id: '%site2.locations.tree_root.id%'
-                    languages_siteaccess_map:
+                    language_siteaccess_map:
                         cro-HR: cro
                         eng-GB: eng
                     fields:
@@ -49,47 +51,63 @@ To enable this feature, set up the page indexing configuration:
                         - ng_landing_page
                     host: "%env(PAGE_INDEXING_HOST)%"
 
-To activate the feateure, set the ``enabled`` parameter to true. Define the individual page sites under the ``sites``
-array parameter. In this example we have ``site1`` and ``site2``. For each site configuration, specify
-``tree_root_location_id``, ``languages_siteaccess_map``, ``fields``, ``allowed_content_types`` and ``host``.
+To activate the feature, set the ``enabled`` parameter to true. Define the individual page sites under the ``sites``
+array parameter. The available options are:
 
-``tree_root_location_id``: is an integer defining the root location of the site we are configuring.
+* ``tree_root_location_id`` **required**
 
-``languages_siteaccess_map``: define all languages present on the site to determine which document should be indexed based on the language.
+  This is an integer defining the root Location of the site you are configuring.
 
-``fields``: Defines the importance of text by HTML tags. Only the text under the specified HTML tags will be indexed.
-Importance is indicated by listing tags under the desired level. You can also specify content importance by CSS class by
-following the HTML tag with a class name as shown in the example.
+* ``language_siteaccess_map``
 
-``allowed_content_types``: Only content types listed here will be indexed with additional fields from the page indexer.
+  Defines a map of language codes to siteaccess name. When indexing a Content item in a specific language, the URL for
+  scraping will be generated for the configured siteaccess.
 
-``host`` Define this parameter in the .env file. It's used by the Symfony HTTP client to resolve the page URL.
+* ``fields``
 
-PageTextExtractor
------------------
-The PageTextExtractor is a service that scrapes the page with Symfony's http client.  It contains a cache parameter that
-holds the last 10 indexed contents by language. The entire logic is stored in the ``NativePageTextExtractor``, allowing
-for new methods of indexing page content to be implemented if needed. This service extends PageTextExtractor so to
-implement new logic, extend ``PageTextExtractor`` and implement the new logic.
+  Defines a map of indexed fields. Each field contains an array of simplified CSS selectors that will be used to map the
+  text content of the scraped page to the given field.
 
-This service also manages the fields configuration explained above.
+* ``allowed_content_types``
+
+  Defines a list ContentType identifiers for Content items that will be indexed as pages. This is a whitelist, meaning
+  if you don't configure anything here, nothing will be indexed as page.
+
+* ``host`` **optional**
+
+  In case when it's needed to scrape the page from host that is different from the one configured for the siteaccess,
+  you can use this parameter.
+
+For each Content item and language, the configuration will be processed by site sequentially until a match is found.
+That means you can use different configuration for a particular language under the same tree root.
+
+Indexing
+--------
+
+This feature is intended for Content items whose pages are built not only from the Content item itself, but from other
+Content items as well. Typically, these are landing pages of various kind. That means there is not mechanism to reindex
+the page when one of the participating Content item updates. For that reason, you should to set up periodic reindexing
+of the pages using the provided command.
+
+Since scraping might not be performant of successful in all cases, you are advised to use asynchronous indexing feature
+also provided by ``netgen/ibexa-search-extra``.
 
 Command
 -------
-As a part of this feature we have implemented the ``IndexPageContentCommand``.
 
-This command is used to perform a complete page index when the feature is new to the project. It goes through all
-content types specified in the configuration (``allowed_content_types``) and reindexes all existing content of the specified
-types by their pages.
+A command ``netgen-search-extra:index-pages`` is provided to reindex all Content items configured for page indexing.
 
-To start the reindex, use the following command::
+The command is used to execute initial page indexing when the feature is first added to the project. It goes through
+all content types specified in the configuration (``allowed_content_types``) and indexes all existing Content items
+of the specified types through their pages:
 
-    netgen-search-extra:index-page-content
+.. code-block:: console
 
-
-The command also has an option ``content-ids``::
-
-    netgen-search-extra:index-page-content --content-ids=38
+    bin/console netgen-search-extra:index-pages
 
 
-To index multiple content IDs, add them to the command separated by commas.
+The command also has an option ``content-ids``, used to reindex only the given Content items by their IDs:
+
+.. code-block:: console
+
+    bin/console netgen-search-extra:index-pages --content-ids=24,42
