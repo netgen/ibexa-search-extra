@@ -11,7 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
-use Netgen\IbexaSearchExtra\Exception\IndexPageUnavailableException;
+use Netgen\IbexaSearchExtra\Exception\PageUnavailableException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -155,7 +155,7 @@ class IndexPagesCommand extends Command
             try {
                 $this->indexContentWithLocations($content);
                 $progressBar->advance();
-            } catch (IndexPageUnavailableException $exception) {
+            } catch (PageUnavailableException $exception) {
                 $this->style->error($exception->getMessage());
             }
         }
