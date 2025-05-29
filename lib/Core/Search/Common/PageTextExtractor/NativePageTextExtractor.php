@@ -6,14 +6,13 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
 
 use DOMDocument;
 use DOMNode;
-use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexingConfig;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexingConfigResolver;
 use Netgen\IbexaSearchExtra\Exception\PageUnavailableException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use RuntimeException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -54,7 +53,7 @@ class NativePageTextExtractor extends PageTextExtractor
     }
 
     /**
-     * @return array<string, array<int, string>|string>
+     * @return array<string, array<int, string>>
      */
     public function extractPageText(int $contentId, string $languageCode): array
     {
@@ -66,66 +65,103 @@ class NativePageTextExtractor extends PageTextExtractor
             $this->cache = [];
         }
 
-        $siteConfig = $this->configResolver->getSiteConfigForContent($contentId);
-
         try {
-            $html = $this->fetchPageSource($contentId, $languageCode, $siteConfig);
+            $html = $this->fetchPageSource($contentId, $languageCode);
         } catch (PageUnavailableException|HttpClientException $e) {
             $this->logger->error($e->getMessage());
 
             return [];
         }
 
-        $textArray = $this->extractTextArray($html, $contentId);
+        $textArray = $this->extractTextArray($html, $contentId, $languageCode);
 
         $this->cache[$contentId][$languageCode] = $textArray;
 
         return $textArray;
     }
 
-    private function generateUrl(string $languageCode, int $contentId, array $siteConfig): string
+    private function generateUrl(string $languageCode, int $contentId): string
     {
+        $siteConfig = $this->configResolver->getSiteConfigForContent($contentId, $languageCode);
+
         $contentInfo = $this->contentHandler->loadContentInfo($contentId);
-        $siteAccess = $this->resolveSiteAccess($contentInfo, $languageCode);
         $urlAliasRouteName = 'ibexa.url.alias';
 
-        if (isset($siteConfig['host'])) {
+        if ($siteConfig->hasHost()) {
             $relativePath = $this->router->generate(
                 $urlAliasRouteName,
                 [
                     'locationId' => (int) $contentInfo->mainLocationId,
-                    'siteaccess' => $siteAccess,
+                    'siteaccess' => $siteConfig->getSiteaccess(),
                 ],
                 UrlGeneratorInterface::RELATIVE_PATH,
             );
 
-            return $siteConfig['host'] . $relativePath;
+            return $siteConfig->getHost() . $relativePath;
         }
 
         return $this->router->generate(
             $urlAliasRouteName,
             [
                 'locationId' => (int) $contentInfo->mainLocationId,
-                'siteaccess' => $siteAccess,
+                'siteaccess' => $siteConfig->getSiteaccess(),
             ],
             UrlGeneratorInterface::ABSOLUTE_URL,
         );
     }
 
-    private function resolveSiteAccess(ContentInfo $contentInfo, string $languageCode): string
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
+    private function fetchPageSource(int $contentId, string $languageCode): string
     {
-        $siteConfig = $this->configResolver->getSiteConfigForContent($contentInfo->id);
+        $url = $this->generateUrl($languageCode, $contentId);
 
-        if (!isset($siteConfig['languages_siteaccess_map'][$languageCode])) {
-            throw new RuntimeException(
+        $response = HttpClient::create()->request('GET', $url);
+
+        $html = $response->getContent();
+
+        if ($response->getStatusCode() !== 200) {
+            throw new PageUnavailableException(
                 sprintf(
-                    'Language not supported for matched siteaccess group %s',
-                    $siteConfig['site'],
+                    'Could not fetch URL "%s": %s',
+                    $url,
+                    $response->getInfo()['error'],
                 ),
             );
         }
 
-        return $siteConfig['languages_siteaccess_map'][$languageCode];
+        return $html;
+    }
+
+    /**
+     * @return array<string, array<int, string>>
+     */
+    private function extractTextArray(string $html, int $contentId, string $languageCode): array
+    {
+        $startTag = '<!--begin page content-->';
+        $endTag = '<!--end page content-->';
+        $config = $this->configResolver->getSiteConfigForContent($contentId, $languageCode);
+
+        $startPos = mb_strpos($html, $startTag);
+        $endPos = mb_strpos($html, $endTag);
+
+        $textArray = [];
+
+        if ($startPos !== false && $endPos !== false) {
+            $startPos += mb_strlen($startTag);
+            $extractedContent = mb_substr($html, $startPos, $endPos - $startPos);
+
+            libxml_use_internal_errors(true);
+            $doc = new DOMDocument();
+            $doc->loadHTML($extractedContent);
+            libxml_use_internal_errors(false);
+
+            $textArray = $this->recursiveExtractTextArray($doc, $textArray, $config);
+        }
+
+        return $textArray;
     }
 
     /**
@@ -133,10 +169,10 @@ class NativePageTextExtractor extends PageTextExtractor
      *
      * @return array<string, array<int, string>>
      */
-    private function recursiveExtractTextArray(DOMNode $node, array &$textArray, int $contentId): array
+    private function recursiveExtractTextArray(DOMNode $node, array &$textArray, PageIndexingConfig $config): array
     {
         if ($node->nodeType === XML_ELEMENT_NODE || $node->nodeType === XML_HTML_DOCUMENT_NODE) {
-            $fieldLevel = $this->getFieldName($node, $contentId);
+            $fieldLevel = $this->getFieldName($node, $config);
 
             if ($fieldLevel !== null) {
                 $textArray[$fieldLevel][] = $node->textContent;
@@ -145,12 +181,13 @@ class NativePageTextExtractor extends PageTextExtractor
             }
 
             foreach ($node->childNodes as $childNode) {
-                $this->recursiveExtractTextArray($childNode, $textArray, $contentId);
+                $this->recursiveExtractTextArray($childNode, $textArray, $config);
             }
         }
 
         if ($node->nodeType === XML_TEXT_NODE) {
             $textContent = trim($node->textContent);
+
             if ($textContent !== '') {
                 $textArray['other'][] = $textContent;
             }
@@ -159,12 +196,9 @@ class NativePageTextExtractor extends PageTextExtractor
         return $textArray;
     }
 
-    private function getFieldName(DOMNode $node, int $contentId): null|string
+    private function getFieldName(DOMNode $node, PageIndexingConfig $config): null|string
     {
-        $siteConfig = $this->configResolver->getSiteConfigForContent($contentId);
-        $fields = $siteConfig['fields'];
-
-        foreach ($fields as $level => $tags) {
+        foreach ($config->getFields() as $level => $tags) {
             foreach ($tags as $tag) {
                 $tagParts = explode('.', $tag); // Split tag and class if present
                 $tagName = $tagParts[0]; // Get the tag name
@@ -191,58 +225,5 @@ class NativePageTextExtractor extends PageTextExtractor
         $classes = explode(' ', $node->getAttribute('class'));
 
         return in_array($className, $classes, true);
-    }
-
-    /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     */
-    private function fetchPageSource(int $contentId, string $languageCode, array $siteConfig): string
-    {
-        $url = $this->generateUrl($languageCode, $contentId, $siteConfig);
-
-        $response = HttpClient::create()->request('GET', $url);
-
-        $html = $response->getContent();
-
-        if ($response->getStatusCode() !== 200) {
-            throw new PageUnavailableException(
-                sprintf(
-                    'Could not fetch URL "%s": %s',
-                    $url,
-                    $response->getInfo()['error'],
-                ),
-            );
-        }
-
-        return $html;
-    }
-
-    /**
-     * @return array<string, array<int, string>>
-     */
-    private function extractTextArray(string $html, int $contentId): array
-    {
-        $startTag = '<!--begin page content-->';
-        $endTag = '<!--end page content-->';
-
-        $startPos = mb_strpos($html, $startTag);
-        $endPos = mb_strpos($html, $endTag);
-
-        $textArray = [];
-
-        if ($startPos !== false && $endPos !== false) {
-            $startPos += mb_strlen($startTag);
-            $extractedContent = mb_substr($html, $startPos, $endPos - $startPos);
-
-            libxml_use_internal_errors(true);
-            $doc = new DOMDocument();
-            $doc->loadHTML($extractedContent);
-            libxml_use_internal_errors(false);
-
-            $textArray = $this->recursiveExtractTextArray($doc, $textArray, $contentId);
-        }
-
-        return $textArray;
     }
 }

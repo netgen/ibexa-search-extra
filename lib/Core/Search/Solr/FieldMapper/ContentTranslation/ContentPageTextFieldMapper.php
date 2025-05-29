@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation;
 
+use eZ\Publish\Core\Persistence\Legacy\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
@@ -18,6 +19,7 @@ class ContentPageTextFieldMapper extends ContentTranslationFieldMapper
     public function __construct(
         private readonly PageTextExtractor $pageTextExtractor,
         private readonly PageIndexingConfigResolver $configResolver,
+        private readonly Handler $contentTypeHandler,
     ) {}
 
     public function accept(Content $content, $languageCode): bool
@@ -25,26 +27,32 @@ class ContentPageTextFieldMapper extends ContentTranslationFieldMapper
         return true;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function mapFields(Content $content, $languageCode): array
     {
-        $contentTypeIdentifier = $content->versionInfo->contentInfo->contentTypeId;
-        $allowedContentTypes = $this->configResolver->getSiteConfigForContent($content->versionInfo->contentInfo->id);
+        $contentInfo = $content->versionInfo->contentInfo;
+        $contentType = $this->contentTypeHandler->loadByIdentifier($contentInfo->contentTypeId);
+        $contentTypeIdentifier = $contentType->identifier;
 
-        if (!in_array($contentTypeIdentifier, $allowedContentTypes, true)) {
+        $config = $this->configResolver->getSiteConfigForContent($contentInfo->id, $languageCode);
+
+        if (!in_array($contentTypeIdentifier, $config->getAllowedContentTypes(), true)) {
             return [];
         }
 
-        $text = $this->pageTextExtractor->extractPageText($content->versionInfo->contentInfo->id, $languageCode);
-        $pageTextFields = [];
+        $text = $this->pageTextExtractor->extractPageText($contentInfo->id, $languageCode);
+        $fields = [];
 
         foreach ($text as $level => $value) {
-            $pageTextFields[] = new Field(
+            $fields[] = new Field(
                 'page_text_' . $level,
                 $value,
                 new FullTextField(),
             );
         }
 
-        return $pageTextFields;
+        return $fields;
     }
 }
