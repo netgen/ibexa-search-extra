@@ -14,7 +14,7 @@ class Aggregate extends ContentFieldMapper
      *
      * @var ContentFieldMapper[]
      */
-    protected $mappers = [];
+    protected array $mappers = [];
 
     /**
      * @param contentFieldMapper[] $mappers

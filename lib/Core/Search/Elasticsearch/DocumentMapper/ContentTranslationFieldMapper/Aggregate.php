@@ -14,7 +14,7 @@ class Aggregate extends ContentTranslationFieldMapper
      *
      * @var ContentTranslationFieldMapper[]
      */
-    protected $mappers = [];
+    protected array $mappers = [];
 
     /**
      * @param contentTranslationFieldMapper[] $mappers
