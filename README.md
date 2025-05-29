@@ -13,6 +13,8 @@ This only lists all implemented features, see the
 [documentation](https://docs.netgen.io/projects/search-extra)
 for more details on specific ones.
 
+- [Extensible DocumentFactory](https://docs.netgen.io/projects/search-extra/en/latest/reference/document_factory.html) (`elastic`) 
+
 - Support for [asynchronous indexing](https://docs.netgen.io/projects/search-extra/en/latest/reference/asynchronous_indexing.html) (`solr`, `legacy`)
 
 - [`ContentName`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/ContentName.php) criterion that works on matched translation's Content name (`solr`, `legacy`)
@@ -23,7 +25,7 @@ for more details on specific ones.
 
   Supported operators are: `EQ`, `IN`, `GT`, `GTE`, `LT`, `LTE`, `BETWEEN`.
 
-- [`Visible`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/Visible.php) criterion (`solr`, `legacy`),
+- [`Visible`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/Visible.php) criterion (`solr`, `elastic`, `legacy`),
   usable in both Content and Location search. The criterion works on compound visibility of Content and Location objects:
   the Content is visible if it's marked as visible; the Location is visible if it's marked as visible, is not hidden by
   one of its ancestor Locations, and it's Content is visible.

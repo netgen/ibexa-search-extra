@@ -10,6 +10,6 @@ Reference
     spellcheck_suggestions
     extra_fields
     asynchronous_indexing
-    document_mapper
+    document_factory
 
 .. include:: /reference/map.rst.inc
