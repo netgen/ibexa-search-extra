@@ -6,9 +6,6 @@ namespace Netgen\Bundle\IbexaSearchExtraBundle\Command;
 
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
-use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -60,9 +57,7 @@ class IndexPagesCommand extends Command
     }
 
     /**
-     * @throws NotFoundException
-     * @throws InvalidArgumentException
-     * @throws UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -74,6 +69,9 @@ class IndexPagesCommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     */
     private function indexContent(OutputInterface $output, InputInterface $input, array $siteConfig): void
     {
         $contentIds = explode(',', $input->getOption('content-ids'));
@@ -109,7 +107,7 @@ class IndexPagesCommand extends Command
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     private function getTotalCount(array $allowedContentTypes, array $contentIds): int
     {
@@ -123,7 +121,7 @@ class IndexPagesCommand extends Command
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     private function getChunk(int $limit, int $offset, array $allowedContentTypes, array $contentIds): ContentList
     {
@@ -136,6 +134,9 @@ class IndexPagesCommand extends Command
         return $this->contentService->find($filter);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     */
     private function getFilter(array $allowedContentTypes, array $contentIds = []): Filter
     {
         $filter = new Filter();
