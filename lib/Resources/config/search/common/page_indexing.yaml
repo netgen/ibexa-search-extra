@@ -9,7 +9,7 @@ services:
             - setLogger: ['@?logger']
 
     netgen.ibexa_search_extra.page_indexing.config_resolver:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageIndexingConfigResolver
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\ConfigResolver
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'

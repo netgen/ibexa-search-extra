@@ -14,10 +14,10 @@ use function explode;
 use function in_array;
 use function sprintf;
 
-class PageIndexingConfigResolver
+class ConfigResolver
 {
     /**
-     * @var array<int, array<string, PageIndexingConfig>>
+     * @var array<int, array<string, Config>>
      */
     private array $cache = [];
 
@@ -30,7 +30,7 @@ class PageIndexingConfigResolver
         private readonly array $configuration,
     ) {}
 
-    public function getSiteConfigForContent(int $contentId, string $languageCode): PageIndexingConfig
+    public function getSiteConfigForContent(int $contentId, string $languageCode): Config
     {
         if (isset($this->cache[$contentId][$languageCode])) {
             return $this->cache[$contentId][$languageCode];
@@ -59,13 +59,13 @@ class PageIndexingConfigResolver
             }
 
             $languageSiteaccessMap = $siteConfiguration['languages_siteaccess_map'] ?? [];
-            $siteaccess = $this->getSiteaccessForLanguage($languageCode, $languageSiteaccessMap);
+            $siteaccess = $this->resolveSiteaccessForLanguage($languageCode, $languageSiteaccessMap);
 
             if ($siteaccess === null) {
                 continue;
             }
 
-            $configObject = $this->mapConfigObject($siteaccess, $siteConfiguration);
+            $configObject = $this->mapConfig($siteaccess, $siteConfiguration);
 
             $this->cache[$contentId][$languageCode] = $configObject;
 
@@ -80,7 +80,7 @@ class PageIndexingConfigResolver
         );
     }
 
-    private function getSiteaccessForLanguage(string $languageCode, array $languageSiteaccessMap): ?string
+    private function resolveSiteaccessForLanguage(string $languageCode, array $languageSiteaccessMap): ?string
     {
         foreach ($languageSiteaccessMap as $mappedLanguageCode => $siteaccess) {
             if ($languageCode === $mappedLanguageCode) {
@@ -91,9 +91,9 @@ class PageIndexingConfigResolver
         return null;
     }
 
-    private function mapConfigObject(string $siteaccess, array $siteConfiguration): PageIndexingConfig
+    private function mapConfig(string $siteaccess, array $siteConfiguration): Config
     {
-        return new PageIndexingConfig(
+        return new Config(
             $siteaccess,
             $siteConfiguration['allowed_content_types'],
             $siteConfiguration['fields'],
