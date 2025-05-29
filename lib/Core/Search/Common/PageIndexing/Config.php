@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing;
 
-final class PageIndexingConfig
+final class Config
 {
     /**
      * @param string[] $allowedContentTypes

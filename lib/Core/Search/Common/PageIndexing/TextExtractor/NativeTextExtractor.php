@@ -7,8 +7,8 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
 use DOMDocument;
 use DOMNode;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageIndexingConfig;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageIndexingConfigResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Config;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\ConfigResolver;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
 use Netgen\IbexaSearchExtra\Exception\PageUnavailableException;
 use Psr\Log\LoggerInterface;
@@ -42,7 +42,7 @@ class NativeTextExtractor extends TextExtractor
     public function __construct(
         private readonly ContentHandler $contentHandler,
         private readonly RouterInterface $router,
-        private readonly PageIndexingConfigResolver $configResolver,
+        private readonly ConfigResolver $configResolver,
     ) {
         $this->logger = new NullLogger();
     }
@@ -169,7 +169,7 @@ class NativeTextExtractor extends TextExtractor
      *
      * @return array<string, array<int, string>>
      */
-    private function recursiveExtractTextArray(DOMNode $node, array &$textArray, PageIndexingConfig $config): array
+    private function recursiveExtractTextArray(DOMNode $node, array &$textArray, Config $config): array
     {
         if ($node->nodeType === XML_ELEMENT_NODE || $node->nodeType === XML_HTML_DOCUMENT_NODE) {
             $fieldLevel = $this->getFieldName($node, $config);
@@ -196,7 +196,7 @@ class NativeTextExtractor extends TextExtractor
         return $textArray;
     }
 
-    private function getFieldName(DOMNode $node, PageIndexingConfig $config): null|string
+    private function getFieldName(DOMNode $node, Config $config): null|string
     {
         foreach ($config->getFields() as $level => $tags) {
             foreach ($tags as $tag) {
