@@ -46,7 +46,7 @@ final class ElasticsearchExtensibleDocumentFactoryPass implements CompilerPassIn
             ->addTag('ibexa.search.elasticsearch.query.location.criterion.visitor');
     }
 
-    public function processDocumentFactory(ContainerBuilder $container): void
+    private function processDocumentFactory(ContainerBuilder $container): void
     {
         $container
             ->register(DocumentFactory::class, DocumentFactory::class)
