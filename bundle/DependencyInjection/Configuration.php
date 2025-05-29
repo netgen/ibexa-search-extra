@@ -191,7 +191,7 @@ class Configuration implements ConfigurationInterface
                                         ->info('Site root Location ID')
                                         ->beforeNormalization()->always(static fn ($v) => is_string($v) ? (int) $v : $v)->end()
                                     ->end()
-                                    ->arrayNode('languages_siteaccess_map')
+                                    ->arrayNode('language_siteaccess_map')
                                         ->info('Language code mapped to page siteaccess')
                                         ->useAttributeAsKey('name')
                                         ->normalizeKeys(false)

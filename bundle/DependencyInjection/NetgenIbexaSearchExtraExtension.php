@@ -17,14 +17,6 @@ use function file_get_contents;
 
 class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtensionInterface
 {
-    private static array $defaultConfiguration = [
-        'tree_root_location_id' => null,
-        'languages_siteaccess_map' => [],
-        'host' => null,
-        'fields' => [],
-        'allowed_content_types' => [],
-    ];
-
     public function getAlias(): string
     {
         return 'netgen_ibexa_search_extra';
