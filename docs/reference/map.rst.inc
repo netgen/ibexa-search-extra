@@ -4,3 +4,4 @@
 * :doc:`/reference/subdocuments`
 * :doc:`/reference/spellcheck_suggestions`
 * :doc:`/reference/extra_fields`
+* :doc:`/reference/search_boost`
