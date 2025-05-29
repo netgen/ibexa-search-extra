@@ -24,6 +24,10 @@ final class ElasticsearchExtensibleDocumentFactoryPass implements CompilerPassIn
 {
     public function process(ContainerBuilder $container): void
     {
+        if (!$container->hasDefinition(DocumentFactoryInterface::class)) {
+            return;
+        }
+
         $this->processVisitors($container, 'block_translation');
         $this->processVisitors($container, 'block');
         $this->processVisitors($container, 'content');
