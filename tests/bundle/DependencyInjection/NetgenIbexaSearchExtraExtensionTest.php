@@ -495,6 +495,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         'enabled' => true,
                         'sites' => [
                             'picanha' => [
+                                'tree_root_location_id' => '42',
                                 'languages_siteaccess_map' => [
                                     'cro-HR' => 'fina_cro',
                                 ],
@@ -503,7 +504,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     ],
                 ],
                 'picanha',
-                null,
+                42,
                 [
                     'cro-HR' => 'fina_cro',
                 ],
@@ -517,13 +518,14 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         'enabled' => true,
                         'sites' => [
                             'picanha' => [
+                                'tree_root_location_id' => '42',
                                 'host' => 'string',
                             ],
                         ],
                     ],
                 ],
                 'picanha',
-                null,
+                42,
                 [],
                 'string',
                 [],
@@ -535,6 +537,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         'enabled' => true,
                         'sites' => [
                             'picanha' => [
+                                'tree_root_location_id' => '42',
                                 'fields' => [
                                     'level1' => [
                                         'h1',
@@ -546,7 +549,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     ],
                 ],
                 'picanha',
-                null,
+                42,
                 [],
                 null,
                 [
@@ -563,6 +566,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         'enabled' => true,
                         'sites' => [
                             'picanha' => [
+                                'tree_root_location_id' => '42',
                                 'allowed_content_types' => [
                                     'ng_landing_page',
                                     'ng_frontpage',
@@ -572,7 +576,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     ],
                 ],
                 'picanha',
-                null,
+                42,
                 [],
                 null,
                 [],
