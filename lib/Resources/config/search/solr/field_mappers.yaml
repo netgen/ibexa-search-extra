@@ -17,7 +17,7 @@ services:
             - { name: ibexa.search.solr.field.mapper.block.translation }
 
     netgen.ibexa_search_extra.solr.field_mapper.content_translation.page:
-        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ContentPageTextFieldMapper
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\PageFieldMapper
         arguments:
             - '@netgen.ibexa_search_extra.page_indexing.field_mapper'
             - '%netgen_ibexa_search_extra.page_indexing.enabled%'

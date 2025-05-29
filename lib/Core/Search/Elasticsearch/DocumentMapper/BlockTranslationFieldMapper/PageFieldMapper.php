@@ -9,9 +9,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\FieldMapper;
 use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTranslationFieldMapper;
 
-use function in_array;
-
-class BlockPageTextFieldMapper extends BlockTranslationFieldMapper
+class PageFieldMapper extends BlockTranslationFieldMapper
 {
     public function __construct(
         private readonly FieldMapper $fieldMapper,
