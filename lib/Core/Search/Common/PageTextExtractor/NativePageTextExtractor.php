@@ -8,8 +8,6 @@ use DOMDocument;
 use DOMNode;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
 use Netgen\IbexaSearchExtra\Core\Search\Common\SiteConfigResolver;
 use Netgen\IbexaSearchExtra\Exception\IndexPageUnavailableException;
@@ -55,6 +53,8 @@ class NativePageTextExtractor extends PageTextExtractor
     }
 
     /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\ExceptionInterface
+     *
      * @return array<string, array<int, string>|string>
      */
     public function extractPageText(int $contentId, string $languageCode): array
@@ -84,9 +84,6 @@ class NativePageTextExtractor extends PageTextExtractor
         return $textArray;
     }
 
-    /**
-     * @throws NotFoundException
-     */
     private function generateUrl(string $languageCode, int $contentId, array $siteConfig): string
     {
         $contentInfo = $this->contentHandler->loadContentInfo($contentId);
@@ -196,9 +193,8 @@ class NativePageTextExtractor extends PageTextExtractor
     }
 
     /**
-     * @throws NotFoundException
-     * @throws UnauthorizedException
-     * @throws RuntimeException
+     * @throws \Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     private function fetchPageSource(int $contentId, string $languageCode, array $siteConfig): string
     {
