@@ -28,7 +28,7 @@ class Aggregate extends BlockTranslationFieldMapper
     }
 
     /**
-     * Adds given $mapper to the internal array.
+     * Adds the given $mapper to the internal array.
      */
     public function addMapper(BlockTranslationFieldMapper $mapper): void
     {
