@@ -8,9 +8,7 @@ services:
     netgen.ibexa_search_extra.elasticsearch.field_mapper.block_translation.page_text:
         class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTranslationFieldMapper\BlockPageTextFieldMapper
         arguments:
-            - '@netgen.ibexa_search_extra.page_indexing.text_extractor'
-            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
-            - '@netgen.ibexa_search_extra.page_indexing.config_resolver'
+            - '@netgen.ibexa_search_extra.page_indexing.field_mapper'
             - '%netgen_ibexa_search_extra.page_indexing.enabled%'
         tags:
             - { name: netgen.ibexa_search_extra.elasticsearch.field_mapper.block_translation }

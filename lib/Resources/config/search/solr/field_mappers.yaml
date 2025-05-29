@@ -16,6 +16,14 @@ services:
         tags:
             - { name: ibexa.search.solr.field.mapper.block.translation }
 
+    netgen.ibexa_search_extra.solr.field_mapper.content_translation.page:
+        class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\ContentTranslation\ContentPageTextFieldMapper
+        arguments:
+            - '@netgen.ibexa_search_extra.page_indexing.field_mapper'
+            - '%netgen_ibexa_search_extra.page_indexing.enabled%'
+        tags:
+            - { name: ibexa.search.solr.field.mapper.block.translation }
+
     netgen.ibexa_search_extra.solr.field_mapper.content.content_and_location_id:
         class: Netgen\IbexaSearchExtra\Core\Search\Solr\FieldMapper\Content\ContentAndLocationIdFieldMapper
         arguments:

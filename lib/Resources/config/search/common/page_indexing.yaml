@@ -24,3 +24,10 @@ services:
             - '@ibexa.spi.search'
             - '@ibexa.api.persistence_handler'
             - '%netgen_ibexa_search_extra.page_indexing.sites%'
+
+    netgen.ibexa_search_extra.page_indexing.field_mapper:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\FieldMapper
+        arguments:
+            - '@netgen.ibexa_search_extra.page_indexing.text_extractor'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            - '@netgen.ibexa_search_extra.page_indexing.config_resolver'
