@@ -47,6 +47,10 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
             $this->loadBundleSolrEngine($container);
         }
 
+        if (array_key_exists('IbexaElasticsearchBundle', $activatedBundlesMap)) {
+            $loader->load('search/elasticsearch_services.yaml');
+        }
+
         $loader->load('search/common.yaml');
 
         $this->processExtensionConfiguration($configs, $container);

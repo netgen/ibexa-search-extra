@@ -1,4 +1,3 @@
 imports:
     - { resource: common/asynchronous_indexing.yaml }
     - { resource: common/field_value_mappers.yaml }
-    - { resource: elasticsearch/document_factory.yaml }
