@@ -40,10 +40,10 @@ class SiteConfigResolver
         }
 
         $pathString = $location->pathString;
-        $pathArray = explode('/', $pathString);
+        $pathArray = array_map('intval', explode('/', $pathString));
 
         foreach ($this->sitesConfig as $site => $siteConfig) {
-            if (in_array($siteConfig['tree_root_location_id'], $pathArray, false)) {
+            if (in_array($siteConfig['tree_root_location_id'], $pathArray, true)) {
                 $siteConfig['site'] = $site;
 
                 return $siteConfig;
