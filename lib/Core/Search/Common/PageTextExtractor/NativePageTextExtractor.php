@@ -9,7 +9,7 @@ use DOMNode;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
-use Netgen\IbexaSearchExtra\Core\Search\Common\SiteConfigResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexingConfigResolver;
 use Netgen\IbexaSearchExtra\Exception\PageUnavailableException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -43,7 +43,7 @@ class NativePageTextExtractor extends PageTextExtractor
     public function __construct(
         private readonly ContentHandler $contentHandler,
         private readonly RouterInterface $router,
-        private readonly SiteConfigResolver $siteConfigResolver,
+        private readonly PageIndexingConfigResolver $configResolver,
     ) {
         $this->logger = new NullLogger();
     }
@@ -66,7 +66,7 @@ class NativePageTextExtractor extends PageTextExtractor
             $this->cache = [];
         }
 
-        $siteConfig = $this->siteConfigResolver->getSiteConfigForContent($contentId);
+        $siteConfig = $this->configResolver->getSiteConfigForContent($contentId);
 
         try {
             $html = $this->fetchPageSource($contentId, $languageCode, $siteConfig);
@@ -114,7 +114,7 @@ class NativePageTextExtractor extends PageTextExtractor
 
     private function resolveSiteAccess(ContentInfo $contentInfo, string $languageCode): string
     {
-        $siteConfig = $this->siteConfigResolver->getSiteConfigForContent($contentInfo->id);
+        $siteConfig = $this->configResolver->getSiteConfigForContent($contentInfo->id);
 
         if (!isset($siteConfig['languages_siteaccess_map'][$languageCode])) {
             throw new RuntimeException(
@@ -161,7 +161,7 @@ class NativePageTextExtractor extends PageTextExtractor
 
     private function getFieldName(DOMNode $node, int $contentId): null|string
     {
-        $siteConfig = $this->siteConfigResolver->getSiteConfigForContent($contentId);
+        $siteConfig = $this->configResolver->getSiteConfigForContent($contentId);
         $fields = $siteConfig['fields'];
 
         foreach ($fields as $level => $tags) {
