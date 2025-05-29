@@ -88,10 +88,11 @@ class NativePageTextExtractor extends PageTextExtractor
     {
         $contentInfo = $this->contentHandler->loadContentInfo($contentId);
         $siteAccess = $this->resolveSiteAccess($contentInfo, $languageCode);
+        $urlAliasRouteName = 'ibexa.url.alias';
 
         if (isset($siteConfig['host'])) {
             $relativePath = $this->router->generate(
-                'ibexa.url.alias',
+                $urlAliasRouteName,
                 [
                     'locationId' => (int) $contentInfo->mainLocationId,
                     'siteaccess' => $siteAccess,
@@ -103,7 +104,7 @@ class NativePageTextExtractor extends PageTextExtractor
         }
 
         return $this->router->generate(
-            'ibexa.url.alias',
+            $urlAliasRouteName,
             [
                 'locationId' => (int) $contentInfo->mainLocationId,
                 'siteaccess' => $siteAccess,
