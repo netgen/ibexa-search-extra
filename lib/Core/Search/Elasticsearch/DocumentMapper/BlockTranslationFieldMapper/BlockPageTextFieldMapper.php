@@ -21,11 +21,12 @@ class BlockPageTextFieldMapper extends BlockTranslationFieldMapper
         private readonly TextExtractor $pageTextExtractor,
         private readonly ContentTypeHandler $contentTypeHandler,
         private readonly ConfigResolver $configResolver,
+        private readonly bool $isEnabled,
     ) {}
 
     public function accept(Content $content, string $languageCode): bool
     {
-        return true;
+        return $this->isEnabled;
     }
 
     /**
