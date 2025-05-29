@@ -16,3 +16,15 @@ services:
 
     netgen.ibexa_search_extra.elasticsearch.field_mapper.location.aggregate:
         class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\LocationFieldMapper\Aggregate
+
+    netgen.ibexa_search_extra.elasticsearch.field_mapper.content.visibility:
+        class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\ContentFieldMapper\ContentVisibilityFieldMapper
+        tags:
+            - { name: netgen.ibexa_search_extra.elasticsearch.field_mapper.content }
+
+    netgen.ibexa_search_extra.elasticsearch.field_mapper.location.visibility:
+        class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\LocationFieldMapper\LocationVisibilityFieldMapper
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+        tags:
+            - { name: netgen.ibexa_search_extra.elasticsearch.field_mapper.location }
