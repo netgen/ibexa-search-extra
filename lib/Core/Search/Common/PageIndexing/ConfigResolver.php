@@ -58,7 +58,7 @@ class ConfigResolver
                 continue;
             }
 
-            $languageSiteaccessMap = $siteConfiguration['languages_siteaccess_map'] ?? [];
+            $languageSiteaccessMap = $siteConfiguration['language_siteaccess_map'] ?? [];
             $siteaccess = $this->resolveSiteaccessForLanguage($languageCode, $languageSiteaccessMap);
 
             if ($siteaccess === null) {

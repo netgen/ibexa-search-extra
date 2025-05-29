@@ -133,7 +133,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         'sites' => [
                             'picanha' => [
                                 'tree_root_location_id' => '42',
-                                'languages_siteaccess_map' => [
+                                'language_siteaccess_map' => [
                                     'cro-HR' => 'fina_cro',
                                 ],
                             ],
@@ -229,7 +229,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         'sites' => [
                             'picanha' => [
                                 'tree_root_location_id' => '42',
-                                'languages_siteaccess_map' => [
+                                'language_siteaccess_map' => [
                                     'cro-HR' => 'fina_cro',
                                 ],
                                 'host' => 'string',
@@ -295,10 +295,10 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             self::assertEquals($expectedTreeRootLocationId, $siteConfig['tree_root_location_id']);
 
             self::assertArrayHasKey(
-                'languages_siteaccess_map',
+                'language_siteaccess_map',
                 $siteConfig,
             );
-            self::assertEquals($expectedLanguagesSiteaccessMap, $siteConfig['languages_siteaccess_map']);
+            self::assertEquals($expectedLanguagesSiteaccessMap, $siteConfig['language_siteaccess_map']);
 
             self::assertArrayHasKey(
                 'fields',
@@ -349,7 +349,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                 [
                     'page_indexing' => [
                         'picanha' => [
-                            'languages_siteaccess_map' => [
+                            'language_siteaccess_map' => [
                                 'cro-HR' => 5,
                             ],
                         ],
