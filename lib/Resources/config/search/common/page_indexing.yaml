@@ -1,6 +1,6 @@
 services:
     netgen.ibexa_search_extra.page_indexing.page_text_extractor:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor\NativePageTextExtractor
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageTextExtractor\NativePageTextExtractor
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Bundle\Core\Routing\UrlAliasRouter'
@@ -9,13 +9,13 @@ services:
             - setLogger: ['@?logger']
 
     netgen.ibexa_search_extra.page_indexing.config_resolver:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexingConfigResolver
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageIndexingConfigResolver
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '%netgen_ibexa_search_extra.page_indexing.sites%'
 
-    netgen.ibexa_search_extra.page_indexing:
+    netgen.ibexa_search_extra.page_indexing.command.index_pages:
         class: Netgen\Bundle\IbexaSearchExtraBundle\Command\IndexPagesCommand
         tags:
             - { name: console.command }

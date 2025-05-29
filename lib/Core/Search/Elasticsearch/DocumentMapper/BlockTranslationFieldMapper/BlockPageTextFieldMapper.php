@@ -9,10 +9,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexingConfigResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageIndexingConfigResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageTextExtractor;
 use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTranslationFieldMapper;
-
 use function in_array;
 
 class BlockPageTextFieldMapper extends BlockTranslationFieldMapper

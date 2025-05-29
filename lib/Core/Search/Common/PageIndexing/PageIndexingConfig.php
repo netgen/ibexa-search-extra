@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\IbexaSearchExtra\Core\Search\Common;
+namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing;
 
 final class PageIndexingConfig
 {
