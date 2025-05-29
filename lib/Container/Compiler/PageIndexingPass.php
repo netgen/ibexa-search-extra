@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class PageIndexingPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $usePageIndexing = $container->getParameter(
             'netgen_ibexa_search_extra.page_indexing.enabled',
@@ -24,7 +24,7 @@ class PageIndexingPass implements CompilerPassInterface
         $container
             ->register(ContentPageTextFieldMapper::class, ContentPageTextFieldMapper::class)
             ->setArguments([
-                new Reference('netgen.ibexa_search_extra.page_indexing.page_text_extractor'),
+                new Reference('netgen.ibexa_search_extra.page_indexing.text_extractor'),
                 new Reference('netgen.ibexa_search_extra.page_indexing.config_resolver'),
             ])
             ->addTag('ibexa.search.solr.field.mapper.content.translation');
