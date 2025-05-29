@@ -65,10 +65,6 @@ final class ElasticsearchExtensibleDocumentFactoryPass implements CompilerPassIn
 
     private function processVisitors(ContainerBuilder $container, string $name): void
     {
-        if (!$container->hasDefinition(sprintf('netgen.ibexa_search_extra.elasticsearch.field_mapper.%s.aggregate', $name))) {
-            return;
-        }
-
         $aggregateDefinition = $container->getDefinition(
             sprintf('netgen.ibexa_search_extra.elasticsearch.field_mapper.%s.aggregate', $name),
         );
