@@ -15,7 +15,6 @@ services:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '%netgen_ibexa_search_extra.page_indexing.sites%'
 
-
     netgen.ibexa_search_extra.page_indexing:
         class: Netgen\Bundle\IbexaSearchExtraBundle\Command\IndexPagesCommand
         tags:
