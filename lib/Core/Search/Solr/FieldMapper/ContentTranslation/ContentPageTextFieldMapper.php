@@ -36,6 +36,7 @@ class ContentPageTextFieldMapper extends ContentTranslationFieldMapper
 
         $text = $this->pageTextExtractor->extractPageText($content->versionInfo->contentInfo->id, $languageCode);
         $pageTextFields = [];
+
         foreach ($text as $level => $value) {
             $pageTextFields[] = new Field(
                 'page_text_' . $level,

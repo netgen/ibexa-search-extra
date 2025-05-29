@@ -33,12 +33,14 @@ class BlockPageTextFieldMapper extends BlockTranslationFieldMapper
      */
     public function mapFields(SPIContent $content, string $languageCode): array
     {
-        $siteConfig = $this->siteConfigResolver->getSiteConfigForContent($content->versionInfo->contentInfo->id);
         $fields = [];
+
+        $siteConfig = $this->siteConfigResolver->getSiteConfigForContent($content->versionInfo->contentInfo->id);
         $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
 
         if (in_array($contentType->identifier, $siteConfig['allowed_content_types'], true)) {
             $text = $this->pageTextExtractor->extractPageText($content->versionInfo->contentInfo->id, $languageCode);
+
             foreach ($text as $level => $value) {
                 $fields[] = new Field('page_text_' . $level, $value, new FullTextField());
             }
