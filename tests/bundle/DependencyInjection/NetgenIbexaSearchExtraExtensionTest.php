@@ -470,7 +470,6 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                 [],
                 [],
             ],
-
             [
                 [
                     'page_indexing' => [
@@ -488,7 +487,6 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                 [],
                 [],
             ],
-
             [
                 [
                     'page_indexing' => [
@@ -510,7 +508,6 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                 [],
                 [],
             ],
-
             [
                 [
                     'page_indexing' => [
@@ -528,7 +525,6 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                 [],
                 [],
             ],
-
             [
                 [
                     'page_indexing' => [
@@ -556,7 +552,6 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                 ],
                 [],
             ],
-
             [
                 [
                     'page_indexing' => [
@@ -580,7 +575,6 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     'ng_frontpage',
                 ],
             ],
-
             [
                 [
                     'page_indexing' => [
