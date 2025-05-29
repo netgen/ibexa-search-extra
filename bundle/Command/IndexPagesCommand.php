@@ -25,9 +25,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use function count;
 use function explode;
 
-class IndexPageContentCommand extends Command
+class IndexPagesCommand extends Command
 {
-    protected static $defaultName = 'netgen-search-extra:index-page-content';
+    protected static $defaultName = 'netgen-search-extra:index-pages';
     private SymfonyStyle $style;
 
     /**
