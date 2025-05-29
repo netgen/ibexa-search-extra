@@ -10,14 +10,14 @@ use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
 use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageIndexingConfigResolver;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageTextExtractor;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
 
 use function in_array;
 
 class ContentPageTextFieldMapper extends ContentTranslationFieldMapper
 {
     public function __construct(
-        private readonly PageTextExtractor $pageTextExtractor,
+        private readonly TextExtractor $pageTextExtractor,
         private readonly PageIndexingConfigResolver $configResolver,
         private readonly Handler $contentTypeHandler,
     ) {}

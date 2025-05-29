@@ -10,14 +10,15 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageIndexingConfigResolver;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageTextExtractor;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
 use Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTranslationFieldMapper;
+
 use function in_array;
 
 class BlockPageTextFieldMapper extends BlockTranslationFieldMapper
 {
     public function __construct(
-        private readonly PageTextExtractor $pageTextExtractor,
+        private readonly TextExtractor $pageTextExtractor,
         private readonly ContentTypeHandler $contentTypeHandler,
         private readonly PageIndexingConfigResolver $configResolver,
     ) {}
