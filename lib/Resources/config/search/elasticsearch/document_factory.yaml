@@ -10,7 +10,7 @@ services:
         arguments:
             - '@netgen.ibexa_search_extra.page_indexing.page_text_extractor'
             - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
-            - '@netgen.ibexa_search_extra.page_indexing.site_access_resolver'
+            - '@netgen.ibexa_search_extra.page_indexing.config_resolver'
         tags:
             - { name: netgen.ibexa_search_extra.elasticsearch.field_mapper.block_translation }
 

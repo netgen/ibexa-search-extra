@@ -13,7 +13,7 @@ use function explode;
 use function in_array;
 use function sprintf;
 
-class SiteConfigResolver
+class PageIndexingConfigResolver
 {
     /**
      * @param array<string, mixed> $sitesConfig

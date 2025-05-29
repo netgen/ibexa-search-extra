@@ -4,12 +4,12 @@ services:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Bundle\Core\Routing\UrlAliasRouter'
-            - '@netgen.ibexa_search_extra.page_indexing.site_access_resolver'
+            - '@netgen.ibexa_search_extra.page_indexing.config_resolver'
         calls:
             - setLogger: ['@?logger']
 
-    netgen.ibexa_search_extra.page_indexing.site_access_resolver:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\SiteConfigResolver
+    netgen.ibexa_search_extra.page_indexing.config_resolver:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexingConfigResolver
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
