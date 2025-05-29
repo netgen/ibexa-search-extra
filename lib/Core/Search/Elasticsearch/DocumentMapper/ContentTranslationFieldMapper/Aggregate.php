@@ -28,7 +28,7 @@ class Aggregate extends ContentTranslationFieldMapper
     }
 
     /**
-     * Adds given $mapper to the internal array.
+     * Adds the given $mapper to the internal array.
      */
     public function addMapper(ContentTranslationFieldMapper $mapper): void
     {
