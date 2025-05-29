@@ -200,13 +200,7 @@ class NativePageTextExtractor extends PageTextExtractor
     {
         $url = $this->generateUrl($languageCode, $contentId, $siteConfig);
 
-        $httpClient = HttpClient::create(
-        );
-
-        $response = $httpClient->request(
-            'GET',
-            $url,
-        );
+        $response = HttpClient::create()->request('GET', $url);
 
         $html = $response->getContent();
 
