@@ -13,7 +13,7 @@ services:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '%netgen_ibexa_search_extra.page_indexing.sites%'
+            - '%netgen_ibexa_search_extra.page_indexing.configuration%'
 
     netgen.ibexa_search_extra.page_indexing.command.index_pages:
         class: Netgen\Bundle\IbexaSearchExtraBundle\Command\IndexPagesCommand
@@ -23,7 +23,7 @@ services:
             - '@Ibexa\Contracts\Core\Repository\ContentService'
             - '@ibexa.spi.search'
             - '@ibexa.api.persistence_handler'
-            - '%netgen_ibexa_search_extra.page_indexing.sites%'
+            - '%netgen_ibexa_search_extra.page_indexing.configuration%'
 
     netgen.ibexa_search_extra.page_indexing.field_mapper:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\FieldMapper
