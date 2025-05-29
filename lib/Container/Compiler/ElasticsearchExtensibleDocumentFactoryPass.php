@@ -69,7 +69,15 @@ final class ElasticsearchExtensibleDocumentFactoryPass implements CompilerPassIn
             sprintf('netgen.ibexa_search_extra.elasticsearch.field_mapper.%s.aggregate', $name),
         );
 
-        $this->registerMappers($aggregateDefinition, $container->findTaggedServiceIds(sprintf('netgen.ibexa_search_extra.elasticsearch.field_mapper.%s', $name)));
+        $this->registerMappers(
+            $aggregateDefinition,
+            $container->findTaggedServiceIds(
+                sprintf(
+                    'netgen.ibexa_search_extra.elasticsearch.field_mapper.%s',
+                    $name,
+                ),
+            ),
+        );
     }
 
     private function registerMappers(Definition $definition, array $mapperIds): void
