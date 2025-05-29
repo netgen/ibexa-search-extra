@@ -6,7 +6,7 @@ services:
         class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTranslationFieldMapper\Aggregate
 
     netgen.ibexa_search_extra.elasticsearch.field_mapper.block_translation.page_text:
-        class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTranslationFieldMapper\BlockPageTextFieldMapper
+        class: Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTranslationFieldMapper\PageFieldMapper
         arguments:
             - '@netgen.ibexa_search_extra.page_indexing.field_mapper'
             - '%netgen_ibexa_search_extra.page_indexing.enabled%'

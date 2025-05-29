@@ -8,7 +8,7 @@ use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\FieldMapper;
 
-class ContentPageTextFieldMapper extends ContentTranslationFieldMapper
+class PageFieldMapper extends ContentTranslationFieldMapper
 {
     public function __construct(
         private readonly FieldMapper $fieldMapper,
