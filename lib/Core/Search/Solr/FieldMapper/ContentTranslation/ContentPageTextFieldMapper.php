@@ -9,8 +9,8 @@ use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
 use Ibexa\Contracts\Solr\FieldMapper\ContentTranslationFieldMapper;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexingConfigResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageIndexingConfigResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageTextExtractor;
 
 use function in_array;
 

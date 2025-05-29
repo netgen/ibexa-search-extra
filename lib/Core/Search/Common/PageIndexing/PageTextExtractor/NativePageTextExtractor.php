@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
+namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageTextExtractor;
 
 use DOMDocument;
 use DOMNode;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexingConfig;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageTextExtractor;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexingConfigResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageIndexingConfig;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageIndexingConfigResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageTextExtractor;
 use Netgen\IbexaSearchExtra\Exception\PageUnavailableException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
