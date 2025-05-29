@@ -17,7 +17,7 @@ services:
 
 
     netgen.ibexa_search_extra.page_indexing:
-        class: Netgen\Bundle\IbexaSearchExtraBundle\Command\IndexPageContentCommand
+        class: Netgen\Bundle\IbexaSearchExtraBundle\Command\IndexPagesCommand
         tags:
             - { name: console.command }
         arguments:
