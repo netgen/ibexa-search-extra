@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageTextExtractor;
+namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
 
 use DOMDocument;
 use DOMNode;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageIndexingConfig;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageIndexingConfigResolver;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\PageTextExtractor;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
 use Netgen\IbexaSearchExtra\Exception\PageUnavailableException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -32,7 +32,7 @@ use const XML_ELEMENT_NODE;
 use const XML_HTML_DOCUMENT_NODE;
 use const XML_TEXT_NODE;
 
-class NativePageTextExtractor extends PageTextExtractor
+class NativeTextExtractor extends TextExtractor
 {
     /** @var array<int, array<string, array<string, array<int, string>|string>>> */
     private array $cache = [];
