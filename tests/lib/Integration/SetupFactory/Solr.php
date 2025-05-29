@@ -39,5 +39,6 @@ class Solr extends CoreSolrSetupFactory
         $containerBuilder->addCompilerPass(new Compiler\AggregateFacetBuilderVisitorPass());
         $containerBuilder->addCompilerPass(new Compiler\AggregateSubdocumentQueryCriterionVisitorPass());
         $containerBuilder->addCompilerPass(new Compiler\RawFacetBuilderDomainVisitorPass());
+        $containerBuilder->addCompilerPass(new Compiler\ElasticsearchExtensibleDocumentFactoryPass());
     }
 }
