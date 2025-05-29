@@ -148,6 +148,7 @@ class NativePageTextExtractor extends PageTextExtractor
                 $this->recursiveExtractTextArray($childNode, $textArray, $contentId);
             }
         }
+
         if ($node->nodeType === XML_TEXT_NODE) {
             $textContent = trim($node->textContent);
             if ($textContent !== '') {
@@ -238,6 +239,7 @@ class NativePageTextExtractor extends PageTextExtractor
             $doc = new DOMDocument();
             $doc->loadHTML($extractedContent);
             libxml_use_internal_errors(false);
+
             $textArray = $this->recursiveExtractTextArray($doc, $textArray, $contentId);
         }
 
