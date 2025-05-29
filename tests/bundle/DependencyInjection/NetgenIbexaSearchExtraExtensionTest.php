@@ -102,6 +102,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     ],
                 ],
                 null,
+                null,
                 [],
                 null,
                 [],
@@ -112,12 +113,13 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     'page_indexing' => [
                         'enabled' => true,
                         'sites' => [
-                            'finaweb' => [
+                            'picanha' => [
                                 'tree_root_location_id' => '42',
                             ],
                         ],
                     ],
                 ],
+                'picanha',
                 42,
                 [],
                 null,
@@ -129,7 +131,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     'page_indexing' => [
                         'enabled' => true,
                         'sites' => [
-                            'finaweb' => [
+                            'picanha' => [
                                 'languages_siteaccess_map' => [
                                     'cro-HR' => 'fina_cro',
                                 ],
@@ -137,6 +139,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         ],
                     ],
                 ],
+                'picanha',
                 null,
                 [
                     'cro-HR' => 'fina_cro',
@@ -150,12 +153,13 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     'page_indexing' => [
                         'enabled' => true,
                         'sites' => [
-                            'finaweb' => [
+                            'picanha' => [
                                 'host' => 'string',
                             ],
                         ],
                     ],
                 ],
+                'picanha',
                 null,
                 [],
                 'string',
@@ -167,7 +171,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     'page_indexing' => [
                         'enabled' => true,
                         'sites' => [
-                            'finaweb' => [
+                            'picanha' => [
                                 'fields' => [
                                     'level1' => [
                                         'h1',
@@ -178,6 +182,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         ],
                     ],
                 ],
+                'picanha',
                 null,
                 [],
                 null,
@@ -194,7 +199,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     'page_indexing' => [
                         'enabled' => true,
                         'sites' => [
-                            'finaweb' => [
+                            'picanha' => [
                                 'allowed_content_types' => [
                                     'ng_landing_page',
                                     'ng_frontpage',
@@ -203,6 +208,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         ],
                     ],
                 ],
+                'picanha',
                 null,
                 [],
                 null,
@@ -217,7 +223,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                     'page_indexing' => [
                         'enabled' => true,
                         'sites' => [
-                            'finaweb' => [
+                            'picanha' => [
                                 'tree_root_location_id' => '42',
                                 'languages_siteaccess_map' => [
                                     'cro-HR' => 'fina_cro',
@@ -237,6 +243,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                         ],
                     ],
                 ],
+                'picanha',
                 42,
                 [
                     'cro-HR' => 'fina_cro',
@@ -261,6 +268,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
      */
     public function testPageIndexingConfiguration(
         array $configuration,
+        ?string $expectedSite,
         ?int $expectedTreeRootLocationId,
         array $expectedLanguagesSiteaccessMap,
         ?string $expectedHost,
@@ -273,6 +281,9 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         $sitesConfig = $this->container->getParameter('netgen_ibexa_search_extra.page_indexing.sites');
 
         foreach ($sitesConfig as $site => $siteConfig) {
+            self::assertIsString($site);
+            self::assertEquals($site, $expectedSite);
+
             self::assertArrayHasKey(
                 'tree_root_location_id',
                 $siteConfig,
@@ -311,7 +322,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'page_indexing' => [
-                        'finaweb' => [
+                        'picanha' => [
                             'tree_root_location_id' => [],
                         ],
                     ],
@@ -322,7 +333,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'page_indexing' => [
-                        'finaweb' => [
+                        'picanha' => [
                             'tree_root_location_id' => true,
                         ],
                     ],
@@ -333,7 +344,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'page_indexing' => [
-                        'finaweb' => [
+                        'picanha' => [
                             'languages_siteaccess_map' => [
                                 'cro-HR' => 5,
                             ],
@@ -346,7 +357,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'page_indexing' => [
-                        'finaweb' => [
+                        'picanha' => [
                             'host' => [],
                         ],
                     ],
@@ -357,7 +368,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'page_indexing' => [
-                        'finaweb' => [
+                        'picanha' => [
                             'config' => [
                                 'level1' => 'a',
                             ],
@@ -370,7 +381,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'page_indexing' => [
-                        'finaweb' => [
+                        'picanha' => [
                             'config' => [
                                 ['h1', 'h2'],
                             ],
@@ -383,7 +394,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'page_indexing' => [
-                        'finaweb' => [
+                        'picanha' => [
                             'allowed_content_types' => [
                                 34,
                                 52,
