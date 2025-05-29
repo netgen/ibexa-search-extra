@@ -45,12 +45,12 @@ class IndexPagesCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Index content related through layouts')
+            ->setDescription('Indexes full page renders for accurate search of composite content')
             ->addOption(
                 'content-ids',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Comma separated list of content id\'s of content to index.',
+                'Comma separated list of Content IDs to index.',
             );
     }
 
