@@ -14,7 +14,7 @@ class Aggregate extends BlockTranslationFieldMapper
      *
      * @var BlockTranslationFieldMapper[]
      */
-    protected $mappers = [];
+    protected array $mappers = [];
 
     /**
      * @param blockTranslationFieldMapper[] $mappers

@@ -14,7 +14,7 @@ class Aggregate extends LocationTranslationFieldMapper
      *
      * @var LocationTranslationFieldMapper[]
      */
-    protected $mappers = [];
+    protected array $mappers = [];
 
     /**
      * @param locationTranslationFieldMapper[] $mappers
