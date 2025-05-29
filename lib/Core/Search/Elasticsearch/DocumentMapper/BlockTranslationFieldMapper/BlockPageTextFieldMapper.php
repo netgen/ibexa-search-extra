@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Elasticsearch\DocumentMapper\BlockTranslationFieldMapper;
 
-use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
+use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Field;
@@ -23,7 +23,7 @@ class BlockPageTextFieldMapper extends BlockTranslationFieldMapper
         private readonly PageIndexingConfigResolver $configResolver,
     ) {}
 
-    public function accept(SPIContent $content, string $languageCode): bool
+    public function accept(Content $content, string $languageCode): bool
     {
         return true;
     }
@@ -31,19 +31,27 @@ class BlockPageTextFieldMapper extends BlockTranslationFieldMapper
     /**
      * @throws NotFoundException
      */
-    public function mapFields(SPIContent $content, string $languageCode): array
+    public function mapFields(Content $content, string $languageCode): array
     {
+        $contentInfo = $content->versionInfo->contentInfo;
+        $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
+        $contentTypeIdentifier = $contentType->identifier;
+
+        $config = $this->configResolver->getSiteConfigForContent($contentInfo->id, $languageCode);
+
+        if (!in_array($contentTypeIdentifier, $config->getAllowedContentTypes(), true)) {
+            return [];
+        }
+
+        $text = $this->pageTextExtractor->extractPageText($contentInfo->id, $languageCode);
         $fields = [];
 
-        $siteConfig = $this->configResolver->getSiteConfigForContent($content->versionInfo->contentInfo->id);
-        $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
-
-        if (in_array($contentType->identifier, $siteConfig['allowed_content_types'], true)) {
-            $text = $this->pageTextExtractor->extractPageText($content->versionInfo->contentInfo->id, $languageCode);
-
-            foreach ($text as $level => $value) {
-                $fields[] = new Field('page_text_' . $level, $value, new FullTextField());
-            }
+        foreach ($text as $level => $value) {
+            $fields[] = new Field(
+                'page_text_' . $level,
+                $value,
+                new FullTextField(),
+            );
         }
 
         return $fields;
