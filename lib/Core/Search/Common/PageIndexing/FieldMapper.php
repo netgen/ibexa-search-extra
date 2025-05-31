@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
 final class FieldMapper
 {
     public function __construct(
-        private readonly TextExtractor $pageTextExtractor,
+        private readonly TextResolver $textResolver,
         private readonly ContentTypeHandler $contentTypeHandler,
         private readonly ConfigResolver $configResolver,
     ) {}
@@ -33,7 +33,7 @@ final class FieldMapper
             return [];
         }
 
-        $text = $this->pageTextExtractor->extractPageText($contentInfo->id, $languageCode);
+        $text = $this->textResolver->resolveText($contentInfo, $languageCode);
         $fields = [];
 
         foreach ($text as $level => $value) {
