@@ -10,11 +10,11 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Config;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\ConfigResolver;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\UrlResolver;
 use Netgen\IbexaSearchExtra\Exception\PageUnavailableException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientException;
 
@@ -42,6 +42,7 @@ class NativeTextExtractor extends TextExtractor
     public function __construct(
         private readonly RouterInterface $router,
         private readonly ConfigResolver $configResolver,
+        private readonly UrlResolver $urlResolver,
     ) {
         $this->logger = new NullLogger();
     }
@@ -87,7 +88,7 @@ class NativeTextExtractor extends TextExtractor
      */
     private function fetchPageSource(ContentInfo $contentInfo, string $languageCode): string
     {
-        $url = $this->generateUrl($contentInfo, $languageCode);
+        $url = $this->urlResolver->resolveUrl($contentInfo, $languageCode);
 
         $response = HttpClient::create()->request('GET', $url);
 
@@ -104,35 +105,6 @@ class NativeTextExtractor extends TextExtractor
         }
 
         return $html;
-    }
-
-    private function generateUrl(ContentInfo $contentInfo, string $languageCode): string
-    {
-        $siteConfig = $this->configResolver->getSiteConfigForContent($contentInfo->id, $languageCode);
-
-        $urlAliasRouteName = 'ibexa.url.alias';
-
-        if ($siteConfig->hasHost()) {
-            $relativePath = $this->router->generate(
-                $urlAliasRouteName,
-                [
-                    'locationId' => (int) $contentInfo->mainLocationId,
-                    'siteaccess' => $siteConfig->getSiteaccess(),
-                ],
-                UrlGeneratorInterface::RELATIVE_PATH,
-            );
-
-            return $siteConfig->getHost() . $relativePath;
-        }
-
-        return $this->router->generate(
-            $urlAliasRouteName,
-            [
-                'locationId' => (int) $contentInfo->mainLocationId,
-                'siteaccess' => $siteConfig->getSiteaccess(),
-            ],
-            UrlGeneratorInterface::ABSOLUTE_URL,
-        );
     }
 
     /**
