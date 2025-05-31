@@ -6,7 +6,7 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
 
 use DOMDocument;
 use DOMNode;
-use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Config;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\ConfigResolver;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
@@ -40,7 +40,6 @@ class NativeTextExtractor extends TextExtractor
     private LoggerInterface $logger;
 
     public function __construct(
-        private readonly ContentHandler $contentHandler,
         private readonly RouterInterface $router,
         private readonly ConfigResolver $configResolver,
     ) {
@@ -55,8 +54,10 @@ class NativeTextExtractor extends TextExtractor
     /**
      * @return array<string, array<int, string>>
      */
-    public function extractPageText(int $contentId, string $languageCode): array
+    public function extractPageText(ContentInfo $contentInfo, string $languageCode): array
     {
+        $contentId = $contentInfo->id;
+
         if (isset($this->cache[$contentId][$languageCode])) {
             return $this->cache[$contentId][$languageCode];
         }
@@ -66,7 +67,7 @@ class NativeTextExtractor extends TextExtractor
         }
 
         try {
-            $html = $this->fetchPageSource($contentId, $languageCode);
+            $html = $this->fetchPageSource($contentInfo, $languageCode);
         } catch (PageUnavailableException|HttpClientException $e) {
             $this->logger->error($e->getMessage());
 
@@ -80,11 +81,35 @@ class NativeTextExtractor extends TextExtractor
         return $textArray;
     }
 
-    private function generateUrl(string $languageCode, int $contentId): string
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
+    private function fetchPageSource(ContentInfo $contentInfo, string $languageCode): string
     {
-        $siteConfig = $this->configResolver->getSiteConfigForContent($contentId, $languageCode);
+        $url = $this->generateUrl($contentInfo, $languageCode);
 
-        $contentInfo = $this->contentHandler->loadContentInfo($contentId);
+        $response = HttpClient::create()->request('GET', $url);
+
+        $html = $response->getContent();
+
+        if ($response->getStatusCode() !== 200) {
+            throw new PageUnavailableException(
+                sprintf(
+                    'Could not fetch URL "%s": %s',
+                    $url,
+                    $response->getInfo()['error'],
+                ),
+            );
+        }
+
+        return $html;
+    }
+
+    private function generateUrl(ContentInfo $contentInfo, string $languageCode): string
+    {
+        $siteConfig = $this->configResolver->getSiteConfigForContent($contentInfo->id, $languageCode);
+
         $urlAliasRouteName = 'ibexa.url.alias';
 
         if ($siteConfig->hasHost()) {
@@ -108,31 +133,6 @@ class NativeTextExtractor extends TextExtractor
             ],
             UrlGeneratorInterface::ABSOLUTE_URL,
         );
-    }
-
-    /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     */
-    private function fetchPageSource(int $contentId, string $languageCode): string
-    {
-        $url = $this->generateUrl($languageCode, $contentId);
-
-        $response = HttpClient::create()->request('GET', $url);
-
-        $html = $response->getContent();
-
-        if ($response->getStatusCode() !== 200) {
-            throw new PageUnavailableException(
-                sprintf(
-                    'Could not fetch URL "%s": %s',
-                    $url,
-                    $response->getInfo()['error'],
-                ),
-            );
-        }
-
-        return $html;
     }
 
     /**

@@ -2,7 +2,6 @@ services:
     netgen.ibexa_search_extra.page_indexing.text_extractor:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor\NativeTextExtractor
         arguments:
-            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Bundle\Core\Routing\UrlAliasRouter'
             - '@netgen.ibexa_search_extra.page_indexing.config_resolver'
         calls:
