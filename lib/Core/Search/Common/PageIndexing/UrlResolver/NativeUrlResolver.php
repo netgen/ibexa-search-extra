@@ -7,7 +7,6 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\UrlResolver;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\ConfigResolver;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\UrlResolver;
-use Psr\Log\NullLogger;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 

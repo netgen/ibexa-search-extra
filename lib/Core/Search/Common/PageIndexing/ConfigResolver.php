@@ -37,7 +37,6 @@ class ConfigResolver
         }
 
         $contentInfo = $this->contentHandler->loadContentInfo($contentId);
-        $content = $this->contentHandler->load($contentId, $contentInfo->currentVersionNo, [$languageCode]);
 
         try {
             $location = $this->locationHandler->load($contentInfo->mainLocationId);
