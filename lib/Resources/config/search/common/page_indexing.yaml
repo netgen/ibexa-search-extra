@@ -17,7 +17,7 @@ services:
             - '@netgen.ibexa_search_extra.page_indexing.config_resolver'
 
     netgen.ibexa_search_extra.page_indexing.url_resolver:
-        alias: netgen.ibexa_search_extra.page_indexing.text_extractor.native
+        alias: netgen.ibexa_search_extra.page_indexing.url_resolver.native
 
     netgen.ibexa_search_extra.page_indexing.config_resolver:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\ConfigResolver
