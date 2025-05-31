@@ -9,13 +9,12 @@ use DOMNode;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Config;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\ConfigResolver;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\SourceFetcher;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\UrlResolver;
 use Netgen\IbexaSearchExtra\Exception\PageUnavailableException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientException;
 
 use function count;
 use function explode;
@@ -24,7 +23,6 @@ use function libxml_use_internal_errors;
 use function mb_strlen;
 use function mb_strpos;
 use function mb_substr;
-use function sprintf;
 use function trim;
 
 use const XML_ELEMENT_NODE;
@@ -41,6 +39,7 @@ class NativeTextExtractor extends TextExtractor
     public function __construct(
         private readonly ConfigResolver $configResolver,
         private readonly UrlResolver $urlResolver,
+        private readonly SourceFetcher $sourceFetcher,
     ) {
         $this->logger = new NullLogger();
     }
@@ -66,43 +65,19 @@ class NativeTextExtractor extends TextExtractor
         }
 
         try {
-            $html = $this->fetchPageSource($contentInfo, $languageCode);
-        } catch (PageUnavailableException|HttpClientException $e) {
+            $url = $this->urlResolver->resolveUrl($contentInfo, $languageCode);
+            $source = $this->sourceFetcher->fetchSource($url);
+        } catch (PageUnavailableException $e) {
             $this->logger->error($e->getMessage());
 
             return [];
         }
 
-        $textArray = $this->extractTextArray($html, $contentId, $languageCode);
+        $textArray = $this->extractTextArray($source, $contentId, $languageCode);
 
         $this->cache[$contentId][$languageCode] = $textArray;
 
         return $textArray;
-    }
-
-    /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     */
-    private function fetchPageSource(ContentInfo $contentInfo, string $languageCode): string
-    {
-        $url = $this->urlResolver->resolveUrl($contentInfo, $languageCode);
-
-        $response = HttpClient::create()->request('GET', $url);
-
-        $html = $response->getContent();
-
-        if ($response->getStatusCode() !== 200) {
-            throw new PageUnavailableException(
-                sprintf(
-                    'Could not fetch URL "%s": %s',
-                    $url,
-                    $response->getInfo()['error'],
-                ),
-            );
-        }
-
-        return $html;
     }
 
     /**

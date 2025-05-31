@@ -4,6 +4,7 @@ services:
         arguments:
             - '@netgen.ibexa_search_extra.page_indexing.config_resolver'
             - '@netgen.ibexa_search_extra.page_indexing.url_resolver'
+            - '@netgen.ibexa_search_extra.page_indexing.source_fetcher'
         calls:
             - setLogger: ['@?logger']
 
@@ -18,6 +19,12 @@ services:
 
     netgen.ibexa_search_extra.page_indexing.url_resolver:
         alias: netgen.ibexa_search_extra.page_indexing.url_resolver.native
+
+    netgen.ibexa_search_extra.page_indexing.source_fetcher.native:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\SourceFetcher\NativeSourceFetcher
+
+    netgen.ibexa_search_extra.page_indexing.source_fetcher:
+        alias: netgen.ibexa_search_extra.page_indexing.source_fetcher.native
 
     netgen.ibexa_search_extra.page_indexing.config_resolver:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\ConfigResolver
