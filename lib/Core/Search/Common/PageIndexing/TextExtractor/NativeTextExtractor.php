@@ -6,17 +6,10 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
 
 use DOMDocument;
 use DOMNode;
-use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Config;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\ConfigResolver;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\SourceFetcher;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\UrlResolver;
-use Netgen\IbexaSearchExtra\Exception\PageUnavailableException;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
-use function count;
 use function explode;
 use function in_array;
 use function libxml_use_internal_errors;
@@ -31,72 +24,24 @@ use const XML_TEXT_NODE;
 
 class NativeTextExtractor extends TextExtractor
 {
-    /** @var array<int, array<string, array<string, array<int, string>|string>>> */
-    private array $cache = [];
-
-    private LoggerInterface $logger;
-
     public function __construct(
         private readonly ConfigResolver $configResolver,
-        private readonly UrlResolver $urlResolver,
-        private readonly SourceFetcher $sourceFetcher,
-    ) {
-        $this->logger = new NullLogger();
-    }
+    ) {}
 
-    public function setLogger(LoggerInterface $logger): void
-    {
-        $this->logger = $logger;
-    }
-
-    /**
-     * @return array<string, array<int, string>>
-     */
-    public function extractPageText(ContentInfo $contentInfo, string $languageCode): array
-    {
-        $contentId = $contentInfo->id;
-
-        if (isset($this->cache[$contentId][$languageCode])) {
-            return $this->cache[$contentId][$languageCode];
-        }
-
-        if (count($this->cache) > 10) {
-            $this->cache = [];
-        }
-
-        try {
-            $url = $this->urlResolver->resolveUrl($contentInfo, $languageCode);
-            $source = $this->sourceFetcher->fetchSource($url);
-        } catch (PageUnavailableException $e) {
-            $this->logger->error($e->getMessage());
-
-            return [];
-        }
-
-        $textArray = $this->extractTextArray($source, $contentId, $languageCode);
-
-        $this->cache[$contentId][$languageCode] = $textArray;
-
-        return $textArray;
-    }
-
-    /**
-     * @return array<string, array<int, string>>
-     */
-    private function extractTextArray(string $html, int $contentId, string $languageCode): array
+    public function extractText(string $source, int $contentId, string $languageCode): array
     {
         $startTag = '<!--begin page content-->';
         $endTag = '<!--end page content-->';
         $config = $this->configResolver->getSiteConfigForContent($contentId, $languageCode);
 
-        $startPos = mb_strpos($html, $startTag);
-        $endPos = mb_strpos($html, $endTag);
+        $startPos = mb_strpos($source, $startTag);
+        $endPos = mb_strpos($source, $endTag);
 
         $textArray = [];
 
         if ($startPos !== false && $endPos !== false) {
             $startPos += mb_strlen($startTag);
-            $extractedContent = mb_substr($html, $startPos, $endPos - $startPos);
+            $extractedContent = mb_substr($source, $startPos, $endPos - $startPos);
 
             libxml_use_internal_errors(true);
             $doc = new DOMDocument();
@@ -117,10 +62,10 @@ class NativeTextExtractor extends TextExtractor
     private function recursiveExtractTextArray(DOMNode $node, array &$textArray, Config $config): array
     {
         if ($node->nodeType === XML_ELEMENT_NODE || $node->nodeType === XML_HTML_DOCUMENT_NODE) {
-            $fieldLevel = $this->getFieldName($node, $config);
+            $fieldName = $this->resolveFieldName($node, $config);
 
-            if ($fieldLevel !== null) {
-                $textArray[$fieldLevel][] = $node->textContent;
+            if ($fieldName !== null) {
+                $textArray[$fieldName][] = $node->textContent;
 
                 return $textArray;
             }
@@ -141,7 +86,7 @@ class NativeTextExtractor extends TextExtractor
         return $textArray;
     }
 
-    private function getFieldName(DOMNode $node, Config $config): null|string
+    private function resolveFieldName(DOMNode $node, Config $config): ?string
     {
         foreach ($config->getFields() as $level => $tags) {
             foreach ($tags as $tag) {
