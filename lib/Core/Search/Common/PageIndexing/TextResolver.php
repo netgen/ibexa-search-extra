@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
-use Netgen\IbexaSearchExtra\Exception\PageUnavailableException;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Exception\PageUnavailableException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
