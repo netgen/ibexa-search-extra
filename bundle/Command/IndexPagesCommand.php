@@ -62,7 +62,7 @@ class IndexPagesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         foreach ($this->sitesConfig as $site => $siteConfig) {
-            $this->style->info('Indexing for site ' . $site);
+            $this->style->info(sprintf('Indexing for site "%s"', $site));
             $this->indexContent($output, $input, $siteConfig);
         }
 
