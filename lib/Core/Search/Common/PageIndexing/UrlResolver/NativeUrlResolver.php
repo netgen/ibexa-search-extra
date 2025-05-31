@@ -16,9 +16,7 @@ final class NativeUrlResolver extends UrlResolver
     public function __construct(
         private readonly RouterInterface $router,
         private readonly ConfigResolver $configResolver,
-    ) {
-        $this->logger = new NullLogger();
-    }
+    ) {}
 
     public function resolveUrl(ContentInfo $contentInfo, string $languageCode): string
     {
