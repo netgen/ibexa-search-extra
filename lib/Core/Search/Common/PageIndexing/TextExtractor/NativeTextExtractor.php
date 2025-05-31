@@ -15,7 +15,6 @@ use Netgen\IbexaSearchExtra\Exception\PageUnavailableException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface as HttpClientException;
 
 use function count;
@@ -40,7 +39,6 @@ class NativeTextExtractor extends TextExtractor
     private LoggerInterface $logger;
 
     public function __construct(
-        private readonly RouterInterface $router,
         private readonly ConfigResolver $configResolver,
         private readonly UrlResolver $urlResolver,
     ) {
