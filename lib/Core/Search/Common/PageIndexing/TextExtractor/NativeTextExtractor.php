@@ -6,6 +6,7 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
 
 use DOMDocument;
 use DOMNode;
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Config;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\ConfigResolver;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor;
@@ -28,11 +29,14 @@ class NativeTextExtractor extends TextExtractor
         private readonly ConfigResolver $configResolver,
     ) {}
 
-    public function extractText(string $source, int $contentId, string $languageCode): array
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function extractText(string $source, ContentInfo $contentInfo, string $languageCode): array
     {
         $startTag = '<!--begin page content-->';
         $endTag = '<!--end page content-->';
-        $config = $this->configResolver->getSiteConfigForContent($contentId, $languageCode);
+        $config = $this->configResolver->resolveConfig($contentInfo, $languageCode);
 
         $startPos = mb_strpos($source, $startTag);
         $endPos = mb_strpos($source, $endTag);

@@ -41,7 +41,7 @@ final class TextResolver
             return [];
         }
 
-        $textArray = $this->textExtractor->extractText($source, $contentInfo->id, $languageCode);
+        $textArray = $this->textExtractor->extractText($source, $contentInfo, $languageCode);
 
         $this->cache[$contentId][$languageCode] = $textArray;
 

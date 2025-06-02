@@ -6,7 +6,6 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing;
 
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
 
@@ -19,7 +18,7 @@ final class FieldMapper
     ) {}
 
     /**
-     * @throws NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function mapFields(Content $content, string $languageCode): array
     {
@@ -27,7 +26,7 @@ final class FieldMapper
         $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
         $contentTypeIdentifier = $contentType->identifier;
 
-        $config = $this->configResolver->getSiteConfigForContent($contentInfo->id, $languageCode);
+        $config = $this->configResolver->resolveConfig($contentInfo, $languageCode);
 
         if (!in_array($contentTypeIdentifier, $config->getAllowedContentTypes(), true)) {
             return [];
