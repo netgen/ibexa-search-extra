@@ -12,7 +12,7 @@ specific content types, raw fields, and meta-fields. It comes in three parts:
 
    Indexing configuration defines indexing for meta fields that are used in boosting
 
-3. ``Fulltext`` **criterion**
+3. ``FullText`` **criterion**
 
    A custom criterion implementation that uses boosting configuration on standard and meta fields
 
@@ -129,6 +129,19 @@ In this example:
 - ``default`` is the name of the boost configuration to apply.
 
 If the specified configuration name does not exist, an exception will be thrown.
+
+You can also instantiate ``FullText`` criterion manually and set the boosting rules how you see fit:
+
+
+.. code-block:: php
+
+    use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\FullText;
+
+    $criterion = new FullText();
+
+    $criterion->contentTypeBoost = [
+        'article' => 2,
+    ];
 
 Integration with Solr
 ---------------------
