@@ -10,7 +10,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Exception\MissingConfigException;
-use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Exception\PageUnavailableException;
 
 final class FieldMapper
 {
