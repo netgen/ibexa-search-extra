@@ -19,6 +19,10 @@ specific content types, raw fields, and meta-fields. It comes in three parts:
 
 The criterion is currently implemented for ``Solr`` search engine only.
 
+.. note::
+
+    Boosting is implemented in a way that will always increate a search hit score **linearly** by the given factor.
+
 Boosting configuration
 ----------------------
 
