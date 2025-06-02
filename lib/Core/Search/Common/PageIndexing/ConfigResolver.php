@@ -6,19 +6,13 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
-use LogicException;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Exception\MissingConfigException;
 
 use function explode;
 use function in_array;
-use function sprintf;
 
 class ConfigResolver
 {
-    /**
-     * @var array<int, array<string, Config>>
-     */
-    private array $cache = [];
-
     /**
      * @param array<string, mixed> $configuration
      */
@@ -28,17 +22,11 @@ class ConfigResolver
     ) {}
 
     /**
-     * @throws \LogicException If configuration could not be resolved
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If Content's main Location is not found
+     * @throws \Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Exception\MissingConfigException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function resolveConfig(ContentInfo $contentInfo, string $languageCode): Config
     {
-        $contentId = $contentInfo->id;
-
-        if (isset($this->cache[$contentId][$languageCode])) {
-            return $this->cache[$contentId][$languageCode];
-        }
-
         $location = $this->locationHandler->load($contentInfo->mainLocationId);
 
         $pathString = $location->pathString;
@@ -56,19 +44,10 @@ class ConfigResolver
                 continue;
             }
 
-            $config = $this->mapConfig($siteaccess, $siteConfiguration);
-
-            $this->cache[$contentId][$languageCode] = $config;
-
-            return $config;
+            return $this->mapConfig($siteaccess, $siteConfiguration);
         }
 
-        throw new LogicException(
-            sprintf(
-                'Failed to match Content #%d to a siteaccess',
-                $contentId,
-            ),
-        );
+        throw new MissingConfigException($contentInfo, $languageCode);
     }
 
     private function resolveSiteaccessForLanguage(string $languageCode, array $languageSiteaccessMap): ?string
