@@ -5,4 +5,4 @@
 * :doc:`/reference/spellcheck_suggestions`
 * :doc:`/reference/extra_fields`
 * :doc:`/reference/document_factory`
-* :doc:`/reference/search_boost`
+* :doc:`/reference/fulltext_search_boosting`
