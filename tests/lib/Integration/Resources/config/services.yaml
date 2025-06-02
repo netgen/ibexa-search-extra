@@ -96,4 +96,4 @@ services:
 
 parameters:
     netgen_ibexa_search_extra.page_indexing.configuration: []
-    netgen_ibexa_search_extra.page_indexing.enabled: true
+    netgen_ibexa_search_extra.page_indexing.enabled: false
