@@ -23,11 +23,13 @@ final class NativeUrlResolver extends UrlResolver
     public function resolveUrl(ContentInfo $contentInfo, string $languageCode): string
     {
         $config = $this->configResolver->resolveConfig($contentInfo->id, $languageCode);
+        /** @var \Ibexa\Bundle\Core\Routing\UrlAliasRouter $router */
+        $router = $this->router;
 
         $urlAliasRouteName = 'ibexa.url.alias';
 
         if ($config->hasHost()) {
-            $relativePath = $this->router->generate(
+            $relativePath = $router->generate(
                 $urlAliasRouteName,
                 [
                     'locationId' => (int) $contentInfo->mainLocationId,
@@ -39,7 +41,7 @@ final class NativeUrlResolver extends UrlResolver
             return $config->getHost() . $relativePath;
         }
 
-        return $this->router->generate(
+        return $router->generate(
             $urlAliasRouteName,
             [
                 'locationId' => (int) $contentInfo->mainLocationId,
