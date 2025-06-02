@@ -12,10 +12,10 @@ specific content types, raw fields, and meta-fields. It comes in three parts:
 
    Indexing configuration defines indexing for meta fields that are used in boosting
 
-3. ``FullText`` **criterion**
+3. ``Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\FullText`` **criterion**
 
-   A custom criterion implementation that uses boosting configuration on standard and meta fields
-
+   A custom criterion implementation that that can define boosting rules per ContentType, raw search engine fields and
+   meta fields.
 
 The criterion is currently implemented for ``Solr`` search engine only.
 
