@@ -13,7 +13,9 @@ This only lists all implemented features, see the
 [documentation](https://docs.netgen.io/projects/search-extra)
 for more details on specific ones.
 
-- [Extensible DocumentFactory](https://docs.netgen.io/projects/search-extra/en/latest/reference/document_factory.html) (`elastic`) 
+- Custom `FullText` criterion with [configurable boosting](https://docs.netgen.io/projects/search-extra/en/latest/reference/fulltext_search_boosting.html) (`solr`)
+
+- [Extensible DocumentFactory](https://docs.netgen.io/projects/search-extra/en/latest/reference/document_factory.html) (`elastic`)
 
 - Support for [asynchronous indexing](https://docs.netgen.io/projects/search-extra/en/latest/reference/asynchronous_indexing.html) (`solr`, `legacy`)
 
