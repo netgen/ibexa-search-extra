@@ -2,18 +2,29 @@ Fulltext Search Boosting
 ========================
 
 The Fulltext Search Boost functionality allows fine-tuning of search results by applying configurable boost values to
-specific content types, raw fields, and meta-fields. This feature is particularly useful for improving the relevance of
-search results in Solr-based search implementations.
+specific content types, raw fields, and meta-fields. It comes in three parts:
 
-Configuration
--------------
+1. **Boosting configuration**
 
-The boost configuration must be defined under the ``netgen_ibexa_search_extra.fulltext.boost`` key in your project's
+   Boosting configuration is applied during querying the search backend
+
+2. **Meta fields indexing configuration**
+
+   Indexing configuration defines indexing for meta fields that are used in boosting
+
+3. ``Fulltext`` **criterion**
+
+   A custom criterion implementation that uses boosting configuration on standard and meta fields
+
+
+The criterion is currently implemented for ``Solr`` search engine only.
+
+Boosting configuration
+----------------------
+
+The boosting configuration is defined under the ``netgen_ibexa_search_extra.fulltext.boost`` key in your project's
 configuration files. This structure allows you to define multiple named configurations for different use cases. Each
 configuration specifies boost values for content types, raw fields, and meta-fields.
-
-Configuration Structure
-~~~~~~~~~~~~~~~~~~~~~~~
 
 The configuration is structured as follows:
 
@@ -39,10 +50,7 @@ The configuration is structured as follows:
 - ``meta_fields``: Specifies boost values for meta-fields. The key is the meta-field name, and the value is the boost
   factor.
 
-Example Configuration
-~~~~~~~~~~~~~~~~~~~~~
-
-Below is an example configuration with a ``default`` name:
+Below is an example configuration with a name ``default``:
 
 .. code-block:: yaml
 
@@ -57,6 +65,44 @@ Below is an example configuration with a ``default`` name:
                         meta_content__name_t: 2.1
                     meta_fields:
                         title: 3.14
+
+Meta-fields indexing configuration
+----------------------------------
+
+Meta-fields are mapped during indexing, from one or multiple Content Fields. The configuration is defined on the same
+level as ``boost``. It allows indexing meta-fields from specific ContentType fields or globally, from all ContentTypes.
+There are two ways to define the indexed fields:
+
+1. **Per ContentType**: Specify the mapping with content type identifiers and field names. For example:
+
+   .. code-block:: yaml
+
+    netgen_ibexa_search_extra:
+        fulltext:
+            meta_fields:
+                title:
+                    - 'article/title'
+                    - 'blog_post/title'
+
+   In this example:
+   - The ``title`` meta-field is mapped to the ``title`` field of the ``article`` and ``blog_post`` content types.
+
+2. **For all ContentTypes**: Specify just the field name. In this case, the field applies to all content types. For
+example:
+
+   .. code-block:: yaml
+
+    netgen_ibexa_search_extra:
+        fulltext:
+              meta_fields:
+                  title:
+                    - 'title'
+
+   In this example:
+   - The ``title`` meta-field applies to the ``title`` field on any content type.
+
+This flexibility allows you to configure meta-fields either specifically for certain content types or globally across
+all content types.
 
 Usage
 -----
@@ -82,45 +128,6 @@ In this example:
 - ``default`` is the name of the boost configuration to apply.
 
 If the specified configuration name does not exist, an exception will be thrown.
-
-Meta-Field Mapping
-------------------
-
-Meta-fields are mapped during indexing using the ``FulltextMetaFieldMapper`` class. This class maps content fields to
-meta-fields based on a predefined mapping configuration (`metaFieldMap`). The mapping ensures that the correct
-meta-fields are indexed and available for boosting.
-
-Example Mapping
-~~~~~~~~~~~~~~~
-
-The ``meta_fields`` configuration should be defined at the same level as ``boost``. It allows you to map meta-fields to
-specific content type fields or define them globally for all content types. There are two ways to define this mapping:
-
-1. **Detailed Mapping**: Specify the mapping with content type identifiers and field names. For example:
-
-   .. code-block:: yaml
-
-    meta_fields:
-        title:
-            - 'article/title'
-            - 'blog_post/title'
-
-   In this example:
-   - The ``title`` meta-field is mapped to the ``title`` field of the ``article`` and ``blog_post`` content types.
-
-2. **Field Name Only**: Specify just the field name. In this case, the field applies to all content types. For example:
-
-   .. code-block:: yaml
-
-      meta_fields:
-          title:
-            - 'title'
-
-   In this example:
-   - The ``title`` meta-field applies to the ``title`` field on any content type.
-
-This flexibility allows you to configure meta-fields either specifically for certain content types or globally across
-all content types.
 
 Integration with Solr
 ---------------------
