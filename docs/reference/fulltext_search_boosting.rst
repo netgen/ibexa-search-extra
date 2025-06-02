@@ -21,7 +21,9 @@ The criterion is currently implemented for ``Solr`` search engine only.
 
 .. note::
 
-    Boosting is implemented in a way that will always increate a search hit score **linearly** by the given factor.
+    Boosting utilizes ``exists`` Solr function, from which it achieves **linear** increase of search hit score by the
+    given factor. In contrast to alternative implementations, that makes it *controllable* even when using multiple
+    boost rules.
 
 Boosting configuration
 ----------------------
