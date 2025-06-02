@@ -77,7 +77,9 @@ Meta-fields are mapped during indexing, from one or multiple Content Fields. The
 level as ``boost``. It allows indexing meta-fields from specific ContentType fields or globally, from all ContentTypes.
 There are two ways to define the indexed fields:
 
-1. **Per ContentType**: Specify the mapping with content type identifiers and field names. For example:
+1. **Per ContentType**
+
+   Specify the mapping with ContentType identifiers and field names. For example:
 
    .. code-block:: yaml
 
@@ -88,11 +90,13 @@ There are two ways to define the indexed fields:
                     - 'article/title'
                     - 'blog_post/title'
 
-   In this example:
-   - The ``title`` meta-field is mapped to the ``title`` field of the ``article`` and ``blog_post`` content types.
+   In this example the ``title`` meta-field is mapped from the ``title`` field of the ``article`` and ``blog_post``
+   ContentTypes.
 
-2. **For all ContentTypes**: Specify just the field name. In this case, the field applies to all content types. For
-example:
+2. **For all ContentTypes**
+
+   Specify just the field name. In this case, the field applies to all ContentTypes. For
+   example:
 
    .. code-block:: yaml
 
@@ -102,8 +106,7 @@ example:
                   title:
                     - 'title'
 
-   In this example:
-   - The ``title`` meta-field applies to the ``title`` field on any content type.
+   In this example the ``title`` meta-field indexes the ``title`` field from any ContentType.
 
 This flexibility allows you to configure meta-fields either specifically for certain content types or globally across
 all content types.
