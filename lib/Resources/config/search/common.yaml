@@ -1,7 +1,6 @@
 imports:
     - { resource: common/asynchronous_indexing.yaml }
     - { resource: common/field_value_mappers.yaml }
-    - { resource: elastic_search/document_factory.yaml }
     - { resource: common/page_indexing.yaml }
 
 services:
