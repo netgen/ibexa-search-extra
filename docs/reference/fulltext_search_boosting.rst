@@ -108,17 +108,14 @@ example:
 This flexibility allows you to configure meta-fields either specifically for certain content types or globally across
 all content types.
 
-Usage
------
-
-The ``ConfiguredFulltextCriterionFactory`` class is responsible for creating ``FullText`` criteria with the specified
-boost configuration. When creating a criterion, you can specify the name of the configuration to use. If no name is
-provided, the factory defaults to the `default` configuration.
-
 Creating a Criterion
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
-To create a `FullText` criterion, call the `create` method with the search term and the name of the configuration to
+The ``ConfiguredFulltextCriterionFactory`` class is responsible for creating ``FullText`` criterion with the specified
+boost configuration. When creating a criterion, you can specify the name of the configuration to use. If no name is
+provided, the factory defaults to the ``default`` configuration.
+
+To create a ``FullText`` criterion, call the ``create`` method with the search term and the name of the configuration to
 use. For example:
 
 .. code-block:: php
