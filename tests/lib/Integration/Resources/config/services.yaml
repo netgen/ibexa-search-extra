@@ -1,6 +1,8 @@
 parameters:
     netgen_ibexa_search_extra.fulltext.meta_fields: []
     netgen_ibexa_search_extra.fulltext.boost: []
+    netgen_ibexa_search_extra.page_indexing.configuration: []
+    netgen_ibexa_search_extra.page_indexing.enabled: false
 
 services:
     netgen_test.ibexa_search_extra.solr.subdocument_mapper.content:
@@ -93,7 +95,3 @@ services:
 
     Ibexa\Bundle\Core\Routing\UrlAliasRouter:
         class: Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Stubs\RouterStub
-
-parameters:
-    netgen_ibexa_search_extra.page_indexing.configuration: []
-    netgen_ibexa_search_extra.page_indexing.enabled: false
