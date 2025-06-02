@@ -6,8 +6,11 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing;
 
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\FullTextField;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Exception\MissingConfigException;
+use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Exception\PageUnavailableException;
 
 final class FieldMapper
 {
@@ -26,7 +29,11 @@ final class FieldMapper
         $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
         $contentTypeIdentifier = $contentType->identifier;
 
-        $config = $this->configResolver->resolveConfig($contentInfo, $languageCode);
+        try {
+            $config = $this->configResolver->resolveConfig($contentInfo, $languageCode);
+        } catch (MissingConfigException|NotFoundException) {
+            return [];
+        }
 
         if (!in_array($contentTypeIdentifier, $config->getAllowedContentTypes(), true)) {
             return [];
