@@ -89,8 +89,8 @@ Content items as well. Typically, these are landing pages of various kind. That 
 the page when one of the participating Content item updates. For that reason, you should to set up periodic reindexing
 of the pages using the provided command.
 
-Since scraping might not be performant of successful in all cases, you are advised to use asynchronous indexing feature
-also provided by ``netgen/ibexa-search-extra``.
+Since scraping might not be performant of successful in all cases, you should consider using asynchronous indexing
+feature also provided by ``netgen/ibexa-search-extra``.
 
 Command
 -------
