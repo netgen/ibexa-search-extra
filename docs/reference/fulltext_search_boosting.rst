@@ -1,9 +1,9 @@
 Fulltext Search Boosting
 ========================
 
-The Fulltext Search Boost functionality in the ``netgen/ibexa-search-extra`` package allows fine-tuning of search
-results by applying configurable boost values to specific content types, raw fields, and meta-fields. This feature is
-particularly useful for improving the relevance of search results in Solr-based search implementations.
+The Fulltext Search Boost functionality allows fine-tuning of search results by applying configurable boost values to
+specific content types, raw fields, and meta-fields. This feature is particularly useful for improving the relevance of
+search results in Solr-based search implementations.
 
 Configuration
 -------------
