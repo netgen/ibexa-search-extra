@@ -73,7 +73,8 @@ class IndexPagesCommand extends Command
      */
     private function indexContent(OutputInterface $output, InputInterface $input, array $siteConfig): void
     {
-        $contentIds = explode(',', $input->getOption('content-ids'));
+        $contentIdInput = $input->getOption('content-ids');
+        $contentIds = $contentIdInput === null ? [] : explode(',', $input->getOption('content-ids'));
 
         $allowedContentTypes = $siteConfig['allowed_content_types'];
         $offset = 0;
