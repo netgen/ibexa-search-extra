@@ -13,6 +13,8 @@ This only lists all implemented features, see the
 [documentation](https://docs.netgen.io/projects/search-extra)
 for more details on specific ones.
 
+- [Page indexing](https://docs.netgen.io/projects/search-extra/en/latest/reference/page_indexing.html) (`solr`, `elastic`)
+
 - Custom `FullText` criterion with [configurable boosting](https://docs.netgen.io/projects/search-extra/en/latest/reference/fulltext_search_boosting.html) (`solr`)
 
 - [Extensible DocumentFactory](https://docs.netgen.io/projects/search-extra/en/latest/reference/document_factory.html) (`elastic`)
@@ -30,7 +32,7 @@ for more details on specific ones.
 - [`Visible`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/Visible.php) criterion (`solr`, `elastic`, `legacy`),
   usable in both Content and Location search. The criterion works on compound visibility of Content and Location objects:
   the Content is visible if it's marked as visible; the Location is visible if it's marked as visible, is not hidden by
-  one of its ancestor Locations, and it's Content is visible.
+  one of its ancestor Locations, and its Content is visible.
 
 - [Spellcheck suggestions support](https://docs.netgen.io/projects/search-extra/en/latest/reference/spellcheck_suggestions.html) (`solr`)
 
@@ -39,7 +41,7 @@ for more details on specific ones.
   Provides a way to sort directly on Solr field by its name.
 
 - Pagerfanta adapters providing access to extra information returned by the search
-  engine, like facets, aggregations, max score and execution time (`solr`, `legacy`):
+  engine, like facets, aggregations, max score, and execution time (`solr`, `legacy`):
 
   - [`SearchAdapter`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/Core/Pagination/Pagerfanta/SearchAdapter.php) when using `API` search service
   - [`SearchHandlerAdapter`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/Core/Pagination/Pagerfanta/SearchHandlerAdapter.php) when using `SPI` search handler
@@ -48,7 +50,7 @@ for more details on specific ones.
 - [`SectionIdentifier`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/SectionIdentifier.php) criterion (`solr`, `legacy`)
 - Support for custom Content subdocuments (Solr search engine) (`solr`)
 
-  Provides a way to index custom subdocuments to Content document and
+  Provides a way to index custom subdocuments to a Content document and
   [`SubdocumentQuery`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/SubdocumentQuery.php)
   criterion, available in Content search to define grouped conditions for a custom subdocument.
 
@@ -56,7 +58,7 @@ for more details on specific ones.
 
   Provides a way to sort Content by a subdocument field, choosing score calculation mode and optionally limiting with `SubdocumentQuery` criterion.
 
-  **Note:** This will require Solr `6.6` or higher in order to work correctly with all scoring modes.
+  **Note:** This will require Solr `6.6` or higher to work correctly with all scoring modes.
 
 - [`LocationQuery`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/LocationQuery.php) criterion (`solr`, `legacy`)
 
@@ -86,8 +88,9 @@ for more details on specific ones.
 
 - [`Loading`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/Core/Search/Solr/ResultExtractor/LoadingResultExtractor.php) implementation of result extractor (`solr`)
 
-  Loading result extractor gets it's value objects by loading them from the persistence. This
-  prevents:
+  Loading result extractor gets its value objects
+  by loading them from the persistence.
+  This prevents:
 
     - `UnauthorizedException` failures because of the missing `content/versionread` permission
     when Content is updated and incremented current version number is not yet indexed in Solr
