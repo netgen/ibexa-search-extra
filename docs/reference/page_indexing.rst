@@ -58,17 +58,17 @@ array parameter. The available options are:
 
   This is an integer defining the root Location of the site you are configuring.
 
-* ``language_siteaccess_map``
+* ``language_siteaccess_map`` **optional**
 
   Defines a map of language codes to siteaccess name. When indexing a Content item in a specific language, the URL for
   scraping will be generated for the configured siteaccess.
 
-* ``fields``
+* ``fields`` **optional**
 
   Defines a map of indexed fields. Each field contains an array of simplified CSS selectors that will be used to map the
   text content of the scraped page to the given field.
 
-* ``allowed_content_types``
+* ``allowed_content_types`` **optional**
 
   Defines a list ContentType identifiers for Content items that will be indexed as pages. This is a whitelist, meaning
   if you don't configure anything here, nothing will be indexed as page.
@@ -80,6 +80,11 @@ array parameter. The available options are:
 
 For each Content item and language, the configuration will be processed by site sequentially until a match is found.
 That means you can use different configuration for a particular language under the same tree root.
+
+.. note::
+
+   Note that source from which the text will be extracted must be delimited by XML comments
+   ``<!--begin page content-->`` and ``<!--end page content-->``.
 
 Indexing
 --------
