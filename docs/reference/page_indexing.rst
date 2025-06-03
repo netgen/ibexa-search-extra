@@ -2,7 +2,7 @@ Page indexing
 =============
 
 This feature implements indexing of Content by scraping the corresponding web page and indexing its content into the
-configured search engine.
+configured search engine. It's implemented for ``solr`` and ``elastic`` search engines.
 
 Configuration
 -------------
