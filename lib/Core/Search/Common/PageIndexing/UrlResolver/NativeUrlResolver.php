@@ -22,7 +22,7 @@ final class NativeUrlResolver extends UrlResolver
      */
     public function resolveUrl(ContentInfo $contentInfo, string $languageCode): string
     {
-        $config = $this->configResolver->resolveConfig($contentInfo->id, $languageCode);
+        $config = $this->configResolver->resolveConfig($contentInfo, $languageCode);
         /** @var \Ibexa\Bundle\Core\Routing\UrlAliasRouter $router */
         $router = $this->router;
 
