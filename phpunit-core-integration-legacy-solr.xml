@@ -25,7 +25,7 @@
         <env name="SEARCH_ENGINE" value="solr"/>
     </php>
     <testsuites>
-        <!-- Search service is used all over the place, so we must run entire integration test suite -->
+        <!-- Search service is used all over the place, so we must run the entire integration test suite -->
         <testsuite name="integration_repository">
             <directory>tests/lib/Kernel</directory>
             <directory>vendor/ibexa/core/tests/integration/Core</directory>
