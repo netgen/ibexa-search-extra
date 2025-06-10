@@ -469,6 +469,8 @@ final class DescendantIndexingLocationTest extends BaseTest
         $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
         $contentTypeCreateStruct->names = ['eng-GB' => 'Descendant indexing test'];
         $contentTypeCreateStruct->isContainer = true;
+        $contentTypeCreateStruct->nameSchema = '<name>';
+        $contentTypeCreateStruct->urlAliasSchema = '<name>';
         $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
         $fieldDefinitionCreateStruct->position = 0;
         $fieldDefinitionCreateStruct->isSearchable = true;
