@@ -313,4 +313,6 @@ services:
             - ['addSubscriber', ['@netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.section']]
             - ['addSubscriber', ['@netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.trash']]
             - ['addSubscriber', ['@netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.user']]
-#            - ['addSubscriber', ['@Ibexa\Core\Repository\EventSubscriber\NameSchemaSubscriber' ]]
+            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\BookmarkEventSubscriber']]
+            - ['addSubscriber', ['@Ibexa\Core\Repository\EventSubscriber\NameSchemaSubscriber']]
+            - ['addSubscriber', ['@Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber']]
