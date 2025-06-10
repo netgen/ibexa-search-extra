@@ -1,0 +1,90 @@
+services:
+    netgen.ibexa_search_extra.descendant_indexing.message_handler.assign_section_to_subtree:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\AssignSectionToSubtreeHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+            - '@?logger'
+        tags:
+            - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.ibexa_search_extra.descendant_indexing.message_handler.copy_subtree:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\CopySubtreeHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+            - '@?logger'
+        tags:
+            - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.ibexa_search_extra.descendant_indexing.message_handler.create_location:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\CreateLocationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+            - '@?logger'
+        tags:
+            - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.ibexa_search_extra.descendant_indexing.message_handler.delete_location:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\DeleteLocationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+            - '@?logger'
+        tags:
+            - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.ibexa_search_extra.descendant_indexing.message_handler.hide_location:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\HideLocationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+            - '@?logger'
+        tags:
+            - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.ibexa_search_extra.descendant_indexing.message_handler.move_subtree:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\MoveSubtreeHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+            - '@?logger'
+        tags:
+            - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.ibexa_search_extra.descendant_indexing.message_handler.swap_location:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\SwapLocationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+            - '@?logger'
+        tags:
+            - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.ibexa_search_extra.descendant_indexing.message_handler.unhide_location:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\UnhideLocationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+            - '@?logger'
+        tags:
+            - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.ibexa_search_extra.descendant_indexing.message_handler.update_location:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\UpdateLocationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+            - '@?logger'
+        tags:
+            - { name: netgen.ibexa_search_extra.descendant_indexing.message_handler }
+            - { name: monolog.logger, channel: ngsearchextra }
