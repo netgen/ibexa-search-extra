@@ -94,6 +94,7 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $this->processFullTextBoostConfiguration($configuration, $container);
         $this->processUsePageIndexingConfiguration($configuration, $container);
         $this->processPageIndexingConfiguration($configuration, $container);
+        $this->processFileTextExtractionConfiguration($configuration, $container);
     }
 
     private function processSearchResultExtractorConfiguration(array $configuration, ContainerBuilder $container): void
@@ -155,6 +156,19 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $container->setParameter(
             'netgen_ibexa_search_extra.page_indexing.enabled',
             $configuration['page_indexing']['enabled'] ?? false,
+        );
+    }
+
+    private function processFileTextExtractionConfiguration(array $configuration, ContainerBuilder $container): void
+    {
+        $container->setParameter(
+            'netgen_ibexa_search_extra.file_text_extraction.java_executable_path',
+            $configuration['file_text_extraction']['java_executable_path'],
+        );
+
+        $container->setParameter(
+            'netgen_ibexa_search_extra.file_text_extraction.allowed_mime_types',
+            $configuration['file_text_extraction']['allowed_mime_types'],
         );
     }
 }
