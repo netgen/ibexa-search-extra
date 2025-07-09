@@ -31,13 +31,14 @@ class Configuration implements ConfigurationInterface
         $this->addFulltextBoostSection($rootNode);
         $this->addUsePageIndexingSection($rootNode);
         $this->addPageIndexingSection($rootNode);
+        $this->addFileTextExtractionSection($rootNode);
 
         return $treeBuilder;
     }
 
     private function addIndexableFieldTypeSection(ArrayNodeDefinition $nodeDefinition): void
     {
-        /** @noinspection NullPointerExceptionInspection */
+        /* @noinspection NullPointerExceptionInspection */
         $nodeDefinition
             ->children()
                 ->arrayNode('indexable_field_type')
@@ -61,7 +62,7 @@ class Configuration implements ConfigurationInterface
 
     private function addSearchResultExtractorSection(ArrayNodeDefinition $nodeDefinition): void
     {
-        /** @noinspection NullPointerExceptionInspection */
+        /* @noinspection NullPointerExceptionInspection */
         $nodeDefinition
             ->children()
                 ->booleanNode('use_loading_search_result_extractor')
@@ -73,7 +74,7 @@ class Configuration implements ConfigurationInterface
 
     private function addAsynchronousIndexingSection(ArrayNodeDefinition $nodeDefinition): void
     {
-        /** @noinspection NullPointerExceptionInspection */
+        /* @noinspection NullPointerExceptionInspection */
         $nodeDefinition
             ->children()
                 ->booleanNode('use_asynchronous_indexing')
@@ -85,7 +86,7 @@ class Configuration implements ConfigurationInterface
 
     private function addFulltextBoostSection(ArrayNodeDefinition $nodeDefinition): void
     {
-        /** @noinspection NullPointerExceptionInspection */
+        /* @noinspection NullPointerExceptionInspection */
         $nodeDefinition
             ->children()
                 ->arrayNode('fulltext')
@@ -248,5 +249,29 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
+    }
+
+    private function addFileTextExtractionSection(ArrayNodeDefinition $nodeDefinition): void
+    {
+        $nodeDefinition
+            ->children()
+                ->arrayNode('file_text_extraction')
+                ->addDefaultsIfNotSet()
+                ->info('File text extraction configuration for ezbinaryfile')
+                ->children()
+                    ->scalarNode('java_executable_path')
+                        ->info('Path to Java executable')
+                        ->defaultValue('/usr/bin/java')
+                    ->end()
+                    ->arrayNode('allowed_mime_types')
+                        ->info('List of allowed MIME types for text extraction')
+                        ->scalarPrototype()->end()
+                        ->defaultValue([
+                            'application/pdf',
+                        ])
+                    ->end()
+                ->end()
+            ->end()
+        ->end();
     }
 }
