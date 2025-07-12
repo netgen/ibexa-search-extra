@@ -21,7 +21,5 @@ services:
     Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor\FileTextExtractor:
         arguments:
             - '@ibexa.field_type.ezbinaryfile.io_service'
-            - '%kernel.project_dir%'
-            - 'vendor/netgen/ibexa-search-extra/bin/tika-app-3.2.0.jar'
-            - '%netgen_ibexa_search_extra.file_text_extraction.java_executable_path%'
-            - '%netgen_ibexa_search_extra.file_text_extraction.allowed_mime_types%'
+            - '@apache_tika.client'
+            - '%netgen_ibexa_search_extra.apache_tika.allowed_mime_types%'
