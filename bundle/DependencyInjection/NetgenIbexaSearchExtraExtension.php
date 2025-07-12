@@ -7,10 +7,13 @@ namespace Netgen\Bundle\IbexaSearchExtraBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Yaml\Yaml;
+use Vaites\ApacheTika\Clients\CLIClient;
+use Vaites\ApacheTika\Clients\WebClient;
 
 use function array_key_exists;
 use function file_get_contents;
@@ -94,7 +97,7 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $this->processFullTextBoostConfiguration($configuration, $container);
         $this->processUsePageIndexingConfiguration($configuration, $container);
         $this->processPageIndexingConfiguration($configuration, $container);
-        $this->processFileTextExtractionConfiguration($configuration, $container);
+        $this->processApacheTikaConfiguration($configuration, $container);
     }
 
     private function processSearchResultExtractorConfiguration(array $configuration, ContainerBuilder $container): void
@@ -159,16 +162,44 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         );
     }
 
-    private function processFileTextExtractionConfiguration(array $configuration, ContainerBuilder $container): void
+    private function processApacheTikaConfiguration(array $configuration, ContainerBuilder $container): void
     {
         $container->setParameter(
-            'netgen_ibexa_search_extra.file_text_extraction.java_executable_path',
-            $configuration['file_text_extraction']['java_executable_path'],
+            'netgen_ibexa_search_extra.apache_tika.mode',
+            $configuration['apache_tika']['mode'],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.apache_tika.path',
+            $configuration['apache_tika']['path'],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.apache_tika.host',
+            $configuration['apache_tika']['host'],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.apache_tika.port',
+            $configuration['apache_tika']['port'],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.apache_tika.allowed_mime_types',
+            $configuration['apache_tika']['allowed_mime_types'],
         );
 
-        $container->setParameter(
-            'netgen_ibexa_search_extra.file_text_extraction.allowed_mime_types',
-            $configuration['file_text_extraction']['allowed_mime_types'],
-        );
+        if ($configuration['apache_tika']['mode'] === 'cli') {
+            $path = $configuration['apache_tika']['path']
+                ?? throw new \RuntimeException(
+                    'Apache Tika config: mode is set to cli, but path to JAR file is not set.',
+                );
+            $apacheTikaClient = new Definition(CLIClient::class);
+            $apacheTikaClient->setArguments([$path]);
+        } else {
+            $host = $configuration['apache_tika']['host'] ?? '127.0.0.1';
+            $port = $configuration['apache_tika']['port'] ?? '9998';
+            $apacheTikaClient = new Definition(WebClient::class);
+            $apacheTikaClient->setArguments([$host, $port]);
+        }
+
+        $apacheTikaClient->setPublic(true);
+        $container->setDefinition('apache_tika.client', $apacheTikaClient);
     }
 }
