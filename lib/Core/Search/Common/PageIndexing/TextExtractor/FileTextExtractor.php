@@ -8,7 +8,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Core\FieldType\BinaryBase\Value;
 use Ibexa\Core\IO\IOServiceInterface;
 use RuntimeException;
-use Symfony\Component\Process\Process;
+use Vaites\ApacheTika\Client as ApacheTikaClient;
 
 use function in_array;
 use function sprintf;
@@ -20,9 +20,7 @@ final class FileTextExtractor
 {
     public function __construct(
         private readonly IOServiceInterface $binaryFileIoService,
-        private readonly string $projectDir,
-        private readonly string $apacheTikaDir,
-        private readonly string $javaDir,
+        private readonly ApacheTikaClient $apacheTikaClient,
         private readonly array $allowedMimeTypes,
     ) {}
 
@@ -48,29 +46,17 @@ final class FileTextExtractor
 
         $file = $this->binaryFileIoService->loadBinaryFile($fileId);
 
-        $process = new Process(
-            [
-                $this->javaDir,
-                '-jar',
-                $this->apacheTikaDir,
-                '--text',
-                sprintf('public%s', $file->uri),
-            ],
-            $this->projectDir,
-        );
-        $process->run();
-        $exitCode = $process->getExitCode();
-
-        if ($exitCode !== 0) {
+        try {
+            return $this->apacheTikaClient->getText(sprintf('public%s', $file->uri));
+        } catch (\Exception $e) {
             throw new RuntimeException(
                 sprintf(
-                    'Could not extract text from file with ID "%s": %s',
+                    'Could not extract text from file with ID "%s": %s (%s)',
                     $fileId,
-                    $process->getExitCodeText(),
+                    $e->getMessage(),
+                    $e->getCode(),
                 ),
             );
         }
-
-        return $process->getOutput();
     }
 }
