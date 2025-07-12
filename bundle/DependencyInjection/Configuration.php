@@ -31,7 +31,7 @@ class Configuration implements ConfigurationInterface
         $this->addFulltextBoostSection($rootNode);
         $this->addUsePageIndexingSection($rootNode);
         $this->addPageIndexingSection($rootNode);
-        $this->addFileTextExtractionSection($rootNode);
+        $this->addApacheTikaSection($rootNode);
 
         return $treeBuilder;
     }
@@ -251,17 +251,31 @@ class Configuration implements ConfigurationInterface
             ->end();
     }
 
-    private function addFileTextExtractionSection(ArrayNodeDefinition $nodeDefinition): void
+    private function addApacheTikaSection(ArrayNodeDefinition $nodeDefinition): void
     {
         $nodeDefinition
             ->children()
-                ->arrayNode('file_text_extraction')
-                ->addDefaultsIfNotSet()
-                ->info('File text extraction configuration for ezbinaryfile')
+                ->arrayNode('apache_tika')
+                ->info('Apache Tika configuration')
                 ->children()
-                    ->scalarNode('java_executable_path')
-                        ->info('Path to Java executable')
-                        ->defaultValue('/usr/bin/java')
+                    ->scalarNode('mode')
+                        ->info('Choose either cli or server')
+                        ->isRequired()
+                        ->cannotBeEmpty()
+                        ->validate()
+                            ->ifNotInArray(['cli', 'server'])
+                            ->thenInvalid('Parameter `mode` must be either "cli" or "server"')
+                        ->end()
+                    ->end()
+                    ->scalarNode('path')
+                        ->info('Path to the Apache Tika JAR file')
+                        ->defaultNull()
+                    ->end()
+                    ->scalarNode('host')
+                        ->defaultValue('127.0.0.1')
+                    ->end()
+                    ->scalarNode('port')
+                        ->defaultValue('9998')
                     ->end()
                     ->arrayNode('allowed_mime_types')
                         ->info('List of allowed MIME types for text extraction')
@@ -270,6 +284,16 @@ class Configuration implements ConfigurationInterface
                             'application/pdf',
                         ])
                     ->end()
+                ->end()
+                ->validate()
+                    ->ifTrue(static function ($v): bool { return $v['mode'] === 'cli' && empty($v['path']); })
+                    ->thenInvalid('Parameter `path` must be specified when `mode` is "cli".')
+                ->end()
+                ->validate()
+                    ->ifTrue(static function ($v): bool {
+                        return $v['mode'] === 'server' && (empty($v['host']) || empty($v['port']));
+                    })
+                    ->thenInvalid('Both parameters `host` and `port` must be specified when `mode` is "server".')
                 ->end()
             ->end()
         ->end();
