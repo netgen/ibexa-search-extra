@@ -7,6 +7,7 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\SourceFetcher;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\Exception\PageUnavailableException;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\SourceFetcher;
 use Symfony\Component\HttpClient\HttpClient;
+use Throwable;
 
 final class NativeSourceFetcher extends SourceFetcher
 {
@@ -23,9 +24,14 @@ final class NativeSourceFetcher extends SourceFetcher
     {
         $response = HttpClient::create()->request('GET', $url);
 
-        $html = $response->getContent();
+        try {
+            $html = $response->getContent(false);
+            $statusCode = $response->getStatusCode();
+        } catch (Throwable $throwable) {
+            throw new PageUnavailableException($url, $throwable->getMessage());
+        }
 
-        if ($response->getStatusCode() !== 200) {
+        if ($statusCode !== 200) {
             throw new PageUnavailableException($url, json_encode($response->getInfo(), JSON_THROW_ON_ERROR));
         }
 
