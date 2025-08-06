@@ -63,6 +63,10 @@ class FullText extends CriterionVisitor
             'boost' => $boost,
         ];
 
+        foreach ($criterion->additionalParameters as $name => $value) {
+            $queryParams[$name] = $value;
+        }
+
         $queryParamsString = implode(
             ' ',
             array_map(
