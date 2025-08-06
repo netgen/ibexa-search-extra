@@ -68,6 +68,22 @@ class FullText extends Criterion implements FulltextSpellcheck
      */
     public array $metaFieldsBoost = [];
 
+
+    /**
+     * Additional parameters for the search engine.
+     *
+     * This can be used to pass additional parameters to the search engine
+
+     * ```php
+     * [
+     *      'mm' => '1<3 3<75% 7<4',
+     * ]
+     * ```
+     *
+     * @var array<string, mixed>
+     */
+    public array $additionalParameters = [];
+
     /**
      * @param array<string, mixed> $properties
      */
