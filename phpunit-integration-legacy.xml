@@ -20,8 +20,14 @@
             <exclude>tests/lib/Integration/API/SubdocumentQueryCriterionTest.php</exclude>
             <exclude>tests/lib/Integration/API/FulltextSpellcheckCriterionTest.php</exclude>
             <exclude>tests/lib/Integration/API/ExtraFieldsTest.php</exclude>
+            <exclude>tests/lib/Integration/API/DescendantIndexingTest.php</exclude>
             <exclude>tests/lib/Integration/Solr/RawFacetDomainTest.php</exclude>
             <exclude>tests/lib/Integration/Solr/RawFacetTest.php</exclude>
+            <exclude>tests/lib/Integration/API/DescendantIndexingContentTest.php</exclude>
+            <exclude>tests/lib/Integration/API/DescendantIndexingLocationTest.php</exclude>
+            <exclude>tests/lib/Integration/API/DescendantIndexingObjectStateTest.php</exclude>
+            <exclude>tests/lib/Integration/API/DescendantIndexingTrashTest.php</exclude>
+            <exclude>tests/lib/Integration/API/DescendantIndexingSectionTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
