@@ -5,3 +5,4 @@ composer.lock
 var
 __solr
 docs/_build
+.idea/
