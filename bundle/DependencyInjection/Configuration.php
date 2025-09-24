@@ -256,6 +256,7 @@ class Configuration implements ConfigurationInterface
         $nodeDefinition
             ->children()
                 ->arrayNode('file_indexing')
+                ->addDefaultsIfNotSet()
                 ->info('Configuration for file indexing')
                 ->children()
                     ->booleanNode('enabled')
@@ -263,12 +264,12 @@ class Configuration implements ConfigurationInterface
                         ->defaultFalse()
                     ->end()
                     ->arrayNode('apache_tika')
+                    ->addDefaultsIfNotSet()
                     ->info('Apache Tika configuration')
                     ->children()
                         ->scalarNode('mode')
                             ->info('Choose either cli or server')
-                            ->isRequired()
-                            ->cannotBeEmpty()
+                            ->defaultValue('server')
                             ->validate()
                                 ->ifNotInArray(['cli', 'server'])
                                 ->thenInvalid('Parameter `mode` must be either "cli" or "server"')
@@ -293,7 +294,9 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                     ->validate()
-                        ->ifTrue(static function ($v): bool { return $v['mode'] === 'cli' && empty($v['path']); })
+                        ->ifTrue(static function ($v): bool {
+                            return $v['mode'] === 'cli' && empty($v['path']);
+                        })
                         ->thenInvalid('Parameter `path` must be specified when `mode` is "cli".')
                     ->end()
                     ->validate()
