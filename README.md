@@ -103,6 +103,38 @@ for more details on specific ones.
   netgen_ibexa_search_extra:
       use_loading_search_result_extractor: true
   ```
+  
+- Indexable implementation for [`BinaryFile`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/Core/FieldType/BinaryFile/SearchField.php)
+
+  This implementation enables file indexing by using Apache Tika to extract text 
+  from a file and index that text. Apache Tika can be run as a server or just be 
+  an executable jar file - both ways are supported. File indexing is disabled by default. 
+  If you want to enable it, please specify one of the two following configurations:
+
+  ```yaml
+  # Apache Tika as an executable jar file
+  netgen_ibexa_search_extra:
+      file_indexing: 
+          enabled: true   # is false by default
+          apache_tika:
+              mode: cli
+              path: '<path/to/jar/file>'
+              allowed_mime_types:   # default value - not necessary here
+                - application/pdf
+  ```
+
+  ```yaml
+  # Apache Tika being run as a server
+  netgen_ibexa_search_extra:
+      file_indexing: 
+          enabled: true   # is false by default
+          apache_tika:
+              mode: server          # default value
+              host: '127.0.0.1'     # default value
+              port: '9998'          # default value
+              allowed_mime_types:   # default value - not necessary here
+                - application/pdf
+  ```
 
 ## Installation
 
