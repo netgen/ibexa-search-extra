@@ -23,11 +23,16 @@ final class SearchField implements Indexable
     public function __construct(
         private readonly Indexable $innerField,
         private readonly FileTextExtractor $fileTextExtractor,
+        private readonly bool $fileIndexingEnabled,
     ) {}
 
     public function getIndexData(Field $field, FieldDefinition $fieldDefinition): array
     {
         $searchFields = $this->innerField->getIndexData($field, $fieldDefinition);
+
+        if (!$this->fileIndexingEnabled) {
+            return $searchFields;
+        }
 
         $text = $this->extractText($field);
 
