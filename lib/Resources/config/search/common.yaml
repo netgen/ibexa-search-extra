@@ -11,15 +11,3 @@ services:
 
     Netgen\IbexaSearchExtra\Core\Search\Common\Query\ConfiguredFulltextCriterionFactory:
         alias: netgen.ibexa_search_extra.fulltext.configured_factory
-
-    Netgen\IbexaSearchExtra\Core\FieldType\BinaryFile\SearchField:
-        decorates: Ibexa\Core\FieldType\BinaryFile\SearchField
-        arguments:
-            $innerField: '@.inner'
-            $fileTextExtractor: '@Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor\FileTextExtractor'
-
-    Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor\FileTextExtractor:
-        arguments:
-            - '@ibexa.field_type.ezbinaryfile.io_service'
-            - '@apache_tika.client'
-            - '%netgen_ibexa_search_extra.apache_tika.allowed_mime_types%'
