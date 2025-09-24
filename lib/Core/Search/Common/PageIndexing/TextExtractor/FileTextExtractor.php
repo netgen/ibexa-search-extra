@@ -20,7 +20,7 @@ final class FileTextExtractor
 {
     public function __construct(
         private readonly IOServiceInterface $binaryFileIoService,
-        private readonly ApacheTikaClient $apacheTikaClient,
+        private readonly ?ApacheTikaClient $apacheTikaClient,
         private readonly array $allowedMimeTypes,
     ) {}
 
@@ -38,6 +38,10 @@ final class FileTextExtractor
 
     public function extractByFileId(string $fileId): string
     {
+        if ($this->apacheTikaClient === null) {
+            return '';
+        }
+
         $mimeType = $this->binaryFileIoService->getMimeType($fileId);
 
         if (!in_array($mimeType, $this->allowedMimeTypes, true)) {
