@@ -55,6 +55,10 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
             $loader->load('search/elasticsearch_services.yaml');
         }
 
+        if (class_exists(CLIClient::class) && class_exists(WebClient::class)) {
+            $loader->load('search/file_indexing.yaml');
+        }
+
         $loader->load('search/common.yaml');
 
         $this->processExtensionConfiguration($configs, $container);
@@ -97,7 +101,7 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $this->processFullTextBoostConfiguration($configuration, $container);
         $this->processUsePageIndexingConfiguration($configuration, $container);
         $this->processPageIndexingConfiguration($configuration, $container);
-        $this->processApacheTikaConfiguration($configuration, $container);
+        $this->processFileIndexingConfiguration($configuration, $container);
     }
 
     private function processSearchResultExtractorConfiguration(array $configuration, ContainerBuilder $container): void
@@ -162,44 +166,50 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         );
     }
 
-    private function processApacheTikaConfiguration(array $configuration, ContainerBuilder $container): void
+    private function processFileIndexingConfiguration(array $configuration, ContainerBuilder $container): void
     {
         $container->setParameter(
-            'netgen_ibexa_search_extra.apache_tika.mode',
-            $configuration['apache_tika']['mode'],
+            'netgen_ibexa_search_extra.file_indexing.enabled',
+            $configuration['file_indexing']['enabled'],
         );
         $container->setParameter(
-            'netgen_ibexa_search_extra.apache_tika.path',
-            $configuration['apache_tika']['path'],
+            'netgen_ibexa_search_extra.file_indexing.apache_tika.mode',
+            $configuration['file_indexing']['apache_tika']['mode'],
         );
         $container->setParameter(
-            'netgen_ibexa_search_extra.apache_tika.host',
-            $configuration['apache_tika']['host'],
+            'netgen_ibexa_search_extra.file_indexing.apache_tika.path',
+            $configuration['file_indexing']['apache_tika']['path'],
         );
         $container->setParameter(
-            'netgen_ibexa_search_extra.apache_tika.port',
-            $configuration['apache_tika']['port'],
+            'netgen_ibexa_search_extra.file_indexing.apache_tika.host',
+            $configuration['file_indexing']['apache_tika']['host'],
         );
         $container->setParameter(
-            'netgen_ibexa_search_extra.apache_tika.allowed_mime_types',
-            $configuration['apache_tika']['allowed_mime_types'],
+            'netgen_ibexa_search_extra.file_indexing.apache_tika.port',
+            $configuration['file_indexing']['apache_tika']['port'],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.file_indexing.apache_tika.allowed_mime_types',
+            $configuration['file_indexing']['apache_tika']['allowed_mime_types'],
         );
 
-        if ($configuration['apache_tika']['mode'] === 'cli') {
-            $path = $configuration['apache_tika']['path']
-                ?? throw new \RuntimeException(
-                    'Apache Tika config: mode is set to cli, but path to JAR file is not set.',
-                );
-            $apacheTikaClient = new Definition(CLIClient::class);
-            $apacheTikaClient->setArguments([$path]);
-        } else {
-            $host = $configuration['apache_tika']['host'] ?? '127.0.0.1';
-            $port = $configuration['apache_tika']['port'] ?? '9998';
-            $apacheTikaClient = new Definition(WebClient::class);
-            $apacheTikaClient->setArguments([$host, $port]);
+        if ($configuration['file_indexing']['enabled']) {
+            if ($configuration['file_indexing']['apache_tika']['mode'] === 'cli') {
+                $path = $configuration['file_indexing']['apache_tika']['path']
+                    ?? throw new \RuntimeException(
+                        'File indexing Apache Tika config: mode is set to cli, but path to JAR file is not set.',
+                    );
+                $apacheTikaClient = new Definition(CLIClient::class);
+                $apacheTikaClient->setArguments([$path]);
+            } else {
+                $host = $configuration['file_indexing']['apache_tika']['host'] ?? '127.0.0.1';
+                $port = $configuration['file_indexing']['apache_tika']['port'] ?? '9998';
+                $apacheTikaClient = new Definition(WebClient::class);
+                $apacheTikaClient->setArguments([$host, $port]);
+            }
+
+            $apacheTikaClient->setPublic(true);
+            $container->setDefinition('apache_tika.client', $apacheTikaClient);
         }
-
-        $apacheTikaClient->setPublic(true);
-        $container->setDefinition('apache_tika.client', $apacheTikaClient);
     }
 }
