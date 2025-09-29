@@ -7,10 +7,13 @@ namespace Netgen\Bundle\IbexaSearchExtraBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Yaml\Yaml;
+use Vaites\ApacheTika\Clients\CLIClient;
+use Vaites\ApacheTika\Clients\WebClient;
 
 use function array_key_exists;
 use function file_get_contents;
@@ -50,6 +53,10 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
 
         if (array_key_exists('IbexaElasticsearchBundle', $activatedBundlesMap)) {
             $loader->load('search/elasticsearch_services.yaml');
+        }
+
+        if (class_exists(CLIClient::class) && class_exists(WebClient::class)) {
+            $loader->load('search/file_indexing.yaml');
         }
 
         $loader->load('search/common.yaml');
@@ -94,6 +101,7 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
         $this->processFullTextBoostConfiguration($configuration, $container);
         $this->processUsePageIndexingConfiguration($configuration, $container);
         $this->processPageIndexingConfiguration($configuration, $container);
+        $this->processFileIndexingConfiguration($configuration, $container);
     }
 
     private function processSearchResultExtractorConfiguration(array $configuration, ContainerBuilder $container): void
@@ -156,5 +164,52 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
             'netgen_ibexa_search_extra.page_indexing.enabled',
             $configuration['page_indexing']['enabled'] ?? false,
         );
+    }
+
+    private function processFileIndexingConfiguration(array $configuration, ContainerBuilder $container): void
+    {
+        $container->setParameter(
+            'netgen_ibexa_search_extra.file_indexing.enabled',
+            $configuration['file_indexing']['enabled'],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.file_indexing.apache_tika.mode',
+            $configuration['file_indexing']['apache_tika']['mode'],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.file_indexing.apache_tika.path',
+            $configuration['file_indexing']['apache_tika']['path'],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.file_indexing.apache_tika.host',
+            $configuration['file_indexing']['apache_tika']['host'],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.file_indexing.apache_tika.port',
+            $configuration['file_indexing']['apache_tika']['port'],
+        );
+        $container->setParameter(
+            'netgen_ibexa_search_extra.file_indexing.apache_tika.allowed_mime_types',
+            $configuration['file_indexing']['apache_tika']['allowed_mime_types'],
+        );
+
+        if ($configuration['file_indexing']['enabled']) {
+            if ($configuration['file_indexing']['apache_tika']['mode'] === 'cli') {
+                $path = $configuration['file_indexing']['apache_tika']['path']
+                    ?? throw new \RuntimeException(
+                        'File indexing Apache Tika config: mode is set to cli, but path to JAR file is not set.',
+                    );
+                $apacheTikaClient = new Definition(CLIClient::class);
+                $apacheTikaClient->setArguments([$path]);
+            } else {
+                $host = $configuration['file_indexing']['apache_tika']['host'] ?? '127.0.0.1';
+                $port = $configuration['file_indexing']['apache_tika']['port'] ?? '9998';
+                $apacheTikaClient = new Definition(WebClient::class);
+                $apacheTikaClient->setArguments([$host, $port]);
+            }
+
+            $apacheTikaClient->setPublic(true);
+            $container->setDefinition('apache_tika.client', $apacheTikaClient);
+        }
     }
 }
