@@ -49,10 +49,7 @@ final class SearchField implements Indexable
 
     public function getIndexDefinition(): array
     {
-        $innerDef = $this->innerField->getIndexDefinition();
-        $innerDef['file_text'] = new Search\FieldType\FullTextField();
-
-        return $innerDef;
+        return $this->innerField->getIndexDefinition();
     }
 
     public function getDefaultMatchField(): ?string
