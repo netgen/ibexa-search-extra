@@ -1,6 +1,7 @@
 imports:
     - { resource: common/asynchronous_indexing.yaml }
     - { resource: common/field_value_mappers.yaml }
+    - { resource: common/fulltext.yaml }
     - { resource: common/page_indexing.yaml }
 
 services:
