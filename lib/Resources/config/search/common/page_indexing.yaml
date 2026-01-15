@@ -9,14 +9,11 @@ services:
     netgen.ibexa_search_extra.page_indexing.text_extractor:
         alias: netgen.ibexa_search_extra.page_indexing.text_extractor.native
 
-    netgen.ibexa_search_extra.page_indexing.url_resolver.native:
-        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\UrlResolver\NativeUrlResolver
-        arguments:
-            - '@Ibexa\Bundle\Core\Routing\UrlAliasRouter'
-            - '@netgen.ibexa_search_extra.page_indexing.config_resolver'
+    netgen.ibexa_search_extra.page_indexing.url_resolver.core:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\UrlResolver\CoreUrlResolver
 
     netgen.ibexa_search_extra.page_indexing.url_resolver:
-        alias: netgen.ibexa_search_extra.page_indexing.url_resolver.native
+        alias: netgen.ibexa_search_extra.page_indexing.url_resolver.core
 
     netgen.ibexa_search_extra.page_indexing.source_fetcher.native:
         class: Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\SourceFetcher\NativeSourceFetcher

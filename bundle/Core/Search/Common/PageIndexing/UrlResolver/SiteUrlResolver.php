@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\UrlResolver;
+namespace Netgen\Bundle\IbexaSearchExtraBundle\Core\Search\Common\PageIndexing\UrlResolver;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\ConfigResolver;
@@ -10,7 +10,7 @@ use Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\UrlResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-final class NativeUrlResolver extends UrlResolver
+final class SiteUrlResolver extends UrlResolver
 {
     public function __construct(
         private readonly RouterInterface $router,
