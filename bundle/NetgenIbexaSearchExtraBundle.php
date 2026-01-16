@@ -6,6 +6,7 @@ namespace Netgen\Bundle\IbexaSearchExtraBundle;
 
 use Netgen\Bundle\IbexaSearchExtraBundle\DependencyInjection\Compiler\UrlResolverOverridePass;
 use Netgen\IbexaSearchExtra\Container\Compiler;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -22,6 +23,7 @@ class NetgenIbexaSearchExtraBundle extends Bundle
         $container->addCompilerPass(new Compiler\AggregateFacetBuilderVisitorPass());
         $container->addCompilerPass(new Compiler\AggregateSubdocumentQueryCriterionVisitorPass());
         $container->addCompilerPass(new Compiler\AsynchronousIndexingPass());
+        $container->addCompilerPass(new Compiler\DescendantIndexingPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 100);
         $container->addCompilerPass(new Compiler\FieldType\RichTextIndexablePass());
         $container->addCompilerPass(new Compiler\SearchResultExtractorPass());
         $container->addCompilerPass(new Compiler\RawFacetBuilderDomainVisitorPass());
