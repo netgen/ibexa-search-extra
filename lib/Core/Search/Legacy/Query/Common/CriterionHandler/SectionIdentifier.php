@@ -7,7 +7,7 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Common\CriterionHandl
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SectionHandler;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SectionIdentifier as SectionIdentifierCriterion;
@@ -31,7 +31,7 @@ final class SectionIdentifier extends CriterionHandler
         $this->sectionHandler = $sectionHandler;
     }
 
-    public function accept(Criterion $criterion)
+    public function accept(CriterionInterface $criterion)
     {
         return $criterion instanceof SectionIdentifierCriterion;
     }
@@ -44,7 +44,7 @@ final class SectionIdentifier extends CriterionHandler
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ) {
         $ids = [];
