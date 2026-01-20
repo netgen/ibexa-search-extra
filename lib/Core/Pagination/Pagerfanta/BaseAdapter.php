@@ -18,9 +18,6 @@ use Pagerfanta\Adapter\AdapterInterface;
 abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
 {
     private ?int $nbResults = null;
-
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[] */
-    private ?array $facets = null;
     private ?AggregationResultCollection $aggregations = null;
     private ?float $maxScore = null;
     private ?Suggestion $suggestion = null;
@@ -44,13 +41,6 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
         $this->initializeExtraInfo();
 
         return $this->nbResults;
-    }
-
-    public function getFacets(): array
-    {
-        $this->initializeExtraInfo();
-
-        return $this->facets;
     }
 
     public function getAggregations(): AggregationResultCollection
@@ -121,7 +111,6 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
 
     private function setExtraInfo(SearchResult $searchResult): void
     {
-        $this->facets = $searchResult->facets;
         $this->aggregations = $searchResult->aggregations;
         $this->maxScore = $searchResult->maxScore;
         $this->nbResults = $searchResult->totalCount;
