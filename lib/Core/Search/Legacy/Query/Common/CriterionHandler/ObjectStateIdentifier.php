@@ -8,7 +8,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as ObjectStateHandler;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier as ObjectStateIdentifierCriterion;
@@ -32,7 +32,7 @@ final class ObjectStateIdentifier extends CriterionHandler
         $this->objectStateHandler = $objectStateHandler;
     }
 
-    public function accept(Criterion $criterion)
+    public function accept(CriterionInterface $criterion)
     {
         return $criterion instanceof ObjectStateIdentifierCriterion;
     }
@@ -45,7 +45,7 @@ final class ObjectStateIdentifier extends CriterionHandler
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ) {
         $stateIdentifier = $criterion->value[0];
