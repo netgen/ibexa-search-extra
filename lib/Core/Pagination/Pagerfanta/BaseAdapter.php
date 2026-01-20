@@ -54,7 +54,7 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
     {
         $this->initializeExtraInfo();
 
-        return $this->maxScore ?? 0;
+        return $this->maxScore ?? 0.0;
     }
 
     public function getSuggestion(): Suggestion
@@ -88,7 +88,7 @@ abstract class BaseAdapter implements AdapterInterface, SearchResultExtras
     }
 
     /**
-     * Execute the given $query and return SearchResult instance.
+     * Execute the given $query and return the SearchResult instance.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
      *
