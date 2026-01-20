@@ -9,7 +9,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationQuery as LocationQueryCriterion;
@@ -33,7 +33,7 @@ final class LocationQuery extends CriterionHandler
         $this->locationCriteriaConverter = $locationCriteriaConverter;
     }
 
-    public function accept(Criterion $criterion)
+    public function accept(CriterionInterface $criterion)
     {
         return $criterion instanceof LocationQueryCriterion;
     }
@@ -41,7 +41,7 @@ final class LocationQuery extends CriterionHandler
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ) {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter */
