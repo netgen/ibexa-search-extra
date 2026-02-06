@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\FullText as FullTextCriterion;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use QueryTranslator\Languages\Galach\Generators\ExtendedDisMax;
 use QueryTranslator\Languages\Galach\Parser;
@@ -28,7 +28,7 @@ class FullText extends CriterionVisitor
         private readonly Handler $contentTypeHandler,
     ) {}
 
-    public function canVisit(Criterion $criterion): bool
+    public function canVisit(CriterionInterface $criterion): bool
     {
         return $criterion instanceof FullTextCriterion;
     }
@@ -36,7 +36,7 @@ class FullText extends CriterionVisitor
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
+    public function visit(CriterionInterface $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         /** @var FullTextCriterion $criterion */
         /** @var string $value */
@@ -83,7 +83,7 @@ class FullText extends CriterionVisitor
      * @param FullTextCriterion $criterion
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    private function getBoostParameter(Criterion $criterion): string
+    private function getBoostParameter(CriterionInterface $criterion): string
     {
         $function = '';
 
@@ -103,7 +103,7 @@ class FullText extends CriterionVisitor
     /**
      * @param FullTextCriterion $criterion
      */
-    private function getQueryFields(Criterion $criterion): string
+    private function getQueryFields(CriterionInterface $criterion): string
     {
         $queryFields = ['meta_content__text_t'];
 
