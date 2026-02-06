@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Common\CriterionVisitor;
 
 use Ibexa\Contracts\Core\Persistence\Content\Section\Handler;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SectionIdentifier as SectionIdentifierCriterion;
+
 use function array_map;
 use function implode;
 
@@ -26,7 +27,7 @@ final class SectionIdentifier extends CriterionVisitor
         $this->sectionHandler = $sectionHandler;
     }
 
-    public function canVisit(Criterion $criterion): bool
+    public function canVisit(CriterionInterface $criterion): bool
     {
         return
             $criterion instanceof SectionIdentifierCriterion
@@ -39,7 +40,7 @@ final class SectionIdentifier extends CriterionVisitor
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
+    public function visit(CriterionInterface $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         $handler = $this->sectionHandler;
 
