@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Search\Solr\Query\Content\CriterionVisitor;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery as SubdocumentQueryCriterion;
+
 use function str_replace;
 
 /**
@@ -23,12 +24,12 @@ final class SubdocumentQuery extends CriterionVisitor
         $this->subdocumentQueryCriterionVisitor = $subdocumentQueryCriterionVisitor;
     }
 
-    public function canVisit(Criterion $criterion): bool
+    public function canVisit(CriterionInterface $criterion): bool
     {
         return $criterion instanceof SubdocumentQueryCriterion;
     }
 
-    public function visit(Criterion $criterion, ?CriterionVisitor $subVisitor = null): string
+    public function visit(CriterionInterface $criterion, ?CriterionVisitor $subVisitor = null): string
     {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $query */
         $query = $criterion->value;
