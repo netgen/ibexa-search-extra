@@ -13,16 +13,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOr;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier;
 
-class ObjectStateIdentifierCriterionTest extends BaseTest
+class ObjectStateIdentifierCriterionTest extends BaseTestCase
 {
-    public function providerForTestFind(): array
+    public static function providerForTestFind(): array
     {
         return [
             [
                 new LocationQuery([
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
-                        new ObjectStateIdentifier('ez_lock', 'not_locked'),
+                        new ObjectStateIdentifier('ibexa_lock', 'not_locked'),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
                 ]),
@@ -32,7 +32,7 @@ class ObjectStateIdentifierCriterionTest extends BaseTest
                 new LocationQuery([
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
-                        new ObjectStateIdentifier('ez_lock', 'locked'),
+                        new ObjectStateIdentifier('ibexa_lock', 'locked'),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
                 ]),
@@ -43,8 +43,8 @@ class ObjectStateIdentifierCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
                         new LogicalOr([
-                            new ObjectStateIdentifier('ez_lock', 'locked'),
-                            new ObjectStateIdentifier('ez_lock', 'not_locked'),
+                            new ObjectStateIdentifier('ibexa_lock', 'locked'),
+                            new ObjectStateIdentifier('ibexa_lock', 'not_locked'),
                         ]),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -55,7 +55,7 @@ class ObjectStateIdentifierCriterionTest extends BaseTest
                 new LocationQuery([
                     'filter' => new LogicalAnd([
                         new ContentId([4, 57]),
-                        new ObjectStateIdentifier('ez_lock', 'locked'),
+                        new ObjectStateIdentifier('ibexa_lock', 'locked'),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
                 ]),
@@ -66,7 +66,7 @@ class ObjectStateIdentifierCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
                         new LogicalNot(
-                            new ObjectStateIdentifier('ez_lock', 'locked'),
+                            new ObjectStateIdentifier('ibexa_lock', 'locked'),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -78,7 +78,7 @@ class ObjectStateIdentifierCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([4, 50, 57]),
                         new LogicalNot(
-                            new ObjectStateIdentifier('ez_lock', 'not_locked'),
+                            new ObjectStateIdentifier('ibexa_lock', 'not_locked'),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -103,7 +103,7 @@ class ObjectStateIdentifierCriterionTest extends BaseTest
         $objectStateGroups = $objectStateService->loadObjectStateGroups();
 
         foreach ($objectStateGroups as $objectStateGroup) {
-            if ($objectStateGroup->identifier === 'ez_lock') {
+            if ($objectStateGroup->identifier === 'ibexa_lock') {
                 break;
             }
         }

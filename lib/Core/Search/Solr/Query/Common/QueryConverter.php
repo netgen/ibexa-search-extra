@@ -8,17 +8,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Solr\Query\AggregationVisitor;
 use Ibexa\Contracts\Solr\Query\CriterionVisitor;
 use Ibexa\Contracts\Solr\Query\SortClauseVisitor;
-use Ibexa\Solr\Query\FacetFieldVisitor;
 use Ibexa\Solr\Query\QueryConverter as BaseQueryConverter;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\FulltextSpellcheck;
-use Netgen\IbexaSearchExtra\Core\Search\Solr\API\FacetBuilder\RawFacetBuilder;
-use function array_filter;
+
 use function array_map;
-use function array_merge;
 use function implode;
-use function is_array;
 use function json_encode;
-use function spl_object_hash;
+
 use const JSON_THROW_ON_ERROR;
 
 /**
@@ -28,18 +24,15 @@ class QueryConverter extends BaseQueryConverter
 {
     protected CriterionVisitor $criterionVisitor;
     protected SortClauseVisitor $sortClauseVisitor;
-    protected FacetFieldVisitor $facetBuilderVisitor;
     private AggregationVisitor $aggregationVisitor;
 
     public function __construct(
         CriterionVisitor $criterionVisitor,
         SortClauseVisitor $sortClauseVisitor,
-        FacetFieldVisitor $facetBuilderVisitor,
         AggregationVisitor $aggregationVisitor
     ) {
         $this->criterionVisitor = $criterionVisitor;
         $this->sortClauseVisitor = $sortClauseVisitor;
-        $this->facetBuilderVisitor = $facetBuilderVisitor;
         $this->aggregationVisitor = $aggregationVisitor;
     }
 
@@ -57,18 +50,6 @@ class QueryConverter extends BaseQueryConverter
             'fl' => '*,score,[shard]',
             'wt' => 'json',
         ];
-
-        $facetParams = $this->getFacetParams($query->facetBuilders);
-        if (!empty($facetParams)) {
-            $params['json.facet'] = json_encode($facetParams, JSON_THROW_ON_ERROR);
-        }
-
-        $oldFacetParams = $this->getOldFacetParams($query->facetBuilders);
-        if (!empty($oldFacetParams)) {
-            $params['facet'] = 'true';
-            $params['facet.sort'] = 'count';
-            $params = array_merge($oldFacetParams, $params);
-        }
 
         if (!empty($query->aggregations)) {
             $aggregations = [];
@@ -118,94 +99,5 @@ class QueryConverter extends BaseQueryConverter
                 $sortClauses,
             ),
         );
-    }
-
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
-     *
-     * @return array
-     */
-    private function getFacetParams(array $facetBuilders): array
-    {
-        $facetParams = [];
-        $facetBuilders = $this->filterNewFacetBuilders($facetBuilders);
-
-        foreach ($facetBuilders as $facetBuilder) {
-            $identifier = spl_object_hash($facetBuilder);
-
-            $facetParams[$identifier] = $this->facetBuilderVisitor->visitBuilder(
-                $facetBuilder,
-                null,
-            );
-        }
-
-        return $facetParams;
-    }
-
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[]
-     */
-    private function filterNewFacetBuilders(array $facetBuilders): array
-    {
-        return array_filter(
-            $facetBuilders,
-            static fn ($facetBuilder) => $facetBuilder instanceof RawFacetBuilder,
-        );
-    }
-
-    /**
-     * Converts an array of facet builder objects to a Solr query parameters representation.
-     *
-     * This method uses spl_object_hash() to get id of each and every facet builder, as this
-     * is expected by {@link \Ibexa\Solr\ResultExtractor}.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
-     *
-     * @return array
-     */
-    private function getOldFacetParams(array $facetBuilders): array
-    {
-        $facetParamsGrouped = array_map(
-            fn ($facetBuilder) => $this->facetBuilderVisitor->visitBuilder($facetBuilder, spl_object_hash($facetBuilder)),
-            $this->filterOldFacetBuilders($facetBuilders),
-        );
-
-        return $this->formatOldFacetParams($facetParamsGrouped);
-    }
-
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[] $facetBuilders
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder[]
-     */
-    private function filterOldFacetBuilders(array $facetBuilders): array
-    {
-        return array_filter(
-            $facetBuilders,
-            static fn ($facetBuilder) => !($facetBuilder instanceof RawFacetBuilder),
-        );
-    }
-
-    private function formatOldFacetParams(array $facetParamsGrouped): array
-    {
-        $params = [];
-
-        // In case when facet sets contain same keys, merge them in an array
-        foreach ($facetParamsGrouped as $facetParams) {
-            foreach ($facetParams as $key => $value) {
-                if (isset($params[$key])) {
-                    if (!is_array($params[$key])) {
-                        $params[$key] = [$params[$key]];
-                    }
-                    $params[$key][] = $value;
-                } else {
-                    $params[$key] = $value;
-                }
-            }
-        }
-
-        return $params;
     }
 }

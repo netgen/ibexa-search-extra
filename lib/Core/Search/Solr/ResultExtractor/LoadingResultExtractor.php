@@ -13,15 +13,14 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Spellcheck;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult as APISearchResult;
 use Ibexa\Contracts\Solr\ResultExtractor\AggregationResultExtractor;
 use Ibexa\Solr\Gateway\EndpointRegistry;
-use Ibexa\Solr\Query\FacetFieldVisitor;
 use Ibexa\Solr\ResultExtractor as BaseResultExtractor;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\SearchResult;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\Suggestion;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion;
 use Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor;
 use RuntimeException;
-
 use stdClass;
+
 use function array_key_exists;
 use function count;
 use function get_object_vars;
@@ -42,7 +41,6 @@ final class LoadingResultExtractor extends ResultExtractor
         ContentHandler $contentHandler,
         LocationHandler $locationHandler,
         BaseResultExtractor $nativeResultExtractor,
-        FacetFieldVisitor $facetBuilderVisitor,
         AggregationResultExtractor $aggregationResultExtractor,
         EndpointRegistry $endpointRegistry
     ) {
@@ -50,7 +48,7 @@ final class LoadingResultExtractor extends ResultExtractor
         $this->locationHandler = $locationHandler;
         $this->nativeResultExtractor = $nativeResultExtractor;
 
-        parent::__construct($facetBuilderVisitor, $aggregationResultExtractor, $endpointRegistry);
+        parent::__construct($aggregationResultExtractor, $endpointRegistry);
     }
 
     /**
@@ -70,20 +68,18 @@ final class LoadingResultExtractor extends ResultExtractor
         }
 
         throw new RuntimeException(
-            "Extracting documents of type '{$hit->document_type_id}' is not handled.",
+            sprintf("Extracting documents of type '%s' is not handled.", $hit->document_type_id),
         );
     }
 
     protected function extractSearchResult(
         stdClass $data,
-        array $facetBuilders = [],
         array $aggregations = [],
         array $languageFilter = [],
         ?Spellcheck $spellcheck = null,
     ): APISearchResult {
         $searchResult = $this->nativeResultExtractor->extract(
             $data,
-            $facetBuilders,
             $aggregations,
             $languageFilter,
             $spellcheck,
@@ -175,7 +171,7 @@ final class LoadingResultExtractor extends ResultExtractor
         foreach ($contentIdList as $contentId) {
             try {
                 $contentInfoList[$contentId] = $this->contentHandler->loadContentInfo($contentId);
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException) {
                 // do nothing
             }
         }
@@ -199,7 +195,7 @@ final class LoadingResultExtractor extends ResultExtractor
         foreach ($locationIdList as $locationId) {
             try {
                 $locationList[$locationId] = $this->locationHandler->load($locationId);
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException) {
                 // do nothing
             }
         }

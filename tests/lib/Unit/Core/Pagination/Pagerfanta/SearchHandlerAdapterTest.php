@@ -50,33 +50,13 @@ class SearchHandlerAdapterTest extends TestCase
         self::assertSame($nbResults, $adapter->getNbResults());
     }
 
-    public function testGetFacets(): void
-    {
-        $facets = ['facet', 'facet'];
-        $query = new Query(['limit' => 10]);
-        $countQuery = clone $query;
-        $countQuery->limit = 0;
-        $searchResult = new SearchResult(['facets' => $facets]);
-
-        $this->searchHandler
-            ->expects(self::once())
-            ->method('findContent')
-            ->with(self::equalTo($countQuery))
-            ->willReturn($searchResult);
-
-        $adapter = $this->getAdapter($query);
-
-        self::assertSame($facets, $adapter->getFacets());
-        self::assertSame($facets, $adapter->getFacets());
-    }
-
     public function testGetAggregations(): void
     {
         $aggregations = new AggregationResultCollection();
         $query = new Query(['limit' => 10]);
         $countQuery = clone $query;
         $countQuery->limit = 0;
-        $searchResult = new SearchResult(['aggregations' => $aggregations]);
+        $searchResult = new SearchResult(['aggregations' => $aggregations, 'totalCount' => 123]);
 
         $this->searchHandler
             ->expects(self::once())
@@ -96,7 +76,7 @@ class SearchHandlerAdapterTest extends TestCase
         $query = new Query(['limit' => 10]);
         $countQuery = clone $query;
         $countQuery->limit = 0;
-        $searchResult = new SearchResult(['maxScore' => $maxScore]);
+        $searchResult = new SearchResult(['maxScore' => $maxScore, 'totalCount' => 123]);
 
         $this->searchHandler
             ->expects(self::once())
@@ -127,9 +107,8 @@ class SearchHandlerAdapterTest extends TestCase
         $offset = 20;
         $limit = 25;
         $nbResults = 123;
-        $facets = ['facet', 'facet'];
         $maxScore = 100.0;
-        $time = 256.0;
+        $time = 256;
         $query = new Query(['offset' => 5, 'limit' => 10]);
         $searchQuery = clone $query;
         $searchQuery->offset = $offset;
@@ -140,7 +119,6 @@ class SearchHandlerAdapterTest extends TestCase
         $searchResult = new SearchResult([
             'searchHits' => $hits,
             'totalCount' => $nbResults,
-            'facets' => $facets,
             'maxScore' => $maxScore,
             'time' => $time,
         ]);
@@ -156,7 +134,6 @@ class SearchHandlerAdapterTest extends TestCase
 
         self::assertSame($hits, $slice->getSearchHits());
         self::assertSame($nbResults, $adapter->getNbResults());
-        self::assertSame($facets, $adapter->getFacets());
         self::assertSame($maxScore, $adapter->getMaxScore());
         self::assertSame($time, $adapter->getTime());
     }
@@ -169,7 +146,7 @@ class SearchHandlerAdapterTest extends TestCase
             ->expects(self::once())
             ->method('findLocations')
             ->with(self::equalTo($query))
-            ->willReturn(new SearchResult());
+            ->willReturn(new SearchResult(['totalCount' => '123']));
 
         $adapter = $this->getAdapter($query);
         $adapter->getSlice(0, 25);

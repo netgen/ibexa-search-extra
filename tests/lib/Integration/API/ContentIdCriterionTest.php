@@ -11,9 +11,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ContentId;
 
-class ContentIdCriterionTest extends BaseTest
+class ContentIdCriterionTest extends BaseTestCase
 {
-    public function providerForTestFind(): array
+    public static function providerForTestFind(): array
     {
         return [
             [

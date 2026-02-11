@@ -12,9 +12,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalNot;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SectionIdentifier;
 
-class SectionIdentifierCriterionTest extends BaseTest
+class SectionIdentifierCriterionTest extends BaseTestCase
 {
-    public function providerForTestFind(): array
+    public static function providerForTestFind(): array
     {
         return [
             [

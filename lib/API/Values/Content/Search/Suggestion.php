@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Netgen\IbexaSearchExtra\API\Values\Content\Search;
 
 use InvalidArgumentException;
+
 use function array_key_exists;
 use function array_keys;
 use function array_map;
