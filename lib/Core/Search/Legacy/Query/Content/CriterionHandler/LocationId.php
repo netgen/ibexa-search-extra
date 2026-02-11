@@ -8,6 +8,7 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationId as LocationIdCriterion;
@@ -67,7 +68,7 @@ final class LocationId extends CriterionHandler
                 );
         }
 
-        $subSelect->select('contentobject_id')->from('ezcontentobject_tree')->where($expression);
+        $subSelect->select('contentobject_id')->from(Gateway::CONTENT_TREE_TABLE)->where($expression);
 
         return $queryBuilder->expr()->in('c.id', $subSelect->getSQL());
     }

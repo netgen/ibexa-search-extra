@@ -9,6 +9,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as ObjectStateHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ObjectStateIdentifier as ObjectStateIdentifierCriterion;
@@ -55,7 +56,7 @@ final class ObjectStateIdentifier extends CriterionHandler
 
         $subQuery
             ->select('t1.contentobject_id')
-            ->from('ezcobj_state_link', 't1')
+            ->from(Gateway::OBJECT_STATE_LINK_TABLE, 't1')
             ->where(
                 $subQuery->expr()->eq(
                     't1.contentobject_state_id',

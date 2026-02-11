@@ -8,9 +8,10 @@ use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\WordSuggestion;
 use Netgen\IbexaSearchExtra\Tests\API\FullTextCriterion;
+
 use function getenv;
 use function in_array;
 use function reset;
@@ -18,9 +19,9 @@ use function reset;
 /**
  * @group fulltext-spellcheck
  */
-class FulltextSpellcheckCriterionTest extends BaseTest
+class FulltextSpellcheckCriterionTest extends BaseTestCase
 {
-    public function providerForTestFind(): array
+    public static function providerForTestFind(): array
     {
         return [
             [
@@ -125,10 +126,10 @@ class FulltextSpellcheckCriterionTest extends BaseTest
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('spellcheck_test');
         $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
         $contentTypeCreateStruct->names = ['eng-GB' => 'Article'];
-        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
+        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ibexa_string');
         $fieldDefinitionCreateStruct->position = 0;
         $contentTypeCreateStruct->addFieldDefinition($fieldDefinitionCreateStruct);
-        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('description', 'ezstring');
+        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('description', 'ibexa_string');
         $fieldDefinitionCreateStruct->position = 1;
         $contentTypeCreateStruct->addFieldDefinition($fieldDefinitionCreateStruct);
         $contentTypeDraft = $contentTypeService->createContentType($contentTypeCreateStruct, [reset($contentTypeGroups)]);

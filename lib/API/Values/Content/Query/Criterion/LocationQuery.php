@@ -7,6 +7,7 @@ namespace Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * LocationQuery criterion is used to query Location subdocuments in Content search.
@@ -14,11 +15,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Spec
 class LocationQuery extends Criterion
 {
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter
-     *
      * @throws \InvalidArgumentException
      */
-    public function __construct(Criterion $filter)
+    public function __construct(CriterionInterface $filter)
     {
         parent::__construct(null, null, $filter);
     }

@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location\Id 
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\Visible;
 use function reset;
 
-class VisibleCriterionTest extends BaseTest
+class VisibleCriterionTest extends BaseTestCase
 {
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
@@ -576,7 +576,7 @@ class VisibleCriterionTest extends BaseTest
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('stump');
         $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
         $contentTypeCreateStruct->names = ['eng-GB' => 'Stump type'];
-        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('width', 'ezinteger');
+        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('width', 'ibexa_integer');
         $contentTypeCreateStruct->addFieldDefinition($fieldDefinitionCreateStruct);
         $contentTypeDraft = $contentTypeService->createContentType($contentTypeCreateStruct, [reset($contentTypeGroups)]);
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);

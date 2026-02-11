@@ -7,17 +7,18 @@ namespace Netgen\IbexaSearchExtra\Tests\Integration\API;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\LocationQuery;
 use Netgen\IbexaSearchExtra\Tests\API\FullTextCriterion;
+
 use function reset;
 
 /**
  * @group extra-fields
  */
-class ExtraFieldsTest extends BaseTest
+class ExtraFieldsTest extends BaseTestCase
 {
-    public function providerForTestFind(): array
+    public static function providerForTestFind(): array
     {
         return [
             [
@@ -111,7 +112,7 @@ class ExtraFieldsTest extends BaseTest
         $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
         $contentTypeCreateStruct->names = ['eng-GB' => 'Article'];
 
-        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
+        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ibexa_string');
         $fieldDefinitionCreateStruct->position = 0;
         $contentTypeCreateStruct->addFieldDefinition($fieldDefinitionCreateStruct);
 
@@ -123,7 +124,7 @@ class ExtraFieldsTest extends BaseTest
         $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
         $contentTypeCreateStruct->names = ['eng-GB' => 'Comment'];
 
-        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('comment', 'ezstring');
+        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('comment', 'ibexa_string');
         $fieldDefinitionCreateStruct->position = 0;
         $contentTypeCreateStruct->addFieldDefinition($fieldDefinitionCreateStruct);
 

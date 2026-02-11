@@ -16,23 +16,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Visibility;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as ContentIdSortClause;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationQuery;
 
-class LocationQueryCriterionTest extends BaseTest
+class LocationQueryCriterionTest extends BaseTestCase
 {
-    /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     *
-     * @return array
-     */
-    public function providerForTestFind(): array
+    public static function providerForTestFind(): array
     {
-        $repository = $this->getRepository();
-        $locationService = $repository->getLocationService();
-
-        $homeLocation = $locationService->loadLocation(2);
-        $usersLocation = $locationService->loadLocation(5);
-        $mediaLocation = $locationService->loadLocation(43);
-
         return [
             [
                 new Query([
@@ -76,7 +63,7 @@ class LocationQueryCriterionTest extends BaseTest
                         new ContentId([12, 13, 42]),
                         new LocationQuery(
                             new LogicalAnd([
-                                new Subtree($homeLocation->pathString),
+                                new Subtree('/1/2/'),
                                 new Visibility(Visibility::HIDDEN),
                                 new Priority(Operator::LTE, 100),
                                 new Priority(Operator::GTE, 100),
@@ -94,7 +81,7 @@ class LocationQueryCriterionTest extends BaseTest
                         new ContentId([12, 13, 42]),
                         new LocationQuery(
                             new LogicalAnd([
-                                new Subtree($mediaLocation->pathString),
+                                new Subtree('/1/43/'),
                                 new Visibility(Visibility::HIDDEN),
                                 new Priority(Operator::LTE, 100),
                                 new Priority(Operator::GTE, 100),
@@ -111,7 +98,7 @@ class LocationQueryCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([12, 13, 42]),
                         new LogicalNot(
-                            new Subtree($homeLocation->pathString),
+                            new Subtree('/1/2/'),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -124,7 +111,7 @@ class LocationQueryCriterionTest extends BaseTest
                     'filter' => new LogicalAnd([
                         new ContentId([12, 13, 42]),
                         new LogicalNot(
-                            new Subtree($usersLocation->pathString),
+                            new Subtree('/1/5/'),
                         ),
                     ]),
                     'sortClauses' => [new ContentIdSortClause()],
@@ -138,7 +125,7 @@ class LocationQueryCriterionTest extends BaseTest
                         new ContentId([12, 13, 42]),
                         new LogicalNot(
                             new LocationQuery(
-                                new Subtree($usersLocation->pathString),
+                                new Subtree('/1/5/'),
                             ),
                         ),
                     ]),
@@ -151,10 +138,10 @@ class LocationQueryCriterionTest extends BaseTest
                 new Query([
                     'filter' => new LogicalAnd([
                         new ContentId([12, 13, 42]),
-                        new Subtree($homeLocation->pathString),
+                        new Subtree('/1/2/'),
                         new LocationQuery(
                             new LogicalNot(
-                                new Subtree($usersLocation->pathString),
+                                new Subtree('/1/5/'),
                             ),
                         ),
                     ]),
@@ -170,12 +157,12 @@ class LocationQueryCriterionTest extends BaseTest
                         new LocationQuery(
                             new LogicalAnd([
                                 new Visibility(Visibility::HIDDEN),
-                                new Subtree($homeLocation->pathString),
+                                new Subtree('/1/2/'),
                             ]),
                         ),
                         new LocationQuery(
                             new LogicalNot(
-                                new Subtree($usersLocation->pathString),
+                                new Subtree('/1/5/'),
                             ),
                         ),
                     ]),
@@ -191,12 +178,12 @@ class LocationQueryCriterionTest extends BaseTest
                         new LocationQuery(
                             new LogicalAnd([
                                 new Visibility(Visibility::HIDDEN),
-                                new Subtree($mediaLocation->pathString),
+                                new Subtree('/1/43/'),
                             ]),
                         ),
                         new LocationQuery(
                             new LogicalNot(
-                                new Subtree($usersLocation->pathString),
+                                new Subtree('/1/5/'),
                             ),
                         ),
                     ]),
@@ -212,12 +199,12 @@ class LocationQueryCriterionTest extends BaseTest
                         new LocationQuery(
                             new LogicalAnd([
                                 new Visibility(Visibility::VISIBLE),
-                                new Subtree($homeLocation->pathString),
+                                new Subtree('/1/2/'),
                             ]),
                         ),
                         new LocationQuery(
                             new LogicalNot(
-                                new Subtree($usersLocation->pathString),
+                                new Subtree('/1/5/'),
                             ),
                         ),
                     ]),
@@ -233,12 +220,12 @@ class LocationQueryCriterionTest extends BaseTest
                         new LocationQuery(
                             new LogicalAnd([
                                 new Visibility(Visibility::HIDDEN),
-                                new Subtree($homeLocation->pathString),
+                                new Subtree('/1/2/'),
                             ]),
                         ),
                         new LocationQuery(
                             new LogicalNot(
-                                new Subtree($usersLocation->pathString),
+                                new Subtree('/1/5/'),
                             ),
                         ),
                     ]),
@@ -253,18 +240,18 @@ class LocationQueryCriterionTest extends BaseTest
                         new ContentId([12, 13, 42]),
                         new LogicalOr([
                             new LogicalNot(
-                                new Subtree($homeLocation->pathString),
+                                new Subtree('/1/2/'),
                             ),
                             new LogicalAnd([
                                 new LocationQuery(
                                     new LogicalAnd([
                                         new Visibility(Visibility::HIDDEN),
-                                        new Subtree($homeLocation->pathString),
+                                        new Subtree('/1/2/'),
                                     ]),
                                 ),
                                 new LocationQuery(
                                     new LogicalNot(
-                                        new Subtree($usersLocation->pathString),
+                                        new Subtree('/1/5/'),
                                     ),
                                 ),
                             ]),
@@ -281,7 +268,7 @@ class LocationQueryCriterionTest extends BaseTest
                         new ContentId([12, 13, 42]),
                         new LogicalNot(
                             new LocationQuery(
-                                new Subtree($homeLocation->pathString),
+                                new Subtree('/1/2/'),
                             ),
                         ),
                     ]),
@@ -296,7 +283,7 @@ class LocationQueryCriterionTest extends BaseTest
                         new ContentId([12, 13, 42]),
                         new LogicalNot(
                             new LocationQuery(
-                                new Subtree($mediaLocation->pathString),
+                                new Subtree('/1/43/'),
                             ),
                         ),
                     ]),
@@ -312,8 +299,8 @@ class LocationQueryCriterionTest extends BaseTest
                         new LogicalNot(
                             new LocationQuery(
                                 new LogicalOr([
-                                    new Subtree($homeLocation->pathString),
-                                    new Subtree($mediaLocation->pathString),
+                                    new Subtree('/1/2/'),
+                                    new Subtree('/1/43/'),
                                 ]),
                             ),
                         ),
@@ -329,8 +316,8 @@ class LocationQueryCriterionTest extends BaseTest
                         new ContentId([12, 13, 42]),
                         new LocationQuery(
                             new LogicalOr([
-                                new Subtree($homeLocation->pathString),
-                                new Subtree($mediaLocation->pathString),
+                                new Subtree('/1/2/'),
+                                new Subtree('/1/43/'),
                             ]),
                         ),
                     ]),
