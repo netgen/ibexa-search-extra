@@ -21,7 +21,6 @@ services:
             - '@Ibexa\Core\Persistence\Legacy\Content\Handler'
             - '@Ibexa\Core\Persistence\Legacy\Content\Location\Handler'
             - '@netgen.ibexa_search_extra.solr.result_extractor.content.inner'
-            - '@ibexa.solr.query.content.facet_builder_visitor.aggregate'
             - '@ibexa.solr.query.content.aggregation_result_extractor.dispatcher'
             - '@Ibexa\Solr\Gateway\EndpointRegistry'
 
@@ -32,7 +31,6 @@ services:
             - '@Ibexa\Core\Persistence\Legacy\Content\Handler'
             - '@Ibexa\Core\Persistence\Legacy\Content\Location\Handler'
             - '@netgen.ibexa_search_extra.solr.result_extractor.location.inner'
-            - '@ibexa.solr.query.location.facet_builder_visitor.aggregate'
             - '@ibexa.solr.query.location.aggregation_result_extractor.dispatcher'
             - '@Ibexa\Solr\Gateway\EndpointRegistry'
 
@@ -42,7 +40,6 @@ services:
         arguments:
             - '@ibexa.solr.query.content.criterion_visitor.aggregate'
             - '@ibexa.solr.query.content.sort_clause_visitor.aggregate'
-            - '@ibexa.solr.query.content.facet_builder_visitor.aggregate'
             - '@ibexa.solr.query.content.aggregation_visitor.dispatcher'
 
     netgen.ibexa_search_extra.solr.query.location.query_converter:
@@ -51,7 +48,6 @@ services:
         arguments:
             - '@ibexa.solr.query.location.criterion_visitor.aggregate'
             - '@ibexa.solr.query.location.sort_clause_visitor.aggregate'
-            - '@ibexa.solr.query.location.facet_builder_visitor.aggregate'
             - '@ibexa.solr.query.location.aggregation_visitor.dispatcher'
 
     netgen.ibexa_search_extra.solr.query.content.criterion_visitor.full_text_factory:

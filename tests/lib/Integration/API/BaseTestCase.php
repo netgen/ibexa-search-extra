@@ -8,12 +8,12 @@ use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest as APIBaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTestCase as APIBaseTestCase;
 use RuntimeException;
 use function count;
 use function get_class;
 
-abstract class BaseTest extends APIBaseTest
+abstract class BaseTestCase extends APIBaseTestCase
 {
     protected function assertSearchResultContentIds(
         SearchResult $searchResult,

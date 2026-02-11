@@ -22,7 +22,7 @@
     "require-dev": {
         "ibexa/fieldtype-richtext": "*",
         "ibexa/solr": "*",
-        "phpunit/phpunit": "*",
+        "phpunit/phpunit": "^9.6",
         "symfony/phpunit-bridge": "*",
         "matthiasnoback/symfony-dependency-injection-test": "*",
         "behat/behat": "*",

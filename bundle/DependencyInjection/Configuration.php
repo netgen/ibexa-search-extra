@@ -44,7 +44,7 @@ class Configuration implements ConfigurationInterface
                     ->info('Configure override for field type Indexable interface implementation')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->arrayNode('ezrichtext')
+                        ->arrayNode('ibexa_richtext')
                             ->addDefaultsIfNotSet()
                             ->canBeDisabled()
                             ->children()

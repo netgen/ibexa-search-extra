@@ -107,12 +107,12 @@ class NetgenIbexaSearchExtraExtension extends Extension implements PrependExtens
     private function processIndexableFieldTypeConfiguration(array $configuration, ContainerBuilder $container): void
     {
         $container->setParameter(
-            'netgen_ibexa_search_extra.indexable_field_type.ezrichtext.enabled',
-            $configuration['indexable_field_type']['ezrichtext']['enabled'],
+            'netgen_ibexa_search_extra.indexable_field_type.ibexa_richtext.enabled',
+            $configuration['indexable_field_type']['ibexa_richtext']['enabled'],
         );
         $container->setParameter(
-            'netgen_ibexa_search_extra.indexable_field_type.ezrichtext.short_text_limit',
-            $configuration['indexable_field_type']['ezrichtext']['short_text_limit'],
+            'netgen_ibexa_search_extra.indexable_field_type.ibexa_richtext.short_text_limit',
+            $configuration['indexable_field_type']['ibexa_richtext']['short_text_limit'],
         );
     }
 

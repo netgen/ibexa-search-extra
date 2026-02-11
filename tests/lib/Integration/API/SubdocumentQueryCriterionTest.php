@@ -17,9 +17,9 @@ use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\SubdocumentQuery;
  * @see \Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper\TestContentSubdocumentMapper
  * @see \Netgen\IbexaSearchExtra\Tests\Integration\Implementation\Solr\SubdocumentMapper\TestContentTranslationSubdocumentMapper
  */
-class SubdocumentQueryCriterionTest extends BaseTest
+class SubdocumentQueryCriterionTest extends BaseTestCase
 {
-    public function providerForTestFind(): array
+    public static function providerForTestFind(): array
     {
         return [
             [

@@ -47,9 +47,8 @@ class SearchServiceLocationTest extends KernelSearchServiceLocationTest
         }
 
         return new KernelSearchResult([
-            'facets' => $data->facets,
             'searchHits' => $kernelSearchHits,
-            'spellSuggestion' => $data->spellSuggestion,
+            'spellcheck' => $data->spellcheck,
             'time' => $data->time,
             'timedOut' => $data->timedOut,
             'maxScore' => $data->maxScore,

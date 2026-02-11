@@ -17,9 +17,9 @@ use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\SubdocumentField
  *
  * @see \Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\SubdocumentField
  */
-class SubdocumentFieldSortClauseTest extends BaseTest
+class SubdocumentFieldSortClauseTest extends BaseTestCase
 {
-    public function providerForTestSort(): array
+    public static function providerForTestSort(): array
     {
         $documentTypeIdentifier = 'test_sort_content_subdocument';
 
@@ -185,7 +185,7 @@ class SubdocumentFieldSortClauseTest extends BaseTest
         $this->assertSearchResultContentIds($searchResult, $expectedIds);
     }
 
-    public function providerForTestFilteredSort(): array
+    public static function providerForTestFilteredSort(): array
     {
         $documentTypeIdentifier = 'test_sort_content_subdocument';
         $filter = new SubdocumentQuery(

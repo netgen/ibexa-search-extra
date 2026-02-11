@@ -15,12 +15,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\SortClause\ContentName;
 use RuntimeException;
+
 use function count;
 use function reset;
 
-class ContentNameSortClauseTest extends BaseTest
+class ContentNameSortClauseTest extends BaseTestCase
 {
-    public function providerForTestFind(): array
+    public static function providerForTestFind(): array
     {
         return [
             [
@@ -248,7 +249,8 @@ class ContentNameSortClauseTest extends BaseTest
         $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
         $contentTypeCreateStruct->names = ['eng-GB' => 'Name test type'];
         $contentTypeCreateStruct->nameSchema = '<title>';
-        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
+        $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ibexa_string');
+        $fieldDefinitionCreateStruct->isTranslatable = true;
         $contentTypeCreateStruct->addFieldDefinition($fieldDefinitionCreateStruct);
         $contentTypeDraft = $contentTypeService->createContentType($contentTypeCreateStruct, [reset($contentTypeGroups)]);
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
