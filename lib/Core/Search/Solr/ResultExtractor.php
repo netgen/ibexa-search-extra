@@ -17,9 +17,7 @@ use function get_object_vars;
 use function property_exists;
 
 /**
- * This DocumentMapper implementation adds support for handling RawFacetBuilders.
- *
- * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\API\Facet\RawFacetBuilder
+ * This DocumentMapper implementation adds support for extra field.
  */
 abstract class ResultExtractor extends BaseResultExtractor
 {
