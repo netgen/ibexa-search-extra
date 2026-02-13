@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Configures native search result extractor if the loading search result extractor is disabled.
+ * Configures a native search result extractor if the loading search result extractor is disabled.
  *
  * @see \Netgen\IbexaSearchExtra\Core\Search\Solr\ResultExtractor\NativeResultExtractor
  */
@@ -39,7 +39,6 @@ final class SearchResultExtractorPass implements CompilerPassInterface
             ->setDecoratedService($decoratedServiceId)
             ->setArguments([
                 new Reference($serviceId . '.inner'),
-                new Reference('ibexa.solr.query.content.facet_builder_visitor.aggregate'),
                 new Reference('ibexa.solr.query.content.aggregation_result_extractor.dispatcher'),
                 new Reference('Ibexa\Solr\Gateway\EndpointRegistry'),
             ]);
@@ -52,7 +51,6 @@ final class SearchResultExtractorPass implements CompilerPassInterface
             ->setDecoratedService($decoratedServiceId)
             ->setArguments([
                 new Reference($serviceId . '.inner'),
-                new Reference('ibexa.solr.query.location.facet_builder_visitor.aggregate'),
                 new Reference('ibexa.solr.query.location.aggregation_result_extractor.dispatcher'),
                 new Reference('Ibexa\Solr\Gateway\EndpointRegistry'),
             ]);
