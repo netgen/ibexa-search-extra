@@ -9,7 +9,9 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationQuery as LocationQueryCriterion;
@@ -33,7 +35,7 @@ final class LocationQuery extends CriterionHandler
         $this->locationCriteriaConverter = $locationCriteriaConverter;
     }
 
-    public function accept(Criterion $criterion)
+    public function accept(CriterionInterface $criterion)
     {
         return $criterion instanceof LocationQueryCriterion;
     }
@@ -41,7 +43,7 @@ final class LocationQuery extends CriterionHandler
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ) {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter */
@@ -51,16 +53,16 @@ final class LocationQuery extends CriterionHandler
 
         $subSelect
             ->select('t.contentobject_id')
-            ->from('ezcontentobject_tree', 't')
+            ->from(Gateway::CONTENT_TREE_TABLE, 't')
             ->innerJoin(
                 't',
-                'ezcontentobject',
+                ContentGateway::CONTENT_ITEM_TABLE,
                 't2',
                 't.contentobject_id = t2.id',
             )
             ->innerJoin(
                 't2',
-                'ezcontentobject_version',
+                ContentGateway::CONTENT_VERSION_TABLE,
                 't3',
                 't2.id = t3.contentobject_id',
             )

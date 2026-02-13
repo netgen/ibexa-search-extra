@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Netgen\IbexaSearchExtra\Core\Pagination;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
 use Netgen\IbexaSearchExtra\API\Values\Content\Search\Suggestion;
 
 /**
@@ -12,11 +13,9 @@ use Netgen\IbexaSearchExtra\API\Values\Content\Search\Suggestion;
 interface SearchResultExtras
 {
     /**
-     * Return facets for the search query.
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[]
+     * Return aggregations for the search query.
      */
-    public function getFacets(): array;
+    public function getAggregations(): AggregationResultCollection;
 
     /**
      * Return maximum score for the search query.

@@ -30,7 +30,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         $this->setParameter('kernel.bundles', []);
     }
 
-    public function provideIndexableFieldTypeDefaultConfigurationCases(): iterable
+    public static function provideIndexableFieldTypeDefaultConfigurationCases(): iterable
     {
         return [
             [
@@ -44,14 +44,14 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'indexable_field_type' => [
-                        'ezrichtext' => [],
+                        'ibexa_richtext' => [],
                     ],
                 ],
             ],
             [
                 [
                     'indexable_field_type' => [
-                        'ezrichtext' => [
+                        'ibexa_richtext' => [
                             'enabled' => true,
                             'short_text_limit' => 256,
                         ],
@@ -62,7 +62,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
                 [
                     'use_loading_search_result_extractor' => true,
                     'indexable_field_type' => [
-                        'ezrichtext' => [
+                        'ibexa_richtext' => [
                             'enabled' => true,
                             'short_text_limit' => 256,
                         ],
@@ -84,16 +84,16 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             true,
         );
         $this->assertContainerBuilderHasParameter(
-            'netgen_ibexa_search_extra.indexable_field_type.ezrichtext.enabled',
+            'netgen_ibexa_search_extra.indexable_field_type.ibexa_richtext.enabled',
             true,
         );
         $this->assertContainerBuilderHasParameter(
-            'netgen_ibexa_search_extra.indexable_field_type.ezrichtext.short_text_limit',
+            'netgen_ibexa_search_extra.indexable_field_type.ibexa_richtext.short_text_limit',
             256,
         );
     }
 
-    public function providerForFulltextBoostDefaultConfiguration(): array
+    public static function providerForFulltextBoostDefaultConfiguration(): array
     {
         return [
             [
@@ -215,7 +215,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    public function providerForFulltextBoostConfigurationInvalidValues(): array
+    public static function providerForFulltextBoostConfigurationInvalidValues(): array
     {
         return [
             [
@@ -336,7 +336,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         $this->load($configuration);
     }
 
-    public function providerForFulltextMetaFieldsDefaultConfiguration(): array
+    public static function providerForFulltextMetaFieldsDefaultConfiguration(): array
     {
         return [
             [
@@ -394,7 +394,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    public function providerForFulltextMetaFieldsConfigurationInvalidValues(): array
+    public static function providerForFulltextMetaFieldsConfigurationInvalidValues(): array
     {
         return [
             [
@@ -455,7 +455,7 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         $this->load($configuration);
     }
 
-    public function providePageIndexingConfigurationCases(): iterable
+    public static function providePageIndexingConfigurationCases(): iterable
     {
         return [
             [
@@ -683,14 +683,16 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
         }
     }
 
-    public function provideInvalidPageIndexingConfigurationCases(): iterable
+    public static function provideInvalidPageIndexingConfigurationCases(): iterable
     {
         return [
             [
                 [
                     'page_indexing' => [
-                        'picanha' => [
-                            'tree_root_location_id' => [],
+                        'sites' => [
+                            'picanha' => [
+                                'tree_root_location_id' => [],
+                            ],
                         ],
                     ],
                 ],
@@ -700,8 +702,10 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'page_indexing' => [
-                        'picanha' => [
-                            'tree_root_location_id' => true,
+                        'sites' => [
+                            'picanha' => [
+                                'tree_root_location_id' => true,
+                            ],
                         ],
                     ],
                 ],
@@ -711,33 +715,43 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'page_indexing' => [
-                        'picanha' => [
-                            'language_siteaccess_map' => [
-                                'cro-HR' => 5,
+                        'sites' => [
+                            'picanha' => [
+                                'tree_root_location_id' => 22,
+                                'language_siteaccess_map' => [
+                                    'cro-HR' => 5,
+                                ],
                             ],
                         ],
                     ],
                 ],
                 InvalidConfigurationException::class,
-                'Expected "string", but got "int"',
+                'Invalid configuration for path "netgen_ibexa_search_extra.page_indexing.sites.picanha.language_siteaccess_map.cro-HR": Siteaccess name must be of string type.',
             ],
             [
                 [
                     'page_indexing' => [
-                        'picanha' => [
-                            'host' => [],
+                        'sites' => [
+                            'picanha' => [
+                                'tree_root_location_id' => 22,
+                                'host' => [],
+                            ],
                         ],
                     ],
                 ],
                 InvalidConfigurationException::class,
-                'Expected "string", but got "array"',
+                'Invalid type for path "netgen_ibexa_search_extra.page_indexing.sites.picanha.host". Expected "scalar", but got "array".
+Hint: Host to index the page from (optional, overrides the host defined for the siteaccess)',
             ],
             [
                 [
                     'page_indexing' => [
-                        'picanha' => [
-                            'config' => [
-                                'level1' => 'a',
+                        'sites' => [
+                            'picanha' => [
+                                'tree_root_location_id' => 22,
+                                'fields' => [
+                                    'level1' => 'h1',
+                                ],
                             ],
                         ],
                     ],
@@ -748,29 +762,33 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'page_indexing' => [
-                        'picanha' => [
-                            'config' => [
-                                ['h1', 'h2'],
+                        'sites' => [
+                            'picanha' => [
+                                'tree_root_location_id' => 22,
+                                'fields' => ['h1', 'h2'],
                             ],
                         ],
                     ],
                 ],
                 InvalidConfigurationException::class,
-                'Array key (field importance level) must be of string type',
+                'Invalid type for path "netgen_ibexa_search_extra.page_indexing.sites.picanha.fields.0". Expected "array", but got "string"',
             ],
             [
                 [
                     'page_indexing' => [
-                        'picanha' => [
-                            'allowed_content_types' => [
-                                34,
-                                52,
+                        'sites' => [
+                            'picanha' => [
+                                'tree_root_location_id' => 22,
+                                'allowed_content_types' => [
+                                    34,
+                                    52,
+                                ],
                             ],
                         ],
                     ],
                 ],
                 InvalidConfigurationException::class,
-                'Expected "string", but got "int"',
+                'Invalid configuration for path "netgen_ibexa_search_extra.page_indexing.sites.picanha.allowed_content_types.0": Content type identifier must be of string type.',
             ],
         ];
     }
@@ -778,9 +796,10 @@ class NetgenIbexaSearchExtraExtensionTest extends AbstractExtensionTestCase
     /**
      * @dataProvider provideInvalidPageIndexingConfigurationCases
      */
-    public function testInvalidPageIndexingConfiguration(array $siteRootsConfig): void
+    public function testInvalidPageIndexingConfiguration(array $siteRootsConfig, string $exceptionFqcn, string $message): void
     {
-        $this->expectException(InvalidConfigurationException::class);
+        $this->expectException($exceptionFqcn);
+        $this->expectExceptionMessage($message);
         $this->load($siteRootsConfig);
     }
 

@@ -41,7 +41,7 @@ for more details on specific ones.
   Provides a way to sort directly on Solr field by its name.
 
 - Pagerfanta adapters providing access to extra information returned by the search
-  engine, like facets, aggregations, max score, and execution time (`solr`, `legacy`):
+  engine, aggregations, max score, and execution time (`solr`, `legacy`):
 
   - [`SearchAdapter`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/Core/Pagination/Pagerfanta/SearchAdapter.php) when using `API` search service
   - [`SearchHandlerAdapter`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/Core/Pagination/Pagerfanta/SearchHandlerAdapter.php) when using `SPI` search handler
@@ -63,14 +63,6 @@ for more details on specific ones.
 - [`LocationQuery`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/Criterion/LocationQuery.php) criterion (`solr`, `legacy`)
 
   Allows grouping of Location criteria so that they apply together on a Location.
-
-- [`CustomFieldFacetBuilder`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/API/Values/Content/Query/FacetBuilder/CustomFieldFacetBuilder.php) facet builder (`solr`)
-
-  Allows building facets on custom Solr fields.
-
-- [`RawFacetBuilder`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/Core/Search/Solr/API/FacetBuilder/RawFacetBuilder.php) facet builder (`solr`)
-
-  Exposes Solr's [JSON facet API](https://lucene.apache.org/solr/guide/7_4/json-facet-api.html) in full.
 
 - Indexable implementations for [`RichText`](https://github.com/netgen/ibexa-search-extra/blob/master/lib/Core/FieldType/RichText/Indexable.php) (`solr`)
 

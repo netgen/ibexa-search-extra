@@ -6,8 +6,9 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Content\CriterionHand
 
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationId as LocationIdCriterion;
@@ -19,7 +20,7 @@ use function reset;
  */
 final class LocationId extends CriterionHandler
 {
-    public function accept(Criterion $criterion)
+    public function accept(CriterionInterface $criterion)
     {
         return $criterion instanceof LocationIdCriterion;
     }
@@ -27,7 +28,7 @@ final class LocationId extends CriterionHandler
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ) {
         $column = 'node_id';
@@ -67,7 +68,7 @@ final class LocationId extends CriterionHandler
                 );
         }
 
-        $subSelect->select('contentobject_id')->from('ezcontentobject_tree')->where($expression);
+        $subSelect->select('contentobject_id')->from(Gateway::CONTENT_TREE_TABLE)->where($expression);
 
         return $queryBuilder->expr()->in('c.id', $subSelect->getSQL());
     }

@@ -6,12 +6,13 @@ namespace Netgen\IbexaSearchExtra\Core\Search\Legacy\Query\Location\CriterionHan
 
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\LocationId as LocationIdCriterion;
 use RuntimeException;
+
 use function reset;
 
 /**
@@ -19,7 +20,7 @@ use function reset;
  */
 final class LocationId extends CriterionHandler
 {
-    public function accept(Criterion $criterion): bool
+    public function accept(CriterionInterface $criterion): bool
     {
         return $criterion instanceof LocationIdCriterion;
     }
@@ -27,7 +28,7 @@ final class LocationId extends CriterionHandler
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ) {
         $column = 't.node_id';

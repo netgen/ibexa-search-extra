@@ -8,12 +8,14 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Netgen\IbexaSearchExtra\API\Values\Content\Query\Criterion\ContentName as ContentNameCriterion;
 use RuntimeException;
+
 use function addcslashes;
 use function count;
 use function reset;
@@ -34,7 +36,7 @@ final class ContentName extends CriterionHandler
         $this->languageHandler = $languageHandler;
     }
 
-    public function accept(Criterion $criterion): bool
+    public function accept(CriterionInterface $criterion): bool
     {
         return $criterion instanceof ContentNameCriterion;
     }
@@ -42,7 +44,7 @@ final class ContentName extends CriterionHandler
     /**
      * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter $converter
      * @param \Doctrine\DBAL\Query\QueryBuilder $queryBuilder
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface $criterion
      * @param array $languageSettings
      *
      * @return string
@@ -50,14 +52,14 @@ final class ContentName extends CriterionHandler
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ): string {
         $subQueryBuilder = $this->connection->createQueryBuilder();
 
         $subQueryBuilder
             ->select('contentobject_id')
-            ->from('ezcontentobject_name')
+            ->from(Gateway::CONTENT_NAME_TABLE)
             ->where(
                 $subQueryBuilder->expr()->and(
                     $this->getCriterionCondition($queryBuilder, $subQueryBuilder, $criterion),
@@ -90,25 +92,25 @@ final class ContentName extends CriterionHandler
             return $subQueryBuilder->expr()->gt(
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.initial_language_id',
-                    'ezcontentobject_name.language_id',
+                    Gateway::CONTENT_NAME_TABLE . '.language_id',
                 ),
                 $queryBuilder->createNamedParameter(0, ParameterType::INTEGER),
             );
         }
 
-        // 2. Otherwise use prioritized languages
+        // 2. Otherwise, use prioritized languages
         $leftSide = $this->dbPlatform->getBitAndComparisonExpression(
             sprintf(
                 'c.language_mask - %s',
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.language_mask',
-                    'ezcontentobject_name.language_id',
+                    Gateway::CONTENT_NAME_TABLE . '.language_id',
                 ),
             ),
             $queryBuilder->createNamedParameter(1, ParameterType::INTEGER),
         );
         $rightSide = $this->dbPlatform->getBitAndComparisonExpression(
-            'ezcontentobject_name.language_id',
+            Gateway::CONTENT_NAME_TABLE . '.language_id',
             $queryBuilder->createNamedParameter(1, ParameterType::INTEGER),
         );
 
@@ -125,13 +127,13 @@ final class ContentName extends CriterionHandler
                     'c.language_mask - %s',
                     $this->dbPlatform->getBitAndComparisonExpression(
                         'c.language_mask',
-                        'ezcontentobject_name.language_id',
+                        Gateway::CONTENT_NAME_TABLE . '.language_id',
                     ),
                 ),
                 $queryBuilder->createNamedParameter($languageId, ParameterType::INTEGER),
             );
             $addToRightSide = $this->dbPlatform->getBitAndComparisonExpression(
-                'ezcontentobject_name.language_id',
+                Gateway::CONTENT_NAME_TABLE . '.language_id',
                 $queryBuilder->createNamedParameter($languageId, ParameterType::INTEGER),
             );
 
@@ -139,8 +141,7 @@ final class ContentName extends CriterionHandler
                 $factor = $multiplier / $languageId;
                 /* @noinspection PhpStatementHasEmptyBodyInspection */
                 /* @noinspection MissingOrEmptyGroupStatementInspection */
-                /* @noinspection LoopWhichDoesNotLoopInspection */
-                for ($shift = 0; $factor > 1; $factor /= 2, $shift++);
+                for ($shift = 0; $factor > 1; $factor /= 2, $shift++) /** @noinspection SuspiciousSemicolonInspection */ ;
                 $factorTerm = ' << ' . $shift;
                 $addToLeftSide .= $factorTerm;
                 $addToRightSide .= $factorTerm;
@@ -148,8 +149,7 @@ final class ContentName extends CriterionHandler
                 $factor = $languageId / $multiplier;
                 /* @noinspection PhpStatementHasEmptyBodyInspection */
                 /* @noinspection MissingOrEmptyGroupStatementInspection */
-                /* @noinspection LoopWhichDoesNotLoopInspection */
-                for ($shift = 0; $factor > 1; $factor /= 2, $shift++);
+                for ($shift = 0; $factor > 1; $factor /= 2, $shift++) /** @noinspection SuspiciousSemicolonInspection */ ;
                 $factorTerm = ' >> ' . $shift;
                 $addToLeftSide .= $factorTerm;
                 $addToRightSide .= $factorTerm;
@@ -163,7 +163,7 @@ final class ContentName extends CriterionHandler
             $subQueryBuilder->expr()->gt(
                 $this->dbPlatform->getBitAndComparisonExpression(
                     'c.language_mask',
-                    'ezcontentobject_name.language_id',
+                    Gateway::CONTENT_NAME_TABLE . '.language_id',
                 ),
                 $queryBuilder->createNamedParameter(0, ParameterType::INTEGER),
             ),
@@ -190,22 +190,22 @@ final class ContentName extends CriterionHandler
     private function getCriterionCondition(
         QueryBuilder $queryBuilder,
         QueryBuilder $subQueryBuilder,
-        Criterion $criterion
+        CriterionInterface $criterion
     ): string {
-        $column = 'ezcontentobject_name.name';
+        $column = Gateway::CONTENT_NAME_TABLE . '.name';
 
         switch ($criterion->operator) {
-            case Criterion\Operator::EQ:
-            case Criterion\Operator::IN:
+            case Operator::EQ:
+            case Operator::IN:
                 return $subQueryBuilder->expr()->in(
                     $column,
                     $queryBuilder->createNamedParameter($criterion->value, Connection::PARAM_STR_ARRAY),
                 );
 
-            case Criterion\Operator::GT:
-            case Criterion\Operator::GTE:
-            case Criterion\Operator::LT:
-            case Criterion\Operator::LTE:
+            case Operator::GT:
+            case Operator::GTE:
+            case Operator::LT:
+            case Operator::LTE:
                 $operatorFunction = $this->comparatorMap[$criterion->operator];
 
                 return $subQueryBuilder->expr()->{$operatorFunction}(
@@ -213,7 +213,7 @@ final class ContentName extends CriterionHandler
                     $queryBuilder->createNamedParameter(reset($criterion->value), ParameterType::STRING)
                 );
 
-            case Criterion\Operator::BETWEEN:
+            case Operator::BETWEEN:
                 return $this->dbPlatform->getBetweenExpression(
                     $column,
                     $queryBuilder->createNamedParameter($criterion->value[0], ParameterType::STRING),

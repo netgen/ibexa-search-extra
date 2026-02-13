@@ -29,7 +29,6 @@ class Handler extends BaseHandler
 
         return $this->contentResultExtractor->extract(
             $this->gateway->findContent($query, $languageFilter),
-            $query->facetBuilders,
             $query->aggregations,
             $languageFilter,
             $query->spellcheck,
@@ -50,7 +49,6 @@ class Handler extends BaseHandler
 
         return $this->locationResultExtractor->extract(
             $this->gateway->findLocations($query, $languageFilter),
-            $query->facetBuilders,
             $query->aggregations,
             $languageFilter,
             $query->spellcheck,
@@ -125,7 +123,7 @@ class Handler extends BaseHandler
         $ids = [];
 
         foreach ($data->response->docs as $doc) {
-            $ids[] = $doc->content_id_id;
+            $ids[] = (int) $doc->content_id_id;
         }
 
         return $ids;
