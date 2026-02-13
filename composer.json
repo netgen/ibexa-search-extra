@@ -16,8 +16,8 @@
         "ext-libxml": "*",
         "ext-curl": "*",
         "ibexa/core": "^5.0",
-        "symfony/messenger": "*",
-        "symfony/proxy-manager-bridge": "*"
+        "symfony/messenger": "^7.4",
+        "symfony/proxy-manager-bridge": "^6.4"
     },
     "require-dev": {
         "ibexa/fieldtype-richtext": "*",
