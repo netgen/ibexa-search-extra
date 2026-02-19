@@ -31,13 +31,14 @@ class Configuration implements ConfigurationInterface
         $this->addFulltextBoostSection($rootNode);
         $this->addUsePageIndexingSection($rootNode);
         $this->addPageIndexingSection($rootNode);
+        $this->addFileIndexingSection($rootNode);
 
         return $treeBuilder;
     }
 
     private function addIndexableFieldTypeSection(ArrayNodeDefinition $nodeDefinition): void
     {
-        /** @noinspection NullPointerExceptionInspection */
+        /* @noinspection NullPointerExceptionInspection */
         $nodeDefinition
             ->children()
                 ->arrayNode('indexable_field_type')
@@ -61,7 +62,7 @@ class Configuration implements ConfigurationInterface
 
     private function addSearchResultExtractorSection(ArrayNodeDefinition $nodeDefinition): void
     {
-        /** @noinspection NullPointerExceptionInspection */
+        /* @noinspection NullPointerExceptionInspection */
         $nodeDefinition
             ->children()
                 ->booleanNode('use_loading_search_result_extractor')
@@ -73,7 +74,7 @@ class Configuration implements ConfigurationInterface
 
     private function addAsynchronousIndexingSection(ArrayNodeDefinition $nodeDefinition): void
     {
-        /** @noinspection NullPointerExceptionInspection */
+        /* @noinspection NullPointerExceptionInspection */
         $nodeDefinition
             ->children()
                 ->booleanNode('use_asynchronous_indexing')
@@ -85,7 +86,7 @@ class Configuration implements ConfigurationInterface
 
     private function addFulltextBoostSection(ArrayNodeDefinition $nodeDefinition): void
     {
-        /** @noinspection NullPointerExceptionInspection */
+        /* @noinspection NullPointerExceptionInspection */
         $nodeDefinition
             ->children()
                 ->arrayNode('fulltext')
@@ -248,5 +249,64 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
+    }
+
+    private function addFileIndexingSection(ArrayNodeDefinition $nodeDefinition): void
+    {
+        $nodeDefinition
+            ->children()
+                ->arrayNode('file_indexing')
+                ->addDefaultsIfNotSet()
+                ->info('Configuration for file indexing')
+                ->children()
+                    ->booleanNode('enabled')
+                        ->info('Use file indexing')
+                        ->defaultFalse()
+                    ->end()
+                    ->arrayNode('apache_tika')
+                    ->addDefaultsIfNotSet()
+                    ->info('Apache Tika configuration')
+                    ->children()
+                        ->scalarNode('mode')
+                            ->info('Choose either cli or server')
+                            ->defaultValue('server')
+                            ->validate()
+                                ->ifNotInArray(['cli', 'server'])
+                                ->thenInvalid('Parameter `mode` must be either "cli" or "server"')
+                            ->end()
+                        ->end()
+                        ->scalarNode('path')
+                            ->info('Path to the Apache Tika JAR file')
+                            ->defaultNull()
+                        ->end()
+                        ->scalarNode('host')
+                            ->defaultValue('127.0.0.1')
+                        ->end()
+                        ->scalarNode('port')
+                            ->defaultValue('9998')
+                        ->end()
+                        ->arrayNode('allowed_mime_types')
+                            ->info('List of allowed MIME types for text extraction')
+                            ->scalarPrototype()->end()
+                            ->defaultValue([
+                                'application/pdf',
+                            ])
+                        ->end()
+                    ->end()
+                    ->validate()
+                        ->ifTrue(static function ($v): bool {
+                            return $v['mode'] === 'cli' && empty($v['path']);
+                        })
+                        ->thenInvalid('Parameter `path` must be specified when `mode` is "cli".')
+                    ->end()
+                    ->validate()
+                        ->ifTrue(static function ($v): bool {
+                            return $v['mode'] === 'server' && (empty($v['host']) || empty($v['port']));
+                        })
+                        ->thenInvalid('Both parameters `host` and `port` must be specified when `mode` is "server".')
+                    ->end()
+                ->end()
+            ->end()
+        ->end();
     }
 }

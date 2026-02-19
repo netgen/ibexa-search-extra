@@ -1,0 +1,13 @@
+services:
+    Netgen\IbexaSearchExtra\Core\FieldType\BinaryFile\SearchField:
+        decorates: Ibexa\Core\FieldType\BinaryFile\SearchField
+        arguments:
+            $innerField: '@.inner'
+            $fileTextExtractor: '@Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor\FileTextExtractor'
+            $fileIndexingEnabled: '%netgen_ibexa_search_extra.file_indexing.enabled%'
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\PageIndexing\TextExtractor\FileTextExtractor:
+        arguments:
+            - '@ibexa.field_type.ezbinaryfile.io_service'
+            - '@?apache_tika.client'
+            - '%netgen_ibexa_search_extra.file_indexing.apache_tika.allowed_mime_types%'
