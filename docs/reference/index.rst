@@ -13,5 +13,7 @@ Reference
     document_factory
     fulltext_search_boosting
     page_indexing
+    asynchronous_indexing
+    descendant_indexing
 
 .. include:: /reference/map.rst.inc

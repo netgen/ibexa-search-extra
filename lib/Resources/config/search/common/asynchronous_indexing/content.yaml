@@ -1,5 +1,5 @@
 services:
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\CopyContentHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\CopyContentHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
@@ -9,13 +9,13 @@ services:
             - { name: messenger.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\DeleteContentHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\DeleteContentHandler:
         arguments:
             - '@ibexa.spi.search'
         tags:
             - { name: messenger.message_handler }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\DeleteTranslationHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\DeleteTranslationHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
@@ -25,14 +25,14 @@ services:
             - { name: messenger.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\HideContentHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\HideContentHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\PublishVersionHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\PublishVersionHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
@@ -42,14 +42,14 @@ services:
             - { name: messenger.message_handler }
             - { name: monolog.logger, channel: ngsearchextra }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\RevealContentHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\RevealContentHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
-            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\SubtreeIndexer'
+            - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\SubtreeIndexer'
         tags:
             - { name: messenger.message_handler }
 
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Content\UpdateContentMetadataHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\UpdateContentMetadataHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'

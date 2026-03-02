@@ -1,0 +1,318 @@
+parameters:
+    netgen.ibexa_search_extra.descendant_indexing.configuration:
+        enabled: true
+        map:
+            descendant_indexing_test:
+                handlers:
+                    - ng_descendant_indexing_fulltext
+                    - ng_descendant_indexing_location_priority
+                    - ng_descendant_indexing_section
+                    - ng_descendant_indexing_object_state
+                children:
+                    descendant_indexing_test_2:
+                        indexed: true
+                        children:
+                            descendant_indexing_test_3:
+                                indexed: true
+
+services:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\CopyContentHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\CopyContentHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\DeleteContentHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\DeleteContentHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\DeleteTranslationHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\DeleteTranslationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\HideContentHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\HideContentHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\PublishVersionHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\PublishVersionHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\RevealContentHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\RevealContentHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\UpdateContentMetadataHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\UpdateContentMetadataHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\AssignSectionToSubtreeHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\AssignSectionToSubtreeHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\CopySubtreeHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\CopySubtreeHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\CreateLocationHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\CreateLocationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\DeleteLocationHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\DeleteLocationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\HideLocationHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\HideLocationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\MoveSubtreeHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\MoveSubtreeHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\SwapLocationHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\SwapLocationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\UnhideLocationHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\UnhideLocationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\UpdateLocationHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\UpdateLocationHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\ObjectState\SetContentStateHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\ObjectState\SetContentStateHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Section\AssignSectionHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Section\AssignSectionHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Trash\RecoverHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Trash\RecoverHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Trash\TrashHandler:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Trash\TrashHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@netgen.ibexa_search_extra.descendant_indexing.ancestor_indexer'
+        tags:
+            - { name: messenger.message_handler }
+
+    netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.handler.locator:
+        class: Symfony\Component\Messenger\Handler\HandlersLocator
+        arguments:
+            -
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\CopyContent':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\CopyContentHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\CopyContentHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteContent':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\DeleteContentHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\DeleteContentHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\DeleteTranslation':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\DeleteTranslationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\DeleteTranslationHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\HideContent':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\HideContentHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\HideContentHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\PublishVersion':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\PublishVersionHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\PublishVersionHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\RevealContent':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\RevealContentHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\RevealContentHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Content\UpdateContentMetadata':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Content\UpdateContentMetadataHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Content\UpdateContentMetadataHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\AssignSectionToSubtree':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\AssignSectionToSubtreeHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\AssignSectionToSubtreeHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\CopySubtree':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\CopySubtreeHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\CopySubtreeHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\CreateLocation':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\CreateLocationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\CreateLocationHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\DeleteLocation':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\DeleteLocationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\DeleteLocationHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\HideLocation':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\HideLocationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\HideLocationHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\MoveSubtree':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\MoveSubtreeHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\MoveSubtreeHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\SwapLocation':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\SwapLocationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\SwapLocationHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\UnhideLocation':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\UnhideLocationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\UnhideLocationHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Location\UpdateLocation':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Location\UpdateLocationHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Location\UpdateLocationHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\ObjectState\SetContentState':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\ObjectState\SetContentStateHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\ObjectState\SetContentStateHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Section\AssignSection':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Section\AssignSectionHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Section\AssignSectionHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Trash\Recover':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Trash\RecoverHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Trash\RecoverHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\Trash\Trash':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Trash\TrashHandler'
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\DescendantIndexing\Trash\TrashHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\AssignUserToUserGroup':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\AssignUserToUserGroupHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\BeforeUnAssignUserFromUserGroup':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\BeforeUnAssignUserFromUserGroupHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\CreateUserGroup':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\CreateUserGroupHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\CreateUser':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\CreateUserHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\DeleteUserGroup':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\DeleteUserGroupHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\DeleteUser':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\DeleteUserHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\MoveUserGroup':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\MoveUserGroupHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\UnAssignUserFromUserGroup':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\UnAssignUserFromUserGroupHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\UpdateUserGroup':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\UpdateUserGroupHandler'
+                'Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\Message\Search\User\UpdateUser':
+                    - '@Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\User\UpdateUserHandler'
+
+    netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.middleware:
+        class: Symfony\Component\Messenger\Middleware\HandleMessageMiddleware
+        arguments:
+            - '@netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.handler.locator'
+
+    netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.bus:
+        class: Symfony\Component\Messenger\MessageBus
+        arguments:
+            - ['@netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.middleware']
+
+    netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.content:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\EventSubscriber\ContentEventSubscriber
+        arguments:
+            - '@netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.bus'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+
+    netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.location:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\EventSubscriber\LocationEventSubscriber
+        arguments:
+            - '@netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.bus'
+
+    netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.object_state:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\EventSubscriber\ObjectStateEventSubscriber
+        arguments:
+            - '@netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.bus'
+
+    netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.section:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\EventSubscriber\SectionEventSubscriber
+        arguments:
+            - '@netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.bus'
+
+    netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.trash:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\EventSubscriber\TrashEventSubscriber
+        arguments:
+            - '@netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.bus'
+
+    netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.user:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\EventSubscriber\UserEventSubscriber
+        arguments:
+            - '@netgen_test.ibexa_search_extra.asynchronous_indexing.messenger.bus'
+
+    Symfony\Component\EventDispatcher\EventDispatcher:
+        calls:
+            - ['addSubscriber', ['@netgen_test.ibexa_search_extra.solr.event_subscriber.child_updates_parent']]
+            - ['addSubscriber', ['@netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.content']]
+            - ['addSubscriber', ['@netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.location']]
+            - ['addSubscriber', ['@netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.object_state']]
+            - ['addSubscriber', ['@netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.section']]
+            - ['addSubscriber', ['@netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.trash']]
+            - ['addSubscriber', ['@netgen_test.ibexa_search_extra.asynchronous_indexing.event_subscriber.user']]
+            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\BookmarkEventSubscriber']]
+            - ['addSubscriber', ['@Ibexa\Core\Repository\EventSubscriber\NameSchemaSubscriber']]
+            - ['addSubscriber', ['@Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber']]

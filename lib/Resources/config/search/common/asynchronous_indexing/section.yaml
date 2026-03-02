@@ -1,5 +1,5 @@
 services:
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Section\AssignSectionHandler:
+    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\AsynchronousIndexing\Section\AssignSectionHandler:
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@ibexa.spi.search'

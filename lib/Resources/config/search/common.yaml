@@ -3,6 +3,7 @@ imports:
     - { resource: common/field_value_mappers.yaml }
     - { resource: common/fulltext.yaml }
     - { resource: common/page_indexing.yaml }
+    - { resource: common/descendant_indexing.yaml }
 
 services:
     netgen.ibexa_search_extra.fulltext.configured_factory:
