@@ -1,9 +1,20 @@
 services:
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Section\AssignSectionHandler:
+    netgen.search_extra.message_handler.assign_section:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Section\AssignSectionHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@ibexa.spi.search'
             - '@?logger'
         tags:
-            - { name: messenger.message_handler }
+            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+    netgen.search_extra.message_handler.assign_section_sync:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\Section\AssignSectionHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@ibexa.spi.search'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler, from_transport: sync }
             - { name: monolog.logger, channel: ngsearchextra }

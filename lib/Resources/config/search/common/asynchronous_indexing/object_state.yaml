@@ -1,10 +1,23 @@
 services:
-    Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ObjectState\SetContentStateHandler:
+    netgen.search_extra.message_handler.set_content_state:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ObjectState\SetContentStateHandler
         arguments:
             - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
             - '@ibexa.spi.search'
             - '@?logger'
         tags:
-            - { name: messenger.message_handler }
+            - { name: messenger.message_handler, from_transport: netgen_ibexa_search_extra_asynchronous_indexing }
+            - { name: monolog.logger, channel: ngsearchextra }
+
+
+    netgen.search_extra.message_handler.set_content_state_sync:
+        class: Netgen\IbexaSearchExtra\Core\Search\Common\Messenger\MessageHandler\Search\ObjectState\SetContentStateHandler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            - '@ibexa.spi.search'
+            - '@?logger'
+        tags:
+            - { name: messenger.message_handler, from_transport: sync }
             - { name: monolog.logger, channel: ngsearchextra }
