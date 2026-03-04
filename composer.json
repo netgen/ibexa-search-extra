@@ -20,13 +20,13 @@
         "symfony/proxy-manager-bridge": "^6.4"
     },
     "require-dev": {
-        "ibexa/fieldtype-richtext": "*",
-        "ibexa/solr": "*",
+        "ibexa/fieldtype-richtext": "^5.0",
+        "ibexa/solr": "^5.0",
         "phpunit/phpunit": "^9.6",
-        "symfony/phpunit-bridge": "*",
-        "matthiasnoback/symfony-dependency-injection-test": "*",
-        "behat/behat": "*",
-        "friends-of-behat/mink-extension": "*"
+        "symfony/phpunit-bridge": "^8.0",
+        "matthiasnoback/symfony-dependency-injection-test": "^5.1",
+        "behat/behat": "^3.29",
+        "friends-of-behat/mink-extension": "^2.7"
     },
     "conflict": {
         "symfony/cache": "5.0.11 || 5.1.3"
